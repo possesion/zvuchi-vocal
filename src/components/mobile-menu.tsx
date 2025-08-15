@@ -5,8 +5,8 @@ import Link from "next/link"
 import { Button } from "@radix-ui/themes";
 
 // import { Button } from "@/components/ui/button"
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
-import { MenuIcon, MusicIcon } from "lucide-react"
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet-enhanced"
+import { MenuIcon } from "lucide-react"
 
 export default function MobileMenu() {
   const [open, setOpen] = useState(false)
@@ -16,22 +16,28 @@ export default function MobileMenu() {
   }
 
   return (
-    <div className="md:hidden">
-      <Sheet open={open} onOpenChange={setOpen}>
+    <div className="pr-3 md:hidden">
+      <Sheet  open={open} onOpenChange={setOpen}>
         <SheetTrigger asChild>
-          <Button variant="ghost" size="icon" className="md:hidden">
+          <Button variant="ghost" className="md:hidden">
             <MenuIcon className="h-6 w-6" />
             <span className="sr-only">Toggle menu</span>
           </Button>
         </SheetTrigger>
-        <SheetContent side="right" className="w-[85%] sm:w-[385px] pr-0">
+        <SheetContent>
           <SheetHeader className="mb-6">
             <SheetTitle className="flex items-center gap-2">
-              <MusicIcon className="h-6 w-6 text-primary" />
-              <span>ЗВУЧИ</span>
+              <span>Меню</span>
             </SheetTitle>
           </SheetHeader>
           <nav className="flex flex-col space-y-4">
+            <Link
+              href="#about"
+              className="flex items-center py-2 text-base font-medium border-b border-border"
+              onClick={handleLinkClick}
+            >
+              О нас
+            </Link>
             <Link
               href="#subscriptions"
               className="flex items-center py-2 text-base font-medium border-b border-border"
@@ -54,11 +60,11 @@ export default function MobileMenu() {
               Истории успеха
             </Link>
             <Link
-              href="#about"
+              href="#gallery"
               className="flex items-center py-2 text-base font-medium border-b border-border"
               onClick={handleLinkClick}
             >
-              О нас
+              Галерея
             </Link>
             <Link
               href="#contacts"
@@ -67,12 +73,6 @@ export default function MobileMenu() {
             >
               Контакты
             </Link>
-            <div className="pt-4 space-y-4">
-              <Button variant="outline" className="w-full">
-                Войти
-              </Button>
-              <Button className="w-full">Записаться</Button>
-            </div>
           </nav>
         </SheetContent>
       </Sheet>

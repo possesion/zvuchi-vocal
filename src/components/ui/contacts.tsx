@@ -5,7 +5,6 @@ import { MapPin, Phone, Navigation, Clock } from "lucide-react";
 export const Contacts = () => {
   return (
     <section id="contacts" className="py-12 md:py-16 bg-muted/30">
-      <div className="container">
         <div className="flex flex-col items-center text-center mb-8 md:mb-12">
           <h2 className="text-2xl md:text-3xl font-bold tracking-tight mb-4">Контакты</h2>
           <p className="text-muted-foreground max-w-2xl">
@@ -25,7 +24,7 @@ export const Contacts = () => {
                 <p className="text-muted-foreground">
                   Ленинградский проспект, д. 34<br />
                   Москва, 125040<br />
-                  Ближайшее метро: "Динамо" или "Петровский парк"
+                  Ближайшее метро: &ldquo;Динамо&rdquo; или &ldquo;Петровский парк&rdquo;
                 </p>
               </div>
             </div>
@@ -67,7 +66,7 @@ export const Contacts = () => {
               <div>
                 <h3 className="text-lg font-semibold mb-2">Как добраться</h3>
                 <p className="text-muted-foreground">
-                  <strong>На метро:</strong> Выход из метро "Динамо" в сторону Ленинградский проспект, д. 34<br />
+                  <strong>На метро:</strong> Выход из метро &ldquo;Динамо&rdquo; в сторону Ленинградский проспект, д. 34<br />
                   <strong>На машине:</strong> Парковка доступна во дворе здания
                 </p>
               </div>
@@ -76,24 +75,24 @@ export const Contacts = () => {
 
           {/* Схема проезда */}
           <div className="space-y-6">
-            <div className="bg-background rounded-lg p-6 border">
+            <div className="bg-background rounded-lg p-6 border border-brand">
               <h3 className="text-lg font-semibold mb-4">Схема проезда</h3>
               <div className="bg-muted/50 rounded-lg p-4 mb-4">
                 <p className="text-sm text-muted-foreground mb-2">
-                  <strong>От метро "Название станции":</strong>
+                  <strong>От метро &ldquo;Название станции&rdquo;:</strong>
                 </p>
                 <ol className="text-sm text-muted-foreground space-y-1 list-decimal list-inside">
                   <li>Выйдите из метро в сторону ул. Примерная</li>
                   <li>Поверните направо и идите 200 метров</li>
                   <li>Перейдите дорогу по пешеходному переходу</li>
                   <li>Поверните налево и идите еще 100 метров</li>
-                  <li>Мы находимся в здании с вывеской "ЗВУЧИ"</li>
+                  <li>Мы находимся в здании с вывеской &ldquo;ЗВУЧИ&rdquo;</li>
                 </ol>
               </div>
             </div>
 
             {/* Дополнительная информация */}
-            <div className="bg-background rounded-lg p-6 border">
+            <div className="bg-background rounded-lg p-6 border border-brand">
               <h3 className="text-lg font-semibold mb-4">Дополнительно</h3>
               <div className="space-y-3 text-sm text-muted-foreground">
                 <p>
@@ -106,7 +105,6 @@ export const Contacts = () => {
             </div>
           </div>
         </div>
-      </div>
     </section>
   );
 };

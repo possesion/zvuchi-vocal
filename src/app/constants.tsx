@@ -1,5 +1,4 @@
-import { MusicIcon, Users2Icon, AwardIcon, CalendarIcon, MicIcon, BookOpenIcon, StarIcon } from "lucide-react"
-import MobileMenu from "@/components/mobile-menu"
+import { StarIcon } from "lucide-react"
 
 export const programs = [
     {
@@ -64,7 +63,7 @@ export const programs = [
       name: "Валерия Ковшова",
       specialty: "Опера, Джаз, эстрадный вокал, импровизация",
       bio: "Оперная дива → вокальный тренер. 15 лет учит безупречной классической технике и мастерству управления дыханием..",
-      image: "/valeria.jpg?height=300&width=300",
+      image: "/valeria/lera.png?height=300&width=300",
     },
     {
       name: "Мария Биттер",
@@ -159,8 +158,8 @@ export const programs = [
     },
     {
       id: 5,
-      text: "Мероприятия",
-      sectionId: "#events",
+      text: "Записаться",
+      sectionId: "#study",
     },
     {
       id: 6,
