@@ -14,23 +14,30 @@ export default function Home() {
       <Header />
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="relative">
+        <section className="h-screen relative">
           <div className="absolute inset-0 z-0">
+            {/* <img alt='ssdf' className="h-20 w-20" src='https://drive.google.com/uc?export=view&id=1Ff-ifIzGTrgp9N2lG5WhI4EIwCZLweSN' /> */}
             <Image
               src="/main-image.jpg?height=800&width=1600"
               alt="Students singing"
               fill
-              className="object-cover brightness-[0.4]"
+              className="h-screen object-cover brightness-[0.4]"
               priority
             />
           </div>
-          <div className="container relative z-10 py-16 md:py-24 lg:py-32">
+          <div className="relative z-10 py-16 md:py-24 lg:py-32">
             <div className="max-w-2xl pl-1 space-y-4 md:space-y-6 text-white md:pl-4">
               <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl">
                 Твой голос заслуживает быть услышанным <span className="text-primary">— ЗВУЧИ!</span>
               </h1>
             </div>
           </div>
+          <button
+            // onClick={() => {}}
+            className="cursor-pointer absolute bottom-[50%] left-[40%] group inline-flex items-center justify-center px-10 py-6 text-lg font-bold text-white bg-gradient-to-l from-brand to-brand-secondary rounded-[8px] shadow-2xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 overflow-hidden"
+          >
+            Записаться на занятие
+          </button>
         </section>
         <div className='px-2 md:px-4'>
           {/* Features Section */}
@@ -39,9 +46,6 @@ export default function Home() {
           <section id="instructors" className="py-12 md:py-16 bg-muted/50">
             <div className="flex flex-col items-center text-center mb-8 md:mb-12">
               <h2 className="text-2xl md:text-3xl font-bold tracking-tight mb-4">Наши педагоги</h2>
-              {/* <p className="text-muted-foreground max-w-2xl">
-                  EVT, сертификаты о прохождении курсов знаменитых вокальных коучей. Дипломы об образовании 
-                </p> */}
             </div>
             <div className="grid grid-cols-1 grid-off sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
               {instructors.map((instructor) => (
