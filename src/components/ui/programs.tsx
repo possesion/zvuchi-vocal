@@ -45,7 +45,7 @@ export const Programs = () => {
 
   return (
     <div ref={sliderRef}
-      className="flex overflow-x-auto pb-4 no-scrollbar cursor-grab"
+      className="flex justify-center overflow-x-auto pb-4 no-scrollbar cursor-grab"
       onMouseDown={handleMouseDown}
       onMouseLeave={handleMouseLeave}
       onMouseUp={handleMouseUp}

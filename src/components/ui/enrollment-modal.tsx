@@ -90,8 +90,7 @@ export function EnrollmentModal({ isOpen, onClose }: EnrollmentModalProps) {
       />
       
       {/* Modal */}
-      <div className="relative bg-white rounded-2xl shadow-2xl max-w-md w-full mx-4 max-h-[90vh] overflow-y-auto">
-        {/* Header */}
+      <div className="relative bg-white rounded-2xl shadow-2xl max-w-[480px] w-full mx-4 max-h-[90vh] overflow-y-auto">
         <div className="flex items-center justify-between p-6 border-b">
           <h2 className="text-2xl font-bold text-gray-900">Записаться на пробное&nbsp;занятие</h2>
           <button

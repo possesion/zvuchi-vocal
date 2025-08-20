@@ -15,6 +15,7 @@ export async function sendEmail({ name, phone }: SendEmailProps) {
   }
 
   const transporter = nodemailer.createTransport({
+    logger: true,
     host: process.env.EMAIL_HOST,
     port: parseInt(process.env.EMAIL_PORT || '465'),
     secure: true, // Используем SSL

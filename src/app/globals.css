@@ -54,6 +54,16 @@ body {
 	--color-background: var(--background);
 }
 
+.main-bg {
+  height: 100vh;
+  background-image: url('/main-image.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  /* h-screen object-cover brightness-[0.4] */
+}
+
 /* Custom animations for mobile menu */
 @keyframes slideInFromRight {
   from {
