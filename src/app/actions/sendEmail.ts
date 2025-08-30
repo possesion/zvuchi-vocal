@@ -53,18 +53,8 @@ export async function sendEmail({ name, phone }: SendEmailProps) {
       replyTo: process.env.EMAIL_FROM, // Обратный адрес для ответов
       subject: `Новая заявка на обучение вокалу от ${name}`,
       text: emailText,
-      html: `
-        <!DOCTYPE html>
-        <html>
-        <head>
-          <meta charset="utf-8">
-          <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <title>Новая заявка на обучение</title>
-        </head>
-        <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
-          <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; border-left: 4px solid #ab1515;">
+      html: `<div style="background: #f8f9fa; padding: 20px; border-radius: 8px; border-left: 4px solid #ab1515;">
             <h2 style="color: #ab1515; margin-top: 0;">🎵 Новая заявка на обучение вокалу</h2>
-            
             <div style="background: white; padding: 20px; border-radius: 6px; margin: 20px 0;">
               <p><strong>Имя:</strong> ${name}</p>
               <p><strong>Телефон:</strong> ${phone}</p>
@@ -76,14 +66,10 @@ export async function sendEmail({ name, phone }: SendEmailProps) {
               Пожалуйста, свяжитесь с клиентом в ближайшее время.
             </p>
           </div>
-          
           <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; color: #999; font-size: 12px;">
             <p>© ${new Date().getFullYear()} Вокальная школа ЗВУЧИ</p>
             <p>Сайт: <a href="https://zvuchi.ru" style="color: #ab1515;">zvuchi.ru</a></p>
-          </div>
-        </body>
-        </html>
-      `,
+          </div>`,
       headers: {
         'X-Priority': '1', // Высокий приоритет
         'X-MSMail-Priority': 'High',

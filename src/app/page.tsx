@@ -16,8 +16,8 @@ export default function Home() {
         {/* Hero Section */}
         <section className="relative main-bg">
           <div className="relative z-10 py-16 md:py-24 lg:py-32">
-            <div className="pl-1 text-white md:pl-4">
-              <h1 className="mb-4 text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl lg:mb-8">
+            <div className="pl-1 md:pl-4">
+              <h1 className="mb-4 text-white text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl lg:mb-8">
                 Твой голос заслуживает быть услышанным <span className="text-primary">— ЗВУЧИ!</span>
               </h1>
               <EnrollmentSection main />
