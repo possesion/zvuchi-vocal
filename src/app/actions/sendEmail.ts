@@ -31,7 +31,13 @@ export async function sendEmail({ name, phone }: SendEmailProps) {
 
   try {
     // Проверяем подключение к SMTP
-    await transporter.verify();
+    transporter.verify((error, success) => {
+      if (error) {
+        console.error(error);
+      } else {
+        console.log("Server is ready to take our messages");
+      }
+    });
     console.log('SMTP подключение успешно', { name, phone });
 
     // Формируем текст письма
