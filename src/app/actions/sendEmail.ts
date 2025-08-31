@@ -31,7 +31,7 @@ export async function sendEmail({ name, phone }: SendEmailProps) {
 
   try {
     // Проверяем подключение к SMTP
-    transporter.verify((error, success) => {
+    transporter.verify((error) => {
       if (error) {
         console.error(error);
       } else {
