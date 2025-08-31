@@ -31,7 +31,7 @@ export async function sendEmail({ name, phone }: SendEmailProps) {
   try {
     // Проверяем подключение к SMTP
     await transporter.verify();
-    console.log('SMTP подключение успешно');
+    console.log('SMTP подключение успешно', { name, phone });
 
     // Формируем текст письма
 //     const emailText = `
