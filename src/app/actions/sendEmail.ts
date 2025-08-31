@@ -34,14 +34,14 @@ export async function sendEmail({ name, phone }: SendEmailProps) {
     console.log('SMTP подключение успешно');
 
     // Формируем текст письма
-    const emailText = `
-Новая заявка на обучение вокалу:
-
-Имя: ${name}
-Телефон: ${phone}
-
-Дата: ${new Date().toLocaleString('ru-RU')}
-    `.trim();
+//     const emailText = `
+// Новая заявка на обучение вокалу:
+//
+// Имя: ${name}
+// Телефон: ${phone}
+//
+// Дата: ${new Date().toLocaleString('ru-RU')}
+//     `.trim();
 
     // Отправляем письмо с  заголовками
     // await transporter.sendMail({
