@@ -12,7 +12,7 @@ export function EnrollmentSection({ main = false}) {
         {main ? (<button
           onClick={() => setIsModalOpen(true)}
           className="block m-auto cursor-pointer relative overflow-hidden group px-8 py-4 bg-[#ab1515] text-white font-bold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
-          <span className="relative z-10">Бесплатное пробное!</span>
+          <span className="relative z-10">Бесплатное пробное!!</span>
           <span
             className="absolute inset-0 bg-gradient-to-r from-[#d42e2e] to-[#ab1515] opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-lg"></span>
           {/* Блестящий эффект */}
