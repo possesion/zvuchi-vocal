@@ -15,10 +15,11 @@ export async function sendEmail({ name, phone }: SendEmailProps) {
   }
 
   const transporter = nodemailer.createTransport({
+    debug: true,
     logger: true,
     host: process.env.EMAIL_HOST,
-    port: parseInt(process.env.EMAIL_PORT || '465'),
-    secure: true, // Используем SSL
+    port: 587, //parseInt(process.env.EMAIL_PORT || '465'),
+    secure: false, // Используем SSL
     auth: {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASSWORD,
