@@ -17,12 +17,12 @@ export async function sendEmail({ name, phone }: SendEmailProps) {
   const transporter = nodemailer.createTransport({
     debug: true,
     logger: true,
-    host: process.env.EMAIL_HOST,
+    host: 'mail.hosting.reg.ru', // process.env.EMAIL_HOST,
     port: 587, //parseInt(process.env.EMAIL_PORT || '465'),
-    secure: false, // Используем SSL
+    secure: false,
     auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASSWORD,
+      user: 'info@zvuchi.ru', // process.env.EMAIL_USER,
+      pass: 'D0j2cNJWjxG3y47i', // process.env.EMAIL_PASSWORD,
     },
     // tls: {
     //   rejectUnauthorized: false // Отключаем проверку сертификата для тестирования
@@ -54,10 +54,10 @@ export async function sendEmail({ name, phone }: SendEmailProps) {
     await transporter.sendMail({
       from: {
         name: 'Вокальная школа ЗВУЧИ',
-        address: process.env.EMAIL_FROM || ''
+        address: 'info@zvuchi.ru' //process.env.EMAIL_FROM || ''
       },
-      to: process.env.EMAIL_TO,
-      replyTo: process.env.EMAIL_FROM, // Обратный адрес для ответов
+      to: 'zvuchi.vocal@yandex.ru', //process.env.EMAIL_TO,
+      replyTo: 'info@zvuchi.ru', //process.env.EMAIL_FROM, // Обратный адрес для ответов
       subject: `Новая заявка на обучение вокалу от ${name}`,
       text: emailText,
       // html: `<div style="background: #f8f9fa; padding: 20px; border-radius: 8px; border-left: 4px solid #ab1515;">
