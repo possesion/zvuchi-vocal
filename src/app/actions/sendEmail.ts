@@ -21,8 +21,8 @@ export async function sendEmail({ name, phone }: SendEmailProps) {
     port: 587, //parseInt(process.env.EMAIL_PORT || '465'),
     secure: false,
     auth: {
-      user: 'info@zvuchi.ru', // process.env.EMAIL_USER,
-      pass: 'D0j2cNJWjxG3y47i', // process.env.EMAIL_PASSWORD,
+      user: 'noreply@zvuchi-vocal.ru', // process.env.EMAIL_USER,
+      pass: 'Svck4051svck4051', // process.env.EMAIL_PASSWORD,
     },
     // tls: {
     //   rejectUnauthorized: false // Отключаем проверку сертификата для тестирования
@@ -54,29 +54,28 @@ export async function sendEmail({ name, phone }: SendEmailProps) {
     await transporter.sendMail({
       from: {
         name: 'Вокальная школа ЗВУЧИ',
-        address: 'info@zvuchi.ru' //process.env.EMAIL_FROM || ''
+        address: 'noreply@zvuchi-vocal.ru' //process.env.EMAIL_FROM || ''
       },
       to: 'zvuchi.vocal@yandex.ru', //process.env.EMAIL_TO,
-      replyTo: 'info@zvuchi.ru', //process.env.EMAIL_FROM, // Обратный адрес для ответов
       subject: `Новая заявка на обучение вокалу от ${name}`,
       text: emailText,
-      // html: `<div style="background: #f8f9fa; padding: 20px; border-radius: 8px; border-left: 4px solid #ab1515;">
-      //       <h2 style="color: #ab1515; margin-top: 0;">🎵 Новая заявка на обучение вокалу</h2>
-      //       <div style="background: white; padding: 20px; border-radius: 6px; margin: 20px 0;">
-      //         <p><strong>Имя:</strong> ${name}</p>
-      //         <p><strong>Телефон:</strong> ${phone}</p>
-      //         <p><strong>Дата заявки:</strong> ${new Date().toLocaleString('ru-RU')}</p>
-      //       </div>
-      //
-      //       <p style="color: #666; font-size: 14px;">
-      //         Это автоматическое уведомление с сайта вокальной школы ЗВУЧИ.
-      //         Пожалуйста, свяжитесь с клиентом в ближайшее время.
-      //       </p>
-      //     </div>
-      //     <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; color: #999; font-size: 12px;">
-      //       <p>© ${new Date().getFullYear()} Вокальная школа ЗВУЧИ</p>
-      //       <p>Сайт: <a href="https://zvuchi.ru" style="color: #ab1515;">zvuchi.ru</a></p>
-      //     </div>`,
+      html: `<div style="background: #f8f9fa; padding: 20px; border-radius: 8px; border-left: 4px solid #ab1515;">
+            <h2 style="color: #ab1515; margin-top: 0;">🎵 Новая заявка на обучение вокалу</h2>
+            <div style="background: white; padding: 20px; border-radius: 6px; margin: 20px 0;">
+              <p><strong>Имя:</strong> ${name}</p>
+              <p><strong>Телефон:</strong> ${phone}</p>
+              <p><strong>Дата заявки:</strong> ${new Date().toLocaleString('ru-RU')}</p>
+            </div>
+
+            <p style="color: #666; font-size: 14px;">
+              Это автоматическое уведомление с сайта вокальной школы ЗВУЧИ.
+              Пожалуйста, свяжитесь с клиентом в ближайшее время.
+            </p>
+          </div>
+          <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; color: #999; font-size: 12px;">
+            <p>© ${new Date().getFullYear()} Вокальная школа ЗВУЧИ</p>
+            <p>Сайт: <a href="https://zvuchi.ru" style="color: #ab1515;">zvuchi.ru</a></p>
+          </div>`,
       // headers: {
       //   'X-Priority': '1', // Высокий приоритет
       //   'X-MSMail-Priority': 'High',

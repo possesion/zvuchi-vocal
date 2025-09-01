@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { InvalidEvent, useState} from "react";
 import { X } from "lucide-react";
 import { Snackbar } from "./snackbar";
 
@@ -72,6 +72,10 @@ export function EnrollmentModal({ isOpen, onClose }: EnrollmentModalProps) {
     }
   };
 
+  const handleValidate = (text: string) => (e: InvalidEvent<HTMLInputElement>) => {
+      e.target.setCustomValidity(text)
+  }
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData({
       ...formData,
@@ -108,14 +112,16 @@ export function EnrollmentModal({ isOpen, onClose }: EnrollmentModalProps) {
               Имя *
             </label>
             <input
-              type="text"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
               id="name"
               name="name"
-              required
-              value={formData.name}
+              onInvalid={handleValidate('Введите имя')}
+              onInput={handleValidate('')}
               onChange={handleChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
               placeholder="Ваше имя"
+              required
+              type="text"
+              value={formData.name}
             />
           </div>
 
@@ -124,14 +130,16 @@ export function EnrollmentModal({ isOpen, onClose }: EnrollmentModalProps) {
               Телефон *
             </label>
             <input
-              type="tel"
               id="phone"
-              name="phone"
-              required
-              value={formData.phone}
-              onChange={handleChange}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+              name="phone"
+              onInvalid={handleValidate('Введите номер телефона')}
+              onInput={handleValidate('')}
+              onChange={handleChange}
               placeholder="+7 (999) 000-00-00"
+              required
+              type="tel"
+              value={formData.phone}
             />
           </div>
           <button
