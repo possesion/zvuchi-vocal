@@ -18,8 +18,8 @@ export async function sendEmail({ name, phone }: SendEmailProps) {
     debug: true,
     logger: true,
     host: 'mail.hosting.reg.ru', // process.env.EMAIL_HOST,
-    port: 587, //parseInt(process.env.EMAIL_PORT || '465'),
-    secure: false,
+    port: 465, //parseInt(process.env.EMAIL_PORT || '465'),
+    secure: true,
     auth: {
       user: 'noreply@zvuchi-vocal.ru', // process.env.EMAIL_USER,
       pass: 'Svck4051svck4051', // process.env.EMAIL_PASSWORD,
