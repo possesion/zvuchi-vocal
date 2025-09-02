@@ -19,6 +19,7 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-image-gallery": "^1.4.0",
+    "sendmail": "^1.6.1",
     "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
