@@ -9,6 +9,9 @@ export function EnrollmentSection({ main = false}) {
   return (
     <>
       <section id="study" className="py-12 md:py-16 bg-muted/50">
+        <button onClick={() => {
+          fetch('/api/healthcheck')
+        }}>Проверка</button>
         {main ? (<button
           onClick={() => setIsModalOpen(true)}
           className="block m-auto cursor-pointer relative overflow-hidden group px-8 py-4 bg-[#ab1515] text-white font-bold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
