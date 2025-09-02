@@ -1,27 +1,28 @@
 'use server';
 
-import nodemailer from 'nodemailer';
-const sendmail = require('sendmail')();
+// import nodemailer from 'nodemailer';
+// const sendmail = require('sendmail')();
+import sendmail from 'sendmail';
 
 interface SendEmailProps {
   name: string;
   phone: string;
 }
 
-const transporter = nodemailer.createTransport({
-  debug: true,
-  logger: true,
-  host: 'mail.hosting.reg.ru', // process.env.EMAIL_HOST,
-  port: 465, //parseInt(process.env.EMAIL_PORT || '465'),
-  secure: true,
-  auth: {
-    user: 'noreply@zvuchi-vocal.ru', // process.env.EMAIL_USER,
-    pass: 'Svck4051svck4051', // process.env.EMAIL_PASSWORD,
-  },
-  // tls: {
-  //   rejectUnauthorized: false // Отключаем проверку сертификата для тестирования
-  // }
-});
+// const transporter = nodemailer.createTransport({
+//   debug: true,
+//   logger: true,
+//   host: 'mail.hosting.reg.ru', // process.env.EMAIL_HOST,
+//   port: 465, //parseInt(process.env.EMAIL_PORT || '465'),
+//   secure: true,
+//   auth: {
+//     user: 'noreply@zvuchi-vocal.ru', // process.env.EMAIL_USER,
+//     pass: 'Svck4051svck4051', // process.env.EMAIL_PASSWORD,
+//   },
+//   // tls: {
+//   //   rejectUnauthorized: false // Отключаем проверку сертификата для тестирования
+//   // }
+// });
 
 export async function sendEmail({ name, phone }: SendEmailProps) {
 
@@ -42,16 +43,14 @@ export async function sendEmail({ name, phone }: SendEmailProps) {
     // console.log('SMTP подключение успешно', { name, phone });
 
     // Формируем текст письма
-    const emailText = `
-Новая заявка на обучение вокалу:
-
-Имя: ${name}
-Телефон: ${phone}
-
-Дата: ${new Date().toLocaleString('ru-RU')}
-    `.trim();
-
-    sendmail({
+//     const emailText = `
+// Новая заявка на обучение вокалу:
+// Имя: ${name}
+// Телефон: ${phone}
+// Дата: ${new Date().toLocaleString('ru-RU')}
+//     `.trim();
+  const mail = sendmail({});
+    mail({
       from: 'noreply@zvuchi-vocal.ru',
       to: 'zvuchi.vocal@yandex.ru',
       subject: `Новая заявка на обучение вокалу от ${name}`,
