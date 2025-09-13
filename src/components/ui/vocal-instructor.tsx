@@ -2,7 +2,7 @@
 import { Dialog } from 'radix-ui'
 
 import Image from 'next/image'
-import { useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import '../styles.css'
 
 interface VocalInstructor {
@@ -10,7 +10,7 @@ interface VocalInstructor {
         image: string
         name: string
         specialty: string
-        bio: JSX.Element
+        bio: React.JSX.Element
     }
 }
 export const VocalInstructor = ({ instructor }: VocalInstructor) => {
