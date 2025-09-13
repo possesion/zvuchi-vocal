@@ -1,23 +1,29 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import Link from "next/link"
+import { useState } from "react";
+import Link from "next/link";
 import { Button } from "@radix-ui/themes";
 
 // import { Button } from "@/components/ui/button"
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet-enhanced"
-import { MenuIcon } from "lucide-react"
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet-enhanced";
+import { MenuIcon } from "lucide-react";
 
 export default function MobileMenu() {
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
 
   const handleLinkClick = () => {
-    setOpen(false)
-  }
+    setOpen(false);
+  };
 
   return (
     <div className="pr-3 md:hidden">
-      <Sheet  open={open} onOpenChange={setOpen}>
+      <Sheet open={open} onOpenChange={setOpen}>
         <SheetTrigger asChild>
           <Button variant="ghost" className="md:hidden">
             <MenuIcon className="h-6 w-6" />
@@ -77,5 +83,5 @@ export default function MobileMenu() {
         </SheetContent>
       </Sheet>
     </div>
-  )
+  );
 }

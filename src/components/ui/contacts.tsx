@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { MapPin, Phone, Navigation, Clock } from "lucide-react";
 
@@ -6,9 +6,12 @@ export const Contacts = () => {
   return (
     <section id="contacts" className="py-12 md:py-16 bg-muted/30">
       <div className="flex flex-col items-center text-center mb-8 md:mb-12">
-        <h2 className="text-2xl md:text-3xl font-bold tracking-tight mb-4">Контакты</h2>
+        <h2 className="text-2xl md:text-3xl font-bold tracking-tight mb-4">
+          Контакты
+        </h2>
         <p className="text-muted-foreground max-w-2xl">
-          Свяжитесь с нами для записи на занятия или получения дополнительной информации
+          Свяжитесь с нами для записи на занятия или получения дополнительной
+          информации
         </p>
       </div>
 
@@ -22,9 +25,12 @@ export const Contacts = () => {
             <div>
               <h3 className="text-lg font-semibold mb-2">Адрес</h3>
               <p className="text-muted-foreground">
-                Ленинградский проспект, д. 34<br />
-                Москва, 125040<br />
-                Ближайшее метро: &ldquo;Динамо&rdquo; или &ldquo;Петровский парк&rdquo;
+                Ленинградский проспект, д. 34
+                <br />
+                Москва, 125040
+                <br />
+                Ближайшее метро: &ldquo;Динамо&rdquo; или &ldquo;Петровский
+                парк&rdquo;
               </p>
             </div>
           </div>
@@ -36,11 +42,17 @@ export const Contacts = () => {
             <div>
               <h3 className="text-lg font-semibold mb-2">Телефон</h3>
               <p className="text-muted-foreground">
-                <a href="tel:+74951234567" className="hover:text-primary transition-colors">
+                <a
+                  href="tel:+74951234567"
+                  className="hover:text-primary transition-colors"
+                >
                   +7 (977) 967-50-01
                 </a>
                 <br />
-                <a href="tel:+79001234567" className="hover:text-primary transition-colors">
+                <a
+                  href="tel:+79001234567"
+                  className="hover:text-primary transition-colors"
+                >
                   +7 (985) 126-66-05
                 </a>
               </p>
@@ -54,19 +66,25 @@ export const Contacts = () => {
             <div>
               <h3 className="text-lg font-semibold mb-2">Режим работы</h3>
               <p className="text-muted-foreground">
-                Ежедневно: 10:00 - 22:00<br />
+                Ежедневно: 10:00 - 22:00
+                <br />
               </p>
             </div>
           </div>
 
           <div className="flex items-start space-x-4">
             <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-              <Navigation color="var(--brand)" className="h-6 w-6 text-primary" />
+              <Navigation
+                color="var(--brand)"
+                className="h-6 w-6 text-primary"
+              />
             </div>
             <div>
               <h3 className="text-lg font-semibold mb-2">Как добраться</h3>
               <p className="text-muted-foreground">
-                <strong>На метро:</strong> Выход из метро &ldquo;Динамо&rdquo; в сторону Ленинградский проспект, д. 34<br />
+                <strong>На метро:</strong> Выход из метро &ldquo;Динамо&rdquo; в
+                сторону Ленинградский проспект, д. 34
+                <br />
                 <strong>На машине:</strong> Парковка доступна во дворе здания
               </p>
             </div>
@@ -77,16 +95,26 @@ export const Contacts = () => {
         <div className="space-y-6">
           <div className="bg-background rounded-lg p-2 border border-brand">
             <div className="bg-muted/50 rounded-lg p-4">
-              <div style={{ position: 'relative', overflow: 'hidden' }}>
+              <div style={{ position: "relative", overflow: "hidden" }}>
                 <a
                   href="https://yandex.ru/maps/org/zvuchi_/174002347974/?utm_medium=mapframe&utm_source=maps"
-                  style={{ color: '#eee', fontSize: '12px', position: 'absolute', top: '0px' }}
+                  style={{
+                    color: "#eee",
+                    fontSize: "12px",
+                    position: "absolute",
+                    top: "0px",
+                  }}
                 >
                   Звучи!
                 </a>
                 <a
                   href="https://yandex.ru/maps/213/moscow/category/music_school/184105912/?utm_medium=mapframe&utm_source=maps"
-                  style={{ color: '#eee', fontSize: '12px', position: 'absolute', top: '14px' }}
+                  style={{
+                    color: "#eee",
+                    fontSize: "12px",
+                    position: "absolute",
+                    top: "14px",
+                  }}
                 >
                   Музыкальное образование в Москве
                 </a>
@@ -95,7 +123,7 @@ export const Contacts = () => {
                   width="100%"
                   height="400"
                   allowFullScreen
-                  style={{ position: 'relative' }}
+                  style={{ position: "relative" }}
                   title="Yandex Map of Звучи!"
                 ></iframe>
               </div>

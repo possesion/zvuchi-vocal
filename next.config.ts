@@ -4,22 +4,22 @@ const nextConfig: NextConfig = {
   allowedDevOrigins: ["*"],
   /* config options here */
   images: {
-    domains: ['drive.google.com', 'photos.google.com'],
+    domains: ["drive.google.com", "photos.google.com"],
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: 'drive.google.com',
-        port: '',
-        pathname: '/file/**',
-        search: '',
+        protocol: "https",
+        hostname: "drive.google.com",
+        port: "",
+        pathname: "/file/**",
+        search: "",
       },
     ],
   },
   experimental: {
     serverActions: {
-      allowedOrigins: ['zvuchi-vocal.ru', 'localhost:3000'], 
-    }
-  }
+      allowedOrigins: ["zvuchi-vocal.ru", "localhost:3000"],
+    },
+  },
 };
 
 export default nextConfig;

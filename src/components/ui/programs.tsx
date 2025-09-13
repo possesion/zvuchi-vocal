@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { programs } from "@/app/constants"
+import { programs } from "@/app/constants";
 import { useRef } from "react";
 
 export const Programs = () => {
@@ -14,22 +14,22 @@ export const Programs = () => {
     startX = e.pageX - (sliderRef.current?.offsetLeft || 0);
     scrollLeft = sliderRef.current?.scrollLeft || 0;
     if (sliderRef.current) {
-      sliderRef.current.style.cursor = 'grabbing';
-      sliderRef.current.style.userSelect = 'none';
+      sliderRef.current.style.cursor = "grabbing";
+      sliderRef.current.style.userSelect = "none";
     }
   };
 
   const handleMouseLeave = () => {
     isDown = false;
     if (sliderRef.current) {
-      sliderRef.current.style.cursor = 'grab';
+      sliderRef.current.style.cursor = "grab";
     }
   };
 
   const handleMouseUp = () => {
     isDown = false;
     if (sliderRef.current) {
-      sliderRef.current.style.cursor = 'grab';
+      sliderRef.current.style.cursor = "grab";
     }
   };
 
@@ -44,13 +44,14 @@ export const Programs = () => {
   };
 
   return (
-    <div ref={sliderRef}
+    <div
+      ref={sliderRef}
       className="flex justify-center overflow-x-auto pb-4 no-scrollbar cursor-grab"
       onMouseDown={handleMouseDown}
       onMouseLeave={handleMouseLeave}
       onMouseUp={handleMouseUp}
-      onMouseMove={handleMouseMove}>
-      
+      onMouseMove={handleMouseMove}
+    >
       <div className="flex pt-1 space-x-6 md:space-x-8 flex-nowrap">
         {programs.map((program) => (
           <div
@@ -70,10 +71,12 @@ export const Programs = () => {
                 </div>
               ))}
             </div>
-            <span className="font-bold text-red-800 dark:text-red-400 text-lg">{program.price}</span>
+            <span className="font-bold text-red-800 dark:text-red-400 text-lg">
+              {program.price}
+            </span>
           </div>
         ))}
       </div>
     </div>
-  )
-}
+  );
+};

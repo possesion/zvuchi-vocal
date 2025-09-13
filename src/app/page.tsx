@@ -1,71 +1,71 @@
-import Image from "next/image";
-import { instructors } from "./constants";
-import "@radix-ui/themes/styles.css";
-import { Programs } from "@/components/ui/programs";
-import { FeatureList } from "@/components/ui/feature-list";
-import { Header } from "@/components/ui/header";
-import { Contacts } from "@/components/ui/contacts";
-// import { Gallery } from "@/components/ui/gallery";
-import { EnrollmentSection } from "@/components/ui/enrollment-section";
+import Image from 'next/image'
+import { instructors } from './constants'
+import '@radix-ui/themes/styles.css'
+import { Programs } from '@/components/ui/programs'
+import { FeatureList } from '@/components/ui/feature-list'
+import { Header } from '@/components/ui/header'
+import { Contacts } from '@/components/ui/contacts'
+// import { Gallery } from '@/components/ui/gallery'
+import { EnrollmentSection } from '@/components/ui/enrollment-section'
+import { VocalInstructor } from '@/components/ui/vocal-instructor'
 
 export default function Home() {
-  return (
-    <div className="flex min-h-screen flex-col font-manrope">
-      <Header />
-      <main className="flex-1">
-        {/* Hero Section */}
-        <section className="relative main-bg">
-          <div className="relative z-10 py-16 md:py-24 lg:py-32">
-            <div className="pl-1 md:pl-4">
-              <h1 className="mb-4 text-white text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl lg:mb-8">
-                Твой голос заслуживает быть услышанным <span className="text-primary">— ЗВУЧИ!</span>
-              </h1>
-              <EnrollmentSection main />
-            </div>
-          </div>
-        </section>
-        <div className='px-2 md:px-4'>
-          <FeatureList/>
-          {/* Instructors Section */}
-          <section id="instructors" className="py-12 md:py-16 bg-muted/50">
-            <div className="flex flex-col items-center text-center mb-8 md:mb-12">
-              <h2 className="text-2xl md:text-3xl font-bold tracking-tight mb-4">Наши педагоги</h2>
-            </div>
-            <div className="grid grid-cols-1 grid-off sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-              {instructors.map((instructor) => (
-                <div key={instructor.name} className="group flex flex-col items-center text-center">
-                  <div className="relative h-36 w-36 sm:h-48 sm:w-48 overflow-hidden rounded-full mb-4">
-                    <Image
-                      src={instructor.image || "/placeholder.svg"}
-                      alt={instructor.name}
-                      fill
-                      className="object-cover transition-transform group-hover:scale-105"
-                    />
-                  </div>
-                  <h3 className="text-lg md:text-xl font-bold">{instructor.name}</h3>
-                  <p className="text-primary mb-2">{instructor.specialty}</p>
-                  <ul className="w-[350px] text-left text-sm text-muted-foreground">{instructor.bio}</ul>
-                </div>
-              ))}
-            </div>
-            {/* </div> */}
-          </section>
+    return (
+        <div className="flex min-h-screen flex-col font-manrope">
+            <Header />
+            <main className="flex-1">
+                <section className="relative main-bg">
+                    <div className="relative z-10 py-16 md:py-24 lg:py-32">
+                        <div className="pl-1 md:pl-4">
+                            <h1 className="mb-4 text-white text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl lg:mb-8">
+                                Твой голос заслуживает быть услышанным{' '}
+                                <span className="text-primary">— ЗВУЧИ!</span>
+                            </h1>
+                            <EnrollmentSection main />
+                        </div>
+                    </div>
+                </section>
+                <div className="px-2 md:px-4">
+                    <FeatureList />
+                    {/* Instructors Section */}
+                    <section
+                        id="instructors"
+                        className="py-12 md:py-16 bg-muted/50"
+                    >
+                        <div className="flex flex-col items-center text-center mb-8 md:mb-12">
+                            <h2 className="text-2xl md:text-3xl font-bold tracking-tight mb-4">
+                                Наши педагоги
+                            </h2>
+                        </div>
+                        <div className="grid grid-cols-1 grid-off sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+                            {instructors.map((instructor) => {
+                                return (
+                                    <VocalInstructor
+                                        key={instructor.name}
+                                        instructor={instructor}
+                                    />
+                                )
+                            })}
+                        </div>
+                    </section>
+                    {/* Programs Section */}
+                    <section id="subscriptions" className="py-12 md:py-16">
+                        <div className="flex flex-col items-center text-center mb-8 md:mb-12">
+                            <h2 className="text-2xl md:text-3xl font-bold tracking-tight mb-4">
+                                Наши абонементы
+                            </h2>
+                            <p className="text-muted-foreground max-w-2xl">
+                                От джаза до рока — учим петь в любом жанре!
+                                Индивидуальный подход для всех уровней: от нуля
+                                до профессионала.
+                            </p>
+                        </div>
+                        <Programs />
+                    </section>
 
-          {/* Programs Section */}
-          <section id="subscriptions" className="py-12 md:py-16">
-            <div className="flex flex-col items-center text-center mb-8 md:mb-12">
-              <h2 className="text-2xl md:text-3xl font-bold tracking-tight mb-4">Наши абонементы</h2>
-              <p className="text-muted-foreground max-w-2xl">
-                От джаза до рока — учим петь в любом жанре!
-                Индивидуальный подход для всех уровней: от нуля до профессионала.
-              </p>
-            </div>
-            <Programs />
-          </section>
-
-          <EnrollmentSection />
-          {/* Testimonials Section */}
-          {/* <section id="testimonials" className="py-12 md:py-16">
+                    <EnrollmentSection />
+                    {/* Testimonials Section */}
+                    {/* <section id="testimonials" className="py-12 md:py-16">
               <div className="flex flex-col items-center text-center mb-8 md:mb-12">
                 <h2 className="text-2xl md:text-3xl font-bold tracking-tight mb-4">Истории успеха</h2>
                 <p className="text-muted-foreground max-w-2xl">
@@ -108,56 +108,103 @@ export default function Home() {
               </div>
           </section> */}
 
-          {/* <Gallery /> */}
-          <section>
-            <Contacts />
-          </section>
-          {/* Social Networks Section */}
-          <section className="py-12 md:py-16">
-            <div className="flex flex-col items-center text-center mb-8 md:mb-12">
-              <h2 className="text-2xl md:text-3xl font-bold tracking-tight mb-4">Наши социальные сети</h2>
-              <p className="text-muted-foreground max-w-2xl">
-                Следите за нашими новостями, мастер-классами и вдохновляющими историями
-              </p>
-            </div>
-            <div className="flex justify-center gap-x-8 md:gap-x-12">
-              <a href="https://www.instagram.com/zvuchi.vocal?igsh=NG40M3dwNnQ4Z21m&utm_source=qr" target="blank" className="group flex flex-col items-center text-center transition-transform hover:scale-110">
-                <Image width={40} height={40} src='socials/instagram.svg' alt='instagram' />
-                <span className="text-sm font-medium text-muted-foreground group-hover:text-primary transition-colors">Instagram</span>
-              </a>
+                    {/*<Gallery />*/}
+                    <section>
+                        <Contacts />
+                    </section>
+                    {/* Social Networks Section */}
+                    <section className="py-12 md:py-16">
+                        <div className="flex flex-col items-center text-center mb-8 md:mb-12">
+                            <h2 className="text-2xl md:text-3xl font-bold tracking-tight mb-4">
+                                Наши социальные сети
+                            </h2>
+                            <p className="text-muted-foreground max-w-2xl">
+                                Следите за нашими новостями, мастер-классами и
+                                вдохновляющими историями
+                            </p>
+                        </div>
+                        <div className="flex justify-center gap-x-8 md:gap-x-12">
+                            <a
+                                href="https://www.instagram.com/zvuchi.vocal?igsh=NG40M3dwNnQ4Z21m&utm_source=qr"
+                                target="blank"
+                                className="group flex flex-col items-center text-center transition-transform hover:scale-110"
+                            >
+                                <Image
+                                    width={40}
+                                    height={40}
+                                    src="socials/instagram.svg"
+                                    alt="instagram"
+                                />
+                                <span className="text-sm font-medium text-muted-foreground group-hover:text-primary transition-colors">
+                                    Instagram
+                                </span>
+                            </a>
 
-              <a href="https://t.me/zvuchivocal" target="blank" className="group flex flex-col items-center text-center transition-transform hover:scale-110">
-                <Image width={40} height={40} src='socials/telegram.svg' alt='tg' />
-                <span className="text-sm font-medium text-muted-foreground group-hover:text-primary transition-colors">Telegram</span>
-              </a>
+                            <a
+                                href="https://t.me/zvuchivocal"
+                                target="blank"
+                                className="group flex flex-col items-center text-center transition-transform hover:scale-110"
+                            >
+                                <Image
+                                    width={40}
+                                    height={40}
+                                    src="socials/telegram.svg"
+                                    alt="tg"
+                                />
+                                <span className="text-sm font-medium text-muted-foreground group-hover:text-primary transition-colors">
+                                    Telegram
+                                </span>
+                            </a>
 
-              <a href="https://vk.com/zvuchi.vocal" target="blank" className="group flex flex-col items-center text-center transition-transform hover:scale-110">
-                <Image width={42} height={42} src='socials/vk.svg' alt='vk' />
-                <span className="text-sm font-medium text-muted-foreground group-hover:text-primary transition-colors">VK</span>
-              </a>
-              <a href="https://www.tiktok.com/@zvuchi.vocal?_t=ZS-8yqbaCZDVqb&_r=1" target="blank" className="group flex flex-col items-center text-center transition-transform hover:scale-110">
-                <Image width={42} height={42} src='socials/tiktok.svg' alt='vk' />
-                <span className="text-sm font-medium text-muted-foreground group-hover:text-primary transition-colors">TikTok</span>
-              </a>
-            </div>
-          </section>
+                            <a
+                                href="https://vk.com/zvuchi.vocal"
+                                target="blank"
+                                className="group flex flex-col items-center text-center transition-transform hover:scale-110"
+                            >
+                                <Image
+                                    width={42}
+                                    height={42}
+                                    src="socials/vk.svg"
+                                    alt="vk"
+                                />
+                                <span className="text-sm font-medium text-muted-foreground group-hover:text-primary transition-colors">
+                                    VK
+                                </span>
+                            </a>
+                            <a
+                                href="https://www.tiktok.com/@zvuchi.vocal?_t=ZS-8yqbaCZDVqb&_r=1"
+                                target="blank"
+                                className="group flex flex-col items-center text-center transition-transform hover:scale-110"
+                            >
+                                <Image
+                                    width={42}
+                                    height={42}
+                                    src="socials/tiktok.svg"
+                                    alt="vk"
+                                />
+                                <span className="text-sm font-medium text-muted-foreground group-hover:text-primary transition-colors">
+                                    TikTok
+                                </span>
+                            </a>
+                        </div>
+                    </section>
+                </div>
+            </main>
+            <footer className="border-t py-2 md:py-4 bg-foreground supports-[backdrop-filter]:bg-foreground/90">
+                <div className="w-full flex flex-col justify-center items-center">
+                    <div className="flex items-center gap-1">
+                        <Image
+                            src="/zvuchi-cropped.png"
+                            width={100}
+                            height={38}
+                            alt="logo"
+                        />
+                        <p className="text-center text-sm text-white">
+                            © {new Date().getFullYear()}
+                        </p>
+                    </div>
+                </div>
+            </footer>
         </div>
-      </main>
-      <footer className="border-t py-2 md:py-4 bg-foreground supports-[backdrop-filter]:bg-foreground/90">
-        <div className="w-full flex flex-col justify-center items-center">
-          <div className="flex items-center gap-1">
-            <Image
-              src='/zvuchi-cropped.png'
-              width={100}
-              height={38}
-              alt='logo'
-            />
-            <p className="text-center text-sm text-white">
-              © {new Date().getFullYear()}
-            </p>
-          </div>
-        </div>
-      </footer>
-    </div>
-  );
+    )
 }

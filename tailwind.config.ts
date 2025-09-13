@@ -1,7 +1,7 @@
-import type { Config } from "tailwindcss"
+import type { Config } from "tailwindcss";
 
 const config = {
-//   darkMode: ["class"],
+  //   darkMode: ["class"],
   content: [
     "./pages/**/*.{ts,tsx}",
     "./components/**/*.{ts,tsx}",
@@ -21,9 +21,9 @@ const config = {
     extend: {
       keyframes: {
         fadeIn: {
-          '0%': { opacity: '0' },
-          '60%': { opacity: '0' },
-          '100%': { opacity: '1' },
+          "0%": { opacity: "0" },
+          "60%": { opacity: "0" },
+          "100%": { opacity: "1" },
         },
         "accordion-down": {
           from: { height: "0" },
@@ -35,7 +35,7 @@ const config = {
         },
       },
       animation: {
-        'fade-in': 'fadeIn 0.6s',
+        "fade-in": "fadeIn 0.6s",
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },
@@ -91,6 +91,6 @@ const config = {
     },
   },
   plugins: [require("tailwindcss-animate")],
-} satisfies Config
+} satisfies Config;
 
-export default config
+export default config;
