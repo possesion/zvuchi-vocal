@@ -10,7 +10,7 @@ interface VocalInstructor {
         image: string
         name: string
         specialty: string
-        bio: string
+        bio: JSX.Element
     }
 }
 export const VocalInstructor = ({ instructor }: VocalInstructor) => {
