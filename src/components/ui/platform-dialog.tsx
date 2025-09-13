@@ -19,10 +19,10 @@ export const PlatformDialog: FC<PlatformDialogProps> = ({
                 <Dialog.Overlay className="fixed inset-0 bg-black/80 z-50" />
                 <Dialog.Content
                     aria-describedby="контент модального окна"
-                    className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 outline-none"
+                    className="fixed top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 outline-none"
                 >
                     <div
-                        className={`relative bg-white rounded-lg shadow-xl max-w-[90vw] max-h-[90vh] overflow-auto ${className}`}
+                        className={`relative bg-white rounded-lg shadow-xl w-[340px] max-h-[90vh] overflow-auto md:w-[500px] ${className}`}
                     >
                         {children}
                         <Dialog.Close asChild>

@@ -11,11 +11,11 @@ interface SendEmailProps {
 const transporter = nodemailer.createTransport({
     debug: true,
     logger: true,
-    host: 'sm29.hosting.reg.ru', // process.env.EMAIL_HOST,
-    port: 587, //parseInt(process.env.EMAIL_PORT || '465'),
+    host: process.env.EMAIL_HOST,
+    port: parseInt(process.env.EMAIL_PORT || '587'),
     auth: {
-        user: 'noreply@zvuchi-vocal.ru', // process.env.EMAIL_USER,
-        pass: 'Svck4051svck4051', // process.env.EMAIL_PASSWORD,
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASSWORD,
     },
 })
 

@@ -86,7 +86,7 @@ export default function PaymentForm() {
             onSubmit={handleSubmit(onSubmit)}
         >
             <Form.Field name="amount">
-                <Form.Label>Сумма</Form.Label>
+                <Form.Label>Сумма (руб.)</Form.Label>
                 <Form.Control asChild>
                     <input
                         className="Input"
