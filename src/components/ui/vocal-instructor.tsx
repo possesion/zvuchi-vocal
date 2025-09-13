@@ -5,7 +5,15 @@ import Image from 'next/image'
 import { useRef, useState } from 'react'
 import '../styles.css'
 
-export const VocalInstructor = ({ instructor }: any) => {
+interface VocalInstructor {
+    instructor: {
+        image: string
+        name: string
+        specialty: string
+        bio: string
+    }
+}
+export const VocalInstructor = ({ instructor }: VocalInstructor) => {
     const videoRef = useRef<HTMLVideoElement>(null)
     const [isPlaying, setIsPlaying] = useState(false)
 

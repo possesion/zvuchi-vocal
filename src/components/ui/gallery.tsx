@@ -5,7 +5,7 @@ import { useState } from 'react'
 import Image from 'next/image'
 import { Dialog } from 'radix-ui'
 import 'react-image-gallery/styles/css/image-gallery.css'
-import { X, ChevronLeft, ChevronRight } from 'lucide-react'
+// import { X, ChevronLeft, ChevronRight } from 'lucide-react'
 
 // Массив фотографий для галереи
 const images = [
@@ -36,8 +36,8 @@ const images = [
 ]
 
 export const Gallery = () => {
-    const [selectedImage, setSelectedImage] = useState<number | null>(null)
-    const [isModalOpen, setIsModalOpen] = useState(false)
+    // const [, setSelectedImage] = useState<number | null>(null)
+    // const [, setIsModalOpen] = useState(false)
     const [selectedIndex, setSelectedIndex] = useState(0)
 
     const openImage = (index: number) => {
@@ -52,16 +52,16 @@ export const Gallery = () => {
         setSelectedIndex((prev) => (prev - 1 + images.length) % images.length)
     }
 
-    const openModal = (index: number) => {
-        console.log('Opening modal for image:', index)
-        setSelectedImage(index)
-        setIsModalOpen(true)
-    }
-
-    const closeModal = () => {
-        setIsModalOpen(false)
-        setSelectedImage(null)
-    }
+    // const openModal = (index: number) => {
+    //     console.log('Opening modal for image:', index)
+    //     setSelectedImage(index)
+    //     setIsModalOpen(true)
+    // }
+    //
+    // const closeModal = () => {
+    //     setIsModalOpen(false)
+    //     setSelectedImage(null)
+    // }
 
     return (
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">

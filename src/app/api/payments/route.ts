@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-const urlSandbox = 'https://enter.tochka.com/sandbox/v2/acquiring/v1.0/payments'
+// const urlSandbox = 'https://enter.tochka.com/sandbox/v2/acquiring/v1.0/payments'
 const url = 'https://enter.tochka.com/uapi/acquiring/v1.0/payments'
 
 export async function POST(request: NextRequest) {
@@ -25,9 +25,9 @@ export async function POST(request: NextRequest) {
         }
 
         return NextResponse.json(result, { status: 200 })
-    } catch (error) {
+    } catch {
         return NextResponse.json(
-            { error: 'Internal Server Error' },
+            { error: 'Internal Server Error ' },
             { status: 500 }
         )
     }

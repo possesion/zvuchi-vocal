@@ -5,15 +5,15 @@ import { Form } from 'radix-ui'
 import { Button } from '@radix-ui/themes'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
-interface PaymentData {
-    amount: string
-    paymentMode: string[]
-    purpose: string
-    redirectUrl: string
-    customerCode?: string
-    preAuthorization: boolean
-    ttl: number
-}
+// interface PaymentData {
+//     amount: string
+//     paymentMode: string[]
+//     purpose: string
+//     redirectUrl: string
+//     customerCode?: string
+//     preAuthorization: boolean
+//     ttl: number
+// }
 
 type Inputs = {
     amount: number
@@ -59,8 +59,10 @@ export default function PaymentForm() {
             } else {
                 console.error(`Ошибка: ${result.error || 'Неизвестная ошибка'}`)
             }
-        } catch (error) {
-            console.error('Ошибка сети или сервера')
+        } catch (e) {
+            if (e instanceof Error) {
+                console.error('Ошибка сети или сервера' + e.message)
+            }
         } finally {
             setIsProcessing(false)
         }
