@@ -1,43 +1,19 @@
 'use client'
 
 // import ImageGallery from "react-image-gallery";
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { Dialog } from 'radix-ui'
 import 'react-image-gallery/styles/css/image-gallery.css'
 // import { X, ChevronLeft, ChevronRight } from 'lucide-react'
 
-// Массив фотографий для галереи
-const images = [
-    {
-        id: 1,
-        src: '/bg.jpg',
-        alt: 'Студенты поют',
-        title: 'Занятия вокалом',
-    },
-    {
-        id: 2,
-        src: '/valeria.jpg',
-        alt: 'Валерия Ковшова',
-        title: 'Преподаватель Валерия',
-    },
-    {
-        id: 3,
-        src: '/maria/maria.jpg',
-        alt: 'Мария Биттер',
-        title: 'Преподаватель Мария',
-    },
-    {
-        id: 4,
-        src: '/zvuchi-logo.svg',
-        alt: 'Логотип Звучи',
-        title: 'Наш логотип',
-    },
-]
-
 export const Gallery = () => {
     // const [, setSelectedImage] = useState<number | null>(null)
     // const [, setIsModalOpen] = useState(false)
+    const [images, setImages] = useState<
+        { alt: string; src: string; fileName: string }[]
+    >([])
+
     const [selectedIndex, setSelectedIndex] = useState(0)
 
     const openImage = (index: number) => {
@@ -63,19 +39,35 @@ export const Gallery = () => {
     //     setSelectedImage(null)
     // }
 
+    useEffect(() => {
+        ;(async () => {
+            try {
+                const response = await fetch('api/gallery')
+                const { images } = await response.json()
+                setImages(images)
+            } catch {
+                console.error('download error')
+            }
+        })()
+    }, [])
     return (
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {images.map((image, index) => (
-                <Dialog.Root key={index}>
+        <div
+            id="gallery"
+            className="flex overflow-x-auto whitespace-nowrap space-x-4 py-4 scrollbar-hide"
+            // className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
+        >
+            {images?.map((image, index) => (
+                <Dialog.Root key={image.fileName}>
                     <Dialog.Trigger asChild>
                         <button
                             onClick={() => openImage(index)}
-                            className="relative aspect-square overflow-hidden rounded-lg hover:opacity-90 transition-opacity"
+                            className="w-[250px] cursor-pointer relative aspect-square overflow-hidden rounded-lg hover:opacity-90 transition-opacity flex-shrink-0"
                         >
                             <Image
                                 src={image.src} // image?.thumbnail ||
                                 alt={image.alt}
                                 fill
+                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                                 className="object-cover"
                             />
                         </button>
@@ -91,6 +83,7 @@ export const Gallery = () => {
                                     alt={images[selectedIndex].alt}
                                     width={800}
                                     height={600}
+                                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                                     className="max-w-full max-h-[80vh] object-contain"
                                 />
 

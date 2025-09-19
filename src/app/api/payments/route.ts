@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { TOCHKA_PAYMENT_URL } from '@/components/constants'
+import { TOCHKA_PAYMENT_URL_WITH_RECEIPT } from '@/components/constants'
 
 export async function POST(request: NextRequest) {
     try {
         const paymentData = await request.json()
-        const tochkaResponse = await fetch(TOCHKA_PAYMENT_URL, {
+        const tochkaResponse = await fetch(TOCHKA_PAYMENT_URL_WITH_RECEIPT, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

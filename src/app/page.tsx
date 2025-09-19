@@ -5,9 +5,10 @@ import { Programs } from '@/components/ui/programs'
 import { FeatureList } from '@/components/ui/feature-list'
 import { Header } from '@/components/ui/header'
 import { Contacts } from '@/components/ui/contacts'
-// import { Gallery } from '@/components/ui/gallery'
+import { Gallery } from '@/components/ui/gallery'
 import { EnrollmentSection } from '@/components/ui/enrollment-section'
 import { VocalInstructor } from '@/components/ui/vocal-instructor'
+import { INN, OGRNIP } from '@/components/constants'
 
 export default function Home() {
     return (
@@ -17,7 +18,7 @@ export default function Home() {
                 <section className="relative main-bg">
                     <div className="relative z-10 py-16 md:py-24 lg:py-32">
                         <div className="pl-1 md:pl-4">
-                            <h1 className="mb-4 text-white text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl lg:mb-8">
+                            <h1 className="mx-3 mb-4 text-white text-2xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl lg:mb-8">
                                 Твой голос заслуживает быть услышанным{' '}
                                 <span className="text-primary">— ЗВУЧИ!</span>
                             </h1>
@@ -108,7 +109,7 @@ export default function Home() {
               </div>
           </section> */}
 
-                    {/*<Gallery />*/}
+                    <Gallery />
                     <section>
                         <Contacts />
                     </section>
@@ -191,16 +192,26 @@ export default function Home() {
                 </div>
             </main>
             <footer className="border-t py-2 md:py-4 bg-foreground supports-[backdrop-filter]:bg-foreground/90">
-                <div className="w-full flex flex-col justify-center items-center">
-                    <div className="flex items-center gap-1">
+                <div className="w-full flex relative">
+                    <div className="flex items-center gap-2 text-white">
                         <Image
                             src="/zvuchi-cropped.png"
                             width={100}
                             height={38}
                             alt="logo"
                         />
-                        <p className="text-center text-sm text-white">
-                            © {new Date().getFullYear()}
+                        © {new Date().getFullYear()}
+                    </div>
+                    <div className="absolute right-0 top-0">
+                        <p className="text-sm text-white">
+                            <span className="font-bold mr-2">ИП</span>Казанцев
+                            Геннадий Викторович{' '}
+                        </p>
+                        <p className="text-sm text-white">
+                            <span className="font-bold mr-2">ОГРНИП</span>
+                            {OGRNIP}
+                            <span className="font-bold ml-2 mr-2">ИНН</span>
+                            {INN}
                         </p>
                     </div>
                 </div>

@@ -54,28 +54,6 @@ export const programs = [
         ],
         price: 'Стоимость – 21600 руб.',
     },
-    // {
-    //   icon: <StarIcon color='var(--brand)' fill='var(--brand)' className="h-8 w-8" />,
-    //   title: "Результативный",
-    //   description: "Позволяет составить план развития и подготовить репертуар",
-    //   features: [
-    //     "Количество занятий – 24 (полугодовой)",
-    //     "Длительность урока - 55 минут",
-    //     "Бесплатная заморозка – 21 день",
-    //   ],
-    //   price: "Стоимость – 63600 руб."
-    // },
-    // {
-    //   icon: <div className="flex gap-1">{[1, 2].map((id) => (<StarIcon key={id} color='var(--brand)' fill='var(--brand)' className="h-8 w-8" />))}</div>,
-    //   title: "Эффективный",
-    //   description: "Отточите свои навыки до совершенства!",
-    //   features: [
-    //     "Количество занятий – 36 (полугодовой)",
-    //     "Длительность урока - 55 минут",
-    //     "Бесплатная заморозка – 21 день",
-    //   ],
-    //   price: "Стоимость – 94700 руб."
-    // },
 ]
 
 export const instructors = [
@@ -94,6 +72,7 @@ export const instructors = [
             </>
         ),
         image: '/valeria/lera.png?height=300&width=300',
+        video: '/valeria/lera.MOV',
     },
     {
         name: 'Мария Биттер',
@@ -108,6 +87,7 @@ export const instructors = [
             </>
         ),
         image: '/maria/card.jpg?height=300&width=300',
+        video: '/maria/maria.MOV',
     },
     // {
     //   name: "Elena Rodriguez",
@@ -189,16 +169,16 @@ export const navigationList = [
         text: 'Абонементы',
         sectionId: '#subscriptions',
     },
-    // {
-    //   id: 4,
-    //   text: "Галерея",
-    //   sectionId: "#gallery",
-    // },
     {
-        id: 5,
-        text: 'Записаться',
-        sectionId: '#study',
+        id: 4,
+        text: 'Галерея',
+        sectionId: '#gallery',
     },
+    // {
+    //     id: 5,
+    //     text: 'Записаться',
+    //     sectionId: '#study',
+    // },
     {
         id: 6,
         text: 'Контакты',

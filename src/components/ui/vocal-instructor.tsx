@@ -7,10 +7,11 @@ import '../styles.css'
 
 interface VocalInstructor {
     instructor: {
+        bio: React.JSX.Element
         image: string
         name: string
         specialty: string
-        bio: React.JSX.Element
+        video: string
     }
 }
 export const VocalInstructor = ({ instructor }: VocalInstructor) => {
@@ -53,7 +54,7 @@ export const VocalInstructor = ({ instructor }: VocalInstructor) => {
                                 controls={isPlaying}
                                 onPause={() => setIsPlaying(false)}
                                 onPlay={() => setIsPlaying(true)}
-                                src="/valeria/lera.MOV"
+                                src={instructor.video}
                             />
                             <Dialog.Close asChild>
                                 <button

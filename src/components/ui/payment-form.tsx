@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Form } from 'radix-ui'
 import { Button } from '@radix-ui/themes'
 import { SubmitHandler, useForm } from 'react-hook-form'
@@ -15,9 +15,37 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 //     ttl: number
 // }
 
+// 'amount', 'purpose', 'client-name', 'email', 'items-name',
+
+// "Data": {
+//     "customerCode": {{customerCode}},
+//     "amount": "",
+//       "purpose": "",
+//       "paymentMode": [],
+//       "taxSystemCode": "usn_income",
+//       "Client": {
+//         "name": "",
+//           "email": "",
+//     },
+//     "Items": [
+//         {
+//             "name": "",
+//             "amount": "",
+//             "quantity": 1,
+//             "paymentObject": "service",
+//         }
+//     ],
+//       "preAuthorization": false,
+//       "ttl": 60
+// }
+
 type Inputs = {
     amount: number
     purpose: string
+    Client: {
+        name: string
+        email: string
+    }
 }
 
 export default function PaymentForm() {
@@ -41,11 +69,20 @@ export default function PaymentForm() {
                 body: JSON.stringify({
                     Data: {
                         ...data,
-                        redirectUrl:
-                            process.env.NEXT_PUBLIC_TOCHKA_REDIRECT_URL,
+                        Items: [
+                            {
+                                name: data.purpose,
+                                amount: data.amount,
+                                quantity: 1,
+                                paymentObject: 'service',
+                            },
+                        ],
+                        // redirectUrl:
+                        //     process.env.NEXT_PUBLIC_TOCHKA_REDIRECT_URL,
                         preAuthorization: false,
                         paymentMode: ['sbp', 'card'],
-                        ttl: 10080,
+                        purpose: 'Перевод за оказанные услуги',
+                        ttl: 60,
                         customerCode:
                             process.env.NEXT_PUBLIC_TOCHKA_CUSTOMER_CODE,
                     },
@@ -68,17 +105,23 @@ export default function PaymentForm() {
         }
     }
 
-    // useEffect(() => {
-    //     ;(async () => {
-    //         await fetch('/api/operation-list', {
-    //             method: 'GET',
-    //             headers: {
-    //                 'Content-Type': 'application/json',
-    //                 Authorization: `Bearer ${process.env.TOCHKA_API_KEY}`,
-    //             },
-    //         })
-    //     })()
-    // }, [])
+    useEffect(() => {
+    
+        (async () => {
+            const accessStatusResponse = await fetch(
+                '/api/access-token-status',
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        // Сделать мидл вару для авторизации
+                        Authorization: `Bearer ${process.env.TOCHKA_API_KEY}`,
+                    },
+                }
+            )
+            console.log('RESP ', await accessStatusResponse.json())
+        })()
+    }, [])
 
     return (
         <Form.Root
@@ -90,7 +133,7 @@ export default function PaymentForm() {
                 <Form.Control asChild>
                     <input
                         className="Input"
-                        defaultValue={1000}
+                        placeholder={'11600'}
                         {...register('amount', { required: true })}
                     />
                 </Form.Control>
@@ -105,11 +148,44 @@ export default function PaymentForm() {
                     <input
                         className="Input"
                         defaultValue=""
+                        placeholder="Оплата за абонемент на 4 занятия"
                         {...register('purpose', { required: true })}
                     />
                 </Form.Control>
                 <div className="h-4 text-red-600">
                     {errors.purpose && 'Обязательное поле'}
+                </div>
+            </Form.Field>
+
+            <Form.Field name="client-name">
+                <Form.Label>Ваше ФИО</Form.Label>
+                <Form.Control asChild>
+                    <input
+                        className="Input"
+                        defaultValue=""
+                        {...register('Client.name', { required: true })}
+                    />
+                </Form.Control>
+                <div className="h-4 text-red-600">
+                    {errors.Client?.name && 'Обязательное поле'}
+                </div>
+            </Form.Field>
+
+            <Form.Field name="client-email">
+                <Form.Label>Ваша почта</Form.Label>
+                <Form.Control asChild>
+                    <input
+                        className="Input"
+                        defaultValue=""
+                        {...register('Client.email', {
+                            required: true,
+                            pattern:
+                                /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                        })}
+                    />
+                </Form.Control>
+                <div className="h-4 text-red-600">
+                    {errors.Client?.email && 'Обязательное поле'}
                 </div>
             </Form.Field>
 

@@ -17,8 +17,8 @@
   --color-foreground: var(--foreground);
   --color-brand: var(--brand);
   --color-brand-secondary: var(--brand-secondary);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /*--font-sans: var(--font-geist-sans);*/
+  /*--font-mono: var(--font-geist-mono);*/
   --font-manrope: var(--font-manrope);
 }
 
@@ -55,7 +55,7 @@ body {
 
 .main-bg {
   height: 100vh;
-  background-image: url("/main-image.jpg");
+  background-image: url("./main-image.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

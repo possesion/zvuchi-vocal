@@ -3,8 +3,7 @@
 import Link from 'next/link'
 import { navigationList } from '@/app/constants'
 import { PlatformDialog } from '@/components/ui/platform-dialog'
-import { Dialog } from 'radix-ui'
-import PaymentForm from '@/components/ui/payment-form'
+// import PaymentForm from '@/components/ui/payment-form'
 
 export const NavMenu = () => {
     return (
@@ -18,7 +17,7 @@ export const NavMenu = () => {
                     {text}
                 </Link>
             ))}
-            <PlatformDialog
+            {/* <PlatformDialog className='w-[340px] max-h-[90vh]  md:w-[500px]'
                 trigger={
                     <button className="cursor-pointer font-bold text-white hover:text-brand dark:hover:text-red-400 transition-colors duration-200 relative group">
                         Оплата
@@ -31,7 +30,20 @@ export const NavMenu = () => {
                     </Dialog.Title>
                     <PaymentForm />
                 </div>
+            </PlatformDialog> */}
+            
+            <PlatformDialog className='w-[440px] md:w-[500px] lg:w-[800px]'
+                trigger={
+                    <button className="cursor-pointer font-bold text-white hover:text-brand dark:hover:text-red-400 transition-colors duration-200 relative group">
+                         Оферта
+                    </button>
+                }
+            >   
+                <div className="h-full w-full">
+                    <iframe  className="h-[90dvh] w-full" src="https://docs.google.com/document/d/e/2PACX-1vSN4ggXtQlHcBsorG2yAkSHmbykhmv89sABuuwBJVDZXusPuYJoA0iW1CDiQtEKAmgGEUcmly7MUkeG/pub?embedded=true"></iframe>
+                </div>
             </PlatformDialog>
         </nav>
     )
 }
+ 
