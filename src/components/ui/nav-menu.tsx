@@ -3,6 +3,8 @@
 import Link from 'next/link'
 import { navigationList } from '@/app/constants'
 import { PlatformDialog } from '@/components/ui/platform-dialog'
+import { Dialog, VisuallyHidden } from '@radix-ui/themes'
+
 // import PaymentForm from '@/components/ui/payment-form'
 
 export const NavMenu = () => {
@@ -39,6 +41,9 @@ export const NavMenu = () => {
                     </button>
                 }
             >   
+            <VisuallyHidden>
+                <Dialog.Title className="text-2xl font-bold mb-4"></Dialog.Title>
+            </VisuallyHidden>
                 <div className="h-full w-full">
                     <iframe  className="h-[90dvh] w-full" src="https://docs.google.com/document/d/e/2PACX-1vSN4ggXtQlHcBsorG2yAkSHmbykhmv89sABuuwBJVDZXusPuYJoA0iW1CDiQtEKAmgGEUcmly7MUkeG/pub?embedded=true"></iframe>
                 </div>
