@@ -72,7 +72,7 @@ export const Contacts = () => {
                     </div>
                 </div>
                 {/* Схема проезда */}
-                <div className="bg-background rounded-lg p-2 border border-brand m-auto w-[375px] h-[550px] space-y-3 md:w-[700px] lg:space-y-6 lg:w-[500px] xl:h-[650px] 2xl:w-[700px] col-span-2 md:col-span-1">
+                <div className="bg-background rounded-lg p-2 border border-brand m-auto w-[375px] h-[550px] space-y-3 md:w-[700px] lg:space-y-6 lg:w-[500px] xl:h-[650px] 2xl:w-[700px] col-span-2 lg:col-span-1">
                         <div className="bg-muted/50 rounded-lg">
                             <div
                                 style={{
@@ -114,7 +114,7 @@ export const Contacts = () => {
                         </div>
                 </div>
 
-                <div className="bg-background rounded-lg p-2 border border-brand m-auto w-[375px] h-[550px] overflow-auto relative md:w-[700px] lg:w-[500px] xl:h-[650px] 2xl:w-[700px] col-span-2 md:col-span-1">
+                <div className="bg-background rounded-lg p-2 border border-brand m-auto w-[375px] h-[550px] overflow-auto relative md:w-[700px] lg:w-[500px] xl:h-[650px] 2xl:w-[700px] col-span-2 lg:col-span-1">
                     <iframe
                         className="w-full h-full border-[#e6e6e6] box-border rounded-b-md"
                         src="https://yandex.ru/maps-reviews-widget/174002347974?comments"
