@@ -2,11 +2,11 @@ import { AwardIcon, Users2Icon, BookUser } from "lucide-react";
 
 export const FeatureList = () => {
   return (
-    <section className="py-16 bg-muted/50">
+    <section className="py-8 bg-muted/50 lg:py-16">
       <div className="flex justify-center">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-x-8">
+        <div className="flex flex-col gap-6 overflow-auto md:flex-row sm:gap-2 lg:gap-4">
           {/* bg-background brightness-97  */}
-          <div className="bg-secondaryz w-[380px] flex flex-col items-center text-center p-6 rounded-lg shadow-sm">
+          <div className="bg-secondaryz w-full flex flex-col items-center text-center p-6 rounded-lg shadow-sm sm:w-[380px]">
             <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
               <BookUser color="var(--brand)" className="h-8 w-8" />
             </div>
@@ -16,7 +16,7 @@ export const FeatureList = () => {
               и создать узнаваемый стиль
             </p>
           </div>
-          <div className=" w-[380px] flex flex-col items-center text-center p-6 bg-secondaryz rounded-lg shadow-sm">
+          <div className="w-full sm:w-[380px] flex flex-col items-center text-center p-6 bg-secondaryz rounded-lg shadow-sm">
             <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
               <AwardIcon color="var(--brand)" className="h-8 w-8" />
             </div>
@@ -27,7 +27,7 @@ export const FeatureList = () => {
               выступлений и преподавания.
             </p>
           </div>
-          <div className=" w-[380px] flex flex-col items-center text-center p-6 bg-secondaryz rounded-lg shadow-sm">
+          <div className="w-full sm:w-[380px] flex flex-col items-center text-center p-6 bg-secondaryz rounded-lg shadow-sm">
             <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
               <Users2Icon color="var(--brand)" className="h-8 w-8" />
             </div>

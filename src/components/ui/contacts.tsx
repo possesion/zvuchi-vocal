@@ -4,9 +4,10 @@ import { MapPin, Phone, Mail } from 'lucide-react'
 import { ORGANIZATION_EMAIL } from '@/components/constants'
 
 export const Contacts = () => {
+
     return (
-        <section id="contacts" className="py-12 md:py-16 bg-muted/30">
-            <div className="flex flex-col items-center text-center mb-8 md:mb-12">
+        <section id="contacts" className="py-8 lg:py-12 bg-muted/30">
+            <div className="flex flex-col items-center text-center mb-4 md:mb-8">
                 <h2 className="text-2xl md:text-3xl font-bold tracking-tight mb-4">
                     Контакты
                 </h2>
@@ -14,8 +15,8 @@ export const Contacts = () => {
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12">
                 {/* Контактная информация */}
-                <div className="flex justify-center col-span-1 gap-x-8 md:col-span-2">
-                    <div className="flex flex-col items-center">
+                <div className="flex flex-col justify-center items-center col-span-2 gap-x-8 sm:flex-row xl:col-span-2">
+                    <div className="w-60 flex flex-col items-center">
                         <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
                             <MapPin
                                 color="var(--brand)"
@@ -30,7 +31,7 @@ export const Contacts = () => {
                         </p>
                     </div>
 
-                    <div className="flex flex-col items-center">
+                    <div className="w-60 flex flex-col items-center">
                         <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
                             <Phone
                                 color="var(--brand)"
@@ -55,7 +56,7 @@ export const Contacts = () => {
                         </p>
                     </div>
 
-                    <div className="flex flex-col items-center">
+                    <div className="w-60 flex flex-col items-center">
                         <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
                             <Mail
                                 color="var(--brand)"
@@ -66,15 +67,13 @@ export const Contacts = () => {
                             Электронная&nbsp;почта
                         </h3>
                         <p className="text-muted-foreground">
-                            {/* добавить кнопку копипасты */}
                             {ORGANIZATION_EMAIL}
                         </p>
                     </div>
                 </div>
                 {/* Схема проезда */}
-                <div className="m-auto w-[600px] h-[650px] space-y-6">
-                    <div className="bg-background rounded-lg p-2 border border-brand">
-                        <div className="bg-muted/50 rounded-lg p-4">
+                <div className="bg-background rounded-lg p-2 border border-brand m-auto w-[375px] h-[550px] space-y-3 md:w-[700px] lg:space-y-6 lg:w-[500px] xl:h-[650px] 2xl:w-[700px] col-span-2 md:col-span-1">
+                        <div className="bg-muted/50 rounded-lg">
                             <div
                                 style={{
                                     position: 'relative',
@@ -106,17 +105,16 @@ export const Contacts = () => {
                                 <iframe
                                     src="https://yandex.ru/map-widget/v1/?ll=37.568838%2C55.785762&mode=search&oid=174002347974&ol=biz&z=17.13"
                                     width="100%"
-                                    height="620px"
+                                    className='h-[530px] xl:h-[630px]'
                                     allowFullScreen
                                     style={{ position: 'relative' }}
                                     title="Yandex Map of Звучи!"
                                 ></iframe>
                             </div>
                         </div>
-                    </div>
                 </div>
 
-                <div className="m-auto w-[600px] h-[650px] overflow-auto relative">
+                <div className="bg-background rounded-lg p-2 border border-brand m-auto w-[375px] h-[550px] overflow-auto relative md:w-[700px] lg:w-[500px] xl:h-[650px] 2xl:w-[700px] col-span-2 md:col-span-1">
                     <iframe
                         className="w-full h-full border-[#e6e6e6] box-border rounded-b-md"
                         src="https://yandex.ru/maps-reviews-widget/174002347974?comments"

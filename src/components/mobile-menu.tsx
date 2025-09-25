@@ -13,9 +13,7 @@ import {
     SheetTrigger,
 } from '@/components/ui/sheet-enhanced'
 import { MenuIcon } from 'lucide-react'
-import { Dialog } from 'radix-ui'
-import PaymentForm from '@/components/ui/payment-form'
-import { PlatformDialog } from '@/components/ui/platform-dialog'
+import { Offera } from './ui/offera'
 
 export default function MobileMenu() {
     const [open, setOpen] = useState(false)
@@ -82,7 +80,14 @@ export default function MobileMenu() {
                         >
                             Контакты
                         </Link>
-                        <PlatformDialog
+                        <Offera>
+                        <div
+                            className="flex items-center py-2 text-base font-medium border-b border-border"
+                        >
+                            Оферта
+                        </div>
+                        </Offera>
+                        {/* <PlatformDialog
                             trigger={
                                 <button className="flex items-center py-2 text-base font-medium border-b border-border">
                                     Оплата
@@ -95,7 +100,7 @@ export default function MobileMenu() {
                                 </Dialog.Title>
                                 <PaymentForm />
                             </div>
-                        </PlatformDialog>
+                        </PlatformDialog> */}
                     </nav>
                 </SheetContent>
             </Sheet>

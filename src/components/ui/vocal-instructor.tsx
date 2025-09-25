@@ -50,7 +50,7 @@ export const VocalInstructor = ({ instructor }: VocalInstructor) => {
                             <video
                                 ref={videoRef}
                                 autoPlay
-                                className="h[1800px]"
+                                className="h-full"
                                 controls={isPlaying}
                                 onPause={() => setIsPlaying(false)}
                                 onPlay={() => setIsPlaying(true)}

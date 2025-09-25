@@ -18,7 +18,7 @@ export const PlatformDialog: FC<PlatformDialogProps> = ({
             <Dialog.Portal>
                 <Dialog.Overlay className="fixed inset-0 bg-black/80 z-50" />
                 <Dialog.Content
-                    aria-describedby="контент модального окна"
+                    aria-describedby={undefined}
                     className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 outline-none"
                 >
                     <div
@@ -27,7 +27,7 @@ export const PlatformDialog: FC<PlatformDialogProps> = ({
                         {children}
                         <Dialog.Close asChild>
                             <button
-                                className="absolute top-4 right-4 bg-gray-100 text-gray-600 p-2 rounded-full hover:bg-gray-200 transition-colors"
+                                className="z-[100] absolute top-4 right-7 bg-gray-100 text-gray-600 p-2 rounded-full hover:bg-gray-200 transition-colors md:right-4"
                                 aria-label="Close"
                             >
                                 <svg

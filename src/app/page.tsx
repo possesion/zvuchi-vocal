@@ -31,9 +31,9 @@ export default function Home() {
                     {/* Instructors Section */}
                     <section
                         id="instructors"
-                        className="py-12 md:py-16 bg-muted/50"
+                        className="py-10 md:py-16 bg-muted/50"
                     >
-                        <div className="flex flex-col items-center text-center mb-8 md:mb-12">
+                        <div className="flex flex-col items-center text-center mb-4 md:mb-8">
                             <h2 className="text-2xl md:text-3xl font-bold tracking-tight mb-4">
                                 Наши педагоги
                             </h2>
@@ -50,8 +50,8 @@ export default function Home() {
                         </div>
                     </section>
                     {/* Programs Section */}
-                    <section id="subscriptions" className="py-12 md:py-16">
-                        <div className="flex flex-col items-center text-center mb-8 md:mb-12">
+                    <section id="subscriptions" className="py-10 lg:py-16">
+                        <div className="flex flex-col items-center text-center mb-4 md:mb-8">
                             <h2 className="text-2xl md:text-3xl font-bold tracking-tight mb-4">
                                 Наши абонементы
                             </h2>
@@ -66,8 +66,8 @@ export default function Home() {
 
                     <EnrollmentSection />
                     {/* Testimonials Section */}
-                    {/* <section id="testimonials" className="py-12 md:py-16">
-              <div className="flex flex-col items-center text-center mb-8 md:mb-12">
+                    {/* <section id="testimonials" className="py-10 lg:py-16">
+              <div className="flex flex-col items-center text-center mb-4 md:mb-8">
                 <h2 className="text-2xl md:text-3xl font-bold tracking-tight mb-4">Истории успеха</h2>
                 <p className="text-muted-foreground max-w-2xl">
                 Реальные истории студентов: впечатляющие изменения после обучения у нас
@@ -114,8 +114,8 @@ export default function Home() {
                         <Contacts />
                     </section>
                     {/* Social Networks Section */}
-                    <section className="py-12 md:py-16">
-                        <div className="flex flex-col items-center text-center mb-8 md:mb-12">
+                    <section className="py-10 lg:py-16">
+                        <div className="flex flex-col items-center text-center mb-4 md:mb-8">
                             <h2 className="text-2xl md:text-3xl font-bold tracking-tight mb-4">
                                 Наши социальные сети
                             </h2>
@@ -192,8 +192,8 @@ export default function Home() {
                 </div>
             </main>
             <footer className="border-t py-2 md:py-4 bg-foreground supports-[backdrop-filter]:bg-foreground/90">
-                <div className="w-full flex relative">
-                    <div className="flex items-center gap-2 text-white">
+                <div className="relative w-full pl-4 flex flex-col lg:flex-row">
+                    <div className="flex items-center justify-center gap-2 text-white">
                         <Image
                             src="/zvuchi-cropped.png"
                             width={100}
@@ -202,15 +202,16 @@ export default function Home() {
                         />
                         © {new Date().getFullYear()}
                     </div>
-                    <div className="absolute right-0 top-0">
+                    <div className="flex flex-col gap-2 m-auto lg:flex-row"> 
+                        {/* // lg:absolute */}
                         <p className="text-sm text-white">
                             <span className="font-bold mr-2">ИП</span>Казанцев
                             Геннадий Викторович{' '}
                         </p>
-                        <p className="text-sm text-white">
+                        <p className="flex text-sm text-white">
                             <span className="font-bold mr-2">ОГРНИП</span>
                             {OGRNIP}
-                            <span className="font-bold ml-2 mr-2">ИНН</span>
+                            <span className="font-bold mx-2">ИНН</span>
                             {INN}
                         </p>
                     </div>

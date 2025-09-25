@@ -8,7 +8,7 @@ export function EnrollmentSection({ main = false }) {
 
     return (
         <>
-            <section id="study" className="py-12 md:py-16 bg-muted/50">
+            <section id="study" className="py-10 lg:py-16 bg-muted/50">
                 {main ? (
                     <button
                         onClick={() => setIsModalOpen(true)}

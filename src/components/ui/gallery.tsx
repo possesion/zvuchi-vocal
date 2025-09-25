@@ -90,7 +90,7 @@ export const Gallery = () => {
                                 {/* Кнопка закрытия */}
                                 <Dialog.Close asChild>
                                     <button
-                                        className="absolute top-4 right-4 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition-colors"
+                                        className="absolute top-2 right-4 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition-colors"
                                         aria-label="Close"
                                     >
                                         <svg
