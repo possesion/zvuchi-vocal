@@ -71,9 +71,9 @@ export const instructors = [
             </>
         ),
         image: '/valeria/lera.png?height=300&width=300',
-        video: '/valeria/lera.MOV',
+        video: '/valeria/lera.mp4',
     },
-    {   
+    {
         name: 'Мария Биттер',
         specialty: 'Джаз, эстрадный вокал',
         bio: (
@@ -86,7 +86,7 @@ export const instructors = [
             </>
         ),
         image: '/maria/card.jpg?height=300&width=300',
-        video: '/maria/maria.MOV',
+        video: '/maria/maria.mp4',
     },
     // {
     //   name: "Elena Rodriguez",

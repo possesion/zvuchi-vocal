@@ -1,6 +1,5 @@
 'use client'
 
-// import ImageGallery from "react-image-gallery";
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { Dialog } from 'radix-ui'
@@ -12,6 +11,7 @@ export const Gallery = () => {
     // const [, setIsModalOpen] = useState(false)
     const [images, setImages] = useState<
         { alt: string; src: string; fileName: string }[]
+    // { original: string; thumbnail: string }[]
     >([])
 
     const [selectedIndex, setSelectedIndex] = useState(0)
@@ -40,7 +40,7 @@ export const Gallery = () => {
     // }
 
     useEffect(() => {
-        ;(async () => {
+        (async () => {
             try {
                 const response = await fetch('api/gallery')
                 const { images } = await response.json()
@@ -51,10 +51,11 @@ export const Gallery = () => {
         })()
     }, [])
     return (
+        // <ImageGallery items={images} showFullscreenButton={false} showThumbnails />
+
         <div
             id="gallery"
             className="flex overflow-x-auto whitespace-nowrap space-x-4 py-4 scrollbar-hide"
-            // className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
         >
             {images?.map((image, index) => (
                 <Dialog.Root key={image.fileName}>
@@ -64,7 +65,7 @@ export const Gallery = () => {
                             className="w-[250px] cursor-pointer relative aspect-square overflow-hidden rounded-lg hover:opacity-90 transition-opacity flex-shrink-0"
                         >
                             <Image
-                                src={image.src} // image?.thumbnail ||
+                                src={image.src}
                                 alt={image.alt}
                                 fill
                                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -76,18 +77,16 @@ export const Gallery = () => {
                     <Dialog.Portal>
                         <Dialog.Overlay className="fixed inset-0 bg-black/80 z-50" />
                         <Dialog.Content className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 outline-none">
-                            <div className="relative max-w-[90vw] max-h-[90vh]">
+                            <div className="relative min-w-[380px] max-w-[90vw] max-h-[90vh] md:min-w-[680px]">
                                 {/* Основное изображение */}
                                 <Image
                                     src={images[selectedIndex].src}
                                     alt={images[selectedIndex].alt}
                                     width={800}
                                     height={600}
-                                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                    sizes="100vw"
                                     className="max-w-full max-h-[80vh] object-contain"
                                 />
-
-                                {/* Кнопка закрытия */}
                                 <Dialog.Close asChild>
                                     <button
                                         className="absolute top-2 right-4 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition-colors"

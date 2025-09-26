@@ -9,3 +9,4 @@ export const TOCHKA_PAYMENT_URL_WITH_RECEIPT =
 export const OGRNIP = 325774600433742
 export const INN = 770600435102
 export const ORGANIZATION_EMAIL = 'info@zvuchi-vocal.ru'
+export const TG_CHAT_URL = 'https://t.me/vlrvally'

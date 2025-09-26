@@ -15,6 +15,8 @@ export async function GET() {
             alt: 'photo ' + file,
             src: `/gallery/${file}`,
             fileName: file,
+            // original: `/gallery/${file}`,
+            // thumbnail: `/gallery/${file}?height=100&width=100`
         }))
 
         return NextResponse.json({ images })
