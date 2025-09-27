@@ -202,7 +202,7 @@ export default function Home() {
                         />
                         © {new Date().getFullYear()}
                     </div>
-                    <div className="flex flex-col gap-2 m-auto lg:flex-row"> 
+                    <div className="pb-2 flex flex-col gap-2 m-auto lg:flex-row">
                         {/* // lg:absolute */}
                         <p className="text-sm text-white">
                             <span className="font-bold mr-2">ИП</span>Казанцев

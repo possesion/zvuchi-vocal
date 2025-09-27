@@ -27,7 +27,7 @@ export default function MobileMenu() {
             <Sheet open={open} onOpenChange={setOpen}>
                 <SheetTrigger asChild>
                     <Button variant="ghost" className="md:hidden">
-                        <MenuIcon className="h-6 w-6" />
+                        <MenuIcon color="var(--brand)" className="h-6 w-6" />
                         <span className="sr-only">Toggle menu</span>
                     </Button>
                 </SheetTrigger>
@@ -60,13 +60,6 @@ export default function MobileMenu() {
                             Преподаватели
                         </Link>
                         <Link
-                            href="#testimonials"
-                            className="flex items-center py-2 text-base font-medium border-b border-border"
-                            onClick={handleLinkClick}
-                        >
-                            Истории успеха
-                        </Link>
-                        <Link
                             href="#gallery"
                             className="flex items-center py-2 text-base font-medium border-b border-border"
                             onClick={handleLinkClick}
@@ -81,11 +74,11 @@ export default function MobileMenu() {
                             Контакты
                         </Link>
                         <Offera>
-                        <div
-                            className="flex items-center py-2 text-base font-medium border-b border-border"
-                        >
-                            Оферта
-                        </div>
+                            <div
+                                className="flex items-center py-2 text-base font-medium border-b border-border"
+                            >
+                                Оферта
+                            </div>
                         </Offera>
                         {/* <PlatformDialog
                             trigger={
