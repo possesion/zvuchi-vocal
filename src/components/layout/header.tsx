@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import MobileMenu from '@/components/mobile-menu'
-import { NavMenu } from '@/components/ui/nav-menu'
+import { NavMenu } from './nav-menu'
 
 export const Header = () => {
     return (

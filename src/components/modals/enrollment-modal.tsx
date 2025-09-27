@@ -2,7 +2,7 @@
 
 import { InvalidEvent, useState } from "react";
 import { X } from "lucide-react";
-import { Snackbar } from "./snackbar";
+import { Snackbar } from "../common/snackbar";
 
 interface EnrollmentModalProps {
   isOpen: boolean;

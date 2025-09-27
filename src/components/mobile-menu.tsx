@@ -11,9 +11,9 @@ import {
     SheetHeader,
     SheetTitle,
     SheetTrigger,
-} from '@/components/ui/sheet-enhanced'
+} from '@/components/modals/sheet-enhanced'
 import { MenuIcon } from 'lucide-react'
-import { Offera } from './ui/offera'
+import { Offera } from './common/offera'
 
 export default function MobileMenu() {
     const [open, setOpen] = useState(false)

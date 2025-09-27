@@ -1,13 +1,15 @@
+
+
 import Image from 'next/image'
 import { instructors } from './constants'
 import '@radix-ui/themes/styles.css'
-import { Programs } from '@/components/ui/programs'
-import { FeatureList } from '@/components/ui/feature-list'
-import { Header } from '@/components/ui/header'
-import { Contacts } from '@/components/ui/contacts'
-import { Gallery } from '@/components/ui/gallery'
-import { EnrollmentSection } from '@/components/ui/enrollment-section'
-import { VocalInstructor } from '@/components/ui/vocal-instructor'
+import { Programs } from '@/components/sections/programs'
+import { FeatureList } from '@/components/sections/feature-list'
+import { Header } from '@/components/layout/header'
+import { Contacts } from '@/components/sections/contacts'
+import { Gallery } from '@/components/sections/gallery'
+import { EnrollmentSection } from '@/components/sections/enrollment-section'
+import { VocalInstructor } from '@/components/sections/vocal-instructor'
 import { INN, OGRNIP } from '@/components/constants'
 
 export default function Home() {
@@ -133,7 +135,7 @@ export default function Home() {
                                 <Image
                                     width={40}
                                     height={40}
-                                    src="socials/instagram.svg"
+                                    src="/socials/instagram.svg"
                                     alt="instagram"
                                 />
                                 <span className="text-sm font-medium text-muted-foreground group-hover:text-primary transition-colors">
@@ -149,7 +151,7 @@ export default function Home() {
                                 <Image
                                     width={40}
                                     height={40}
-                                    src="socials/telegram.svg"
+                                    src="/socials/telegram.svg"
                                     alt="tg"
                                 />
                                 <span className="text-sm font-medium text-muted-foreground group-hover:text-primary transition-colors">
@@ -165,7 +167,7 @@ export default function Home() {
                                 <Image
                                     width={42}
                                     height={42}
-                                    src="socials/vk.svg"
+                                    src="/socials/vk.svg"
                                     alt="vk"
                                 />
                                 <span className="text-sm font-medium text-muted-foreground group-hover:text-primary transition-colors">
@@ -180,7 +182,7 @@ export default function Home() {
                                 <Image
                                     width={42}
                                     height={42}
-                                    src="socials/tiktok.svg"
+                                    src="/socials/tiktok.svg"
                                     alt="vk"
                                 />
                                 <span className="text-sm font-medium text-muted-foreground group-hover:text-primary transition-colors">

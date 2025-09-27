@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { navigationList } from '@/app/constants'
-import { Offera } from './offera'
+import { Offera } from '../common/offera'
 
 // import PaymentForm from '@/components/ui/payment-form'
 
@@ -33,11 +33,10 @@ export const NavMenu = () => {
                 </div>
             </PlatformDialog> */}
             <Offera>
-            <button className="cursor-pointer font-bold text-white hover:text-brand dark:hover:text-red-400 transition-colors duration-200 relative group">
-                         Оферта
-                    </button>
+                <button className="cursor-pointer font-bold text-white hover:text-brand dark:hover:text-red-400 transition-colors duration-200 relative group">
+                    Оферта
+                </button>
             </Offera>
         </nav>
     )
 }
- 

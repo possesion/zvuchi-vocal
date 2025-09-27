@@ -38,7 +38,7 @@ export const VocalInstructor = ({ instructor }: VocalInstructor) => {
             >
                 <Dialog.Root modal>
                     <Dialog.Trigger asChild>
-                        <>
+                        <div>
                             <Image
                                 src={instructor.image || '/placeholder.svg'}
                                 alt={instructor.name}
@@ -46,7 +46,7 @@ export const VocalInstructor = ({ instructor }: VocalInstructor) => {
                                 className="cursor-pointer object-cover transition-transform group-hover:scale-105"
                             />
                             <PlayIcon className="h-4 w-4" />
-                        </>
+                        </div>
                     </Dialog.Trigger>
                     <Dialog.Portal>
                         <Dialog.Overlay className="DialogOverlay" />
