@@ -1,6 +1,6 @@
 'use client'
 import { Dialog } from 'radix-ui'
-import { PlayIcon, X } from 'lucide-react'
+import { CirclePlay, X } from 'lucide-react'
 import Image from 'next/image'
 import React, { useRef, useState } from 'react'
 
@@ -34,53 +34,50 @@ export const VocalInstructor = ({ instructor }: VocalInstructor) => {
         <div className="group flex flex-col items-center text-center">
             <div
                 onClick={togglePlay}
-                className="relative h-36 w-36 sm:h-48 sm:w-48 overflow-hidden rounded-full"
+                className="relative h-36 w-36 sm:h-48 sm:w-48"
             >
                 <Dialog.Root modal>
-                    <Dialog.Trigger asChild>
-                        <div>
-                            <Image
-                                src={instructor.image || '/placeholder.svg'}
-                                alt={instructor.name}
-                                fill
-                                className="cursor-pointer object-cover transition-transform group-hover:scale-105"
-                            />
-                            <PlayIcon className="h-4 w-4" />
-                        </div>
+                    <Dialog.Trigger>
+                        <Image
+                            src={instructor.image || '/placeholder.svg'}
+                            alt={instructor.name}
+                            fill
+                            className="cursor-pointer object-cover transition-transform group-hover:scale-105 group overflow-hidden rounded-full"
+                        />
+                        <CirclePlay
+                            fill="var(--brand)"
+                            color='white'
+                            strokeWidth={0.5}
+                            className="cursor-pointer opacity-30 h-16 w-16 absolute top-0 right-0 group-hover:opacity-100"
+                        />
                     </Dialog.Trigger>
                     <Dialog.Portal>
                         <Dialog.Overlay className="DialogOverlay" />
-                        <Dialog.Content className="z-50 DialogContent">
-                            <video
-                                ref={videoRef}
-                                autoPlay
-                                className="h-full z-60"
-                                controls={isPlaying}
-                                onPause={() => setIsPlaying(false)}
-                                onPlay={() => setIsPlaying(true)}
-                                src={instructor.video}
-                            />
-                            <Dialog.Close asChild>
-                                <button
-                                    className="IconButton z-60"
-                                    aria-label="Close"
-                                >
-                                    <X className="h-4 w-4" />
-                                </button>
-                            </Dialog.Close>
+                        <Dialog.Content asChild>
+                            {/* className=" DialogContent" */}
+                            <div className='DialogContent'>
+                                <video
+                                    ref={videoRef}
+                                    autoPlay
+                                    className="x" // DialogContent
+                                    controls={isPlaying}
+                                    onPause={() => setIsPlaying(false)}
+                                    onPlay={() => setIsPlaying(true)}
+                                    src={instructor.video}
+                                />
+                                <Dialog.Close>
+                                    <button
+                                        className="IconButton"
+                                        aria-label="Close"
+                                    >
+                                        <X className="h-4 w-4" />
+                                    </button>
+                                </Dialog.Close>
+                            </div>
                         </Dialog.Content>
                     </Dialog.Portal>
                 </Dialog.Root>
             </div>
-            {/* <video
-                ref={videoRef}
-                autoPlay
-                className="h-full"
-                controls={isPlaying}
-                onPause={() => setIsPlaying(false)}
-                onPlay={() => setIsPlaying(true)}
-                src={instructor.video}
-            /> */}
             <h3 className="text-lg md:text-xl font-bold">{instructor.name}</h3>
             <p className="text-primary mb-2">{instructor.specialty}</p>
             <ul className="w-[350px] text-left text-sm text-muted-foreground">

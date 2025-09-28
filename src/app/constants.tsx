@@ -61,14 +61,14 @@ export const instructors = [
         name: 'Валерия Ковшова',
         specialty: 'Джаз, эстрадный вокал, экстрим вокал',
         bio: (
-            <>
+            <div className='font-semibold'>
                 <li><span className='mr-2'>🎓</span>Образование: МГКИ (эстрадно-джазовый вокал)</li>
                 <li><span className='mr-2'>⭐</span>Повышала квалификацию на курсах Estill Voice Training и у
                     Дарьи Манаковой
                 </li>
                 <li><span className='mr-2'>🎤</span>Солистка джаз-банда Extra Time Jazz Band</li>
                 <li><span className='mr-2'>📚</span>Опыт преподавания: 6 лет</li>
-            </>
+            </div>
         ),
         image: '/valeria/lera.png?height=300&width=300',
         video: '/valeria/lera.mp4',
@@ -77,13 +77,13 @@ export const instructors = [
         name: 'Мария Биттер',
         specialty: 'Джаз, эстрадный вокал',
         bio: (
-            <>
+            <div className='font-semibold'>
                 <li><span className='mr-2'>🎓</span>Высшее муз. образование (МПГУ)</li>
                 <li><span className='mr-2'>⭐</span>Курсы Estill Voice</li>
                 <li><span className='mr-2'>⭐</span>Мастер-классы у Дарьи Манаковой и Ольги Кляйн</li>
                 <li><span className='mr-2'>🎙️</span>Организую концерты для учеников!</li>
                 <li><span className='mr-2'>📚</span>Опыт преподавания: 10 лет</li>
-            </>
+            </div>
         ),
         image: '/maria/card.jpg?height=300&width=300',
         video: '/maria/maria.mp4',

@@ -17,7 +17,8 @@ export function EnrollmentSection({ main = false }) {
                         className="block m-auto cursor-pointer relative overflow-hidden group px-4 py-2 bg-[#ab1515] text-white font-bold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
                     >
                         <span className="relative z-10">
-                            Запишись на<br />бесплатное пробное
+                            Запишись на
+                            Бесплатное<br />пробное занятие
                             <img
                                 width={20}
                                 height={20}

@@ -59,7 +59,9 @@ body {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  /* h-screen object-cover brightness-[0.4] */
+  opacity: 150%;
+  /* backdrop-filter: brightness(90%); */
+  /* filter: brightness(.4); */
 }
 
 @media (min-width: 1024px) {

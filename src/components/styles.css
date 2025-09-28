@@ -11,20 +11,34 @@
 }
 
 .DialogContent {
-  background-color: var(--gray-1);
+  /* background-color: var(--gray-1);
   border-radius: 6px;
-  box-shadow: var(--shadow-6);
+  box-shadow: var(--shadow-6); */
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 90vw;
+  /* width: 90vw; */
   /*max-width: 500px;*/
+  /* max-width: 90vw; */
+  /* max-height: 85vh; */
+  /* padding: 4px;
+  animation: contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1); */
+}
+
+.x {
+  background-color: var(--gray-1);
+  border-radius: 6px;
+  box-shadow: var(--shadow-6);
+
+  width: 90vw;
+  /* /*max-width: 500px; */
   max-width: 90vw;
   max-height: 85vh;
   padding: 4px;
   animation: contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
 }
+
 .DialogContent:focus {
   outline: none;
 }
@@ -55,26 +69,32 @@
   height: 35px;
   user-select: none;
 }
+
 .Button:focus:not(:focus-visible) {
   outline: 0;
 }
+
 .Button:focus-visible {
   outline: 2px solid var(--violet-6);
   outline-offset: 1px;
 }
+
 .Button.violet {
   background-color: var(--violet-4);
   color: var(--violet-12);
   outline-color: var(--violet-6);
 }
+
 .Button.violet:hover {
   background-color: var(--mauve-3);
 }
+
 .Button.green {
   background-color: var(--green-4);
   color: var(--green-11);
   outline-color: var(--green-7);
 }
+
 .Button.green:hover {
   background-color: var(--green-5);
 }
@@ -94,9 +114,11 @@
   right: 10px;
   background-color: var(--gray-3);
 }
+
 .IconButton:hover {
   background-color: var(--violet-4);
 }
+
 .IconButton:focus {
   box-shadow: 0 0 0 2px var(--violet-7);
 }
@@ -129,6 +151,7 @@
   box-shadow: 0 0 0 1px var(--violet-7);
   height: 35px;
 }
+
 .Input:focus {
   box-shadow: 0 0 0 2px var(--violet-8);
 }
@@ -137,6 +160,7 @@
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -147,6 +171,7 @@
     opacity: 0;
     transform: translate(-50%, -48%) scale(0.96);
   }
+
   to {
     opacity: 1;
     transform: translate(-50%, -50%) scale(1);
