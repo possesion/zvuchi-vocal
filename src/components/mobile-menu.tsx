@@ -27,7 +27,7 @@ export default function MobileMenu() {
             <Sheet open={open} onOpenChange={setOpen}>
                 <SheetTrigger asChild>
                     <Button variant="ghost" className="md:hidden">
-                        <MenuIcon color="var(--brand)" className="h-6 w-6" />
+                        <MenuIcon color="var(--background)" className="h-6 w-6" />
                         <span className="sr-only">Toggle menu</span>
                     </Button>
                 </SheetTrigger>

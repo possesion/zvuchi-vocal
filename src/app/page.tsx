@@ -17,17 +17,16 @@ export default function Home() {
         <div className="flex min-h-screen flex-col font-manrope">
             <main className="flex-1 primary-bg">
                 <Header />
-                <section className="">
-                    <div className="flex z-10">
-                        {/* py-16 md:py-24 lg:py-32 */}
-                        <Image src='/valeria/transparent-lera.png' width={400} height={800} alt={'photo'} />
+                <section className="flex h-screen">
+                    <div className="relative flex w-full z-10 justify-center">
+                        <Image src='/valeria/transparent-lera.png' className='absolute bottom-0 left-0 object-cover drop-shadow-xl' width={450} height={800} alt={'photo'} />
 
-                        <div className="flex flex-col gap-y-6 justify-center xl:gap-y-9">
-                            <h1 className="mx-3 mb-4 text-white text-center text-4xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl lg:mb-8">
-                                ПУСТЬ УСЛЫШАТ<br />
-                                <span className="text-primary">ТЕБЯ!</span>
+                        <div className="z-30 p-8 flex flex-col gap-y-6 lg:justify-center xl:gap-y-9">
+                            <h1 className="mx-3 mb-4 text-white text-4xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl lg:mb-8">
+                                Пусть тебя<br />
+                                <span className="text-primary">УСЛЫШАТ!</span>
                             </h1>
-                            <div className='text-xl font-semibold text-white text-center lg:text-2xl xl:mt-4'>Хочешь записать кавер на любимую группу или выступать на сцене?</div>
+                            <div className='text-xl font-semibold text-white text-center lg:text-2xl xl:mt-4'>От мечты — к сцене</div>
                             <EnrollmentSection main />
                         </div>
                     </div>
@@ -38,7 +37,7 @@ export default function Home() {
                     {/* Instructors Section */}
                     <section
                         id="instructors"
-                        className="py-10 md:py-16 bg-muted/50 text-white"
+                        className="py-10 md:py-16 text-white"
                     >
                         <div className="flex flex-col items-center text-center mb-4 md:mb-8">
                             <h2 className="text-2xl md:text-3xl font-bold tracking-tight mb-4">
@@ -79,7 +78,7 @@ export default function Home() {
                     <Contacts />
                 </section>
                 {/* Social Networks Section */}
-                <section className="py-10 text-white lg:py-16">
+                <section className="px-2 py-10 text-white lg:py-16">
                     <div className="flex flex-col items-center text-center mb-4 md:mb-8">
                         <h2 className="text-2xl md:text-3xl font-bold tracking-tight mb-4">
                             Наши социальные сети

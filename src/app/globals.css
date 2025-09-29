@@ -59,7 +59,7 @@ body {
 }
 
 .main-bg {
-  height: 100vh;
+  /* height: 100vh; */
   background-image: url("./main-image.jpg");
   background-size: cover;
   background-position: center;

@@ -1,18 +1,24 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { TouchEvent, useEffect, useState } from 'react'
 import Image from 'next/image'
 import { Dialog } from 'radix-ui'
 import 'react-image-gallery/styles/css/image-gallery.css'
-// import { X, ChevronLeft, ChevronRight } from 'lucide-react'
 
 export const Gallery = () => {
-    // const [, setSelectedImage] = useState<number | null>(null)
-    // const [, setIsModalOpen] = useState(false)
     const [images, setImages] = useState<
         { alt: string; src: string; fileName: string }[]
-    // { original: string; thumbnail: string }[]
     >([])
+    const [touchStart, setTouchStart] = useState(0);
+    const [touchEnd, setTouchEnd] = useState(0);
+
+    function handleTouchStart(e: TouchEvent<HTMLElement>) {
+        setTouchStart(e.targetTouches[0].clientX);
+    }
+
+    function handleTouchMove(e: TouchEvent<HTMLElement>) {
+        setTouchEnd(e.targetTouches[0].clientX);
+    }
 
     const [selectedIndex, setSelectedIndex] = useState(0)
 
@@ -28,16 +34,16 @@ export const Gallery = () => {
         setSelectedIndex((prev) => (prev - 1 + images.length) % images.length)
     }
 
-    // const openModal = (index: number) => {
-    //     console.log('Opening modal for image:', index)
-    //     setSelectedImage(index)
-    //     setIsModalOpen(true)
-    // }
-    //
-    // const closeModal = () => {
-    //     setIsModalOpen(false)
-    //     setSelectedImage(null)
-    // }
+    function handleTouchEnd() {
+        if (touchStart - touchEnd > 150) {
+            nextImage();
+        }
+
+        if (touchStart - touchEnd < -150) {
+            prevImage();
+        }
+    }
+
 
     useEffect(() => {
         (async () => {
@@ -51,11 +57,10 @@ export const Gallery = () => {
         })()
     }, [])
     return (
-        // <ImageGallery items={images} showFullscreenButton={false} showThumbnails />
 
         <div
             id="gallery"
-            className="flex overflow-x-auto whitespace-nowrap space-x-4 py-4 scrollbar-hide"
+            className="flex overflow-x-auto whitespace-nowrap space-x-4 px-2 py-4 scrollbar-hide"
         >
             {images?.map((image, index) => (
                 <Dialog.Root key={image.fileName}>
@@ -82,6 +87,9 @@ export const Gallery = () => {
                                 <Image
                                     src={images[selectedIndex].src}
                                     alt={images[selectedIndex].alt}
+                                    onTouchStart={touchStartEvent => handleTouchStart(touchStartEvent)}
+                                    onTouchMove={touchMoveEvent => handleTouchMove(touchMoveEvent)}
+                                    onTouchEnd={handleTouchEnd}
                                     width={800}
                                     height={600}
                                     sizes="100vw"
