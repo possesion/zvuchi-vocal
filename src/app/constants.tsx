@@ -2,7 +2,7 @@ import { StarIcon } from 'lucide-react'
 
 export const programs = [
     {
-        icon: <StarIcon color="var(--brand)" className="h-8 w-8" />,
+        icon: <StarIcon color="orange" fill='yellow' className="h-8 w-8" />,
         title: 'Базовый',
         description: 'Идеально для тех, кто только начинает свой путь в вокале',
         features: [

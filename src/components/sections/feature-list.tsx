@@ -6,7 +6,7 @@ export const FeatureList = () => {
       <div className="flex justify-center">
         <div className="flex flex-col gap-6 overflow-auto md:flex-row sm:gap-2 lg:gap-4">
           {/* bg-background brightness-97  */}
-          <div className="bg-secondaryz w-full flex flex-col items-center text-center p-6 rounded-lg shadow-sm sm:w-[380px]">
+          <div className="bg-white/80 w-full flex flex-col items-center text-center p-6 rounded-lg shadow-sm sm:w-[380px]">
             <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
               <BookUser color="var(--brand)" className="h-8 w-8" />
             </div>
@@ -16,7 +16,7 @@ export const FeatureList = () => {
               и создать узнаваемый стиль
             </p>
           </div>
-          <div className="w-full sm:w-[380px] flex flex-col items-center text-center p-6 bg-secondaryz rounded-lg shadow-sm">
+          <div className="bg-white/80 w-full sm:w-[380px] flex flex-col items-center text-center p-6  rounded-lg shadow-sm">
             <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
               <AwardIcon color="var(--brand)" className="h-8 w-8" />
             </div>
@@ -27,7 +27,7 @@ export const FeatureList = () => {
               выступлений и преподавания.
             </p>
           </div>
-          <div className="w-full sm:w-[380px] flex flex-col items-center text-center p-6 bg-secondaryz rounded-lg shadow-sm">
+          <div className="bg-white/80 w-full sm:w-[380px] flex flex-col items-center text-center p-6 rounded-lg shadow-sm">
             <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
               <Users2Icon color="var(--brand)" className="h-8 w-8" />
             </div>

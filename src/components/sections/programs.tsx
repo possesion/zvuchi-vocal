@@ -56,10 +56,10 @@ export const Programs = () => {
         {programs.map((program) => (
           <div
             key={program.title}
-            className="brightness-96 group relative w-[380px] flex flex-col items-center text-center p-6 bg-background rounded-lg shadow-md flex-shrink-0"
+            className="brightness-96 group relative w-[380px] flex flex-col items-center text-center p-6 bg-white/30 rounded-lg shadow-md flex-shrink-0"
           >
             <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
-              <div className="text-primary">{program.icon}</div>
+              <div className="text-yellow">{program.icon}</div>
             </div>
             <h3 className="text-xl font-bold mb-2">{program.title}</h3>
             <p className="text-muted-foreground mb-4">{program.description}</p>
@@ -71,7 +71,7 @@ export const Programs = () => {
                 </div>
               ))}
             </div>
-            <span className="font-bold text-red-800 dark:text-red-400 text-lg">
+            <span className="font-bold text-lg">
               {program.price}
             </span>
           </div>

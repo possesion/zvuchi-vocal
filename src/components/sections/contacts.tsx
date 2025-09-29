@@ -6,7 +6,7 @@ import { ORGANIZATION_EMAIL } from '@/components/constants'
 export const Contacts = () => {
 
     return (
-        <section id="contacts" className="py-8 lg:py-12 bg-muted/30">
+        <section id="contacts" className="py-8 text-white bg-muted/30 lg:py-12 ">
             <div className="flex flex-col items-center text-center mb-4 md:mb-8">
                 <h2 className="text-2xl md:text-3xl font-bold tracking-tight mb-4">
                     Контакты
@@ -19,7 +19,7 @@ export const Contacts = () => {
                     <div className="w-60 flex flex-col items-center">
                         <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
                             <MapPin
-                                color="var(--brand)"
+                                color="white"
                                 className="h-6 w-6 text-primary"
                             />
                         </div>
@@ -34,7 +34,7 @@ export const Contacts = () => {
                     <div className="w-60 flex flex-col items-center">
                         <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
                             <Phone
-                                color="var(--brand)"
+                                color="white"
                                 className="h-6 w-6 text-primary"
                             />
                         </div>
@@ -59,7 +59,7 @@ export const Contacts = () => {
                     <div className="w-60 flex flex-col items-center">
                         <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
                             <Mail
-                                color="var(--brand)"
+                                color="white"
                                 className="h-6 w-6 text-primary"
                             />
                         </div>
@@ -73,45 +73,45 @@ export const Contacts = () => {
                 </div>
                 {/* Схема проезда */}
                 <div className="bg-background rounded-lg p-2 border border-brand m-auto w-[375px] h-[550px] space-y-3 md:w-[700px] lg:space-y-6 lg:w-[500px] xl:h-[650px] 2xl:w-[700px] col-span-2 lg:col-span-1">
-                        <div className="bg-muted/50 rounded-lg">
-                            <div
+                    <div className="bg-muted/50 rounded-lg">
+                        <div
+                            style={{
+                                position: 'relative',
+                                overflow: 'hidden',
+                            }}
+                        >
+                            <a
+                                href="https://yandex.ru/maps/org/zvuchi_/174002347974/?utm_medium=mapframe&utm_source=maps"
                                 style={{
-                                    position: 'relative',
-                                    overflow: 'hidden',
+                                    color: '#eee',
+                                    fontSize: '12px',
+                                    position: 'absolute',
+                                    top: '0px',
                                 }}
                             >
-                                <a
-                                    href="https://yandex.ru/maps/org/zvuchi_/174002347974/?utm_medium=mapframe&utm_source=maps"
-                                    style={{
-                                        color: '#eee',
-                                        fontSize: '12px',
-                                        position: 'absolute',
-                                        top: '0px',
-                                    }}
-                                >
-                                    Звучи!
-                                </a>
-                                <a
-                                    href="https://yandex.ru/maps/213/moscow/category/music_school/184105912/?utm_medium=mapframe&utm_source=maps"
-                                    style={{
-                                        color: '#eee',
-                                        fontSize: '12px',
-                                        position: 'absolute',
-                                        top: '14px',
-                                    }}
-                                >
-                                    Музыкальное образование в Москве
-                                </a>
-                                <iframe
-                                    src="https://yandex.ru/map-widget/v1/?ll=37.568838%2C55.785762&mode=search&oid=174002347974&ol=biz&z=17.13"
-                                    width="100%"
-                                    className='h-[530px] xl:h-[630px]'
-                                    allowFullScreen
-                                    style={{ position: 'relative' }}
-                                    title="Yandex Map of Звучи!"
-                                ></iframe>
-                            </div>
+                                Звучи!
+                            </a>
+                            <a
+                                href="https://yandex.ru/maps/213/moscow/category/music_school/184105912/?utm_medium=mapframe&utm_source=maps"
+                                style={{
+                                    color: '#eee',
+                                    fontSize: '12px',
+                                    position: 'absolute',
+                                    top: '14px',
+                                }}
+                            >
+                                Музыкальное образование в Москве
+                            </a>
+                            <iframe
+                                src="https://yandex.ru/map-widget/v1/?ll=37.568838%2C55.785762&mode=search&oid=174002347974&ol=biz&z=17.13"
+                                width="100%"
+                                className='h-[530px] xl:h-[630px]'
+                                allowFullScreen
+                                style={{ position: 'relative' }}
+                                title="Yandex Map of Звучи!"
+                            ></iframe>
                         </div>
+                    </div>
                 </div>
 
                 <div className="bg-background rounded-lg p-2 border border-brand m-auto w-[375px] h-[550px] overflow-auto relative md:w-[700px] lg:w-[500px] xl:h-[650px] 2xl:w-[700px] col-span-2 lg:col-span-1">

@@ -54,7 +54,6 @@ export const VocalInstructor = ({ instructor }: VocalInstructor) => {
                     <Dialog.Portal>
                         <Dialog.Overlay className="DialogOverlay" />
                         <Dialog.Content asChild>
-                            {/* className=" DialogContent" */}
                             <div className='DialogContent'>
                                 <video
                                     ref={videoRef}
@@ -79,8 +78,8 @@ export const VocalInstructor = ({ instructor }: VocalInstructor) => {
                 </Dialog.Root>
             </div>
             <h3 className="text-lg md:text-xl font-bold">{instructor.name}</h3>
-            <p className="text-primary mb-2">{instructor.specialty}</p>
-            <ul className="w-[350px] text-left text-sm text-muted-foreground">
+            <p className="mb-2">{instructor.specialty}</p>
+            <ul className="w-[350px] p-2 bg-white/80 rounded-lg text-black text-left text-sm">
                 {instructor.bio}
             </ul>
         </div>
