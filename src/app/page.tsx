@@ -19,7 +19,7 @@ export default function Home() {
                 <Header />
                 <section className="flex h-screen">
                     <div className="relative flex w-full z-10 justify-center">
-                        <Image src='/valeria/transparent-lera.png' className='absolute bottom-0 left-0 object-cover drop-shadow-xl' width={450} height={800} alt={'photo'} />
+                        <Image src='/valeria/transparent-lera.png' className='z-50 absolute bottom-0 left-0 object-cover drop-shadow-xl' width={450} height={800} alt={'photo'} />
 
                         <div className="z-30 p-8 flex flex-col gap-y-6 lg:justify-center xl:gap-y-9">
                             <h1 className="mx-3 mb-4 text-white text-4xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl lg:mb-8">
