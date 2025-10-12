@@ -2,19 +2,25 @@ import { StarIcon } from 'lucide-react'
 
 export const programs = [
     {
-        icon: <StarIcon color="orange" fill='yellow' className="h-8 w-8" />,
+        icon: <StarIcon
+            color="var(--brand)"
+            // color="orange" 
+            // fill='yellow'
+            className="h-10 w-10"
+        />,
         title: 'Базовый',
         description: 'Идеально для тех, кто только начинает свой путь в вокале',
         features: [
             'Количество занятий – 4 (месяц)',
-            'Длительность урока - 55 минут',
-            'Бесплатная заморозка абонемента на 1 неделю',
+            // 'Длительность урока - 55 минут',
+            // 'Бесплатная заморозка абонемента на 1 неделю',
         ],
-        price: 'Стоимость – 11600 руб.',
+        number: 1,
+        price: '11600₽',
     },
     {
         icon: (
-            <div className="flex gap-1">
+            <div className="flex flex-col gap-1">
                 {[1, 2].map((id) => (
                     <StarIcon
                         key={id}
@@ -24,18 +30,19 @@ export const programs = [
                 ))}
             </div>
         ),
+        number: 2,
         title: 'Продвинутый',
         description: 'Подходит для получения и запрепления новых знаний.',
         features: [
             'Количество занятий – 6 (месяц)',
-            'Длительность урока - 55 минут',
-            'Бесплатная заморозка абонемента на 1 неделю',
+            // 'Длительность урока - 55 минут',
+            // 'Бесплатная заморозка абонемента на 1 неделю',
         ],
-        price: 'Стоимость – 16800 руб.',
+        price: '16800₽',
     },
     {
         icon: (
-            <div className="flex gap-1">
+            <div className="flex flex-col gap-1">
                 {[1, 2, 3].map((id) => (
                     <StarIcon
                         key={id}
@@ -49,10 +56,11 @@ export const programs = [
         description: 'Отточите свои навыки до совершенства!',
         features: [
             'Количество занятий – 8 (месяц)',
-            'Длительность урока - 55 минут',
-            'Бесплатная заморозка абонемента на 1 неделю',
+            // 'Длительность урока - 55 минут',
+            // 'Бесплатная заморозка абонемента на 1 неделю',
         ],
-        price: 'Стоимость – 21600 руб.',
+        number: 3,
+        price: '21600₽',
     },
 ]
 
@@ -88,12 +96,21 @@ export const instructors = [
         image: '/maria/card.jpg?height=300&width=300',
         video: '/maria/maria.mp4',
     },
-    // {
-    //   name: "Elena Rodriguez",
-    //   specialty: "Jazz & Soul",
-    //   bio: "Jazz vocalist with international performance experience. Teaches improvisation, scatting, and soul techniques.",
-    //   image: "/placeholder.svg?height=300&width=300",
-    // },
+    {
+        name: '3',
+        specialty: 'description',
+        bio: (
+            <div className='font-semibold'>
+                <li><span className='mr-2'>🎓</span></li>
+                <li><span className='mr-2'>⭐</span>
+                </li>
+                <li><span className='mr-2'>🎤</span></li>
+                <li><span className='mr-2'>📚</span></li>
+            </div>
+        ),
+        image: '',
+        video: '',
+    },
 ]
 
 export const testimonials = [
@@ -173,14 +190,32 @@ export const navigationList = [
         text: 'Галерея',
         sectionId: '#gallery',
     },
-    // {
-    //     id: 5,
-    //     text: 'Записаться',
-    //     sectionId: '#study',
-    // },
     {
         id: 6,
         text: 'Контакты',
         sectionId: '#contacts',
+    },
+]
+
+export const socials = [
+    {
+        url: 'https://www.instagram.com/zvuchi.vocal?igsh=NG40M3dwNnQ4Z21m&utm_source=qr',
+        src: "/socials/instagram.svg",
+        alt: "instagram",
+    },
+    {
+        url: 'https://t.me/zvuchivocal',
+        src: "/socials/telegram.svg",
+        alt: "tg",
+    },
+    {
+        url: 'https://vk.com/zvuchi.vocal',
+        src: "/socials/vk.svg",
+        alt: "vk",
+    },
+    {
+        url: 'https://www.tiktok.com/@zvuchi.vocal?_t=ZS-8yqbaCZDVqb&_r=1',
+        src: "/socials/tiktok.svg",
+        alt: "tiktok",
     },
 ]

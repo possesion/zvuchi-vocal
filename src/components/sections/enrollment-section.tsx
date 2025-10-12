@@ -14,11 +14,13 @@ export function EnrollmentSection({ main = false }) {
                 <>
                     <button
                         onClick={handleOpenLink(TG_CHAT_URL)}
-                        className="block m-auto cursor-pointer relative overflow-hidden group px-4 py-2 bg-[#ab1515] text-white font-bold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+                        // className='cta-button' bg-[#ab1515] 
+                        className="block m-auto cursor-pointer relative overflow-hidden group px-4 py-2 border border-white text-white font-bold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
                     >
                         <span className="relative z-10">
                             Запишись на
                             Бесплатное<br />пробное занятие
+
                             <img
                                 width={20}
                                 height={20}
@@ -28,13 +30,12 @@ export function EnrollmentSection({ main = false }) {
                             />
                         </span>
 
-                        <span className="absolute inset-0 bg-gradient-to-r from-[#d42e2e] to-[#ab1515] opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-lg"></span>
                         {/* Блестящий эффект */}
                         <span className="absolute top-0 left-0 w-full h-full overflow-hidden">
                             <span className="absolute top-0 left-[-100%] w-1/2 h-full bg-gradient-to-r from-transparent via-white/50 to-transparent group-hover:left-[100%] transition-all duration-1000"></span>
                         </span>
                         {/* Эффект пульсации */}
-                        <span className="absolute inset-0 rounded-lg  group-active:border-white/50 group-active:scale-95 transition-all duration-200"></span>
+                        {/* <span className="absolute inset-0 rounded-lg  group-active:border-white/50 group-active:scale-95 transition-all duration-200"></span> */}
                     </button>
                 </>
             ) : (
@@ -51,16 +52,16 @@ export function EnrollmentSection({ main = false }) {
 
                         <button
                             onClick={handleOpenLink(TG_CHAT_URL)}
-                            className='p-4 cursor-pointer rounded-lg'
+                            className='p-4 cursor-pointer rounded-lg bg-black/70'
                         // bg-gradient-to-r from-brand to-brand-secondary
                         // className="cursor-pointer group relative inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white rounded-full shadow-2xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 overflow-hidden"
                         >
                             {/* Основной контент кнопки */}
-                            <span className="relative z-10 flex items-center gap-3">
+                            <span className="relative z-10 flex items-center gap-3 animate-glow">
                                 <img
                                     width={20}
                                     height={20}
-                                    className='inline ml-1 animate-bounce'
+                                    className='inline animate-bounce'
                                     src="socials/tg.svg"
                                     alt="tg"
                                 />

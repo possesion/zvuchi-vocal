@@ -60,7 +60,7 @@ export const Gallery = () => {
 
         <div
             id="gallery"
-            className="flex overflow-x-auto whitespace-nowrap space-x-4 px-2 py-4 scrollbar-hide"
+            className="flex overflow-x-auto no-scrollbar whitespace-nowrap space-x-4 px-2 py-4 scrollbar-hide"
         >
             {images?.map((image, index) => (
                 <Dialog.Root key={image.fileName}>

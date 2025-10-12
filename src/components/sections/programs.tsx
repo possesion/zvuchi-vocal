@@ -46,34 +46,39 @@ export const Programs = () => {
   return (
     <div
       ref={sliderRef}
-      className="flex overflow-x-auto px-1 pb-4 no-scrollbar cursor-grab xl:justify-center lg:px-2"
+      className="container mx-auto px-1 pb-4 no-scrollbar cursor-grab xl:justify-center lg:px-2"
       onMouseDown={handleMouseDown}
       onMouseLeave={handleMouseLeave}
       onMouseUp={handleMouseUp}
       onMouseMove={handleMouseMove}
     >
-      <div className="flex pt-1 space-x-6 md:space-x-8 flex-nowrap">
+      <div className="flex flex-col pt-1 space-x-6 md:space-x-8 space-y-4 flex-nowrap">
         {programs.map((program) => (
           <div
             key={program.title}
-            className="brightness-96 group relative w-[380px] flex flex-col items-center text-center p-6 bg-white/30 rounded-lg shadow-md flex-shrink-0"
+            // primary-bg
+            className="brightness-96 group relative w-full flex p-6 bg-black/85 rounded-lg shadow-md flex-shrink-0"
           >
-            <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
-              <div className="text-yellow">{program.icon}</div>
+            {/* <div className="h-12 w-20 rounded-full bg-primary/10 flex items-center justify-center mb-4"> */}
+            <div className="w-20 flex">
+              <div className="text-8xl text-bold text-white/50">
+                {program.number}
+              </div>
             </div>
-            <h3 className="text-xl font-bold mb-2">{program.title}</h3>
-            <p className="text-muted-foreground mb-4">{program.description}</p>
-            <div className="space-y-2 mb-4">
-              {program.features.map((feature, index) => (
-                <div key={index} className="flex items-center justify-center">
-                  <div className="h-2 w-2 rounded-full bg-primary mr-2" />
-                  <span className="text-base">{feature}</span>
-                </div>
-              ))}
+            <div className="">
+              <h3 className="block text-5xl font-bold mb-4">{program.title}</h3>
+              <p className="font-bold mb-2">{program.description}</p>
+              <div className="font-bold space-y-2 mb-2">
+                {program.features.map((feature, index) => (
+                  <div key={index} className="flex items-center">
+                    <span className="text-base">{feature}</span>
+                  </div>
+                ))}
+              </div>
             </div>
-            <span className="font-bold text-lg">
+            <div className="pr-4 ml-auto font-bold text-5xl">
               {program.price}
-            </span>
+            </div>
           </div>
         ))}
       </div>
