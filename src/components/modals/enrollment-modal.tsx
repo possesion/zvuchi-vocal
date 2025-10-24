@@ -101,7 +101,7 @@ export function EnrollmentModal({ isOpen, onClose }: EnrollmentModalProps) {
       />
 
       {/* Modal */}
-      <div className="relative bg-white rounded-2xl shadow-2xl max-w-[480px] w-full mx-4 max-h-[90vh] overflow-y-auto">
+      <div className="relative animate-fade-in bg-white rounded-2xl shadow-2xl max-w-[480px] w-full mx-4 max-h-[90vh] overflow-y-auto">
         <div className="flex items-center justify-between p-6 border-b">
           <h2 className="text-2xl font-bold text-gray-900">
             Записаться на пробное&nbsp;занятие
@@ -159,7 +159,7 @@ export function EnrollmentModal({ isOpen, onClose }: EnrollmentModalProps) {
           </div>
           <button
             type="submit"
-            className="cursor-pointer w-full bg-gradient-to-r from-brand to-brand-secondary text-white font-bold py-3 px-6 rounded-lg hover:from-primary/90 hover:to-primary/70 transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl"
+            className="cursor-pointer w-full bg-linear-to-r from-brand to-brand-secondary text-white font-bold py-3 px-6 rounded-lg hover:from-primary/90 hover:to-primary/70 transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl"
           >
             Записаться
           </button>

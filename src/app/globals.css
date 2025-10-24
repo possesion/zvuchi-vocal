@@ -1,9 +1,8 @@
 @import "tailwindcss";
 @plugin "@midudev/tailwind-animations";
-@config "../../tailwind.config.js";
 
 
-:root {
+/* :root {
   --background: #f5f4f2;
   --foreground: #1a1a1a;
   --color: green;
@@ -13,16 +12,143 @@
   --primary-foreground: 0 0% 100%;
   --muted: 210 20% 98%;
   --muted-foreground: 210 9% 31%;
-}
+} */
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-brand: var(--brand);
-  --color-brand-secondary: var(--brand-secondary);
-  /*--font-sans: var(--font-geist-sans);*/
-  /*--font-mono: var(--font-geist-mono);*/
+
+@theme {
+  --color-background: #f5f4f2;
+  --color-foreground: #1a1a1a;
+  --color-brand: #ab1515;
+  --color-brand-secondary: #291313;
+  --font-exo2: var(--font-Exo_2);
+  --font-sans: var(--font-manrope);
   --font-manrope: var(--font-manrope);
+  --font-sans: var(--font-geist-sans), system-ui, "sans-serif";
+  --font-mono: monospace;
+
+  --animate-fade-in-scale: fade-in-scale 1.9s ease-out;
+  --animate-typing: typing 2s steps(21, end);
+  --animate-cursor: blink 1s infinite;
+
+  /* --animate-infinite-scroll: infinite-scroll 5s linear infinite; */
+
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+
+  --animate-slide-in: slide-in 0.3s ease-out;
+  --animate-slide-out: slide-out 0.3s ease-out;
+
+  --animate-slide-y: slide-y 0.5s ease-out forwards;
+
+  --animate-slide-y-out: slide-y-out 0.5s ease-out;
+
+  @keyframes fade-in-scale {
+    0% {
+      opacity: 0;
+      transform: scale(0.75);
+    }
+
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes slide-y {
+    0% {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes slide-y-out {
+    0% {
+      transform: translateY(0);
+    }
+
+    100% {
+      transform: translateY(100%)
+    }
+  }
+
+  @keyframes slide-in {
+    0% {
+      transform: translateX(100%);
+    }
+
+    100% {
+      transform: translateX(0)
+    }
+  }
+
+  @keyframes slide-out {
+    0% {
+      transform: translateX(0);
+    }
+
+    100% {
+      transform: translateX(100%)
+    }
+  }
+
+  @keyframes typing {
+    from {
+      width: 0;
+    }
+
+    to {
+      width: 100%;
+    }
+  }
+
+  @keyframes blink {
+
+    0%,
+    50% {
+      border-color: transparent;
+    }
+
+    51%,
+    100% {
+      border-color: orange;
+    }
+  }
+
+
+  @keyframes 'infinite-scroll' {
+    from: {
+      transform: translateX(0);
+    }
+
+    to: {
+      transform: translateX(-100%);
+    }
+  }
+
+  @keyframes "accordion-down" {
+    from {
+      height: 0
+    }
+
+    to {
+      height: var(--radix-accordion-content-height)
+    }
+  }
+
+  @keyframes "accordion-up" {
+    from {
+      height: var(--radix-accordion-content-height)
+    }
+
+    to {
+      height: "0"
+    }
+  }
 }
 
 /* @media (prefers-color-scheme: dark) {
@@ -52,12 +178,35 @@ body {
   scrollbar-width: none;
 }
 
+.typing-animation {
+  overflow: hidden;
+  white-space: nowrap;
+  position: relative;
+  animation: typing 2s steps(21, end);
+}
+
+.typing-animation::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 5px;
+  background-color: white;
+  animation: blink 2s infinite;
+}
+
 .radix-themes {
   --color-background: var(--background);
 }
 
 .primary-bg {
   background-image: radial-gradient(at 37.292419583644524% 75.87817013117699%, hsla(0, 78.12499999999999%, 37.64705882352941%, 1) 0%, hsla(0, 78.12499999999999%, 37.64705882352941%, 0) 100%), radial-gradient(at 92.30938637830339% 98.12868545766032%, hsla(257.87234042553195, 92.15686274509804%, 20%, 1) 0%, hsla(257.87234042553195, 92.15686274509804%, 20%, 0) 100%), radial-gradient(at 97.45116136723982% 35.12600985347473%, hsla(0, 78.12499999999999%, 37.64705882352941%, 1) 0%, hsla(0, 78.12499999999999%, 37.64705882352941%, 0) 100%);
+}
+
+.secondary-bg {
+  background-image: radial-gradient(at 74.15785688953235% 92.98463873433356%, hsla(356.9491525423729, 83.09859154929576%, 13.92156862745098%, 1) 0%, hsla(356.9491525423729, 83.09859154929576%, 13.92156862745098%, 0) 100%), radial-gradient(at 83.98733231778878% 44.719428135426384%, hsla(0, 0%, 0%, 1) 0%, hsla(0, 0%, 0%, 0) 100%), radial-gradient(at 98.5772136764523% 74.45289691181303%, hsla(356.9491525423729, 83.09859154929576%, 13.92156862745098%, 1) 0%, hsla(356.9491525423729, 83.09859154929576%, 13.92156862745098%, 0) 100%), radial-gradient(at 79.89477464223008% 18.962199239050804%, hsla(0, 0%, 0%, 1) 0%, hsla(0, 0%, 0%, 0) 100%), radial-gradient(at 29.16977017261244% 80.90882206521633%, hsla(356.9491525423729, 83.09859154929576%, 13.92156862745098%, 1) 0%, hsla(356.9491525423729, 83.09859154929576%, 13.92156862745098%, 0) 100%), radial-gradient(at 2.089039827951533% 86.77708693515405%, hsla(0, 0%, 0%, 1) 0%, hsla(0, 0%, 0%, 0) 100%), radial-gradient(at 94.46847461159541% 80.83933681548787%, hsla(356.9491525423729, 83.09859154929576%, 13.92156862745098%, 1) 0%, hsla(356.9491525423729, 83.09859154929576%, 13.92156862745098%, 0) 100%), radial-gradient(at 97.30903904831611% 48.91781614393459%, hsla(0, 0%, 0%, 1) 0%, hsla(0, 0%, 0%, 0) 100%), radial-gradient(at 9.953307558615565% 18.9202858646038%, hsla(356.9491525423729, 83.09859154929576%, 13.92156862745098%, 1) 0%, hsla(356.9491525423729, 83.09859154929576%, 13.92156862745098%, 0) 100%), radial-gradient(at 47.45006047506841% 29.40430447304816%, hsla(0, 0%, 0%, 1) 0%, hsla(0, 0%, 0%, 0) 100%), radial-gradient(at 94.78753455925973% 37.03794609602866%, hsla(356.9491525423729, 83.09859154929576%, 13.92156862745098%, 1) 0%, hsla(356.9491525423729, 83.09859154929576%, 13.92156862745098%, 0) 100%);
+  /* background-image: radial-gradient(at 41.71726981848214% 86.49009848295755%, hsla(0, 78.12499999999999%, 37.64705882352941%, 1) 0%, hsla(0, 78.12499999999999%, 37.64705882352941%, 0) 100%), radial-gradient(at 99.07958107807126% 81.06508286710798%, hsla(357.8571428571429, 68.29268292682927%, 16.07843137254902%, 1) 0%, hsla(357.8571428571429, 68.29268292682927%, 16.07843137254902%, 0) 100%), radial-gradient(at 40.18106367755888% 22.793548457119616%, hsla(0, 78.12499999999999%, 37.64705882352941%, 1) 0%, hsla(0, 78.12499999999999%, 37.64705882352941%, 0) 100%), radial-gradient(at 51.96923426585002% 8.766733280730666%, hsla(357.8571428571429, 68.29268292682927%, 16.07843137254902%, 1) 0%, hsla(357.8571428571429, 68.29268292682927%, 16.07843137254902%, 0) 100%), radial-gradient(at 96.69007032895878% 37.179076991946516%, hsla(0, 78.12499999999999%, 37.64705882352941%, 1) 0%, hsla(0, 78.12499999999999%, 37.64705882352941%, 0) 100%), radial-gradient(at 12.490740297804404% 42.38307815925446%, hsla(357.8571428571429, 68.29268292682927%, 16.07843137254902%, 1) 0%, hsla(357.8571428571429, 68.29268292682927%, 16.07843137254902%, 0) 100%), radial-gradient(at 58.902875969566836% 53.304151595518455%, hsla(0, 78.12499999999999%, 37.64705882352941%, 1) 0%, hsla(0, 78.12499999999999%, 37.64705882352941%, 0) 100%), radial-gradient(at 36.51485011947966% 39.68137794775932%, hsla(357.8571428571429, 68.29268292682927%, 16.07843137254902%, 1) 0%, hsla(357.8571428571429, 68.29268292682927%, 16.07843137254902%, 0) 100%), radial-gradient(at 49.82548098842257% 52.28357543217942%, hsla(0, 78.12499999999999%, 37.64705882352941%, 1) 0%, hsla(0, 78.12499999999999%, 37.64705882352941%, 0) 100%), radial-gradient(at 74.50092475700002% 13.910142153672233%, hsla(357.8571428571429, 68.29268292682927%, 16.07843137254902%, 1) 0%, hsla(357.8571428571429, 68.29268292682927%, 16.07843137254902%, 0) 100%); */
 }
 
 .main-bg {
@@ -108,16 +257,6 @@ body {
     opacity: 0;
   }
 }
-
-/* @keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
-} */
 
 @keyframes fadeOut {
   from {

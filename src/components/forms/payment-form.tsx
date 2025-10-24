@@ -191,7 +191,7 @@ export default function PaymentForm() {
 
             <Form.Submit asChild>
                 <Button
-                    className="!p-2 !mt-8 ml-auto !rounded-md"
+                    className="p-2! mt-8! ml-auto rounded-md!"
                     color="indigo"
                     variant="soft"
                 >

@@ -1,43 +1,23 @@
 'use client'
 
+import { useState } from 'react';
 import { TG_CHAT_URL } from '../constants';
+import { EnrollmentModal } from '../modals/enrollment-modal';
 
 export function EnrollmentSection({ main = false }) {
+    const [openModal, setOpenModal] = useState(false);
     const handleOpenLink = (link: string) => () => {
         if (window) {
             window.open(link, '_blank');
         }
     }
     return (
-        <section id="study" className="py-10 lg:py-16 bg-muted/50">
+        <section id="study" className="py-6 lg:py-16 bg-muted/50">
+            <EnrollmentModal isOpen={openModal} onClose={() => setOpenModal(false)} />
             {main ? (
-                <>
-                    <button
-                        onClick={handleOpenLink(TG_CHAT_URL)}
-                        // className='cta-button' bg-[#ab1515] 
-                        className="block m-auto cursor-pointer relative overflow-hidden group px-4 py-2 border border-white text-white font-bold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
-                    >
-                        <span className="relative z-10">
-                            Запишись на
-                            Бесплатное<br />пробное занятие
-
-                            <img
-                                width={20}
-                                height={20}
-                                className='z-100 inline ml-1'
-                                src="socials/tg.svg"
-                                alt="tg"
-                            />
-                        </span>
-
-                        {/* Блестящий эффект */}
-                        <span className="absolute top-0 left-0 w-full h-full overflow-hidden">
-                            <span className="absolute top-0 left-[-100%] w-1/2 h-full bg-gradient-to-r from-transparent via-white/50 to-transparent group-hover:left-[100%] transition-all duration-1000"></span>
-                        </span>
-                        {/* Эффект пульсации */}
-                        {/* <span className="absolute inset-0 rounded-lg  group-active:border-white/50 group-active:scale-95 transition-all duration-200"></span> */}
-                    </button>
-                </>
+                <button className='block m-auto mb-4 cursor-pointer relative overflow-hidden group px-4 py-2 backdrop-brightness-[.9] border border-white text-white font-bold rounded-lg shadow-xl/20 hover:shadow-xl transition-all duration-300 transform hover:scale-105' onClick={() => setOpenModal(true)}>Получи
+                    Бесплатное<br />пробное занятие
+                </button>
             ) : (
                 <div className="container mx-auto px-4 text-white">
                     <div className="flex flex-col items-center text-center">
@@ -52,8 +32,7 @@ export function EnrollmentSection({ main = false }) {
 
                         <button
                             onClick={handleOpenLink(TG_CHAT_URL)}
-                            className='p-4 cursor-pointer rounded-lg bg-black/70'
-                        // bg-gradient-to-r from-brand to-brand-secondary
+                            className='p-4 cursor-pointer rounded-lg bg-black/70 shadow-2xl'
                         // className="cursor-pointer group relative inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white rounded-full shadow-2xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 overflow-hidden"
                         >
                             {/* Основной контент кнопки */}

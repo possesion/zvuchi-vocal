@@ -27,7 +27,7 @@ export const PlatformDialog: FC<PlatformDialogProps> = ({
                         {children}
                         <Dialog.Close asChild>
                             <button
-                                className="z-[100] absolute top-4 right-7 bg-gray-100 text-gray-600 p-2 rounded-full hover:bg-gray-200 transition-colors md:right-4"
+                                className="z-100 absolute top-4 right-7 bg-gray-100 text-gray-600 p-2 rounded-full hover:bg-gray-200 transition-colors md:right-4"
                                 aria-label="Close"
                             >
                                 <svg
