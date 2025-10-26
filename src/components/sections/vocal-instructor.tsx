@@ -85,11 +85,12 @@ export const VocalInstructor = ({ instructor }: VocalInstructor) => {
                     <Dialog.Portal>
                         <Dialog.Overlay className="DialogOverlay" />
                         <Dialog.Content asChild>
-                            <div className='DialogContent'>
+                            <div
+                                className='DialogContent'
+                            >
                                 <video
                                     ref={videoRef}
                                     autoPlay
-                                    className="x" // DialogContent
                                     controls={isPlaying}
                                     onPause={() => setIsPlaying(false)}
                                     onPlay={() => setIsPlaying(true)}
