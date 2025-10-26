@@ -285,6 +285,11 @@ body {
   animation: fadeOut 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+@utility container {
+  margin-inline: auto;
+  padding-inline: 1rem;
+}
+
 @layer utilities {
 
   /* Скрывает скроллбар для Chrome, Safari и Opera */

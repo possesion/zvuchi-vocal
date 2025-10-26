@@ -73,7 +73,7 @@ export const Contacts = () => {
                     </div>
                 </div>
                 {/* Схема проезда */}
-                <div className="bg-background rounded-lg p-2 border border-brand m-auto w-[360px] h-[550px] space-y-3 md:w-[500px] lg:space-y-6 lg:w-[500px] xl:h-[650px] 2xl:w-[500px] col-span-2 lg:col-span-1">
+                <div className="bg-background rounded-lg p-2 border border-brand m-auto w-[360px] h-[550px] space-y-3 md:w-[500px] lg:space-y-6 lg:w-[500px] xl:h-[600px] 2xl:w-[500px] col-span-2 lg:col-span-1">
                     <div className="bg-muted/50 rounded-lg">
                         <div
                             style={{
@@ -106,7 +106,7 @@ export const Contacts = () => {
                             <iframe
                                 src="https://yandex.ru/map-widget/v1/?ll=37.568838%2C55.785762&mode=search&oid=174002347974&ol=biz&z=17.13"
                                 width="100%"
-                                className='h-[530px] xl:h-[630px]'
+                                className='h-[530px] xl:h-[580px]'
                                 allowFullScreen
                                 style={{ position: 'relative' }}
                                 title="Yandex Map of Звучи!"
@@ -115,7 +115,7 @@ export const Contacts = () => {
                     </div>
                 </div>
 
-                <div className="bg-background rounded-lg p-2 border border-brand m-auto w-[360px] h-[550px] overflow-auto relative md:w-[500px] lg:w-[500px] xl:h-[650px] 2xl:w-[500px] col-span-2 lg:col-span-1">
+                <div className="bg-background rounded-lg p-2 border border-brand m-auto w-[360px] h-[550px] overflow-auto relative md:w-[500px] lg:w-[500px] xl:h-[600px] 2xl:w-[500px] col-span-2 lg:col-span-1">
                     <iframe
                         className="w-full h-full border-[#e6e6e6] box-border rounded-b-md"
                         src="https://yandex.ru/maps-reviews-widget/174002347974?comments"

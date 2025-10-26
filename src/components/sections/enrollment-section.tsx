@@ -15,7 +15,7 @@ export function EnrollmentSection({ main = false }) {
         <section id="study" className="py-6 lg:py-16 bg-muted/50">
             <EnrollmentModal isOpen={openModal} onClose={() => setOpenModal(false)} />
             {main ? (
-                <button className='block m-auto mb-4 cursor-pointer relative overflow-hidden group px-4 py-2 backdrop-brightness-[.9] border border-white text-white font-bold rounded-lg shadow-xl/20 hover:shadow-xl transition-all duration-300 transform hover:scale-105' onClick={() => setOpenModal(true)}>Получи
+                <button className='block bg-brand m-auto mb-4 cursor-pointer relative overflow-hidden group px-5 py-2 backdrop-brightness-[.9] border border-white text-white font-bold rounded-full shadow-xl/20 hover:shadow-xl transition-all duration-300 transform hover:scale-105' onClick={() => setOpenModal(true)}>Получи
                     Бесплатное<br />пробное занятие
                 </button>
             ) : (

@@ -58,13 +58,13 @@ export const Gallery = () => {
     }, [])
     return (
         <div className='container mx-auto px-4 py-10 lg:py-16'>
-            <h2 className="text-white text-shadow-lg text-4xl md:text-3xl font-bold tracking-tight mb-4 xl:text-6xl">
+            <h2 className="text-white text-center text-shadow-lg text-4xl md:text-3xl font-bold tracking-tight mb-4 xl:text-6xl">
                 Жизнь<br />
-                <span className='ml-2'>Студии</span>
+                <span className='ml-10'>Студии</span>
             </h2>
             <div
                 id="gallery"
-                className="flex overflow-x-auto no-scrollbar whitespace-nowrap space-x-4 px-2 py-4 scrollbar-hide"
+                className="flex overflow-x-auto no-scrollbar whitespace-nowrap space-x-4 py-4 scrollbar-hide"
             >
 
 

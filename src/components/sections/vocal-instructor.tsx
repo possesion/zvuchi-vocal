@@ -10,6 +10,7 @@ import classNames from 'classnames'
 interface VocalInstructor {
     instructor: {
         bio: React.JSX.Element
+        experience: string
         image: string
         name: string
         specialty: string
@@ -31,6 +32,7 @@ export const VocalInstructor = ({ instructor }: VocalInstructor) => {
                     setIntersection(false);
                 }
             })
+
         }, { threshold: 0.5 });
 
         if (ref.current) {
@@ -55,15 +57,16 @@ export const VocalInstructor = ({ instructor }: VocalInstructor) => {
     }
 
     return (
-        <div className="group flex flex-col items-center text-center">
+        <div className="group flex flex-col items-center justify-center text-center">
             <div
                 ref={ref}
                 onClick={togglePlay}
-                className={classNames({ 'transition delay-250 duration-600 opacity-100': intersection }, 'relative opacity-0 h-36 w-36 sm:h-70 sm:w-70')}
+                className={classNames('mb-2 opacity-0', { 'transition delay-250 duration-600 opacity-100': intersection })}
             >
                 <Dialog.Root modal>
                     <Dialog.Trigger asChild>
-                        <div key={instructor.image}>
+                        <div
+                            className="relative h-68 w-68" key={instructor.image}>
                             <Image
                                 src={instructor.image || '/placeholder.svg'}
                                 sizes='300px'
@@ -107,10 +110,7 @@ export const VocalInstructor = ({ instructor }: VocalInstructor) => {
             </div>
             <h3 className="text-lg md:text-xl font-bold">{instructor.name}</h3>
             <p className="w-60 mb-2"><b>Сверхсила: </b>{instructor.specialty}</p>
-            <p><span className='mr-2'>📚</span>Опыт преподавания: 5 лет</p>
-            {/* <ul className="w-[350px] p-2 bg-white/80 rounded-lg text-black text-left text-sm">
-                {instructor.bio}
-            </ul> */}
+            <p><span className='mr-2'>📚</span>Опыт преподавания: {instructor.experience}</p>
         </div>
     )
 }

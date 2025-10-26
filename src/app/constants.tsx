@@ -78,12 +78,14 @@ export const instructors = [
                 <li><span className='mr-2'>📚</span>Опыт преподавания: 6 лет</li>
             </div>
         ),
+        experience: '6 лет',
         image: '/valeria/lera.PNG?height=300&width=300',
         video: '/valeria/lera.mp4',
     },
     {
         name: 'Мария Биттер',
         specialty: 'Бэлтинг, Микст и вокальные фишки',
+        experience: '10 лет',
         bio: (
             <div className='font-semibold'>
                 <li><span className='mr-2'>🎓</span>Высшее муз. образование (МПГУ)</li>
@@ -99,6 +101,7 @@ export const instructors = [
     {
         name: 'Екатерина Сафонова',
         specialty: 'Анатомия голоса и освобождение от зажимов',
+        experience: '5 лет',
         bio: (
             <div className='font-semibold'>
                 {/* Преподаватель по вокалу, фортепиано и сольфеджио  студии ЗВУЧИ */}
@@ -172,11 +175,11 @@ export const events = [
 ]
 
 export const navigationList = [
-    // {
-    //   id: 1,
-    //   text: "О нас",
-    //   sectionId: "#about",
-    // },
+    {
+        id: 1,
+        text: "О нас",
+        sectionId: "#about",
+    },
     {
         id: 2,
         text: 'Преподаватели',

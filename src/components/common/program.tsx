@@ -34,7 +34,7 @@ export const Program: FC<ProgramProps> = ({ description, features, title, number
                 </div>
             </div>
             <div className="">
-                <h3 className="block text-2xl font-bold mb-4 xl:text-5xl">{title}</h3>
+                <h3 className="block text-2xl font-bold mb-4 xl:text-4xl">{title}</h3>
                 <p className="font-bold mb-2">{description}</p>
                 <div className="font-bold space-y-2 mb-2">
                     {features.map((feature, index) => (
@@ -44,7 +44,7 @@ export const Program: FC<ProgramProps> = ({ description, features, title, number
                     ))}
                 </div>
             </div>
-            <div className="flex justify-between pr-4 font-bold text-xl md:flex-col md:ml-auto lg:text-5xl">
+            <div className="flex justify-between pr-4 font-bold text-xl md:flex-col md:ml-auto lg:text-4xl">
                 <span>{price}</span>
                 <button
                     onClick={handleOpenLink(TG_CHAT_URL)}

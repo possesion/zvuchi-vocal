@@ -1,9 +1,7 @@
-'use client'
+'use client';
 
-import Link from 'next/link'
-import { navigationList } from '@/app/constants'
-import { Offera } from '../common/offera'
-
+import Link from 'next/link';
+import { navigationList } from '@/app/constants';
 // import PaymentForm from '@/components/ui/payment-form'
 
 export const NavMenu = () => {
@@ -32,11 +30,6 @@ export const NavMenu = () => {
                     <PaymentForm />
                 </div>
             </PlatformDialog> */}
-            <Offera>
-                <button className="cursor-pointer font-bold text-white hover:text-brand dark:hover:text-red-400 transition-colors duration-200 relative group">
-                    Оферта
-                </button>
-            </Offera>
         </nav>
-    )
-}
+    );
+};

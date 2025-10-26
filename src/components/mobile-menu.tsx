@@ -12,7 +12,6 @@ import {
     SheetTitle,
     SheetTrigger,
 } from '@/components/modals/sheet-enhanced'
-import { Offera } from './common/offera'
 import BurgerMenu from '@/app/burger-menu';
 
 export default function MobileMenu() {
@@ -78,13 +77,6 @@ export default function MobileMenu() {
                         >
                             Контакты
                         </Link>
-                        <Offera>
-                            <div
-                                className="flex items-center"
-                            >
-                                Оферта
-                            </div>
-                        </Offera>
                         {/* <PlatformDialog
                             trigger={
                                 <button className="flex items-center py-2 text-base font-medium border-b border-border">

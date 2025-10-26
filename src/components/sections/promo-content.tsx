@@ -7,7 +7,7 @@ export const PromoContent = () => {
     const [isPlaying, setIsPlaying] = useState(true)
     return (
         <div className="relative py-10">
-            <div className="z-1 absolute top-50 -left-3 w-full inline-flex flex-nowrap overflow-hidden">
+            <div className="z-1 hidden absolute top-50 -left-3 w-full md:inline-flex flex-nowrap overflow-hidden">
                 <ul className="text-6xl text-white animate-[heartbeat_2s_ease_infinite] flex items-center justify-center md:justify-start [&_li]:mx-8">
                     {Array(10).fill('').map((_, idx) => (<li key={idx} className="">ЗВУЧИ!</li>))}
                 </ul>
