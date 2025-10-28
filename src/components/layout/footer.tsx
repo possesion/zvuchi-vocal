@@ -32,7 +32,7 @@ export const Footer = () => {
                 </div>
 
                 <div className="flex flex-col items-start gap-2 py-2">
-                    <h4 className="text-lg font-bold text-white">
+                    <h4 className="hidden text-lg font-bold text-white sm:inline">
                         О компании
                     </h4>
                     <Offera document="/documents/privacy.txt">

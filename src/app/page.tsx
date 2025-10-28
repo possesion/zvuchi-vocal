@@ -26,7 +26,7 @@ export default function Home() {
                         size={SOCIAL_ICON_SIZE.sm} 
                         className="container mx-auto hidden justify-end gap-x-1 pt-2 md:flex md:gap-x-2" 
                     />
-                    <section className="container mx-auto flex h-[100dvh] sm:h-screen">
+                    <section className="container mx-auto flex h-[100svh] sm:h-screen">
                         <div className="relative z-10 flex w-full justify-center">
                             {/* Нет подходящей фотографии микрофрона. */}
                             {/* <Image 

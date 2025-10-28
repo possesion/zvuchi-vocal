@@ -114,7 +114,7 @@ export const instructors = [
             </div>
         ),
         image: '/katya/katya.jpg?height=300&width=300',
-        video: '',
+        video: '/katya/katya.mp4',
     },
 ]
 

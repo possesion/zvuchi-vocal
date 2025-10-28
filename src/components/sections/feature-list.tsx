@@ -2,7 +2,7 @@ export const FeatureList = () => {
   return (
     <section className="bg-muted/50 py-8 lg:py-16">
       <div className="flex justify-center">
-        <div className="flex flex-col gap-6 overflow-auto px-4 text-white sm:gap-2 md:flex-row lg:gap-4">
+        <div className="flex flex-col gap-6 overflow-auto text-white sm:gap-2 md:flex-row lg:gap-4">
           <article className="flex h-[600px] w-full flex-col items-center justify-end rounded-lg bg-[url(/about/about-1.jpg)] bg-cover bg-image p-6 text-center shadow-sm sm:w-[380px]">
             <div className="h-[400px] rounded-md bg-linear-to-b from-black/70 to-transparent pt-2">
               <h3 className="mb-2 text-xl font-bold">Персональный подход</h3>
