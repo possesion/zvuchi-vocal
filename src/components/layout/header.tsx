@@ -4,7 +4,7 @@ import { NavMenu } from './nav-menu'
 
 export const Header = () => {
     return (
-        <header className="sticky top-0 z-40 shadow-xl bg-stone-950/80 backdrop-blur-[30px] backdrop-brightness-[1.15]">
+        <header className="sticky top-0 z-40 bg-stone-400/20 header-bg shadow-xl backdrop-blur-md backdrop-saturate-150">
             <div className="container mx-auto flex h-12 items-center justify-between px-2 md:h-16">
                 <Link href="#" aria-label="Перейти на главную страницу">
                     <img

@@ -1,8 +1,7 @@
-import { Dialog, VisuallyHidden } from '@radix-ui/themes';
-import { PlatformDialog } from '../modals/platform-dialog';
 import { FC, ReactNode, useState, useEffect, useRef, useCallback } from 'react';
 import { Loader } from 'lucide-react';
 import mammoth from 'mammoth';
+import { PlatformDialog } from '../modals/platform-dialog';
 
 interface OfferaProps {
     children: ReactNode;
@@ -11,6 +10,7 @@ interface OfferaProps {
 }
 
 export const Offera: FC<OfferaProps> = ({ children, document }) => {
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const [docIsLoaded, setDocIsLoaded] = useState(false);
     const [, setIsRead] = useState(false);
     const [isDocx, setIsDocx] = useState(false);
@@ -19,40 +19,71 @@ export const Offera: FC<OfferaProps> = ({ children, document }) => {
 
     const contentContainerRef = useRef<HTMLDivElement>(null);
     const endMarkerRef = useRef<HTMLDivElement>(null);
+    const abortControllerRef = useRef<AbortController | null>(null);
 
-    // Загрузка документа
+    // Ленивая загрузка документа только при открытии модалки
+    const loadDocument = useCallback(async () => {
+        if (docIsLoaded || !document) return;
+
+        try {
+            // Отменяем предыдущий запрос, если он есть
+            if (abortControllerRef.current) {
+                abortControllerRef.current.abort();
+            }
+
+            // Создаем новый AbortController для отмены запроса
+            abortControllerRef.current = new AbortController();
+
+            const fileExtension = document.toLowerCase().split('.').pop();
+            setDocIsLoaded(false);
+            setError('');
+            setIsRead(false);
+
+            const response = await fetch(document, {
+                signal: abortControllerRef.current.signal
+            });
+
+            if (!response.ok) throw new Error(`Ошибка: ${response.status}`);
+
+            if (fileExtension === 'docx') {
+                setIsDocx(true);
+                const arrayBuffer = await response.arrayBuffer();
+                const result = await mammoth.convertToHtml({ arrayBuffer });
+                setContent(result.value);
+            } else {
+                setIsDocx(false);
+                const text = await response.text();
+                setContent(text);
+            }
+        } catch (err) {
+            // Игнорируем ошибки отмены запроса
+            if (err instanceof Error && err.name === 'AbortError') {
+                return;
+            }
+            setError(
+                err instanceof Error ? err.message : 'Ошибка загрузки'
+            );
+        } finally {
+            setDocIsLoaded(true);
+            abortControllerRef.current = null;
+        }
+    }, [document, docIsLoaded]);
+
+    // Загружаем документ только при открытии модалки
     useEffect(() => {
-        const loadTextFile = async () => {
-            try {
-                const fileExtension = document.toLowerCase().split('.').pop();
-                setDocIsLoaded(false);
-                setError('');
-                setIsRead(false);
+        if (isModalOpen && !docIsLoaded) {
+            loadDocument();
+        }
+    }, [isModalOpen, docIsLoaded, loadDocument]);
 
-                const response = await fetch(document);
-                if (!response.ok) throw new Error(`Ошибка: ${response.status}`);
-
-                if (fileExtension === 'docx') {
-                    setIsDocx(true);
-                    const arrayBuffer = await response.arrayBuffer();
-                    const result = await mammoth.convertToHtml({ arrayBuffer });
-                    setContent(result.value);
-                } else {
-                    setIsDocx(false);
-                    const text = await response.text();
-                    setContent(text);
-                }
-            } catch (err) {
-                setError(
-                    err instanceof Error ? err.message : 'Ошибка загрузки'
-                );
-            } finally {
-                setDocIsLoaded(true);
+    // Очистка при размонтировании
+    useEffect(() => {
+        return () => {
+            if (abortControllerRef.current) {
+                abortControllerRef.current.abort();
             }
         };
-
-        if (document) loadTextFile();
-    }, [document]);
+    }, []);
 
     // Функция для принудительной проверки (для отладки)
     const checkScrollPosition = useCallback(() => {
@@ -104,14 +135,10 @@ export const Offera: FC<OfferaProps> = ({ children, document }) => {
         <PlatformDialog
             className="w-[380px] sm:w-[440px] md:w-[600px] lg:w-[800px]"
             trigger={children}
+            onOpen={setIsModalOpen}
         >
-            <VisuallyHidden>
-                <Dialog.Title className="text-2xl font-bold mb-4">
-                    Просмотр документа
-                </Dialog.Title>
-            </VisuallyHidden>
 
-            <div className="relative h-full w-full flex flex-col">
+            <div className="relative flex h-full w-full flex-col">
                 {/* Контент документа */}
                 <div
                     ref={contentContainerRef}
@@ -138,6 +165,28 @@ export const Offera: FC<OfferaProps> = ({ children, document }) => {
                     )}
                 </div>
             </div>
+
+            {/* <Dialog.Close asChild>
+                            <button
+                                className="absolute right-4 top-4 rounded-full bg-gray-100 p-2 text-gray-600 transition-colors hover:bg-gray-200"
+                                aria-label="Закрыть диалог"
+                            >
+                                <svg
+                                    className="h-6 w-6"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                    aria-hidden="true"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M6 18L18 6M6 6l12 12"
+                                    />
+                                </svg>
+                            </button>
+                        </Dialog.Close>      */}
         </PlatformDialog>
     );
 };

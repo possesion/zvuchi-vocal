@@ -3,7 +3,7 @@ import { Dialog } from 'radix-ui'
 import { VisuallyHidden } from '@radix-ui/themes';
 import { CirclePlay, X } from 'lucide-react'
 import Image from 'next/image'
-import React, { createRef, useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 import '../styles.css'
 import classNames from 'classnames'
@@ -20,7 +20,7 @@ interface VocalInstructor {
 }
 export const VocalInstructor = ({ instructor }: VocalInstructor) => {
     const videoRef = useRef<HTMLVideoElement>(null)
-    const ref = createRef<HTMLDivElement>();
+    const ref = useRef<HTMLDivElement>(null);
     const [isPlaying, setIsPlaying] = useState(false)
     const [intersection, setIntersection] = useState(false);
 

@@ -1,22 +1,32 @@
 import { Dialog } from 'radix-ui'
-import { FC, ReactNode } from 'react'
+import { VisuallyHidden } from '@radix-ui/themes';
+import { Dispatch, FC, ReactNode, SetStateAction } from 'react'
 import 'react-image-gallery/styles/css/image-gallery.css'
 
 interface PlatformDialogProps {
     children: ReactNode
     trigger: ReactNode
     className?: string
+    onOpen?: Dispatch<SetStateAction<boolean>>
 }
 export const PlatformDialog: FC<PlatformDialogProps> = ({
     children,
     className,
     trigger,
+    onOpen,
 }) => {
     return (
-        <Dialog.Root>
+        <Dialog.Root onOpenChange={(arg) => {
+            onOpen?.(arg)
+        }}>
             <Dialog.Trigger asChild>{trigger}</Dialog.Trigger>
             <Dialog.Portal>
                 <Dialog.Overlay className="fixed inset-0 z-50 bg-black/80" />
+                <VisuallyHidden>
+                    <Dialog.Title className="mb-4 text-2xl font-bold">
+                        Заголовок модального окна
+                    </Dialog.Title>
+                </VisuallyHidden>
                 <Dialog.Content
                     aria-describedby={undefined}
                     className="fixed left-1/2 top-1/2 z-50 -translate-x-1/2 -translate-y-1/2 transform outline-none"

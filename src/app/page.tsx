@@ -28,13 +28,14 @@ export default function Home() {
                     />
                     <section className="container mx-auto flex h-[100dvh] sm:h-screen">
                         <div className="relative z-10 flex w-full justify-center">
-                            <Image 
+                            {/* Нет подходящей фотографии микрофрона. */}
+                            {/* <Image 
                                 src="/micro.png" 
                                 className="absolute bottom-0 left-90 z-50 hidden object-cover drop-shadow-2xl md:block md:w-[200px]" 
                                 width={200} 
                                 height={500} 
                                 alt="Микрофон" 
-                            />
+                            /> */}
                             <Image 
                                 src="/valeria/transparent-lera.png" 
                                 className="absolute bottom-0 right-0 z-50 object-cover drop-shadow-2xl md:w-[500px]" 
