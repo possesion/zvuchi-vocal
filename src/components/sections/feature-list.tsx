@@ -1,38 +1,38 @@
 export const FeatureList = () => {
   return (
-    <section className="py-8 bg-muted/50 lg:py-16">
+    <section className="bg-muted/50 py-8 lg:py-16">
       <div className="flex justify-center">
-        <div className="px-4 text-white flex flex-col gap-6 overflow-auto md:flex-row sm:gap-2 lg:gap-4">
-          <div className="bg-[url(/about/about-1.jpg)] bg-cover bg-image w-full flex flex-col justify-end items-center text-center p-6 rounded-lg shadow-sm h-[600px] sm:w-[380px]">
-            <div className="h-[400px] pt-2 rounded-md bg-linear-to-b from-black/70 to-transparent">
-              <h3 className="text-xl font-bold mb-2">Персональный подход</h3>
-              <p className="text-muted-foreground">
+        <div className="flex flex-col gap-6 overflow-auto px-4 text-white sm:gap-2 md:flex-row lg:gap-4">
+          <article className="flex h-[600px] w-full flex-col items-center justify-end rounded-lg bg-[url(/about/about-1.jpg)] bg-cover bg-image p-6 text-center shadow-sm sm:w-[380px]">
+            <div className="h-[400px] rounded-md bg-linear-to-b from-black/70 to-transparent pt-2">
+              <h3 className="mb-2 text-xl font-bold">Персональный подход</h3>
+              <p className="px-1 text-muted-foreground">
                 Ваш голос - уникален. Наши занятия помогут раскрыть его потенциал
                 и создать узнаваемый стиль
               </p>
             </div>
-          </div>
-          <div className="h-[600px] pt-2 bg-[url(/about/about-2.jpg)] bg-cover w-full sm:w-[380px] flex flex-col items-center justify-end text-center p-6  rounded-lg shadow-sm">
+          </article>
+          <article className="flex h-[600px] w-full flex-col items-center justify-end rounded-lg bg-[url(/about/about-2.jpg)] bg-cover p-6 text-center shadow-sm pt-2 sm:w-[380px]">
             <div className="h-[400px] rounded-md bg-linear-to-b from-black/70 to-transparent">
-              <h3 className="text-xl font-bold mb-2">Лучшие эксперты</h3>
-              <p className="text-muted-foreground">
+              <h3 className="mb-2 text-xl font-bold">Лучшие эксперты</h3>
+              <p className="px-1 text-muted-foreground">
                 Учитесь у профессионалов – наши педагоги сертифицированы по
                 методике EVT (Estill Voice Training) и имеют многолетний опыт
                 выступлений и преподавания.
               </p>
             </div>
-          </div>
-          <div className="h-[600px] pt-2 bg-[url(/about/about-4.jpg)] bg-cover sm:w-[380px] flex flex-col items-center justify-end text-center p-6 rounded-lg shadow-sm">
+          </article>
+          <article className="flex h-[600px] flex-col items-center justify-end rounded-lg bg-[url(/about/about-4.jpg)] bg-cover p-6 text-center shadow-sm pt-2 sm:w-[380px]">
             <div className="h-[400px] rounded-md bg-linear-to-b from-black/70 to-transparent">
-              <h3 className="text-xl font-bold mb-2">
+              <h3 className="mb-2 text-xl font-bold">
                 Сообщество близких по духу людей
               </h3>
-              <p className="text-muted-foreground">
+              <p className="px-1 text-muted-foreground">
                 Присоединяйтесь к нашему творческому сообществу — где вдохновляют
                 и поддерживают!
               </p>
             </div>
-          </div>
+          </article>
         </div>
       </div>
     </section>

@@ -82,19 +82,19 @@ export const Offera: FC<OfferaProps> = ({ children, document }) => {
         return isDocx ? (<div
             className="bg-white p-6
             [&_p]:mb-4 [&_p]:leading-relaxed
-            [&_h1]:text-2xl [&_h1]:font-bold [&_h1]:mt-6 [&_h1]:mb-4
-            [&_h2]:text-xl [&_h2]:font-bold [&_h2]:mt-5 [&_h2]:mb-3  
-            [&_h3]:text-lg [&_h3]:font-bold [&_h3]:mt-4 [&_h3]:mb-2
-            [&_ul]:list-disc [&_ul]:ml-6 [&_ul]:my-4
-            [&_ol]:list-decimal [&_ol]:ml-6 [&_ol]:my-4
+            [&_h1]:mb-4 [&_h1]:mt-6 [&_h1]:text-2xl [&_h1]:font-bold
+            [&_h2]:mb-3 [&_h2]:mt-5 [&_h2]:text-xl [&_h2]:font-bold  
+            [&_h3]:mb-2 [&_h3]:mt-4 [&_h3]:text-lg [&_h3]:font-bold
+            [&_ul]:ml-6 [&_ul]:my-4 [&_ul]:list-disc
+            [&_ol]:ml-6 [&_ol]:my-4 [&_ol]:list-decimal
             [&_li]:my-1
-            [&_table]:w-full [&_table]:my-4 [&_table]:border-collapse
+            [&_table]:my-4 [&_table]:w-full [&_table]:border-collapse
             [&_td]:border [&_td]:border-gray-300 [&_td]:p-2
-            [&_th]:border [&_th]:border-gray-300 [&_th]:p-2 [&_th]:bg-gray-100"
+            [&_th]:border [&_th]:border-gray-300 [&_th]:bg-gray-100 [&_th]:p-2"
             dangerouslySetInnerHTML={{ __html: content }}
         />)
             : (
-                <pre className="whitespace-pre-wrap font-sans text-sm p-4 leading-6">
+                <pre className="whitespace-pre-wrap p-4 text-sm font-sans leading-6">
                     {content}
                 </pre>
             )
@@ -115,20 +115,20 @@ export const Offera: FC<OfferaProps> = ({ children, document }) => {
                 {/* Контент документа */}
                 <div
                     ref={contentContainerRef}
-                    className="flex-1 overflow-auto border rounded-lg bg-gray-50 min-h-[200px] max-h-[70vh]"
+                    className="max-h-[70vh] min-h-[200px] flex-1 overflow-auto rounded-lg border bg-gray-50"
                     onScroll={checkScrollPosition}
                 >
                     {!docIsLoaded ? (
-                        <div className="flex items-center justify-center h-32">
-                            <Loader className="w-8 h-8 animate-spin text-blue-600 mr-2" />
+                        <div className="flex h-32 items-center justify-center">
+                            <Loader className="mr-2 h-8 w-8 animate-spin text-blue-600" />
                             <span>Загрузка документа...</span>
                         </div>
                     ) : error ? (
-                        <div className="flex items-center justify-center h-32 text-red-600">
+                        <div className="flex h-32 items-center justify-center text-red-600">
                             ❌ {error}
                         </div>
                     ) : (
-                        <div className="bg-white relative">
+                        <div className="relative bg-white">
                             {renderContent()}
                             <div
                                 ref={endMarkerRef}

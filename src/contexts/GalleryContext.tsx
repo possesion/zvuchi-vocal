@@ -82,7 +82,11 @@ interface GalleryContextType {
 
 const GalleryContext = createContext<GalleryContextType | undefined>(undefined)
 
-export const GalleryProvider = ({ children }: { children: ReactNode }) => {
+interface GalleryProviderProps {
+    children: ReactNode
+}
+
+export const GalleryProvider = ({ children }: GalleryProviderProps) => {
     const [state, dispatch] = useReducer(galleryReducer, initialState)
 
     const selectImage = (image: GalleryImage, index: number) => {

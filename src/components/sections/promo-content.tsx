@@ -7,20 +7,19 @@ export const PromoContent = () => {
     const [isPlaying, setIsPlaying] = useState(true)
     return (
         <div className="relative py-10">
-            <div className="z-1 hidden absolute top-50 -left-3 w-full md:inline-flex flex-nowrap overflow-hidden">
-                <ul className="text-6xl text-white animate-[heartbeat_2s_ease_infinite] flex items-center justify-center md:justify-start [&_li]:mx-8">
+            <div className="z-1 absolute -left-3 top-50 hidden w-full flex-nowrap overflow-hidden md:inline-flex">
+                <ul className="flex animate-[heartbeat_2s_ease_infinite] items-center justify-center text-6xl text-white md:justify-start [&_li]:mx-8" aria-hidden="true">
                     {Array(10).fill('').map((_, idx) => (<li key={idx} className="">ЗВУЧИ!</li>))}
                 </ul>
-                {/* animate-infinite-scroll */}
             </div>
             <video
                 ref={videoRef}
-                // autoPlay
-                className="relative z-10 w-[380px] h-[580px] m-auto" // DialogContent
+                className="relative z-10 m-auto h-[580px] w-[380px]"
                 controls={isPlaying}
                 onPause={() => setIsPlaying(false)}
                 onPlay={() => setIsPlaying(true)}
-                src={'/valeria/promo.mp4'}
+                src="/valeria/promo.mp4"
+                aria-label="Промо-видео школы вокала"
             />
         </div>
     )

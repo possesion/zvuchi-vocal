@@ -16,25 +16,26 @@ export const PlatformDialog: FC<PlatformDialogProps> = ({
         <Dialog.Root>
             <Dialog.Trigger asChild>{trigger}</Dialog.Trigger>
             <Dialog.Portal>
-                <Dialog.Overlay className="fixed inset-0 bg-black/80 z-50" />
+                <Dialog.Overlay className="fixed inset-0 z-50 bg-black/80" />
                 <Dialog.Content
                     aria-describedby={undefined}
-                    className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 outline-none"
+                    className="fixed left-1/2 top-1/2 z-50 -translate-x-1/2 -translate-y-1/2 transform outline-none"
                 >
                     <div
-                        className={`relative bg-white rounded-lg shadow-xl overflow-auto ${className}`}
+                        className={`relative overflow-auto rounded-lg bg-white shadow-xl ${className}`}
                     >
                         {children}
                         <Dialog.Close asChild>
                             <button
-                                className="z-100 absolute top-4 right-7 bg-gray-100 text-gray-600 p-2 rounded-full hover:bg-gray-200 transition-colors md:right-4"
-                                aria-label="Close"
+                                className="z-100 absolute right-7 top-4 rounded-full bg-gray-100 p-2 text-gray-600 transition-colors hover:bg-gray-200 md:right-4"
+                                aria-label="Закрыть диалог"
                             >
                                 <svg
-                                    className="w-6 h-6"
+                                    className="h-6 w-6"
                                     fill="none"
                                     stroke="currentColor"
                                     viewBox="0 0 24 24"
+                                    aria-hidden="true"
                                 >
                                     <path
                                         strokeLinecap="round"

@@ -64,7 +64,11 @@ interface PaymentContextType {
 
 const PaymentContext = createContext<PaymentContextType | undefined>(undefined)
 
-export const PaymentProvider = ({ children }: { children: ReactNode }) => {
+interface PaymentProviderProps {
+    children: ReactNode
+}
+
+export const PaymentProvider = ({ children }: PaymentProviderProps) => {
     const [state, dispatch] = useReducer(paymentReducer, initialState)
 
     const createPayment = async (paymentData: PaymentData): Promise<PaymentResponse | null> => {

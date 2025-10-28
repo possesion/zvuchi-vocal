@@ -19,7 +19,7 @@ const SheetOverlay = React.forwardRef<
 >(({ className, ...props }, ref) => (
     <SheetPrimitive.Overlay
         className={cn(
-            'fixed inset-0 z-50 bg-black/80 transition-all duration-500 ease-out sheet-overlay',
+            'sheet-overlay fixed inset-0 z-50 bg-black/80 transition-all duration-500 ease-out',
             className
         )}
         {...props}
@@ -41,15 +41,15 @@ const SheetContent = React.forwardRef<
         <SheetPrimitive.Content
             ref={ref}
             className={cn(
-                'animate-delay-300 text-white animate-duration-slow fixed z-50 gap-4 secondary-bg p-6 shadow-lg transition-all duration-500 ease-out inset-y-0 right-0 h-full w-5/6 sm:max-w-sm transform sheet-content data-[state=open]:animate-slide-in data-[state=closed]:animate-slide-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0',
+                'sheet-content animate-delay-300 animate-duration-slow fixed inset-y-0 right-0 z-50 h-full w-5/6 transform gap-4 p-6 text-white shadow-lg transition-all duration-500 ease-out secondary-bg data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:animate-slide-out data-[state=open]:animate-slide-in sm:max-w-sm',
                 className
             )}
             {...props}
         >
             {children}
-            <SheetPrimitive.Close className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-secondary">
+            <SheetPrimitive.Close className="absolute right-4 top-4 rounded-sm opacity-70 transition-opacity ring-offset-background hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-secondary">
                 <X width={5} height={5} className="h-6 w-6" />
-                <span className="sr-only">Close</span>
+                <span className="sr-only">Закрыть</span>
             </SheetPrimitive.Close>
         </SheetPrimitive.Content>
     </SheetPortal>

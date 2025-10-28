@@ -11,13 +11,15 @@ interface SocialsProps {
 
 export const Socials: FC<SocialsProps> = ({ className, size = SOCIAL_ICON_SIZE.md }) => {
     return (
-        <div className={className}>
+        <div className={className} role="list" aria-label="Социальные сети">
             {socials.map(({ alt, src, url }) => (
                 <a
                     href={url}
                     key={alt}
-                    target="blank"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="group flex flex-col items-center text-center transition-transform hover:scale-110"
+                    aria-label={`Перейти в ${alt}`}
                 >
                     <Image
                         alt={alt}

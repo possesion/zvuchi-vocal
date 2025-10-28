@@ -1,5 +1,6 @@
 'use client'
 import { Dialog } from 'radix-ui'
+import { VisuallyHidden } from '@radix-ui/themes';
 import { CirclePlay, X } from 'lucide-react'
 import Image from 'next/image'
 import React, { createRef, useEffect, useRef, useState } from 'react'
@@ -57,11 +58,11 @@ export const VocalInstructor = ({ instructor }: VocalInstructor) => {
     }
 
     return (
-        <div className="group flex flex-col items-center justify-center text-center">
+        <article className="group flex flex-col items-center justify-center text-center">
             <div
                 ref={ref}
                 onClick={togglePlay}
-                className={classNames('mb-2 opacity-0', { 'transition delay-250 duration-600 opacity-100': intersection })}
+                className={classNames('mb-2 opacity-0', { 'delay-250 transition duration-600 opacity-100': intersection })}
             >
                 <Dialog.Root modal>
                     <Dialog.Trigger asChild>
@@ -69,25 +70,29 @@ export const VocalInstructor = ({ instructor }: VocalInstructor) => {
                             className="relative h-68 w-68" key={instructor.image}>
                             <Image
                                 src={instructor.image || '/placeholder.svg'}
-                                sizes='300px'
-                                alt={instructor.name}
+                                sizes="300px"
+                                alt={`Фото преподавателя ${instructor.name}`}
                                 fill
-                                className="cursor-pointer object-cover transition-transform group-hover:scale-105 group overflow-hidden rounded-full"
+                                className="group cursor-pointer overflow-hidden rounded-full object-cover transition-transform group-hover:scale-105"
                             />
                             <CirclePlay
                                 fill="var(--brand)"
-                                color='white'
+                                color="white"
                                 strokeWidth={0.5}
-                                className="cursor-pointer opacity-30 h-16 w-16 absolute top-0 right-0 group-hover:opacity-100"
+                                className="absolute right-0 top-0 h-16 w-16 cursor-pointer opacity-30 group-hover:opacity-100"
+                                aria-label="Воспроизвести видео"
                             />
                         </div>
                     </Dialog.Trigger>
                     <Dialog.Portal>
                         <Dialog.Overlay className="DialogOverlay" />
+                            <VisuallyHidden>
+                                <Dialog.Title className="text-2xl font-bold mb-4">
+                                    Просмотр видео
+                                </Dialog.Title>
+                            </VisuallyHidden>
                         <Dialog.Content asChild>
-                            <div
-                                className='DialogContent'
-                            >
+                            <div className="DialogContent">
                                 <video
                                     ref={videoRef}
                                     autoPlay
@@ -95,11 +100,12 @@ export const VocalInstructor = ({ instructor }: VocalInstructor) => {
                                     onPause={() => setIsPlaying(false)}
                                     onPlay={() => setIsPlaying(true)}
                                     src={instructor.video}
+                                    aria-label={`Видео презентация преподавателя ${instructor.name}`}
                                 />
                                 <Dialog.Close>
                                     <button
                                         className="IconButton"
-                                        aria-label="Close"
+                                        aria-label="Закрыть видео"
                                     >
                                         <X className="h-4 w-4" />
                                     </button>
@@ -109,9 +115,9 @@ export const VocalInstructor = ({ instructor }: VocalInstructor) => {
                     </Dialog.Portal>
                 </Dialog.Root>
             </div>
-            <h3 className="text-lg md:text-xl font-bold">{instructor.name}</h3>
-            <p className="w-60 mb-2"><b>Сверхсила: </b>{instructor.specialty}</p>
-            <p><span className='mr-2'>📚</span>Опыт преподавания: {instructor.experience}</p>
-        </div>
+            <h3 className="text-lg font-bold md:text-xl">{instructor.name}</h3>
+            <p className="mb-2 w-60"><b>Сверхсила: </b>{instructor.specialty}</p>
+            <p><span className="mr-2" aria-hidden="true">📚</span>Опыт преподавания: {instructor.experience}</p>
+        </article>
     )
 }

@@ -133,11 +133,12 @@ export default function PaymentForm() {
                 <Form.Control asChild>
                     <input
                         className="Input"
-                        placeholder={'11600'}
+                        placeholder="11600"
+                        type="number"
                         {...register('amount', { required: true })}
                     />
                 </Form.Control>
-                <div className="h-4 text-red-600">
+                <div className="h-4 text-red-600" role="alert">
                     {errors.amount && 'Обязательное поле'}
                 </div>
             </Form.Field>
@@ -152,7 +153,7 @@ export default function PaymentForm() {
                         {...register('purpose', { required: true })}
                     />
                 </Form.Control>
-                <div className="h-4 text-red-600">
+                <div className="h-4 text-red-600" role="alert">
                     {errors.purpose && 'Обязательное поле'}
                 </div>
             </Form.Field>
@@ -163,10 +164,11 @@ export default function PaymentForm() {
                     <input
                         className="Input"
                         defaultValue=""
+                        placeholder="Иванов Иван Иванович"
                         {...register('Client.name', { required: true })}
                     />
                 </Form.Control>
-                <div className="h-4 text-red-600">
+                <div className="h-4 text-red-600" role="alert">
                     {errors.Client?.name && 'Обязательное поле'}
                 </div>
             </Form.Field>
@@ -177,6 +179,8 @@ export default function PaymentForm() {
                     <input
                         className="Input"
                         defaultValue=""
+                        type="email"
+                        placeholder="example@email.com"
                         {...register('Client.email', {
                             required: true,
                             pattern:
@@ -184,7 +188,7 @@ export default function PaymentForm() {
                         })}
                     />
                 </Form.Control>
-                <div className="h-4 text-red-600">
+                <div className="h-4 text-red-600" role="alert">
                     {errors.Client?.email && 'Обязательное поле'}
                 </div>
             </Form.Field>
@@ -194,6 +198,7 @@ export default function PaymentForm() {
                     className="p-2! mt-8! ml-auto rounded-md!"
                     color="indigo"
                     variant="soft"
+                    disabled={isProcessing}
                 >
                     {isProcessing ? 'Обработка...' : 'Выбрать форму оплаты'}
                 </Button>
