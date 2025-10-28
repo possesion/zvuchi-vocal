@@ -57,23 +57,26 @@ export const Gallery = () => {
         })()
     }, [])
     return (
-        <div className='container mx-auto px-4 py-10 lg:py-16'>
-            <h2 className="text-white text-center text-shadow-lg text-4xl md:text-3xl font-bold tracking-tight mb-4 xl:text-6xl">
-                Жизнь<br />
-                <span className='ml-10'>Студии</span>
-            </h2>
+        <section className="container mx-auto px-4 py-10 lg:py-16">
+            <header>
+                <h2 className="mb-4 text-center text-4xl font-bold tracking-tight text-white text-shadow-lg md:text-3xl xl:text-6xl">
+                    Жизнь<br />
+                    <span className="ml-10">Студии</span>
+                </h2>
+            </header>
             <div
                 id="gallery"
-                className="flex overflow-x-auto no-scrollbar whitespace-nowrap space-x-4 py-4 scrollbar-hide"
+                className="flex space-x-4 overflow-x-auto py-4 whitespace-nowrap scrollbar-hide no-scrollbar"
+                role="region"
+                aria-label="Галерея фотографий студии"
             >
-
-
                 {images?.map((image, index) => (
                     <Dialog.Root key={image.fileName}>
                         <Dialog.Trigger asChild>
                             <button
                                 onClick={() => openImage(index)}
-                                className="w-[250px] cursor-pointer relative aspect-square overflow-hidden rounded-lg hover:opacity-90 transition-opacity shrink-0"
+                                className="relative aspect-square w-[250px] shrink-0 cursor-pointer overflow-hidden rounded-lg transition-opacity hover:opacity-90"
+                                aria-label={`Открыть изображение ${image.alt}`}
                             >
                                 <Image
                                     src={image.src}
@@ -86,9 +89,9 @@ export const Gallery = () => {
                         </Dialog.Trigger>
 
                         <Dialog.Portal>
-                            <Dialog.Overlay className="fixed inset-0 bg-black/80 z-50" />
-                            <Dialog.Content className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 outline-none">
-                                <div className="relative min-w-[380px] max-w-[90vw] max-h-[90vh] md:min-w-[680px]">
+                            <Dialog.Overlay className="fixed inset-0 z-50 bg-black/80" />
+                            <Dialog.Content className="fixed left-1/2 top-1/2 z-50 -translate-x-1/2 -translate-y-1/2 transform outline-none">
+                                <div className="relative max-h-[90vh] min-w-[380px] max-w-[90vw] md:min-w-[680px]">
                                     {/* Основное изображение */}
                                     <Image
                                         src={images[selectedIndex].src}
@@ -99,18 +102,19 @@ export const Gallery = () => {
                                         width={800}
                                         height={600}
                                         sizes="100vw"
-                                        className="max-w-full max-h-[80vh] object-contain"
+                                        className="max-h-[80vh] max-w-full object-contain"
                                     />
                                     <Dialog.Close asChild>
                                         <button
-                                            className="absolute top-2 right-4 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition-colors"
-                                            aria-label="Close"
+                                            className="absolute right-4 top-2 rounded-full bg-black/50 p-2 text-white transition-colors hover:bg-black/70"
+                                            aria-label="Закрыть галерею"
                                         >
                                             <svg
-                                                className="w-6 h-6"
+                                                className="h-6 w-6"
                                                 fill="none"
                                                 stroke="currentColor"
                                                 viewBox="0 0 24 24"
+                                                aria-hidden="true"
                                             >
                                                 <path
                                                     strokeLinecap="round"
@@ -127,14 +131,15 @@ export const Gallery = () => {
                                         <>
                                             <button
                                                 onClick={prevImage}
-                                                className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black/50 text-white p-3 rounded-full hover:bg-black/70 transition-colors"
-                                                aria-label="Previous image"
+                                                className="absolute left-4 top-1/2 -translate-y-1/2 transform rounded-full bg-black/50 p-3 text-white transition-colors hover:bg-black/70"
+                                                aria-label="Предыдущее изображение"
                                             >
                                                 <svg
-                                                    className="w-6 h-6"
+                                                    className="h-6 w-6"
                                                     fill="none"
                                                     stroke="currentColor"
                                                     viewBox="0 0 24 24"
+                                                    aria-hidden="true"
                                                 >
                                                     <path
                                                         strokeLinecap="round"
@@ -147,14 +152,15 @@ export const Gallery = () => {
 
                                             <button
                                                 onClick={nextImage}
-                                                className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black/50 text-white p-3 rounded-full hover:bg-black/70 transition-colors"
-                                                aria-label="Next image"
+                                                className="absolute right-4 top-1/2 -translate-y-1/2 transform rounded-full bg-black/50 p-3 text-white transition-colors hover:bg-black/70"
+                                                aria-label="Следующее изображение"
                                             >
                                                 <svg
-                                                    className="w-6 h-6"
+                                                    className="h-6 w-6"
                                                     fill="none"
                                                     stroke="currentColor"
                                                     viewBox="0 0 24 24"
+                                                    aria-hidden="true"
                                                 >
                                                     <path
                                                         strokeLinecap="round"
@@ -168,7 +174,7 @@ export const Gallery = () => {
                                     )}
 
                                     {/* Индикатор */}
-                                    <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black/50 text-white px-3 py-1 rounded-full text-sm">
+                                    <div className="absolute bottom-4 left-1/2 -translate-x-1/2 transform rounded-full bg-black/50 px-3 py-1 text-sm text-white">
                                         {selectedIndex + 1} / {images.length}
                                     </div>
                                 </div>
@@ -177,6 +183,6 @@ export const Gallery = () => {
                     </Dialog.Root>
                 ))}
             </div>
-        </div>
+        </section>
     )
 }

@@ -6,75 +6,74 @@ import { ORGANIZATION_EMAIL } from '@/components/constants'
 export const Contacts = () => {
 
     return (
-        <section id="contacts" className="container mx-auto px-4 py-8 text-white bg-muted/30 lg:py-12 ">
-            {/* <div className="flex flex-col items-center text-center mb-4 md:mb-8"> */}
-            {/* <h2
-                className="text-white text-shadow-lg text-4xl md:text-3xl font-bold tracking-tight mb-4 xl:text-6xl"
-            >
-                Контакты
-            </h2> */}
-
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12">
+        <section id="contacts" className="container mx-auto bg-muted/30 px-4 py-8 text-white lg:py-12">
+            <div className="grid grid-cols-1 gap-8 md:gap-12 lg:grid-cols-2">
                 {/* Контактная информация */}
-                <div className="flex flex-col justify-center items-center col-span-2 gap-x-8 sm:flex-row xl:col-span-2">
-                    <div className="w-60 flex flex-col items-center">
-                        <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                <div className="col-span-2 flex flex-col items-center justify-center gap-x-8 sm:flex-row xl:col-span-2">
+                    <address className="flex w-60 flex-col items-center not-italic">
+                        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary/10">
                             <MapPin
                                 color="white"
                                 className="h-6 w-6 text-primary"
                             />
                         </div>
-                        <h3 className="text-lg font-semibold mb-2">Адрес</h3>
+                        <h3 className="mb-2 text-lg font-semibold">Адрес</h3>
                         <p className="text-muted-foreground">
                             Ленинградский проспект, д. 34
                             <br />
                             Москва, 125040
                         </p>
-                    </div>
+                    </address>
 
-                    <div className="w-60 flex flex-col items-center">
-                        <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                    <div className="flex w-60 flex-col items-center">
+                        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary/10">
                             <Phone
                                 color="white"
                                 className="h-6 w-6 text-primary"
                             />
                         </div>
-                        <h3 className="text-lg font-semibold mb-2">Телефон</h3>
+                        <h3 className="mb-2 text-lg font-semibold">Телефон</h3>
                         <p className="text-muted-foreground">
                             <a
-                                href="tel:+74951234567"
-                                className="hover:text-primary transition-colors"
+                                href="tel:+79779675001"
+                                className="transition-colors hover:text-primary"
                             >
                                 +7 (977) 967-50-01
                             </a>
                             <br />
                             <a
-                                href="tel:+79001234567"
-                                className="hover:text-primary transition-colors"
+                                href="tel:+79851266605"
+                                className="transition-colors hover:text-primary"
                             >
                                 +7 (985) 126-66-05
                             </a>
                         </p>
                     </div>
 
-                    <div className="w-60 flex flex-col items-center">
-                        <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                    <div className="flex w-60 flex-col items-center">
+                        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary/10">
                             <Mail
                                 color="white"
                                 className="h-6 w-6 text-primary"
                             />
                         </div>
-                        <h3 className="text-lg font-semibold mb-2">
+                        <h3 className="mb-2 text-lg font-semibold">
                             Электронная&nbsp;почта
                         </h3>
                         <p className="text-muted-foreground">
-                            {ORGANIZATION_EMAIL}
+                            <a 
+                                href={`mailto:${ORGANIZATION_EMAIL}`}
+                                className="transition-colors hover:text-primary"
+                            >
+                                {ORGANIZATION_EMAIL}
+                            </a>
                         </p>
                     </div>
                 </div>
+                
                 {/* Схема проезда */}
-                <div className="bg-background rounded-lg p-2 border border-brand m-auto w-[360px] h-[550px] space-y-3 md:w-[500px] lg:space-y-6 lg:w-[500px] xl:h-[600px] 2xl:w-[500px] col-span-2 lg:col-span-1">
-                    <div className="bg-muted/50 rounded-lg">
+                <div className="col-span-2 m-auto h-[550px] w-[360px] space-y-3 rounded-lg border border-brand bg-background p-2 md:w-[500px] lg:col-span-1 lg:w-[500px] lg:space-y-6 xl:h-[600px] 2xl:w-[500px]">
+                    <div className="rounded-lg bg-muted/50">
                         <div
                             style={{
                                 position: 'relative',
@@ -106,24 +105,26 @@ export const Contacts = () => {
                             <iframe
                                 src="https://yandex.ru/map-widget/v1/?ll=37.568838%2C55.785762&mode=search&oid=174002347974&ol=biz&z=17.13"
                                 width="100%"
-                                className='h-[530px] xl:h-[580px]'
+                                className="h-[530px] xl:h-[580px]"
                                 allowFullScreen
                                 style={{ position: 'relative' }}
-                                title="Yandex Map of Звучи!"
+                                title="Карта расположения школы вокала Звучи!"
                             ></iframe>
                         </div>
                     </div>
                 </div>
 
-                <div className="bg-background rounded-lg p-2 border border-brand m-auto w-[360px] h-[550px] overflow-auto relative md:w-[500px] lg:w-[500px] xl:h-[600px] 2xl:w-[500px] col-span-2 lg:col-span-1">
+                <div className="relative col-span-2 m-auto h-[550px] w-[360px] overflow-auto rounded-lg border border-brand bg-background p-2 md:w-[500px] lg:col-span-1 lg:w-[500px] xl:h-[600px] 2xl:w-[500px]">
                     <iframe
-                        className="w-full h-full border-[#e6e6e6] box-border rounded-b-md"
+                        className="box-border h-full w-full rounded-b-md border-[#e6e6e6]"
                         src="https://yandex.ru/maps-reviews-widget/174002347974?comments"
+                        title="Отзывы о школе вокала Звучи!"
                     ></iframe>
                     <a
                         href="https://yandex.ru/maps/org/zvuchi_/174002347974/"
                         target="_blank"
-                        className="text-(--brand) text-sm px-5 absolute bottom-2 w-full text-center left-0 text-ellipsis"
+                        rel="noopener noreferrer"
+                        className="text-(--brand) absolute bottom-2 left-0 w-full text-ellipsis px-5 text-center text-sm"
                     >
                         Звучи! на карте Москвы — Яндекс Карты
                     </a>

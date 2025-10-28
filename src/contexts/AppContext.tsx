@@ -68,7 +68,11 @@ interface AppContextType {
 
 const AppContext = createContext<AppContextType | undefined>(undefined)
 
-export const AppProvider = ({ children }: { children: ReactNode }) => {
+interface AppProviderProps {
+    children: ReactNode
+}
+
+export const AppProvider = ({ children }: AppProviderProps) => {
     const [state, dispatch] = useReducer(appReducer, initialState)
 
     const addNotification = (notification: Omit<Notification, 'id'>) => {

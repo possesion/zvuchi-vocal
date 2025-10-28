@@ -27,21 +27,20 @@ export default function MobileMenu() {
                 <SheetTrigger asChild>
                     <Button variant="ghost" className="md:hidden">
                         <BurgerMenu color="#291313" className="h-6 w-12" />
-                        <span className="sr-only">Toggle menu</span>
+                        <span className="sr-only">Открыть меню</span>
                     </Button>
                 </SheetTrigger>
                 <SheetContent>
                     <SheetHeader className="mb-6">
-                        <SheetTitle className="flex text-white items-center gap-2">
-                            {/* <span>Меню</span> */}
+                        <SheetTitle className="flex items-center gap-2 text-white">
                             <img
-                                className="w-40 h-10 md:w-56 md:h-16"
+                                className="h-10 w-40 md:h-16 md:w-56"
                                 src="/logo-white.svg"
-                                alt="logo"
+                                alt="Логотип школы вокала Звучи!"
                             />
                         </SheetTitle>
                     </SheetHeader>
-                    <nav className="px-2 py-2 font-exo2 text-2xl flex flex-col space-y-4">
+                    <nav className="flex flex-col space-y-4 px-2 py-2 text-2xl font-exo2">
                         <Link
                             href="#about"
                             className="flex items-center hover:text-red-400"
@@ -51,46 +50,32 @@ export default function MobileMenu() {
                         </Link>
                         <Link
                             href="#subscriptions"
-                            className="flex items-center"
+                            className="flex items-center hover:text-red-400"
                             onClick={handleLinkClick}
                         >
                             Абонементы
                         </Link>
                         <Link
                             href="#instructors"
-                            className="flex items-center"
+                            className="flex items-center hover:text-red-400"
                             onClick={handleLinkClick}
                         >
                             Преподаватели
                         </Link>
                         <Link
                             href="#gallery"
-                            className="flex items-center"
+                            className="flex items-center hover:text-red-400"
                             onClick={handleLinkClick}
                         >
                             Галерея
                         </Link>
                         <Link
                             href="#contacts"
-                            className="flex items-center"
+                            className="flex items-center hover:text-red-400"
                             onClick={handleLinkClick}
                         >
                             Контакты
                         </Link>
-                        {/* <PlatformDialog
-                            trigger={
-                                <button className="flex items-center py-2 text-base font-medium border-b border-border">
-                                    Оплата
-                                </button>
-                            }
-                        >
-                            <div className="p-6">
-                                <Dialog.Title className="text-2xl font-bold mb-4">
-                                    Оплата
-                                </Dialog.Title>
-                                <PaymentForm />
-                            </div>
-                        </PlatformDialog> */}
                     </nav>
                 </SheetContent>
             </Sheet>

@@ -51,11 +51,10 @@ export function Snackbar({
     const textColor = type === 'success' ? 'text-green-800' : 'text-red-800'
 
     return (
-        <div className="fixed top-4 right-4 z-50 max-w-sm w-full">
+        <div className="fixed right-4 top-4 z-50 w-full max-w-sm" role="alert" aria-live="polite">
             <div
                 className={`
-          ${bgColor} border rounded-lg shadow-lg p-4 
-          transform transition-all duration-300 ease-in-out
+          ${bgColor} transform rounded-lg border p-4 shadow-lg transition-all duration-300 ease-in-out
           ${isAnimating ? 'translate-x-0 opacity-100' : 'translate-x-full opacity-0'}
         `}
             >
@@ -71,14 +70,15 @@ export function Snackbar({
                             setIsAnimating(false)
                             setTimeout(onClose, 300)
                         }}
-                        className="text-gray-400 hover:text-gray-600 transition-colors"
+                        className="text-gray-400 transition-colors hover:text-gray-600"
+                        aria-label="Закрыть уведомление"
                     >
                         <X className="h-4 w-4" />
                     </button>
                 </div>
 
                 {/* Прогресс-бар */}
-                <div className="mt-3 h-1 bg-gray-200 rounded-full overflow-hidden">
+                <div className="mt-3 h-1 overflow-hidden rounded-full bg-gray-200">
                     <div
                         className={`h-full transition-all duration-300 ease-linear ${
                             type === 'success' ? 'bg-green-500' : 'bg-red-500'
@@ -87,6 +87,7 @@ export function Snackbar({
                             width: isAnimating ? '100%' : '0%',
                             transition: `width ${duration}ms linear`,
                         }}
+                        aria-hidden="true"
                     />
                 </div>
             </div>

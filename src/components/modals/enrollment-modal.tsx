@@ -1,6 +1,6 @@
 'use client';
 
-import { InvalidEvent, useState } from 'react';
+import { InvalidEvent, useState, useEffect } from 'react';
 import { X } from 'lucide-react';
 import { Snackbar } from '../common/snackbar';
 import { Offera } from '@/components/common/offera';
@@ -103,41 +103,64 @@ export function EnrollmentModal({ isOpen, onClose }: EnrollmentModalProps) {
         });
     };
 
+    // Блокировка скролла при открытии модалки
+    useEffect(() => {
+        if (isOpen) {
+            // Сохраняем текущую позицию скролла
+            const scrollY = window.scrollY;
+
+            // Блокируем скролл
+            document.body.style.position = 'fixed';
+            document.body.style.top = `-${scrollY}px`;
+            document.body.style.width = '100%';
+
+            return () => {
+                // Восстанавливаем скролл при закрытии
+                document.body.style.position = '';
+                document.body.style.top = '';
+                document.body.style.width = '';
+                window.scrollTo(0, scrollY);
+            };
+        }
+    }, [isOpen]);
+
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center">
+        <div className="fixed inset-0 z-50 flex items-center justify-center" role="dialog" aria-modal="true" aria-labelledby="modal-title">
             {/* Backdrop */}
             <div
                 className="absolute inset-0 bg-black/50 backdrop-blur-sm"
                 onClick={onClose}
+                aria-hidden="true"
             />
 
             {/* Modal */}
-            <div className="relative animate-fade-in bg-white rounded-2xl shadow-2xl max-w-[480px] w-full mx-4 max-h-[90vh] overflow-y-auto">
-                <div className="flex items-center justify-between p-6 border-b">
-                    <h2 className="text-2xl font-bold text-gray-900">
+            <div className="animate-fade-in relative mx-4 w-full max-w-[480px] max-h-[90vh] overflow-y-auto rounded-2xl bg-white shadow-2xl">
+                <header className="flex items-center justify-between border-b p-6">
+                    <h2 id="modal-title" className="text-2xl font-bold text-gray-900">
                         Записаться на пробное&nbsp;занятие
                     </h2>
                     <button
                         onClick={onClose}
-                        className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                        className="rounded-full p-2 transition-colors hover:bg-gray-100"
+                        aria-label="Закрыть модальное окно"
                     >
                         <X className="h-6 w-6" />
                     </button>
-                </div>
+                </header>
 
                 {/* Form */}
-                <form onSubmit={handleSubmit} className="p-6 space-y-4">
+                <form onSubmit={handleSubmit} className="space-y-4 p-6">
                     <div>
                         <label
                             htmlFor="name"
-                            className="block text-sm font-medium text-gray-700 mb-1"
+                            className="mb-1 block text-sm font-medium text-gray-700"
                         >
                             Имя *
                         </label>
                         <input
-                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+                            className="w-full rounded-lg border border-gray-300 px-3 py-2 transition-all focus:border-transparent focus:ring-2 focus:ring-primary"
                             id="name"
                             name="name"
                             onInvalid={handleValidate('Введите имя')}
@@ -153,13 +176,13 @@ export function EnrollmentModal({ isOpen, onClose }: EnrollmentModalProps) {
                     <div>
                         <label
                             htmlFor="phone"
-                            className="block text-sm font-medium text-gray-700 mb-1"
+                            className="mb-1 block text-sm font-medium text-gray-700"
                         >
                             Телефон *
                         </label>
                         <input
                             id="phone"
-                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+                            className="w-full rounded-lg border border-gray-300 px-3 py-2 transition-all focus:border-transparent focus:ring-2 focus:ring-primary"
                             name="phone"
                             onInvalid={handleValidate('Введите номер телефона')}
                             onInput={handleValidate('')}
@@ -170,22 +193,23 @@ export function EnrollmentModal({ isOpen, onClose }: EnrollmentModalProps) {
                             value={formData.phone}
                         />
                     </div>
-                    {/*<TextPreview*/}
-                    {/*    fileUrl="/documents/privacy.txt" // Путь к вашему файлу*/}
-                    {/*    onReadChange={handleReadChange}*/}
-                    {/*/>*/}
-                    <div className='flex justify-between'>
+
+                    <div className="flex justify-between">
                         <Offera document="/documents/privacy.txt" isOpen={offeraIsOpen}>
-                            <button onClick={() => {
-                                setOfferaIsOpen((prev) => !prev)
-                            }} className="dark:hover:text-red-400 transition-colors duration-200 relative group">
-                                Нажимая кнопку <span className='font-bold mr-1'>Записаться </span> вы соглашаетесь с <span className='cursor-pointer text-brand'>Политикой конфиденциальности.</span>
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    setOfferaIsOpen((prev) => !prev)
+                                }}
+                                className="group relative transition-colors duration-200 dark:hover:text-red-400"
+                            >
+                                Нажимая кнопку <span className="mr-1 font-bold">Записаться </span> вы соглашаетесь с <span className="cursor-pointer text-brand">Политикой конфиденциальности.</span>
                             </button>
                         </Offera>
                     </div>
                     <button
                         type="submit"
-                        className="cursor-pointer w-full bg-linear-to-r from-brand to-brand-secondary text-white font-bold py-3 px-6 rounded-lg hover:from-primary/90 hover:to-primary/70 transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl"
+                        className="w-full cursor-pointer transform rounded-lg bg-linear-to-r from-brand to-brand-secondary px-6 py-3 font-bold text-white shadow-lg transition-all duration-200 hover:scale-105 hover:from-primary/90 hover:to-primary/70 hover:shadow-xl"
                     >
                         Записаться
                     </button>
