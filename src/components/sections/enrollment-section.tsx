@@ -12,11 +12,11 @@ export function EnrollmentSection({ main = false }) {
         }
     }
     return (
-        <section id="study" className="bg-muted/50 py-6 lg:py-16">
+        <section id="study" className="bg-muted/50 py-6 lg:py-14">
             <EnrollmentModal isOpen={openModal} onClose={() => setOpenModal(false)} />
             {main ? (
                 <button 
-                    className="group relative m-auto mb-4 block cursor-pointer overflow-hidden rounded-full border border-white bg-brand px-5 py-2 font-bold text-white shadow-xl/20 backdrop-brightness-[.9] transition-all duration-300 hover:scale-105 hover:shadow-xl" 
+                    className="group relative m-auto mb-4 block cursor-pointer overflow-hidden rounded-sm primary-bg px-6 py-3 text-lg font-bold text-white shadow-[0_0_45px_15px] shadow-purple-900 transition-all duration-300 hover:scale-105" 
                     onClick={() => setOpenModal(true)}
                 >
                     Получи

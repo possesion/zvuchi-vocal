@@ -13,6 +13,9 @@ import {
     SheetTrigger,
 } from '@/components/modals/sheet-enhanced'
 import BurgerMenu from '@/app/burger-menu';
+import { SOCIAL_ICON_SIZE } from './common/constants'
+import { Socials } from './common/socials'
+import { STUDIO_MOBILE_PHONE } from '@/app/constants'
 
 export default function MobileMenu() {
     const [open, setOpen] = useState(false)
@@ -40,7 +43,8 @@ export default function MobileMenu() {
                             />
                         </SheetTitle>
                     </SheetHeader>
-                    <nav className="flex flex-col space-y-4 px-2 py-2 text-2xl font-exo2">
+                    <div className='h-5/6 flex flex-col justify-between'>
+                        <nav className="flex flex-col space-y-4 px-2 py-2 text-2xl font-exo2">
                         <Link
                             href="#about"
                             className="flex items-center hover:text-red-400"
@@ -77,6 +81,14 @@ export default function MobileMenu() {
                             Контакты
                         </Link>
                     </nav>
+                    <section className='space-y-4'>
+                        <p className='font-exo2 text-2xl font-semibold'>{STUDIO_MOBILE_PHONE}</p>
+                        <Socials
+                        size={SOCIAL_ICON_SIZE.md}
+                        className="flex mx-auto gap-x-4"
+                    />
+                    </section>
+                    </div>
                 </SheetContent>
             </Sheet>
         </div>

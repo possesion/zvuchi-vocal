@@ -22,29 +22,32 @@ export default function Home() {
             <main className="w-full flex-1 primary-bg">
                 {/* Hero Section */}
                 <div className="primary-bg">
-                    <Socials 
-                        size={SOCIAL_ICON_SIZE.sm} 
-                        className="container mx-auto hidden justify-end gap-x-1 pt-2 md:flex md:gap-x-2" 
+                    <Socials
+                        size={SOCIAL_ICON_SIZE.sm}
+                        className="container mx-auto hidden justify-end gap-x-1 pt-2 md:flex md:gap-x-2"
                     />
                     <section className="container mx-auto flex h-[100svh] sm:h-screen">
                         <div className="relative z-10 flex w-full justify-center">
-                            {/* Нет подходящей фотографии микрофрона. */}
-                            {/* <Image 
-                                src="/micro.png" 
-                                className="absolute bottom-0 left-90 z-50 hidden object-cover drop-shadow-2xl md:block md:w-[200px]" 
-                                width={200} 
-                                height={500} 
-                                alt="Микрофон" 
-                            /> */}
-                            <Image 
-                                src="/valeria/transparent-lera.png" 
-                                className="absolute bottom-0 right-0 z-50 object-cover drop-shadow-2xl md:w-[500px]" 
-                                width={400} 
-                                height={800} 
-                                alt="Валерия - преподаватель вокала" 
+                            <div className="absolute bottom-0 left-60 z-50 hidden md:block">
+                                <Image
+                                    src="/micro.png"
+                                    className="object-cover drop-shadow-2xl md:w-[180px]"
+                                    width={180}
+                                    height={500}
+                                    alt="Микрофон"
+                                />
+                                {/* тень микрофон */}
+                                <div className="pointer-events-none h-14 w-9 absolute left-21 top-5 mic-shadow animate-blurred-fade-in"></div>
+                                <div className="pointer-events-none h-3 w-24 absolute left-13 bottom-5 stand-shadow animate-blurred-fade-in"></div>
+                            </div>
+                            <Image
+                                src="/valeria/transparent-lera.png"
+                                className="absolute bottom-0 right-0 z-50 object-cover drop-shadow-2xl md:w-[600px]"
+                                width={400}
+                                height={800}
+                                alt="Валерия - преподаватель вокала"
                             />
-
-                            <div className="z-51 flex flex-col gap-y-6 p-8 lg:justify-center xl:gap-y-9">
+                            <div className="z-51 flex flex-col gap-y-6 p-8 lg:justify-start xl:gap-y-9">
                                 <h1 className="text-2xl font-bold text-white text-shadow-lg xl:text-7xl">
                                     ШКОЛА<br />
                                     <span className="ml-4">ВОКАЛА</span>
@@ -128,12 +131,12 @@ export default function Home() {
 
                 {/* Gallery Section */}
                 <Gallery />
-                
+
                 {/* Contacts Section */}
                 <section>
                     <Contacts />
                 </section>
-                
+
                 {/* Social Networks Section */}
                 <section className="container mx-auto px-4 py-10 text-white lg:py-16">
                     <header className="mb-6 flex flex-col md:mb-8 md:items-center md:text-center">

@@ -169,6 +169,25 @@ body {
   color: var(--brand-secondary);
 }
 
+.mic-shadow {
+  z-index: -1;
+  background-color: #01080f;
+  border-radius: 50%;
+  -webkit-box-shadow: 0px 0px 25px 25px rgba(9, 4, 8, 0.51);
+  -moz-box-shadow: 0px 0px 25px 25px rgba(9, 4, 8, 0.51);
+  box-shadow: 0px 0px 25px 30px rgba(25, 2, 5, 0.61);
+}
+
+.stand-shadow {
+  z-index: -1;
+  background-color: #01080f;
+  border-radius: 50%;
+  -webkit-box-shadow: 0px 0px 25px 25px rgba(9, 4, 8, 0.51);
+  -moz-box-shadow: 0px 0px 25px 25px rgba(9, 4, 8, 0.51);
+  /* X – Y – Blur – Radius – , opacity */
+  box-shadow: 0px 0px 15px 15px rgba(25, 2, 5, 0.61);
+}
+
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }

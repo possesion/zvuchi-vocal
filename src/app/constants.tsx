@@ -1,5 +1,6 @@
 import { StarIcon } from 'lucide-react'
 
+export const STUDIO_MOBILE_PHONE = '+7 (977) 967-50-01'
 export const programs = [
     {
         icon: <StarIcon
@@ -203,11 +204,11 @@ export const navigationList = [
 ]
 
 export const socials = [
-    {
-        url: 'https://www.instagram.com/zvuchi.vocal?igsh=NG40M3dwNnQ4Z21m&utm_source=qr',
-        src: "/socials/instagram.svg",
-        alt: "instagram",
-    },
+    // {
+    //     url: 'https://www.instagram.com/zvuchi.vocal?igsh=NG40M3dwNnQ4Z21m&utm_source=qr',
+    //     src: "/socials/instagram.svg",
+    //     alt: "instagram",
+    // },
     {
         url: 'https://t.me/zvuchivocal',
         src: "/socials/telegram.svg",
