@@ -25,6 +25,12 @@ const manrope = Manrope({
 export const metadata: Metadata = {
   title: "ЗВУЧИ",
   description: "Вокальная студия",
+  viewport: {
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 1,
+    userScalable: false,
+  },
 };
 
 export default function RootLayout({
