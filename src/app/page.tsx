@@ -31,7 +31,7 @@ export default function Home() {
                             <div className="absolute bottom-0 left-60 z-50 hidden md:block">
                                 <Image
                                     src="/micro.png"
-                                    className="object-cover drop-shadow-2xl w-[180px] h-auto"
+                                    className=""
                                     width={180}
                                     height={500}
                                     alt="Микрофон"
@@ -45,6 +45,7 @@ export default function Home() {
                                 className="absolute bottom-0 right-0 z-50 object-cover drop-shadow-2xl md:w-[600px]"
                                 width={400}
                                 height={800}
+                                priority
                                 alt="Валерия - преподаватель вокала"
                             />
                             <div className="z-51 flex flex-col gap-y-6 p-8 lg:justify-start xl:gap-y-9">
@@ -73,7 +74,7 @@ export default function Home() {
                 <div className="primary-bg py-6">
                     <section
                         id="about"
-                        className="relative container py-10 text-white md:py-16"
+                        className="container py-10 text-white md:py-16"
                     >
                         <PromoContent />
                         <h2 className="mb-4 text-center text-4xl font-bold tracking-tight text-shadow-lg md:text-3xl xl:text-6xl">
