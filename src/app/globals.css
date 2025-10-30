@@ -42,6 +42,8 @@
 
   --animate-slide-y-out: slide-y-out 0.5s ease-out;
 
+  --animate-marquee: marquee 20s linear infinite;
+
   @keyframes fade-in-scale {
     0% {
       opacity: 0;
@@ -130,6 +132,15 @@
     }
   }
 
+  @keyframes marquee {
+    0% {
+      transform: translateX(0%);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
   @keyframes "accordion-down" {
     from {
       height: 0
@@ -162,6 +173,18 @@
 } */
 * {
   scroll-behavior: smooth;
+}
+
+/* Предотвращение проблем с масштабированием на мобильных */
+html {
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+}
+
+/* Предотвращение горизонтального скролла */
+html, body {
+  overflow-x: hidden;
+  width: 100%;
 }
 
 body {
@@ -253,6 +276,11 @@ body {
   .main-bg {
     background-attachment: fixed;
   }
+}
+
+/* Marquee animation */
+.marquee-scroll {
+  animation: marquee 20s linear infinite;
 }
 
 /* Custom animations for mobile menu */
