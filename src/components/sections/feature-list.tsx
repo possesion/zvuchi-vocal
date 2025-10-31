@@ -1,42 +1,5 @@
-import { evtTooltipContent } from "@/app/constants";
-import { Tooltip } from "radix-ui";
+import { BaseTooltip } from "../common/base-tooltip";
 
-// .TooltipContent {
-// 	border-radius: 4px;
-// 	padding: 10px 15px;
-// 	font-size: 15px;
-// 	line-height: 1;
-// 	color: var(--violet-11);
-// 	background-color: white;
-// 	box-shadow:
-// 		hsl(206 22% 7% / 35%) 0px 10px 38px -10px,
-// 		hsl(206 22% 7% / 20%) 0px 10px 20px -15px;
-// 	user-select: none;
-// 	animation-duration: 400ms;
-// 	animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
-// 	will-change: transform, opacity;
-// }
-export const TooltipDemo = () => (
-  <Tooltip.Provider delayDuration={800} skipDelayDuration={500}>
-
-    <Tooltip.Root delayDuration={0}>
-      <Tooltip.Trigger className="pr-1 cursor-help font-bold text-brand hover:text-white">EVT</Tooltip.Trigger>
-      <Tooltip.Content className="px-2 py-3 rounded-sm text-brand bg-white max-w-60 data-[state='delayed-open']:animate-flip-in-y data-[state='closed']:animate-flip-out-y">{evtTooltipContent}</Tooltip.Content>
-    </Tooltip.Root>
-  </Tooltip.Provider>
-);
-// Компонент Tooltip
-// const Tooltip = ({ children, content }: { children: React.ReactNode; content: string }) => {
-//   return (
-//     <div className="group relative inline-block">
-//       {children}
-//       <div className="invisible absolute bottom-full left-1/2 z-50 mb-2 -translate-x-1/2 transform rounded-lg bg-gray-900 px-3 py-2 text-sm text-white opacity-0 shadow-lg transition-all duration-200 group-hover:visible group-hover:opacity-100">
-//         {content}
-//         <div className="absolute left-1/2 top-full -translate-x-1/2 transform border-4 border-transparent border-t-gray-900"></div>
-//       </div>
-//     </div>
-//   );
-// };
 
 export const FeatureList = () => {
   return (
@@ -57,7 +20,7 @@ export const FeatureList = () => {
               <p className="px-1 text-muted-foreground">
                 Учитесь у профессионалов – наши педагоги сертифицированы по
                 методике{' '}
-                <TooltipDemo />
+                <BaseTooltip />
                 и имеют многолетний опыт выступлений и преподавания.
               </p>
             </div>
