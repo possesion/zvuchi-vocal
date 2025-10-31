@@ -23,8 +23,7 @@ export const VocalInstructor = ({ instructor }: VocalInstructor) => {
     const ref = useRef<HTMLDivElement>(null);
     const [isPlaying, setIsPlaying] = useState(false)
     const [intersection, setIntersection] = useState(false)
-    const [isModalOpen, setIsModalOpen] = useState(false)
-
+    const [, setIsModalOpen] = useState(false)
     useEffect(() => {
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -36,33 +35,16 @@ export const VocalInstructor = ({ instructor }: VocalInstructor) => {
             })
 
         }, { threshold: 0.5 });
-
-        if (ref.current) {
-            observer.observe(ref.current)
+        const currentRef = ref.current;
+        if (currentRef) {
+            observer.observe(currentRef)
         }
         return () => {
-            if (ref.current) {
-                observer.unobserve(ref.current)
+            if (currentRef) {
+                observer.unobserve(currentRef)
             }
         }
     }, []);
-
-    // Блокировка скролла при открытии модалки
-    useEffect(() => {
-        if (isModalOpen) {
-            const scrollY = window.scrollY;
-            document.body.style.position = 'fixed';
-            document.body.style.top = `-${scrollY}px`;
-            document.body.style.width = '100%';
-
-            return () => {
-                document.body.style.position = '';
-                document.body.style.top = '';
-                document.body.style.width = '';
-                window.scrollTo(0, scrollY);
-            };
-        }
-    }, [isModalOpen]);
 
     const togglePlay = () => {
         if (videoRef.current) {
@@ -75,6 +57,23 @@ export const VocalInstructor = ({ instructor }: VocalInstructor) => {
         }
     }
 
+    const handleModalChange = (open: boolean) => {
+        setIsModalOpen(open);
+
+        if (!open) {
+            // Предотвращаем автоматический скролл к элементу при закрытии
+            setTimeout(() => {
+                if (ref.current) {
+                    ref.current.blur();
+                }
+                // Убираем фокус с любых активных элементов
+                if (document.activeElement instanceof HTMLElement) {
+                    document.activeElement.blur();
+                }
+            }, 50);
+        }
+    }
+
     return (
         <article className="group flex flex-col items-center justify-center text-center">
             <div
@@ -82,7 +81,7 @@ export const VocalInstructor = ({ instructor }: VocalInstructor) => {
                 onClick={togglePlay}
                 className={classNames('mb-2 opacity-0', { 'delay-250 transition duration-600 opacity-100': intersection })}
             >
-                <Dialog.Root modal onOpenChange={setIsModalOpen}>
+                <Dialog.Root modal onOpenChange={handleModalChange}>
                     <Dialog.Trigger asChild>
                         <div
                             className="relative h-68 w-68" key={instructor.image}>
@@ -109,7 +108,7 @@ export const VocalInstructor = ({ instructor }: VocalInstructor) => {
                                 Видео презентация преподавателя {instructor.name}
                             </Dialog.Title>
                         </VisuallyHidden>
-                        <Dialog.Content className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8">
+                        <Dialog.Content aria-describedby={undefined} className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8">
                             <div className="relative h-full w-full max-h-[90vh] max-w-[90vw]">
                                 {/* Видео на весь доступный размер */}
                                 <iframe

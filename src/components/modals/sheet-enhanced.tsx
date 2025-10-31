@@ -39,6 +39,7 @@ const SheetContent = React.forwardRef<
     <SheetPortal>
         <SheetOverlay />
         <SheetPrimitive.Content
+            aria-describedby={undefined}
             ref={ref}
             className={cn(
                 'sheet-content animate-delay-300 animate-duration-slow fixed inset-y-0 right-0 z-50 h-full w-5/6 transform gap-4 p-6 text-white shadow-lg transition-all duration-500 ease-out secondary-bg data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:animate-slide-out data-[state=open]:animate-slide-in sm:max-w-sm',
