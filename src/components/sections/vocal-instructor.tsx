@@ -22,7 +22,8 @@ export const VocalInstructor = ({ instructor }: VocalInstructor) => {
     const videoRef = useRef<HTMLVideoElement>(null)
     const ref = useRef<HTMLDivElement>(null);
     const [isPlaying, setIsPlaying] = useState(false)
-    const [intersection, setIntersection] = useState(false);
+    const [intersection, setIntersection] = useState(false)
+    const [isModalOpen, setIsModalOpen] = useState(false)
 
     useEffect(() => {
         const observer = new IntersectionObserver((entries) => {
@@ -46,6 +47,23 @@ export const VocalInstructor = ({ instructor }: VocalInstructor) => {
         }
     }, []);
 
+    // Блокировка скролла при открытии модалки
+    useEffect(() => {
+        if (isModalOpen) {
+            const scrollY = window.scrollY;
+            document.body.style.position = 'fixed';
+            document.body.style.top = `-${scrollY}px`;
+            document.body.style.width = '100%';
+
+            return () => {
+                document.body.style.position = '';
+                document.body.style.top = '';
+                document.body.style.width = '';
+                window.scrollTo(0, scrollY);
+            };
+        }
+    }, [isModalOpen]);
+
     const togglePlay = () => {
         if (videoRef.current) {
             if (isPlaying) {
@@ -64,7 +82,7 @@ export const VocalInstructor = ({ instructor }: VocalInstructor) => {
                 onClick={togglePlay}
                 className={classNames('mb-2 opacity-0', { 'delay-250 transition duration-600 opacity-100': intersection })}
             >
-                <Dialog.Root modal>
+                <Dialog.Root modal onOpenChange={setIsModalOpen}>
                     <Dialog.Trigger asChild>
                         <div
                             className="relative h-68 w-68" key={instructor.image}>
@@ -85,29 +103,30 @@ export const VocalInstructor = ({ instructor }: VocalInstructor) => {
                         </div>
                     </Dialog.Trigger>
                     <Dialog.Portal>
-                        <Dialog.Overlay className="DialogOverlay" />
-                            <VisuallyHidden>
-                                <Dialog.Title className="text-2xl font-bold mb-4">
-                                    Просмотр видео
-                                </Dialog.Title>
-                            </VisuallyHidden>
-                        <Dialog.Content asChild>
-                            <div className="DialogContent">
-                                <video
-                                    ref={videoRef}
-                                    autoPlay
-                                    controls={isPlaying}
-                                    onPause={() => setIsPlaying(false)}
-                                    onPlay={() => setIsPlaying(true)}
+                        <Dialog.Overlay className="fixed inset-0 z-50 bg-black/90 backdrop-blur-sm" />
+                        <VisuallyHidden>
+                            <Dialog.Title className="mb-4 text-2xl font-bold">
+                                Видео презентация преподавателя {instructor.name}
+                            </Dialog.Title>
+                        </VisuallyHidden>
+                        <Dialog.Content className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8">
+                            <div className="relative h-full w-full max-h-[90vh] max-w-[90vw]">
+                                {/* Видео на весь доступный размер */}
+                                <iframe
+                                    className="h-full w-full rounded-lg"
                                     src={instructor.video}
+                                    style={{ border: 'none' }}
+                                    allow="clipboard-write; autoplay"
+                                    allowFullScreen
                                     aria-label={`Видео презентация преподавателя ${instructor.name}`}
-                                />
-                                <Dialog.Close>
+                                ></iframe>
+                                {/* Кнопка закрытия */}
+                                <Dialog.Close asChild>
                                     <button
-                                        className="IconButton"
+                                        className="absolute -right-2 -top-2 z-10 rounded-full bg-black/70 p-2 text-white transition-all duration-200 hover:bg-black/90 hover:scale-110 md:-right-4 md:-top-4 md:p-3"
                                         aria-label="Закрыть видео"
                                     >
-                                        <X className="h-4 w-4" />
+                                        <X className="h-5 w-5 md:h-6 md:w-6" />
                                     </button>
                                 </Dialog.Close>
                             </div>

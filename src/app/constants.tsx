@@ -1,5 +1,7 @@
 import { StarIcon } from 'lucide-react'
 
+export const evtTooltipContent = 'Estill Voice Training (EVT) — это научная модель развития голоса, разработанная певицей и исследователем Джо Эстилл, которая учит сознательному контролю над структурами голосового аппарата для достижения гибкости, силы и здоровья голоса в любом стиле';
+
 export const STUDIO_MOBILE_PHONE = '+7 (977) 967-50-01'
 export const programs = [
     {
@@ -72,8 +74,15 @@ export const instructors = [
         bio: (
             <div className='font-semibold'>
                 <li><span className='mr-2'>🎓</span>Образование: МГКИ (эстрадно-джазовый вокал)</li>
-                <li><span className='mr-2'>⭐</span>Повышала квалификацию на курсах Estill Voice Training и у
-                    Дарьи Манаковой
+                <li>
+                    <span className='mr-2'>⭐</span>Повышала квалификацию на курсах{' '}
+                    <span 
+                        className="cursor-help rounded-md bg-brand/20 px-2 py-1 font-semibold text-brand transition-all duration-200 hover:bg-brand/30 hover:text-white"
+                        title="Estill Voice Training"
+                    >
+                        EVT
+                    </span>{' '}
+                    и у Дарьи Манаковой
                 </li>
                 <li><span className='mr-2'>🎤</span>Солистка джаз-банда Extra Time Jazz Band</li>
                 <li><span className='mr-2'>📚</span>Опыт преподавания: 6 лет</li>
@@ -81,7 +90,7 @@ export const instructors = [
         ),
         experience: '6 лет',
         image: '/valeria/lera.PNG?height=300&width=300',
-        video: '/valeria/lera.mp4',
+        video: 'https://rutube.ru/play/embed/8f21f290b8b499db931a36b9c3f45ed7/?p=NFNMNDe-TfS8_6Z-XjvB5w',
     },
     {
         name: 'Мария Биттер',
@@ -97,7 +106,8 @@ export const instructors = [
             </div>
         ),
         image: '/maria/card.jpg?height=300&width=300',
-        video: '/maria/maria.mp4',
+        video: 'https://rutube.ru/play/embed/319d5139e96d348900e654b2145fec5e/?p=Z2IcMERaZ4TioHbmywvakw',
+        
     },
     {
         name: 'Екатерина Сафонова',
@@ -115,7 +125,7 @@ export const instructors = [
             </div>
         ),
         image: '/katya/katya.jpg?height=300&width=300',
-        video: '/katya/katya.mp4',
+        video: 'https://rutube.ru/play/embed/2385534ab6eb3a083805211b82c86718/?p=yIlG6-w0b7P-jW0Q5S55gw',
     },
 ]
 
