@@ -23,7 +23,7 @@ export const VocalInstructor = ({ instructor }: VocalInstructor) => {
     const ref = useRef<HTMLDivElement>(null);
     const [isPlaying, setIsPlaying] = useState(false)
     const [intersection, setIntersection] = useState(false)
-    const [, setIsModalOpen] = useState(false)
+    const [isModalOpen, setIsModalOpen] = useState(false)
     useEffect(() => {
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -46,6 +46,25 @@ export const VocalInstructor = ({ instructor }: VocalInstructor) => {
         }
     }, []);
 
+    // Блокировка скролла при открытии модалки (без нарушения sticky)
+    useEffect(() => {
+        if (isModalOpen) {
+            // Блокируем скролл без изменения position
+            document.body.style.overflow = 'hidden';
+            document.body.style.paddingRight = '0px';
+        } else {
+            // Восстанавливаем скролл
+            document.body.style.overflow = '';
+            document.body.style.paddingRight = '';
+        }
+
+        // Cleanup при размонтировании
+        return () => {
+            document.body.style.overflow = '';
+            document.body.style.paddingRight = '';
+        };
+    }, [isModalOpen]);
+
     const togglePlay = () => {
         if (videoRef.current) {
             if (isPlaying) {
@@ -58,6 +77,9 @@ export const VocalInstructor = ({ instructor }: VocalInstructor) => {
     }
 
     const handleModalChange = (open: boolean) => {
+        if (instructor.video === '') {
+            return;
+        }
         setIsModalOpen(open);
 
         if (!open) {
@@ -81,7 +103,7 @@ export const VocalInstructor = ({ instructor }: VocalInstructor) => {
                 onClick={togglePlay}
                 className={classNames('mb-2 opacity-0', { 'delay-250 transition duration-600 opacity-100': intersection })}
             >
-                <Dialog.Root modal onOpenChange={handleModalChange}>
+                <Dialog.Root modal onOpenChange={handleModalChange} open={isModalOpen}>
                     <Dialog.Trigger asChild>
                         <div
                             className="relative h-68 w-68" key={instructor.image}>
@@ -92,13 +114,13 @@ export const VocalInstructor = ({ instructor }: VocalInstructor) => {
                                 fill
                                 className="group cursor-pointer overflow-hidden rounded-full object-cover transition-transform group-hover:scale-105"
                             />
-                            <CirclePlay
+                            {instructor.video && <CirclePlay
                                 fill="var(--brand)"
                                 color="white"
                                 strokeWidth={0.5}
                                 className="absolute right-0 top-0 h-16 w-16 cursor-pointer opacity-30 group-hover:opacity-100"
                                 aria-label="Воспроизвести видео"
-                            />
+                            />}
                         </div>
                     </Dialog.Trigger>
                     <Dialog.Portal>
@@ -119,7 +141,6 @@ export const VocalInstructor = ({ instructor }: VocalInstructor) => {
                                     allowFullScreen
                                     aria-label={`Видео презентация преподавателя ${instructor.name}`}
                                 ></iframe>
-                                {/* Кнопка закрытия */}
                                 <Dialog.Close asChild>
                                     <button
                                         className="absolute -right-2 -top-2 z-10 rounded-full bg-black/70 p-2 text-white transition-all duration-200 hover:bg-black/90 hover:scale-110 md:-right-4 md:-top-4 md:p-3"

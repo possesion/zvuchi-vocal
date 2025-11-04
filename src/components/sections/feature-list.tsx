@@ -31,7 +31,7 @@ export const FeatureList = () => {
                 Сообщество близких по духу людей
               </h3>
               <p className="px-1 text-muted-foreground">
-                Присоединяйтесь к нашему творческому <a className="text-brand font-bold animate-tilt hover:text-white" target="_blank" href="https://t.me/zvuchivocal">сообществу</a> — где вдохновляют
+                Присоединяйтесь к нашему творческому <a className="underline text-white font-bold animate-tilt" target="_blank" href="https://t.me/zvuchivocal">сообществу</a> — где вдохновляют
                 и поддерживают!
               </p>
             </div>

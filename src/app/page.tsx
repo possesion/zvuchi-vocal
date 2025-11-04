@@ -17,9 +17,9 @@ import { Footer } from '@/components/layout/footer'
 
 export default function Home() {
     return (
-        <div className="min-h-screen font-exo2">
+        <div className="relative min-h-screen font-exo2">
             <Header />
-            <main className="w-full flex-1 primary-bg">
+            <main className="w-full flex-1 primary-bg overflow-x-hidden">
                 {/* Hero Section */}
                 <div className="primary-bg">
                     <Socials
@@ -57,7 +57,8 @@ export default function Home() {
                                     Пусть тебя
                                     <span className="text-primary"> УСЛЫШАТ!</span>
                                 </h2>
-                                <div className="hidden w-[500px] text-xl font-semibold text-white md:block lg:ml-10 lg:text-3xl">
+                                <div className="hidden w-[500px] text-xl font-semibold text-white md:block lg:text-3xl">
+                                    {/* lg:ml-10  */}
                                     <p>Голос изменится после первого занятия!</p>
                                     Услышишь разницу до и после.
                                     Проверь — это работает!
@@ -101,7 +102,7 @@ export default function Home() {
                                 Наши педагоги
                             </h3>
                         </header>
-                        <div className="grid grid-cols-1 gap-6 grid-off sm:grid-cols-2 md:gap-8 lg:grid-cols-3">
+                        <div className="container grid grid-cols-1 gap-6 grid-off sm:grid-cols-2 md:gap-8 lg:grid-cols-3">
                             {instructors.map((instructor) => {
                                 return (
                                     <VocalInstructor

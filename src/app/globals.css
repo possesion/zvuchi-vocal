@@ -162,11 +162,6 @@
   }
 }
 
-/* @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #6e6a6a;
-  }
-} */
 * {
   scroll-behavior: smooth;
 }
@@ -177,11 +172,6 @@ html {
   -ms-text-size-adjust: 100%;
 }
 
-/* Предотвращение горизонтального скролла */
-html, body {
-  overflow-x: hidden;
-  width: 100%;
-}
 
 body {
   background: var(--background);
