@@ -14,9 +14,11 @@ import { PromoContent } from '@/components/sections/promo-content'
 import { Socials } from '@/components/common/socials'
 import { SOCIAL_ICON_SIZE } from '@/components/common/constants'
 import { Footer } from '@/components/layout/footer'
+import { EnrollmentForm } from '@/components/forms/enrollment-form'
 
 export default function Home() {
     return (
+
         <div className="relative min-h-screen font-exo2">
             <Header />
             <main className="w-full flex-1 primary-bg overflow-x-hidden">
@@ -49,16 +51,15 @@ export default function Home() {
                                 alt="Валерия - преподаватель вокала"
                             />
                             <div className="z-51 flex flex-col gap-y-6 p-8 lg:justify-start xl:gap-y-9">
-                                <h1 className="text-2xl font-bold text-white text-shadow-lg xl:text-7xl">
+                                <h1 className="hidden hero-title bg-radial-[at_50%_75%] from-sky-500 via-blue-700 to-violet-950 to-90% rounded-md shadow-lg w-min px-5 py-3 text-2xl font-bold text-white md:w-[350px] md:block xl:text-7xl">
                                     ШКОЛА<br />
                                     <span className="ml-4">ВОКАЛА</span>
                                 </h1>
-                                <h2 className="typing-animation mx-auto shrink-0 overflow-hidden text-nowrap pr-3 text-2xl font-bold text-white xl:text-5xl">
+                                <h2 className="hidden typing-animation mx-auto shrink-0 overflow-hidden text-nowrap pr-3 text-2xl font-bold text-white xl:text-5xl">
                                     Пусть тебя
                                     <span className="text-primary"> УСЛЫШАТ!</span>
                                 </h2>
-                                <div className="hidden w-[500px] text-xl font-semibold text-white md:block lg:text-3xl">
-                                    {/* lg:ml-10  */}
+                                <div className="w-76 text-xl font-semibold text-white md:w-[500px] lg:text-3xl">
                                     <p>Голос изменится после первого занятия!</p>
                                     Услышишь разницу до и после.
                                     Проверь — это работает!
@@ -87,22 +88,22 @@ export default function Home() {
                     {/* Instructors Section */}
                     <section
                         id="instructors"
-                        className="py-10 text-white md:py-16"
+                        className="pb-10 text-white md:pb-16"
                     >
                         <header className="mb-4 flex flex-col items-center text-center md:mb-8">
-                            <h2 className="mb-4 text-2xl font-bold tracking-tight md:text-3xl">
-                                Готов начать свой вокальный путь?
-                            </h2>
-                            <p className="container mb-8 max-w-2xl px-4">
-                                Присоединяйтесь к нашей вокальной школе и
-                                раскройте свой талант под руководством опытных
-                                педагогов
-                            </p>
-                            <h3 className="mb-4 text-3xl font-bold tracking-tight text-shadow-lg md:text-4xl">
-                                Наши педагоги
-                            </h3>
+
+                            {/* Enrollment Form */}
+                            <div className="container mx-auto my-8 flex justify-center px-4 lg:my-16">
+                                <EnrollmentForm />
+                            </div>
+                            <div className='flex flex-col justify-center items-center bg-radial-[at_50%_75%] from-sky-500 via-blue-700 to-violet-950 to-90%  mb-8 px-6 py-4 rounded-lg md:mb-12 '>
+                                <h2 className="text-left text-4xl font-bold tracking-tight text-shadow-lg md:text-3xl xl:text-6xl">
+                                    Наши<br />
+                                    <span className="ml-5">педагоги</span>
+                                </h2>
+                            </div>
                         </header>
-                        <div className="container grid grid-cols-1 gap-6 grid-off sm:grid-cols-2 md:gap-8 lg:grid-cols-3">
+                        <div className="container grid grid-cols-1 gap-8 grid-off sm:grid-cols-2 md:gap-y-12 lg:grid-cols-3">
                             {instructors.map((instructor) => {
                                 return (
                                     <VocalInstructor
@@ -117,21 +118,26 @@ export default function Home() {
 
                 {/* Programs Section */}
                 <section id="subscriptions" className="main-bg py-10 text-white lg:py-16">
-                    <header className="container mb-4 flex flex-col items-center md:mb-8">
-                        <h2 className="mb-4 text-left text-4xl font-bold tracking-tight text-shadow-lg md:text-3xl xl:text-6xl">
-                            Наши<br />
-                            <span className="ml-5">абонементы</span>
-                        </h2>
-                        <p className="max-w-2xl text-center font-bold sm:text-left">
-                            От джаза до рока — учим петь в любом жанре!
-                            Индивидуальный подход для всех уровней: от нуля
-                            до профессионала.
-                        </p>
+                    <header className="container mb-8 flex flex-col items-center md:mb-8">
+                        <div className='flex flex-col justify-center items-center bg-radial-[at_50%_75%] from-sky-500/80 via-blue-700/90 to-violet-950/90 to-90%  pr-6 py-4 rounded-lg'>
+                            <h2 className="mb-4 text-left text-4xl font-bold tracking-tight text-shadow-lg md:text-3xl xl:text-6xl">
+                                Наши<br />
+                                <span className="ml-5">абонементы</span>
+                            </h2>
+                            <article className='max-w-2xl text-center font-bold sm:text-left md:pl-6'>
+                                <p className="text-center">
+                                    От джаза до рока — учим петь в любом жанре!
+                                </p>
+                                <p>Индивидуальный подход для всех уровней: от нуля
+                                    до профессионала
+                                </p>
+                            </article>
+
+                        </div>
                     </header>
                     <Programs />
                 </section>
 
-                {/* Gallery Section */}
                 <Gallery />
 
                 {/* Contacts Section */}

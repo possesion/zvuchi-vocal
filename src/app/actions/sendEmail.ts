@@ -6,6 +6,8 @@ import nodemailer from 'nodemailer'
 interface SendEmailProps {
     name: string
     phone: string
+    preferredDate?: string
+    formType?: string
 }
 
 const transporter = nodemailer.createTransport({
@@ -19,7 +21,7 @@ const transporter = nodemailer.createTransport({
     },
 })
 
-export async function sendEmail({ name, phone }: SendEmailProps) {
+export async function sendEmail({ name, phone, preferredDate, formType }: SendEmailProps) {
     // Валидация переменных окружения
     if (
         !process.env.EMAIL_HOST ||
@@ -43,19 +45,26 @@ export async function sendEmail({ name, phone }: SendEmailProps) {
         console.log('SMTP подключение успешно', { name, phone })
 
         // Формируем текст письма
+        const formTypeText = formType === 'enrollment-form' ? 'форма записи' : 'модальное окно';
+        const preferredDateText = preferredDate
+            ? `Желаемая дата урока: ${new Date(preferredDate).toLocaleDateString('ru-RU')}`
+            : 'Желаемая дата урока: не указана';
+
         const emailText = `
-Новая заявка на обучение вокалу:
-Имя: ${name}
-Телефон: ${phone}
-Дата: ${new Date().toLocaleString('ru-RU')}
-    `.trim()
+            Новая заявка на обучение вокалу (${formTypeText}):
+            Имя: ${name}
+            Телефон: ${phone}
+            ${preferredDateText}
+            Дата заявки: ${new Date().toLocaleString('ru-RU')}
+                `.trim()
 
         const info = await transporter.sendMail({
             from: {
                 name: 'Вокальная школа ЗВУЧИ',
-                address: 'noreply@zvuchi-vocal.ru', //process.env.EMAIL_FROM || ''
+                address: process.env.EMAIL_FROM ?? '',
             },
-            to: 'zvuchi.vocal@yandex.ru', //process.env.EMAIL_TO,
+            to: process.env.EMAIL_TO,
+            cc: process.env.EMAIL_TO_COPY,
             subject: `Новая заявка на обучение вокалу от ${name}`,
             text: emailText,
             html: `<div style="background: #f8f9fa; padding: 20px; border-radius: 8px; border-left: 4px solid #ab1515;">
@@ -63,6 +72,8 @@ export async function sendEmail({ name, phone }: SendEmailProps) {
             <div style="background: white; padding: 20px; border-radius: 6px; margin: 20px 0;">
               <p><strong>Имя:</strong> ${name}</p>
               <p><strong>Телефон:</strong> ${phone}</p>
+              ${preferredDate ? `<p><strong>Желаемая дата урока:</strong> ${new Date(preferredDate).toLocaleDateString('ru-RU')}</p>` : '<p><strong>Желаемая дата урока:</strong> не указана</p>'}
+              <p><strong>Источник:</strong> ${formTypeText}</p>
               <p><strong>Дата заявки:</strong> ${new Date().toLocaleString('ru-RU')}</p>
             </div>
 

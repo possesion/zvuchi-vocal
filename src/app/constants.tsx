@@ -1,9 +1,37 @@
 import { StarIcon } from 'lucide-react'
 
 export const evtTooltipTitle = 'Estill Voice Training ';
+
 export const evtTooltipContent = '(EVT) — это научная модель развития голоса, разработанная певицей и исследователем Джо Эстилл, которая учит сознательному контролю над структурами голосового аппарата для достижения гибкости, силы и здоровья голоса в любом стиле';
 
-export const STUDIO_MOBILE_PHONE = '+7 (977) 967-50-01'
+export const beltingDescription = 'Вокальная техника пения высоких нот с использованием грудного регистра, обеспечивающая мощное, объёмное и напористое звучание';
+
+export const driveDescription = 'Приём вокального исполнения (пения), при котором к чистому звуку извлекаемому горловым образом (голосом), примешивается известная доля другого звука, нередко представляющего собой немузыкальный звук';
+
+export const STUDIO_MOBILE_PHONE = '+7 (977) 967-50-01';
+
+export const SHORTS = [
+    'https://rutube.ru/play/embed/ca943387a7e3b370f6ba4d93e6ba88d7/?p=H7d4KoyWjGooI7A5wkosFQ',
+    'https://rutube.ru/play/embed/ba21a6c785395000803c33136d84d841/?p=OeLbwIORH4GZl3DRL4DxfQ',
+    'https://rutube.ru/play/embed/a295af27816cc274f356352453b9e620/?p=dNHOC3Cg-vDXLqsngV9VTg',
+    'https://rutube.ru/play/embed/593c9972643e54f8c8a267d2dd8bff55/?p=a9rFYaVC3lOormfRNbElQA',
+    'https://rutube.ru/play/embed/2b85cf9a8dc4c30f1641b043407a72f1/?p=87otbUldatqPNL6S-FXrlw'
+];
+
+export const SUBSCRIPTION_LINKS = [
+    {
+        name: 'Абонемент на 4 занятия',
+        link: 'https://auth.robokassa.ru/merchant/Invoice/8yaOatE00UCaFsN22cFM8A'
+    },
+    {
+        name: 'Абонемент на 6 занятий',
+        link: 'https://auth.robokassa.ru/merchant/Invoice/74b1AjMbQkSQ8FtjjslWnA'
+    },
+    {
+        name: 'Абонемент на 8 занятий',
+        link: 'https://auth.robokassa.ru/merchant/Invoice/0EWj8n5rlU25UCfN9B6t6A'
+    },
+];
 export const programs = [
     {
         icon: <StarIcon
@@ -77,7 +105,7 @@ export const instructors = [
                 <li><span className='mr-2'>🎓</span>Образование: МГКИ (эстрадно-джазовый вокал)</li>
                 <li>
                     <span className='mr-2'>⭐</span>Повышала квалификацию на курсах{' '}
-                    <span 
+                    <span
                         className="cursor-help rounded-md bg-brand/20 px-2 py-1 font-semibold text-brand transition-all duration-200 hover:bg-brand/30 hover:text-white"
                         title="Estill Voice Training"
                     >
@@ -108,7 +136,7 @@ export const instructors = [
         ),
         image: '/maria/card.jpg?height=300&width=300',
         video: 'https://rutube.ru/play/embed/319d5139e96d348900e654b2145fec5e/?p=Z2IcMERaZ4TioHbmywvakw',
-        
+
     },
     {
         name: 'Екатерина Сафонова',
@@ -119,7 +147,7 @@ export const instructors = [
                 {/* Преподаватель по вокалу, фортепиано и сольфеджио  студии ЗВУЧИ */}
                 <li><span className='mr-2'>🎓</span>Образование МПГУ эстрадно-джазовый вокал и фортепиано</li>
                 <li><span className='mr-2'>⭐</span>
-                    Сверхсила: Анатомия голоса и освобождение от зажимов
+                    Сверхсила: 
                 </li>
                 <li><span className='mr-2'>🎤</span>Мастер-классы джазовых музыкантов Алины Енгибарян, Маринэ Григорян, Евгения Лебедева, Антона Чекурова</li>
                 <li><span className='mr-2'>📚</span>Опыт преподавания: 5 лет</li>
@@ -130,7 +158,7 @@ export const instructors = [
     },
     {
         name: 'Мария Жукова',
-        specialty: 'Анатомия голоса и освобождение от зажимов',
+        specialty: 'Техники плотных высоких нот, этно мелизматика и душевное отношение к голосу',
         experience: '4 года',
         bio: (
             <div className='font-semibold'>

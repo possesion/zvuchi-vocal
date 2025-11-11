@@ -101,12 +101,12 @@ export const VocalInstructor = ({ instructor }: VocalInstructor) => {
             <div
                 ref={ref}
                 onClick={togglePlay}
-                className={classNames('mb-2 opacity-0', { 'delay-250 transition duration-600 opacity-100': intersection })}
+                className={classNames('mb-2 opacity-0', { 'delay-150 transition duration-500 opacity-100': intersection })}
             >
                 <Dialog.Root modal onOpenChange={handleModalChange} open={isModalOpen}>
                     <Dialog.Trigger asChild>
                         <div
-                            className="relative h-68 w-68" key={instructor.image}>
+                            className="relative h-68 w-68 rounded-full inset-ring-4 inset-ring-violet-900" key={instructor.image}>
                             <Image
                                 src={instructor.image || '/placeholder.svg'}
                                 sizes="300px"
@@ -154,7 +154,7 @@ export const VocalInstructor = ({ instructor }: VocalInstructor) => {
                     </Dialog.Portal>
                 </Dialog.Root>
             </div>
-            <h3 className="text-lg font-bold md:text-xl">{instructor.name}</h3>
+            <h3 className="bg-dark rounded-md shadow-lg px-4 pb-1 text-lg font-bold md:text-xl">{instructor.name}</h3>
             <p className="mb-2 w-60"><b>Сверхсила: </b>{instructor.specialty}</p>
             <p><span className="mr-2" aria-hidden="true">📚</span>Опыт преподавания: {instructor.experience}</p>
         </article>

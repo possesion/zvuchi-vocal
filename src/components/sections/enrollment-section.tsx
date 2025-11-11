@@ -16,7 +16,8 @@ export function EnrollmentSection({ main = false }) {
             <EnrollmentModal isOpen={openModal} onClose={() => setOpenModal(false)} />
             {main ? (
                 <button 
-                    className="group relative m-auto mb-4 block cursor-pointer overflow-hidden rounded-sm primary-bg px-6 py-3 text-lg font-bold text-white shadow-[0_0_45px_15px] shadow-purple-900 transition-all duration-300 hover:scale-105" 
+                //   bg-radial-[at_40%] from-sky-700 to-violet-950 to-80%
+                    className="group relative bg-radial-[at_40%] from-violet-800 to-violet-950 to-80% m-auto mb-4 block cursor-pointer overflow-hidden rounded-sm px-6 py-3 text-lg font-bold text-white shadow-[0_0_45px_5px] shadow-purple-900 transition-all duration-300 hover:scale-105" 
                     onClick={() => setOpenModal(true)}
                 >
                     Получи

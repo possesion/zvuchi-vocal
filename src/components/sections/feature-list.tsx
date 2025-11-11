@@ -1,3 +1,4 @@
+import { beltingDescription, driveDescription, evtTooltipContent, evtTooltipTitle } from "@/app/constants";
 import { BaseTooltip } from "../common/base-tooltip";
 
 
@@ -10,23 +11,24 @@ export const FeatureList = () => {
             <div className="h-[400px] rounded-md bg-linear-to-b from-black/70 to-transparent pt-2">
               <h3 className="mb-2 text-xl font-bold">Персональный подход</h3>
               <p className="px-1 text-muted-foreground">
-                Ваш голос - уникален. Наши занятия помогут раскрыть его потенциал, изучить техники от <b>Бэлтинга</b> до <b>Драйва </b> и создать свой узнаваемый стиль
+                
+                Ваш голос - уникален. Наши занятия помогут раскрыть его потенциал, изучить техники от <BaseTooltip trigger='Бэлтинга' content={<>{beltingDescription}</>} /> до <BaseTooltip trigger='Драйва' content={<>{driveDescription}</>} /> и создать свой узнаваемый стиль
               </p>
             </div>
           </article>
           <article className="flex h-[600px] w-full flex-col items-center justify-end rounded-lg bg-[url(/about/about-2.jpg)] bg-cover p-6 text-center shadow-sm pt-2 sm:w-[380px]">
-            <div className="h-[400px] rounded-md bg-linear-to-b from-black/70 to-transparent">
+            <div className="h-[400px] rounded-md bg-linear-to-b from-black/70 to-transparent pt-2">
               <h3 className="mb-2 text-xl font-bold">Лучшие эксперты</h3>
               <p className="px-1 text-muted-foreground">
                 Учитесь у профессионалов – наши педагоги сертифицированы по
                 методике{' '}
-                <BaseTooltip />
+                <BaseTooltip trigger="EVT" content={<><b>{evtTooltipTitle}</b>{evtTooltipContent} </>} />
                 и имеют многолетний опыт выступлений и преподавания.
               </p>
             </div>
           </article>
           <article className="flex h-[600px] flex-col items-center justify-end rounded-lg bg-[url(/about/about-4.jpg)] bg-cover p-6 text-center shadow-sm pt-2 sm:w-[380px]">
-            <div className="h-[400px] rounded-md bg-linear-to-b from-black/70 to-transparent">
+            <div className="h-[400px] rounded-md bg-linear-to-b from-black/70 to-transparent pt-2">
               <h3 className="mb-2 text-xl font-bold">
                 Сообщество близких по духу людей
               </h3>

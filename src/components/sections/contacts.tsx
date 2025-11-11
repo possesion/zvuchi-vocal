@@ -61,7 +61,7 @@ export const Contacts = () => {
                             Электронная&nbsp;почта
                         </h3>
                         <p className="text-muted-foreground">
-                            <a 
+                            <a
                                 href={`mailto:${ORGANIZATION_EMAIL}`}
                                 className="transition-colors hover:text-primary"
                             >
@@ -70,9 +70,11 @@ export const Contacts = () => {
                         </p>
                     </div>
                 </div>
-                
+
                 {/* Схема проезда */}
-                <div className="col-span-2 m-auto h-[550px] w-[360px] space-y-3 rounded-lg border border-brand bg-background p-2 md:w-[500px] lg:col-span-1 lg:w-[500px] lg:space-y-6 xl:h-[600px] 2xl:w-[500px]">
+                {/* <div className="col-span-2 m-auto h-[550px] w-[360px] space-y-3 rounded-lg border border-brand bg-background p-2 md:w-[500px] lg:col-span-1 lg:w-[500px] lg:space-y-6 xl:h-[600px] 2xl:w-[500px]"> */}
+                <div className="col-span-2 m-auto h-[500px] w-[360px] space-y-3 rounded-lg border border-brand bg-background p-2 md:w-[450px] lg:col-span-1 lg:space-y-6 xl:h-[500px] 2xl:w-[450px]">
+
                     <div className="rounded-lg bg-muted/50">
                         <div
                             style={{
@@ -105,7 +107,7 @@ export const Contacts = () => {
                             <iframe
                                 src="https://yandex.ru/map-widget/v1/?ll=37.568838%2C55.785762&mode=search&oid=174002347974&ol=biz&z=17.13"
                                 width="100%"
-                                className="h-[530px] xl:h-[580px]"
+                                className="h-[480px] xl:h-[480px]" // Карта
                                 allowFullScreen
                                 style={{ position: 'relative' }}
                                 title="Карта расположения школы вокала Звучи!"
@@ -114,7 +116,7 @@ export const Contacts = () => {
                     </div>
                 </div>
 
-                <div className="relative col-span-2 m-auto h-[550px] w-[360px] overflow-auto rounded-lg border border-brand bg-background p-2 md:w-[500px] lg:col-span-1 lg:w-[500px] xl:h-[600px] 2xl:w-[500px]">
+                <div className="relative col-span-2 m-auto h-[500px] w-[360px] overflow-auto rounded-lg border border-brand bg-background p-2 md:w-[450px] lg:col-span-1 lg:w-[450px] xl:h-[500px] 2xl:w-[500px]">
                     <iframe
                         className="box-border h-full w-full rounded-b-md border-[#e6e6e6]"
                         src="https://yandex.ru/maps-reviews-widget/174002347974?comments"

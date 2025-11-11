@@ -2,7 +2,9 @@
 
 import Link from 'next/link';
 import { navigationList } from '@/app/constants';
-// import PaymentForm from '@/components/ui/payment-form'
+import { PlatformDialog } from '../modals/platform-dialog';
+import * as Dialog from '@radix-ui/react-dialog';
+import { SubscriptionsPaymentWidget } from '../common/subscription-payment-widget';
 
 export const NavMenu = () => {
     return (
@@ -11,25 +13,25 @@ export const NavMenu = () => {
                 <Link
                     key={id}
                     href={sectionId}
-                    className="group relative cursor-pointer text-lg font-bold text-white transition-colors duration-200 hover:text-brand dark:hover:text-red-400"
+                    className="group relative cursor-pointer text-lg font-bold text-white transition-colors duration-200"
                 >
                     {text}
                 </Link>
             ))}
-            {/* <PlatformDialog className="max-h-[90vh] w-[340px] md:w-[500px]"
+            <PlatformDialog className="max-h-[90vh] h-[560px] w-[340px] md:w-[620px]"
                 trigger={
-                    <button className="group relative cursor-pointer font-bold text-white transition-colors duration-200 hover:text-brand dark:hover:text-red-400">
+                    <button className="group relative cursor-pointer text-lg font-bold text-white transition-colors duration-200">
                         Оплата
                     </button>
                 }
             >
-                <div className="p-6">
+                <div className="h-full p-6">
                     <Dialog.Title className="mb-4 text-2xl font-bold">
                         Оплата
                     </Dialog.Title>
-                    <PaymentForm />
+                    <SubscriptionsPaymentWidget />
                 </div>
-            </PlatformDialog> */}
+            </PlatformDialog>
         </nav>
     );
 };
