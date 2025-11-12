@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { Button } from '@radix-ui/themes'
+import { Button, Dialog } from '@radix-ui/themes'
 // import MenuBurger from '../app/burger-menu.svg';
 
 import {
@@ -16,6 +16,8 @@ import BurgerMenu from '@/app/burger-menu';
 import { SOCIAL_ICON_SIZE } from './common/constants'
 import { Socials } from './common/socials'
 import { STUDIO_MOBILE_PHONE } from '@/app/constants'
+import { PlatformDialog } from './modals/platform-dialog'
+import { SubscriptionsPaymentWidget } from './common/subscription-payment-widget'
 
 export default function MobileMenu() {
     const [open, setOpen] = useState(false)
@@ -45,49 +47,69 @@ export default function MobileMenu() {
                     </SheetHeader>
                     <div className='h-5/6 flex flex-col justify-between'>
                         <nav className="flex flex-col space-y-4 px-2 py-2 text-2xl font-exo2">
-                        <Link
-                            href="#about"
-                            className="flex items-center hover:text-red-400"
-                            onClick={handleLinkClick}
-                        >
-                            О нас
-                        </Link>
-                        <Link
-                            href="#subscriptions"
-                            className="flex items-center hover:text-red-400"
-                            onClick={handleLinkClick}
-                        >
-                            Абонементы
-                        </Link>
-                        <Link
-                            href="#instructors"
-                            className="flex items-center hover:text-red-400"
-                            onClick={handleLinkClick}
-                        >
-                            Преподаватели
-                        </Link>
-                        <Link
-                            href="#gallery"
-                            className="flex items-center hover:text-red-400"
-                            onClick={handleLinkClick}
-                        >
-                            Галерея
-                        </Link>
-                        <Link
-                            href="#contacts"
-                            className="flex items-center hover:text-red-400"
-                            onClick={handleLinkClick}
-                        >
-                            Контакты
-                        </Link>
-                    </nav>
-                    <section className='space-y-4'>
-                        <p className='font-exo2 text-2xl font-semibold'>{STUDIO_MOBILE_PHONE}</p>
-                        <Socials
-                        size={SOCIAL_ICON_SIZE.md}
-                        className="flex mx-auto gap-x-4"
-                    />
-                    </section>
+                            <Link
+                                href="#about"
+                                className="flex items-center hover:text-red-400"
+                                onClick={handleLinkClick}
+                            >
+                                О нас
+                            </Link>
+                            <Link
+                                href="#subscriptions"
+                                className="flex items-center hover:text-red-400"
+                                onClick={handleLinkClick}
+                            >
+                                Абонементы
+                            </Link>
+                            <Link
+                                href="#instructors"
+                                className="flex items-center hover:text-red-400"
+                                onClick={handleLinkClick}
+                            >
+                                Преподаватели
+                            </Link>
+                            <Link
+                                href="#gallery"
+                                className="flex items-center hover:text-red-400"
+                                onClick={handleLinkClick}
+                            >
+                                Галерея
+                            </Link>
+                            {/* <button className="group relative cursor-pointer text-lg font-bold text-white transition-colors duration-200">
+                                        Оплата
+                                    </button> */}
+                            <Link
+                                href="#contacts"
+                                className="flex items-center hover:text-red-400"
+                                onClick={handleLinkClick}
+                            >
+                                Контакты
+                            </Link>
+                            <PlatformDialog className="max-h-[90vh] h-[560px] w-[340px] md:w-[620px]"
+                                trigger={
+                                    <div
+                                // href="#contacts"
+                                className="flex items-center hover:text-red-400"
+                            >
+                                Оплата
+                            </div>
+                                }
+                            >
+                                <div className="h-full p-6">
+                                    <Dialog.Title className="mb-4 text-2xl font-bold">
+                                        Оплата
+                                    </Dialog.Title>
+                                    <SubscriptionsPaymentWidget />
+                                </div>
+                            </PlatformDialog>
+                        </nav>
+                        <section className='space-y-4'>
+                            <p className='font-exo2 text-2xl font-semibold'>{STUDIO_MOBILE_PHONE}</p>
+                            <Socials
+                                size={SOCIAL_ICON_SIZE.md}
+                                className="flex mx-auto gap-x-4"
+                            />
+                        </section>
                     </div>
                 </SheetContent>
             </Sheet>

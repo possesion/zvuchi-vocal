@@ -67,7 +67,7 @@ export const Shorts = () => {
             </div>
 
             {/* Mobile Navigation */}
-            <div className="flex items-center gap-1 md:hidden sm:gap-3">
+            <div className="flex justify-center items-center gap-3 md:hidden">
                 <button
                     onClick={handlePrev}
                     disabled={currentIndex === 0}
@@ -80,7 +80,7 @@ export const Shorts = () => {
                 <div className="flex-1 overflow-hidden" style={{ maxWidth: '270px' }}>
                     <div
                         className="flex gap-4 transition-transform duration-500 ease-out"
-                        style={{ transform: `translateX(-${currentIndex * (270 + 12)}px)` }}
+                        style={{ transform: `translateX(-${currentIndex * (270 + 16)}px)` }}
                     >
                         {SHORTS.map((shortUrl) => (
                             <iframe

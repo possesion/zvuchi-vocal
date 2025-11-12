@@ -51,7 +51,7 @@ export default function Home() {
                                 alt="Валерия - преподаватель вокала"
                             />
                             <div className="z-51 flex flex-col gap-y-6 p-8 lg:justify-start xl:gap-y-9">
-                                <h1 className="hidden hero-title bg-radial-[at_50%_75%] from-sky-500 via-blue-700 to-violet-950 to-90% rounded-md shadow-lg w-min px-5 py-3 text-2xl font-bold text-white md:w-[350px] md:block xl:text-7xl">
+                                <h1 className="rotate-z-2 hidden hero-title bg-radial-[at_45%] from-orange-500/80 to-amber-600/90 to-80% rounded-md shadow-lg w-min px-5 py-3 text-2xl font-bold text-white md:w-[350px] md:block xl:text-7xl">
                                     ШКОЛА<br />
                                     <span className="ml-4">ВОКАЛА</span>
                                 </h1>
@@ -59,9 +59,9 @@ export default function Home() {
                                     Пусть тебя
                                     <span className="text-primary"> УСЛЫШАТ!</span>
                                 </h2>
-                                <div className="w-76 text-xl font-semibold text-white md:w-[500px] lg:text-3xl">
+                                <div className="w-76 text-3xl text-white md:w-[500px] lg:text-3xl">
                                     <p>Голос изменится после первого занятия!</p>
-                                    Услышишь разницу до и после.
+                                    Услышишь разницу <b>до</b> и <b className="after-highlight">после</b>.
                                     Проверь — это работает!
                                 </div>
                                 <div className="mt-auto sm:m-0">
@@ -90,18 +90,20 @@ export default function Home() {
                         id="instructors"
                         className="pb-10 text-white md:pb-16"
                     >
-                        <header className="mb-4 flex flex-col items-center text-center md:mb-8">
-
-                            {/* Enrollment Form */}
-                            <div className="container mx-auto my-8 flex justify-center px-4 lg:my-16">
+                        <header className="container px-4 mb-4 flex flex-col items-center text-center md:mb-8">
+                            <div className="mx-auto mt-8 mb-[120px] flex justify-center lg:mt-16">
                                 <EnrollmentForm />
                             </div>
-                            <div className='flex flex-col justify-center items-center bg-radial-[at_50%_75%] from-sky-500 via-blue-700 to-violet-950 to-90%  mb-8 px-6 py-4 rounded-lg md:mb-12 '>
+                            {/* from-violet-800/80 to-violet-950/80 */}
+                            <div className='w-full flex flex-col justify-center items-center bg-radial-[at_40%] from-orange-500/80 to-amber-600/90 to-80% mb-8 px-6 py-4 rounded-lg md:mb-12 '>
                                 <h2 className="text-left text-4xl font-bold tracking-tight text-shadow-lg md:text-3xl xl:text-6xl">
                                     Наши<br />
                                     <span className="ml-5">педагоги</span>
                                 </h2>
                             </div>
+                            <p className='mb-3 text-white indent-5'>
+                                За каждым сияющим успехом на сцене стоит вдохновляющий наставник. Тот, кто превращает голос в магию, а уроки — в путешествие. Не просто педагоги, а проводники в мир музыки, чьи сердца бьются в ритм с учениками.
+                            </p>
                         </header>
                         <div className="container grid grid-cols-1 gap-8 grid-off sm:grid-cols-2 md:gap-y-12 lg:grid-cols-3">
                             {instructors.map((instructor) => {
@@ -118,8 +120,9 @@ export default function Home() {
 
                 {/* Programs Section */}
                 <section id="subscriptions" className="main-bg py-10 text-white lg:py-16">
-                    <header className="container mb-8 flex flex-col items-center md:mb-8">
-                        <div className='flex flex-col justify-center items-center bg-radial-[at_50%_75%] from-sky-500/80 via-blue-700/90 to-violet-950/90 to-90%  pr-6 py-4 rounded-lg'>
+                    <header className="container mb-[120px] flex flex-col items-center md:mb-8">
+                        {/* from-violet-800/80 to-violet-950/80 */}
+                        <div className='flex flex-col justify-center items-center bg-radial-[at_40%] from-orange-500/80 to-amber-600/80 to-80% pr-6 py-4 rounded-lg'>
                             <h2 className="mb-4 text-left text-4xl font-bold tracking-tight text-shadow-lg md:text-3xl xl:text-6xl">
                                 Наши<br />
                                 <span className="ml-5">абонементы</span>
@@ -140,7 +143,6 @@ export default function Home() {
 
                 <Gallery />
 
-                {/* Contacts Section */}
                 <section>
                     <Contacts />
                 </section>

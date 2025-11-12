@@ -415,3 +415,19 @@ body {
     inset 0 -2px 4px rgba(0, 0, 0, 0.5);
   filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.7));
 }
+
+/* Subtle highlight animation for "после" */
+.after-highlight {
+  animation: subtle-glow 3s ease-in-out infinite;
+}
+
+@keyframes subtle-glow {
+  0%, 100% {
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+    color: white;
+  }
+  50% {
+    text-shadow: 0 0 15px rgba(255, 215, 0, 0.6), 0 0 25px rgba(255, 215, 0, 0.4);
+    color: rgb(255, 245, 200);
+  }
+}

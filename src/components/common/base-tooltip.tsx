@@ -16,7 +16,7 @@ export const BaseTooltip:FC<BaseTooltipProps> = ({ trigger, content }) => {
           <Tooltip.Trigger className="pr-1 cursor-help underline font-bold">
             {trigger}
             </Tooltip.Trigger>
-          <Tooltip.Content className="px-2 py-3 rounded-sm text-brand bg-white max-w-60 data-[state='delayed-open']:animate-flip-in-y data-[state='closed']:animate-flip-out-y"> 
+          <Tooltip.Content className="mx-2 px-2 py-3 rounded-sm text-brand bg-white max-w-60 data-[state='delayed-open']:animate-flip-in-y data-[state='closed']:animate-flip-out-y"> 
             {content}
             </Tooltip.Content>
         </div>

@@ -59,13 +59,18 @@ export const Gallery = () => {
     }, [])
     return (
         <section className="container mx-auto px-4 py-10 lg:py-16">
-            <header className='flex justify-center'>
-                <div className='w-min bg-radial-[at_50%_75%] from-sky-500 via-blue-700 to-violet-950 to-90%  mb-8 pr-6 py-4 rounded-lg md:mb-12'>
+            <header className='flex flex-col justify-center mb-[50px]'>
+                {/* from-violet-800/80 to-violet-950/80 */}
+                <div className='w-full bg-radial-[at_40%] from-orange-500/80 to-amber-600/90 to-80% pr-6 py-4 rounded-lg'>
                     <h2 className="text-center text-4xl font-bold tracking-tight text-white text-shadow-lg md:text-3xl xl:text-6xl">
                         Жизнь<br />
                         <span className="ml-10">Студии</span>
                     </h2>
                 </div>
+
+                 <p className='mt-3 text-white text-center indent-5'>
+                    <b>Сцена</b> — это всегда праздник, и мы приглашаем вас на него снова и снова! Здесь мы храним память о каждом таком празднике: блики софитов, сияющие глаза артистов, аплодисменты зала. Наши фотографии и короткие видео — это больше, чем просто отчеты; это история эмоций, побед и волшебства, которое рождается, когда музыка оживает.
+                 </p>
             </header>
             <div className="relative">
                 {/* Подсказка для свайпа */}

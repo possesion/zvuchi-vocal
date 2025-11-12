@@ -3,7 +3,7 @@ import { SubscriptionLink } from "./subscription-link"
 
 export const SubscriptionsPaymentWidget = () => {
     return (
-        <div className="w-full">
+        <div className="mt-4 w-full">
             <div className="flex flex-col gap-4 md:gap-6">
                 {SUBSCRIPTION_LINKS.map(({ name, link }) => (
                     <div

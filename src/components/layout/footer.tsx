@@ -41,7 +41,7 @@ export const Footer = () => {
                         </button>
                     </Offera>
                     <Offera document="/documents/oferta_zvuchi.docx">
-                        <button className="group relative cursor-pointer text-white transition-colors duration-200 hover:text-brand dark:hover:text-red-400">
+                        <button className="pl-2 pb-2 group relative cursor-pointer text-white transition-colors duration-200 hover:text-brand dark:hover:text-red-400 sm:pl-0 sm:pb-0">
                             Публичная оферта
                         </button>
                     </Offera>

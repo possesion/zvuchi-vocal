@@ -91,8 +91,6 @@ export function EnrollmentForm() {
         <div className="w-full rounded-2xl bg-white/15 p-8 shadow-xl backdrop-blur-md border border-white/10">
             <div className="mx-auto max-w-4xl">
                 <header className="mb-8 text-center">
-                    {/* <h3 className="mb-3 text-3xl font-bold text-white md:text-4xl">
-                    </h3> */}
                     <h2 className="mb-4 text-2xl font-bold tracking-tight md:text-4xl">
                         Готов начать свой вокальный путь?
                     </h2>
@@ -153,7 +151,7 @@ export function EnrollmentForm() {
                         </label>
                         <input
                             id="form-date"
-                            className="w-full rounded-lg border border-white/20 bg-white/10 px-4 py-3 text-white transition-all duration-300 focus:border-brand focus:bg-white/15 focus:ring-2 focus:ring-brand/30 group-hover:border-white/40"
+                            className="w-[330px] rounded-lg border border-white/20 bg-white/10 px-4 py-3 text-white transition-all duration-300 focus:border-brand focus:bg-white/15 focus:ring-2 focus:ring-brand/30 group-hover:border-white/40 sm:w-full"
                             name="preferredDate"
                             onChange={handleChange}
                             type='date'
