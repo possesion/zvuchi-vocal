@@ -101,7 +101,7 @@ export default function Home() {
                                     <span className="ml-5">педагоги</span>
                                 </h2>
                             </div>
-                            <p className='mb-3 text-white indent-5'>
+                            <p className='mb-3 text-white font-semibold indent-5'>
                                 За каждым сияющим успехом на сцене стоит вдохновляющий наставник. Тот, кто превращает голос в магию, а уроки — в путешествие. Не просто педагоги, а проводники в мир музыки, чьи сердца бьются в ритм с учениками.
                             </p>
                         </header>
