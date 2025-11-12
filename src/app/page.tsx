@@ -86,10 +86,7 @@ export default function Home() {
                     </section>
 
                     {/* Instructors Section */}
-                    <section
-                        id="instructors"
-                        className="pb-10 text-white md:pb-16"
-                    >
+                    <section className="pb-10 text-white md:pb-16">
                         <header className="container px-4 mb-4 flex flex-col items-center text-center md:mb-8">
                             <div className="mx-auto mt-8 mb-[120px] flex justify-center lg:mt-16">
                                 <EnrollmentForm />
@@ -105,7 +102,7 @@ export default function Home() {
                                 За каждым сияющим успехом на сцене стоит вдохновляющий наставник. Тот, кто превращает голос в магию, а уроки — в путешествие. Не просто педагоги, а проводники в мир музыки, чьи сердца бьются в ритм с учениками.
                             </p>
                         </header>
-                        <div className="container grid grid-cols-1 gap-8 grid-off sm:grid-cols-2 md:gap-y-12 lg:grid-cols-3">
+                        <div id="instructors" className="container grid grid-cols-1 gap-8 grid-off sm:grid-cols-2 md:gap-y-12 lg:grid-cols-3">
                             {instructors.map((instructor) => {
                                 return (
                                     <VocalInstructor

@@ -59,7 +59,7 @@ export const Gallery = () => {
     }, [])
     return (
         <section className="container mx-auto px-4 py-10 lg:py-16">
-            <header className='flex flex-col justify-center mb-[50px]'>
+            <header id="gallery" className='flex flex-col justify-center mb-[50px]'>
                 {/* from-violet-800/80 to-violet-950/80 */}
                 <div className='w-full bg-radial-[at_40%] from-orange-500/80 to-amber-600/90 to-80% pr-6 py-4 rounded-lg'>
                     <h2 className="text-center text-4xl font-bold tracking-tight text-white text-shadow-lg md:text-3xl xl:text-6xl">
@@ -95,7 +95,6 @@ export const Gallery = () => {
                 </div>
 
                 <div
-                    id="gallery"
                     className="flex space-x-4 overflow-x-auto py-4 whitespace-nowrap scrollbar-hide no-scrollbar"
                     role="region"
                     aria-label="Галерея фотографий студии"
