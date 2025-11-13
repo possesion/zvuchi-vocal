@@ -18,7 +18,7 @@ export const PromoContent = () => {
     }
 
     return (
-        <div className="relative py-6 md:py-10">
+        <div className="relative pt-6 pb-[100px] md:pt-10">
             {/* Бегущая строка - только на десктопе */}
             <div className="z-1 absolute -left-20 top-50 hidden w-full md:inline-flex">
                 <div className="marquee-scroll flex whitespace-nowrap text-6xl text-white/50" aria-hidden="true">

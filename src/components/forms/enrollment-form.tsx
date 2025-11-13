@@ -92,9 +92,9 @@ export function EnrollmentForm() {
             <div className="mx-auto max-w-4xl">
                 <header className="mb-8 text-center">
                     <h2 className="mb-4 text-2xl font-bold tracking-tight md:text-4xl">
-                        Готов начать свой вокальный путь?
+                        Готов начать свой вокальный&nbsp;путь?
                     </h2>
-                    <p className="text-lg text-white/90 md:text-xl">
+                    <p className="text-lg/5 text-white/90 md:text-xl">
                         Присоединяйтесь к нашей вокальной школе и раскройте свой талант под руководством опытных педагогов
                     </p>
                 </header>
@@ -105,7 +105,7 @@ export function EnrollmentForm() {
                             htmlFor="form-name"
                             className="mb-2 block text-sm font-semibold uppercase tracking-wide text-white/80"
                         >
-                            Ваше имя *
+                            Ваше имя
                         </label>
                         <input
                             className="w-full rounded-lg border border-white/20 bg-white/10 px-4 py-3 text-white placeholder-white/60 transition-all duration-300 focus:border-brand focus:bg-white/15 focus:ring-2 focus:ring-brand/30 group-hover:border-white/40"
@@ -126,7 +126,7 @@ export function EnrollmentForm() {
                             htmlFor="form-phone"
                             className="mb-2 block text-sm font-semibold uppercase tracking-wide text-white/80"
                         >
-                            Телефон *
+                            Телефон
                         </label>
                         <input
                             id="form-phone"
@@ -151,7 +151,7 @@ export function EnrollmentForm() {
                         </label>
                         <input
                             id="form-date"
-                            className="w-[330px] rounded-lg border border-white/20 bg-white/10 px-4 py-3 text-white transition-all duration-300 focus:border-brand focus:bg-white/15 focus:ring-2 focus:ring-brand/30 group-hover:border-white/40 sm:w-full"
+                            className="standart-date w-full rounded-lg border border-white/20 bg-white/10 px-4 py-3 text-white transition-all duration-300 focus:border-brand focus:bg-white/15 focus:ring-2 focus:ring-brand/30 group-hover:border-white/40"
                             name="preferredDate"
                             onChange={handleChange}
                             type='date'
