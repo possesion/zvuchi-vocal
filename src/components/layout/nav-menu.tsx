@@ -18,7 +18,7 @@ export const NavMenu = () => {
                     {text}
                 </Link>
             ))}
-            <PlatformDialog className="max-h-[90vh] h-[560px] w-[340px] md:w-[620px]"
+            <PlatformDialog className="h-[90lvh] w-[340px] md:w-[620px]"
                 trigger={
                     <button className="group relative cursor-pointer text-lg font-bold text-white transition-colors duration-200">
                         Оплата

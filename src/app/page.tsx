@@ -18,7 +18,6 @@ import { EnrollmentForm } from '@/components/forms/enrollment-form'
 
 export default function Home() {
     return (
-
         <div className="relative min-h-screen font-exo2">
             <Header />
             <main className="w-full flex-1 primary-bg overflow-x-hidden">
@@ -51,7 +50,7 @@ export default function Home() {
                                 alt="Валерия - преподаватель вокала"
                             />
                             <div className="z-51 flex flex-col gap-y-6 p-8 lg:justify-start xl:gap-y-9">
-                                <h1 className="rotate-z-2 hidden hero-title bg-radial-[at_45%] from-orange-500/80 to-amber-600/90 to-80% rounded-md shadow-lg w-min px-5 py-3 text-2xl font-bold text-white md:w-[350px] md:block xl:text-7xl">
+                                <h1 className="rotate-z-2 hidden hero-title bg-radial-[at_45%] from-orange-500/80 to-amber-600/90 to-80% rounded-md shadow-lg w-min px-5 py-3 text-2xl font-bold text-white xl:w-[350px] md:block xl:text-7xl">
                                     ШКОЛА<br />
                                     <span className="ml-4">ВОКАЛА</span>
                                 </h1>

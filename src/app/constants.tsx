@@ -20,16 +20,25 @@ export const SHORTS = [
 
 export const SUBSCRIPTION_LINKS = [
     {
-        name: 'Абонемент на 4 занятия',
-        link: 'https://auth.robokassa.ru/merchant/Invoice/8yaOatE00UCaFsN22cFM8A'
+        count: 4,
+        duration: 55,
+        name: 'Абонемент на месяц',
+        link: 'https://auth.robokassa.ru/merchant/Invoice/8yaOatE00UCaFsN22cFM8A',
+        price: 11600,
     },
     {
-        name: 'Абонемент на 6 занятий',
-        link: 'https://auth.robokassa.ru/merchant/Invoice/74b1AjMbQkSQ8FtjjslWnA'
+        count: 6,
+        duration: 55,
+        name: 'Абонемент на месяц',
+        link: 'https://auth.robokassa.ru/merchant/Invoice/74b1AjMbQkSQ8FtjjslWnA',
+        price: 16800,
     },
     {
-        name: 'Абонемент на 8 занятий',
-        link: 'https://auth.robokassa.ru/merchant/Invoice/0EWj8n5rlU25UCfN9B6t6A'
+        count: 8,
+        duration: 55,
+        name: 'Абонемент на месяц',
+        link: 'https://auth.robokassa.ru/merchant/Invoice/0EWj8n5rlU25UCfN9B6t6A',
+        price: 21600,
     },
 ];
 export const programs = [

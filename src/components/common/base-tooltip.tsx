@@ -1,6 +1,6 @@
 'use client';
 
-import { FC, ReactElement, useState } from "react";
+import { FC, ReactElement } from "react";
 import { Tooltip } from "radix-ui";
 
 interface BaseTooltipProps {
@@ -8,18 +8,23 @@ interface BaseTooltipProps {
   content: ReactElement;
 }
 export const BaseTooltip:FC<BaseTooltipProps> = ({ trigger, content }) => {
-  const [open, setOpen] = useState(false)
   return (
-    <Tooltip.Provider delayDuration={800} skipDelayDuration={500}>
-      <Tooltip.Root onOpenChange={setOpen} open={open} delayDuration={0}>
-        <div className="inline-flex" onClick={() => setOpen(true)}>
-          <Tooltip.Trigger className="pr-1 cursor-help underline font-bold">
+    <Tooltip.Provider delayDuration={300} skipDelayDuration={200}>
+      <Tooltip.Root delayDuration={0}>
+        <Tooltip.Trigger asChild>
+          <span className="cursor-help underline font-bold">
             {trigger}
-            </Tooltip.Trigger>
-          <Tooltip.Content className="mx-2 px-2 py-3 rounded-sm text-brand bg-white max-w-60 data-[state='delayed-open']:animate-flip-in-y data-[state='closed']:animate-flip-out-y"> 
+          </span>
+        </Tooltip.Trigger>
+        <Tooltip.Portal>
+          <Tooltip.Content 
+            className="z-50 mx-2 px-2 py-3 rounded-sm text-brand bg-white max-w-60 shadow-lg data-[state='delayed-open']:animate-flip-in-y data-[state='closed']:animate-flip-out-y"
+            sideOffset={5}
+          > 
             {content}
-            </Tooltip.Content>
-        </div>
+            <Tooltip.Arrow className="fill-white" />
+          </Tooltip.Content>
+        </Tooltip.Portal>
       </Tooltip.Root>
     </Tooltip.Provider>
   );

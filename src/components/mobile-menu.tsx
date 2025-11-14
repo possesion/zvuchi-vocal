@@ -85,15 +85,10 @@ export default function MobileMenu() {
                             >
                                 Контакты
                             </Link>
-                            <PlatformDialog className="max-h-[90vh] h-[560px] w-[340px] md:w-[620px]"
-                                trigger={
-                                    <div
-                                // href="#contacts"
-                                className="flex items-center hover:text-red-400"
-                            >
+                            <PlatformDialog className="h-[90lvh] w-[340px] md:w-[620px]"
+                                trigger={<div className="flex items-center hover:text-red-400">
                                 Оплата
-                            </div>
-                                }
+                            </div>}
                             >
                                 <div className="h-full p-6">
                                     <Dialog.Title className="mb-4 text-2xl font-bold">
