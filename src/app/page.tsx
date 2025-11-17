@@ -78,7 +78,7 @@ export default function Home() {
                         className="container py-10 text-white md:py-16"
                     >
                         <PromoContent />
-                        <h2 className="mb-4 text-center text-4xl font-bold tracking-tight text-shadow-lg md:text-3xl xl:text-6xl">
+                        <h2 className="text-center text-4xl font-bold tracking-tight text-shadow-lg md:text-3xl xl:text-6xl">
                             <span className="ml-5">Звучи! – это...</span>
                         </h2>
                         <FeatureList />

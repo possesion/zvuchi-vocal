@@ -26,7 +26,7 @@ export const NavMenu = () => {
                 }
             >
                 <div className="h-full p-6">
-                    <Dialog.Title className="mb-4 text-2xl font-bold">
+                    <Dialog.Title className="mb-4 text-white text-2xl font-bold">
                         Оплата
                     </Dialog.Title>
                     <SubscriptionsPaymentWidget />

@@ -4,13 +4,13 @@ import { SubscriptionLink } from "./subscription-link"
 export const SubscriptionsPaymentWidget = () => {
     return (
         <div className="mt-4 w-full">
-            <div className="flex flex-col text-lg font-semibold pb-4 gap-4 md:gap-6">
+            <div className="flex flex-col text-lg text-white font-semibold pb-4 gap-4 md:gap-6">
                 {SUBSCRIPTION_LINKS.map(({ name, count, duration, price, link }) => (
                     <div
                         key={link}
-                        className="flex flex-1 flex-col rounded-xl border border-gray-200 bg-gradient-to-br from-gray-50 to-white p-6 shadow-md"
+                        className="flex flex-1 flex-col rounded-xl bg-black/50 p-6 shadow-md"
                     >
-                            <h3 className="mb-4 text-center text-xl font-bold text-gray-800">
+                            <h3 className="mb-4 text-center text-xl font-bold">
                             {name}
                         </h3>
                         <div className="flex justify-between items-end">

@@ -1,7 +1,7 @@
 import { useSlideUpAnimation } from "@/hooks/use-slide-up-animation";
 import { FC } from "react"
 import cn from 'classnames'
-import { TG_CHAT_URL } from "../constants";
+import { YANDEX_ENROLLMENT_URL } from "../constants";
 
 interface ProgramProps {
     title: string;
@@ -47,7 +47,7 @@ export const Program: FC<ProgramProps> = ({ description, features, title, number
             <div className="flex justify-between pr-4 text-xl font-bold md:ml-auto md:flex-col lg:text-4xl">
                 <span>{price}</span>
                 <button
-                    onClick={handleOpenLink(TG_CHAT_URL)}
+                    onClick={handleOpenLink(YANDEX_ENROLLMENT_URL)}
                     className="block cursor-pointer rounded-lg border px-3 hover:animate-rotational-wave md:py-2"
                     aria-label={`Записаться на ${title}`}
                 >
