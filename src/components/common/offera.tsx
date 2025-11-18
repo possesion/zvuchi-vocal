@@ -142,7 +142,7 @@ export const Offera: FC<OfferaProps> = ({ children, document }) => {
                 {/* Контент документа */}
                 <div
                     ref={contentContainerRef}
-                    className="max-h-[70vh] min-h-[200px] flex-1 overflow-auto rounded-lg border bg-gray-50"
+                    className="max-h-[70vh] min-h-[200px] flex-1 overflow-auto rounded-sm border bg-gray-50"
                     onScroll={checkScrollPosition}
                 >
                     {!docIsLoaded ? (

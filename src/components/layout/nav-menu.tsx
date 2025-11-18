@@ -4,16 +4,17 @@ import Link from 'next/link';
 import { navigationList } from '@/app/constants';
 import { PlatformDialog } from '../modals/platform-dialog';
 import * as Dialog from '@radix-ui/react-dialog';
+import cn from 'classnames'
 import { SubscriptionsPaymentWidget } from '../common/subscription-payment-widget';
 
 export const NavMenu = () => {
     return (
-        <nav className="hidden gap-8 md:flex">
-            {navigationList.map(({ id, text, sectionId }) => (
+        <nav className="hidden gap-4 md:flex lg:gap-8">
+            {navigationList.map(({ hiddenOnMobile, id, text, sectionId }) => (
                 <Link
                     key={id}
                     href={sectionId}
-                    className="group relative cursor-pointer text-lg font-bold text-white transition-colors duration-200"
+                    className={cn({ 'hidden lg:block': hiddenOnMobile }, 'group relative cursor-pointer text-lg font-bold text-white transition-colors duration-200')}
                 >
                     {text}
                 </Link>

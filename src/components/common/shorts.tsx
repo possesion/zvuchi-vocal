@@ -48,7 +48,7 @@ export const Shorts = () => {
                                 width="270"
                                 height="480"
                                 src={shortUrl}
-                                className='flex-shrink-0 rounded-lg border-none'
+                                className='flex-shrink-0 rounded-sm border-none'
                                 allow="clipboard-write; autoplay"
                                 allowFullScreen
                             ></iframe>
@@ -88,7 +88,7 @@ export const Shorts = () => {
                                 width="270"
                                 height="480"
                                 src={shortUrl}
-                                className='flex-shrink-0 rounded-lg border-none'
+                                className='flex-shrink-0 rounded-sm border-none'
                                 allow="clipboard-write; autoplay"
                                 allowFullScreen
                             ></iframe>

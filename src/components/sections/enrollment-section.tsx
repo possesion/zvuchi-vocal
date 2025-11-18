@@ -36,7 +36,7 @@ export function EnrollmentSection({ main = false }) {
 
                         <button
                             onClick={handleOpenLink(TG_CHAT_URL)}
-                            className="cursor-pointer rounded-lg bg-black/70 p-4 shadow-2xl"
+                            className="cursor-pointer rounded-sm bg-black/70 p-4 shadow-2xl"
                             aria-label="Записаться на занятие через Telegram"
                         >
                             <span className="relative z-10 flex animate-glow items-center gap-3">

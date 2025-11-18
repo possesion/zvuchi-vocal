@@ -72,10 +72,10 @@ export const Contacts = () => {
                 </div>
 
                 {/* Схема проезда */}
-                {/* <div className="col-span-2 m-auto h-[550px] w-[360px] space-y-3 rounded-lg border border-brand bg-background p-2 md:w-[500px] lg:col-span-1 lg:w-[500px] lg:space-y-6 xl:h-[600px] 2xl:w-[500px]"> */}
-                <div className="col-span-2 m-auto h-[500px] w-[360px] space-y-3 rounded-lg border border-brand bg-background p-2 md:w-[450px] lg:col-span-1 lg:space-y-6 xl:h-[500px] 2xl:w-[450px]">
+                {/* <div className="col-span-2 m-auto h-[550px] w-[360px] space-y-3 rounded-sm border border-brand bg-background p-2 md:w-[500px] lg:col-span-1 lg:w-[500px] lg:space-y-6 xl:h-[600px] 2xl:w-[500px]"> */}
+                <div className="col-span-2 m-auto h-[500px] w-[360px] space-y-3 rounded-sm border border-brand bg-background p-2 md:w-[450px] lg:col-span-1 lg:space-y-6 xl:h-[500px] 2xl:w-[450px]">
 
-                    <div className="rounded-lg bg-muted/50">
+                    <div className="rounded-sm bg-muted/50">
                         <div
                             style={{
                                 position: 'relative',
@@ -116,7 +116,7 @@ export const Contacts = () => {
                     </div>
                 </div>
 
-                <div className="relative col-span-2 m-auto h-[500px] w-[360px] overflow-auto rounded-lg border border-brand bg-background p-2 md:w-[450px] lg:col-span-1 lg:w-[450px] xl:h-[500px] 2xl:w-[500px]">
+                <div className="relative col-span-2 m-auto h-[500px] w-[360px] overflow-auto rounded-sm border border-brand bg-background p-2 md:w-[450px] lg:col-span-1 lg:w-[450px] xl:h-[500px] 2xl:w-[500px]">
                     <iframe
                         className="box-border h-full w-full rounded-b-md border-[#e6e6e6]"
                         src="https://yandex.ru/maps-reviews-widget/174002347974?comments"

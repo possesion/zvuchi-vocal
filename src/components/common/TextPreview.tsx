@@ -57,14 +57,14 @@ export default function TextPreview({
 
     if (error) {
         return (
-            <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-red-800" role="alert">
+            <div className="rounded-sm border border-red-200 bg-red-50 p-4 text-red-800" role="alert">
                 {error}
             </div>
         );
     }
 
     return (
-        <div className="overflow-hidden rounded-lg border">
+        <div className="overflow-hidden rounded-sm border">
             {/* Заголовок и чекбокс */}
             <header className="flex items-center justify-between border-b bg-gray-50 px-4 py-3">
                 <h3 className="font-medium">Просмотр файла</h3>

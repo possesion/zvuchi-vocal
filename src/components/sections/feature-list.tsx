@@ -63,10 +63,10 @@ export const FeatureList = () => {
             {features.map((feature) => (
               <article
                 key={feature.id}
-                className="flex h-[600px] w-full flex-shrink-0 flex-col items-center justify-end rounded-lg bg-cover bg-image p-6 text-center shadow-sm text-white"
+                className="flex h-[600px] w-full flex-shrink-0 flex-col items-center justify-end rounded-sm bg-cover bg-image p-6 text-center shadow-sm text-white"
                 style={{ backgroundImage: `url(${feature.image})` }}
               >
-                <div className="h-[400px] rounded-md bg-linear-to-b from-black/70 to-transparent pt-2">
+                <div className="h-[400px] rounded-sm bg-linear-to-b from-black/70 to-transparent pt-2">
                   <h3 className="mb-2 text-xl font-bold">{feature.title}</h3>
                   <p className="px-1 text-muted-foreground">
                     {feature.description}
@@ -95,10 +95,10 @@ export const FeatureList = () => {
           {features.map((feature) => (
             <article
               key={feature.id}
-              className="flex h-[600px] w-full flex-col items-center justify-end rounded-lg bg-cover bg-image p-6 text-center shadow-sm sm:w-[380px]"
+              className="flex h-[500px] w-full flex-col items-center justify-end rounded-sm bg-cover bg-image p-6 text-center shadow-sm sm:w-[380px] xl:h-[600px]"
               style={{ backgroundImage: `url(${feature.image})` }}
             >
-              <div className="h-[400px] rounded-md bg-linear-to-b from-black/70 to-transparent pt-2">
+              <div className="h-[400px] rounded-sm bg-linear-to-b from-black/70 to-transparent pt-2">
                 <h3 className="mb-2 text-xl font-bold">{feature.title}</h3>
                 <p className="px-1 text-muted-foreground">
                   {feature.description}

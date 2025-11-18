@@ -115,7 +115,7 @@ export const instructors = [
                 <li>
                     <span className='mr-2'>⭐</span>Повышала квалификацию на курсах{' '}
                     <span
-                        className="cursor-help rounded-md bg-brand/20 px-2 py-1 font-semibold text-brand transition-all duration-200 hover:bg-brand/30 hover:text-white"
+                        className="cursor-help rounded-sm bg-brand/20 px-2 py-1 font-semibold text-brand transition-all duration-200 hover:bg-brand/30 hover:text-white"
                         title="Estill Voice Training"
                     >
                         EVT
@@ -259,6 +259,7 @@ export const navigationList = [
         id: 4,
         text: 'Галерея',
         sectionId: '#gallery',
+        hiddenOnMobile: true,
     },
     {
         id: 6,

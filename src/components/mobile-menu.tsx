@@ -55,18 +55,18 @@ export default function MobileMenu() {
                                 О нас
                             </Link>
                             <Link
-                                href="#subscriptions"
-                                className="flex items-center hover:text-red-400"
-                                onClick={handleLinkClick}
-                            >
-                                Абонементы
-                            </Link>
-                            <Link
                                 href="#instructors"
                                 className="flex items-center hover:text-red-400"
                                 onClick={handleLinkClick}
                             >
                                 Преподаватели
+                            </Link>
+                            <Link
+                                href="#subscriptions"
+                                className="flex items-center hover:text-red-400"
+                                onClick={handleLinkClick}
+                            >
+                                Абонементы
                             </Link>
                             <Link
                                 href="#gallery"
@@ -75,9 +75,6 @@ export default function MobileMenu() {
                             >
                                 Галерея
                             </Link>
-                            {/* <button className="group relative cursor-pointer text-lg font-bold text-white transition-colors duration-200">
-                                        Оплата
-                                    </button> */}
                             <Link
                                 href="#contacts"
                                 className="flex items-center hover:text-red-400"
@@ -85,13 +82,14 @@ export default function MobileMenu() {
                             >
                                 Контакты
                             </Link>
-                            <PlatformDialog className="h-[90lvh] w-[340px] md:w-[620px]"
+                            {/* w-[340px]  */}
+                            <PlatformDialog className="h-[90lvh] w-[90vw] md:w-[620px]"
                                 trigger={<div className="flex items-center hover:text-red-400">
                                 Оплата
                             </div>}
                             >
                                 <div className="h-full p-6">
-                                    <Dialog.Title className="mb-4 text-2xl font-bold">
+                                    <Dialog.Title className="mb-4 text-white text-2xl font-bold">
                                         Оплата
                                     </Dialog.Title>
                                     <SubscriptionsPaymentWidget />

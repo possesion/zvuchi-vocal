@@ -32,7 +32,7 @@ export const PlatformDialog: FC<PlatformDialogProps> = ({
                     className="fixed left-1/2 top-1/2 z-50 -translate-x-1/2 -translate-y-1/2 transform outline-none"
                 >
                     <div
-                        className={`relative primary-bg overflow-auto rounded-lg bg-white shadow-xl ${className}`}
+                        className={`relative primary-bg overflow-auto rounded-sm bg-white shadow-xl ${className}`}
                     >
                         {children}
                         <Dialog.Close asChild>

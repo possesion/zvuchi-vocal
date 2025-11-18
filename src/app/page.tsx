@@ -29,7 +29,7 @@ export default function Home() {
                     />
                     <section className="container mx-auto flex h-[100svh] sm:h-screen">
                         <div className="relative z-10 flex w-full justify-center">
-                            <div className="absolute bottom-0 left-60 z-50 hidden md:block">
+                            <div className="absolute bottom-0 left-60 z-50 hidden lg:block">
                                 <Image
                                     src="/micro.png"
                                     className=""
@@ -43,14 +43,14 @@ export default function Home() {
                             </div>
                             <Image
                                 src="/valeria/transparent-lera.png"
-                                className="absolute bottom-0 right-0 z-50 object-cover drop-shadow-2xl md:w-[600px]"
+                                className="absolute bottom-0 right-0 z-50 object-cover drop-shadow-2xl lg:w-[600px]"
                                 width={400}
                                 height={800}
                                 priority
                                 alt="Валерия - преподаватель вокала"
                             />
                             <div className="z-51 flex flex-col gap-y-6 p-8 lg:justify-start xl:gap-y-9">
-                                <h1 className="rotate-z-2 hidden hero-title bg-radial-[at_45%] from-orange-500/80 to-amber-600/90 to-80% rounded-md shadow-lg w-min px-5 py-3 text-2xl font-bold text-white xl:w-[350px] md:block xl:text-7xl">
+                                <h1 className="rotate-z-2 hidden hero-title bg-radial-[at_45%] from-orange-500/80 to-amber-600/90 to-80% rounded-sm shadow-lg w-min px-5 py-3 text-2xl font-bold text-white xl:w-[350px] md:block xl:text-7xl">
                                     ШКОЛА<br />
                                     <span className="ml-4">ВОКАЛА</span>
                                 </h1>
@@ -91,7 +91,7 @@ export default function Home() {
                                 <EnrollmentForm />
                             </div>
                             {/* from-violet-800/80 to-violet-950/80 */}
-                            <div className='w-full flex flex-col justify-center items-center bg-radial-[at_40%] from-orange-500/80 to-amber-600/90 to-80% mb-8 px-6 py-4 rounded-lg md:mb-12 '>
+                            <div className='w-full flex flex-col justify-center items-center bg-radial-[at_40%] from-orange-500/80 to-amber-600/90 to-80% mb-8 px-6 py-4 rounded-sm md:mb-12 '>
                                 <h2 className="text-left text-4xl font-bold tracking-tight text-shadow-lg md:text-3xl xl:text-6xl">
                                     Наши<br />
                                     <span className="ml-5">педагоги</span>
@@ -101,7 +101,7 @@ export default function Home() {
                                 За каждым сияющим успехом на сцене стоит вдохновляющий наставник. Тот, кто превращает голос в магию, а уроки — в путешествие. Не просто педагоги, а проводники в мир музыки, чьи сердца бьются в ритм с учениками.
                             </p>
                         </header>
-                        <div id="instructors" className="container grid grid-cols-1 gap-8 grid-off sm:grid-cols-2 md:gap-y-12 lg:grid-cols-3">
+                        <div id="instructors" className="container grid grid-cols-1 gap-8 grid-off sm:grid-cols-2 lg:gap-y-12 lg:grid-cols-3">
                             {instructors.map((instructor) => {
                                 return (
                                     <VocalInstructor
@@ -118,7 +118,7 @@ export default function Home() {
                 <section id="subscriptions" className="main-bg py-10 text-white lg:py-16">
                     <header className="container mb-[120px] flex flex-col items-center md:mb-8">
                         {/* from-violet-800/80 to-violet-950/80 */}
-                        <div className='flex flex-col justify-center items-center bg-radial-[at_40%] from-orange-500/80 to-amber-600/80 to-80% pr-6 py-4 rounded-lg'>
+                        <div className='flex flex-col justify-center items-center bg-radial-[at_40%] from-orange-500/80 to-amber-600/80 to-80% pr-6 py-4 rounded-sm'>
                             <h2 className="mb-4 text-left text-4xl font-bold tracking-tight text-shadow-lg md:text-3xl xl:text-6xl">
                                 Наши<br />
                                 <span className="ml-5">абонементы</span>

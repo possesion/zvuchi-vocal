@@ -61,7 +61,7 @@ export const Gallery = () => {
         <section className="container mx-auto px-4 py-10 lg:py-16">
             <header id="gallery" className='flex flex-col justify-center mb-[50px]'>
                 {/* from-violet-800/80 to-violet-950/80 */}
-                <div className='w-full bg-radial-[at_40%] from-orange-500/80 to-amber-600/90 to-80% pr-6 py-4 rounded-lg'>
+                <div className='w-full bg-radial-[at_40%] from-orange-500/80 to-amber-600/90 to-80% pr-6 py-4 rounded-sm'>
                     <h2 className="text-center text-4xl font-bold tracking-tight text-white text-shadow-lg md:text-3xl xl:text-6xl">
                         Жизнь<br />
                         <span className="ml-10">Студии</span>
@@ -74,7 +74,7 @@ export const Gallery = () => {
             </header>
             <div className="relative">
                 {/* Подсказка для свайпа */}
-                <div className="absolute -top-2 right-4 z-10 flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 backdrop-blur-sm">
+                <div className="absolute -top-2 right-4 z-10 flex items-center gap-2 rounded-sm bg-white/10 px-4 py-2 backdrop-blur-sm">
                     <span className="text-sm font-medium text-white/90">Прокрути</span>
                     <div className="flex gap-1">
                         <svg
@@ -104,7 +104,7 @@ export const Gallery = () => {
                             <Dialog.Trigger asChild>
                                 <button
                                     onClick={() => openImage(index)}
-                                    className="relative aspect-square w-[270px] shrink-0 cursor-pointer overflow-hidden rounded-lg transition-opacity hover:opacity-90"
+                                    className="relative aspect-square w-[270px] shrink-0 cursor-pointer overflow-hidden rounded-sm transition-opacity hover:opacity-90"
                                     aria-label={`Открыть изображение ${image.alt}`}
                                 >
                                     <Image

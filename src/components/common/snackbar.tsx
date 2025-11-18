@@ -54,7 +54,7 @@ export function Snackbar({
         <div className="fixed right-4 top-4 z-50 w-full max-w-sm" role="alert" aria-live="polite">
             <div
                 className={`
-          ${bgColor} transform rounded-lg border p-4 shadow-lg transition-all duration-300 ease-in-out
+          ${bgColor} transform rounded-sm border p-4 shadow-lg transition-all duration-300 ease-in-out
           ${isAnimating ? 'translate-x-0 opacity-100' : 'translate-x-full opacity-0'}
         `}
             >

@@ -229,7 +229,7 @@ body {
 }
 
 .primary-bg {
-  background-image: radial-gradient(at 37.292419583644524% 75.87817013117699%, #ab1515 0%, hsla(0, 78.12499999999999%, 37.64705882352941%, 0) 100%), radial-gradient(at 92.30938637830339% 98.12868545766032%, hsla(257.87234042553195, 92.15686274509804%, 20%, 1) 0%, hsla(257.87234042553195, 92.15686274509804%, 20%, 0) 100%), radial-gradient(at 97.45116136723982% 35.12600985347473%, hsla(0, 78.12499999999999%, 37.64705882352941%, 1) 0%, hsla(0, 78.12499999999999%, 37.64705882352941%, 0) 100%);
+  background-image: radial-gradient(at 37.292419583644524% 75.87817013117699%, #ab1515 0%, hsla(0, 78.12499999999999%, 37.64705882352941%, 0) 100%), radial-gradient(at 92.30938637830339% 98.12868545766032%, hsla(257.87234042553195, 92.15686274509804%, 20%, 1) 0%, hsla(257.87234042553195, 92.15686274509804%, 20%, 0) 100%), radial-gradient(at 97.45116136723982% 35.12600985347473%, hsla(0, 78.12499999999999%, 25%, 1) 0%, hsla(0, 78.12499999999999%, 37.64705882352941%, 0) 100%);
 }
 
 .secondary-bg {
@@ -374,7 +374,6 @@ body {
 
 .bg-dark {
   background: linear-gradient(135deg, #340407 0%, #65090f 50%, #140102 90%)
-
 }
 
 .enrollment-button {
@@ -382,34 +381,40 @@ body {
 }
 
 .enrollment-button:hover {
-   background: linear-gradient(135deg, #450509 0%, #760a12 50%, #250305 90%);
+  background: linear-gradient(135deg, #450509 0%, #760a12 50%, #250305 90%);
 }
 
 @keyframes gradient-shift {
   0% {
     background-position: 0% 50%;
   }
+
   50% {
     background-position: 100% 50%;
   }
+
   100% {
     background-position: 0% 50%;
   }
 }
 
 @keyframes swipe {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateX(0);
     opacity: 0.6;
   }
+
   50% {
     transform: translateX(8px);
     opacity: 1;
   }
 }
+
 /* Hero title with inset shadow effect like on the image */
 .hero-title {
-  text-shadow: 
+  text-shadow:
     0 4px 8px rgba(0, 0, 0, 0.9),
     0 2px 4px rgba(0, 0, 0, 0.7),
     inset 0 -2px 4px rgba(0, 0, 0, 0.5);
@@ -422,10 +427,13 @@ body {
 }
 
 @keyframes subtle-glow {
-  0%, 100% {
+
+  0%,
+  100% {
     text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
     color: white;
   }
+
   50% {
     text-shadow: 0 0 15px rgba(255, 215, 0, 0.6), 0 0 25px rgba(255, 215, 0, 0.4);
     color: rgb(255, 245, 200);

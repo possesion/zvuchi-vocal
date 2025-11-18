@@ -25,7 +25,7 @@ export const Program: FC<ProgramProps> = ({ description, features, title, number
     return (
         <article
             key={title}
-            className={cn(animationClass, 'group relative flex w-full shrink-0 flex-col rounded-lg bg-black/85 p-6 shadow-md brightness-96 lg:flex-row')}
+            className={cn(animationClass, 'group relative flex w-full shrink-0 flex-col rounded-sm bg-black/85 p-6 shadow-md brightness-96 md:flex-row')}
             ref={ref}
         >
             <div className="flex w-20">
@@ -48,7 +48,7 @@ export const Program: FC<ProgramProps> = ({ description, features, title, number
                 <span>{price}</span>
                 <button
                     onClick={handleOpenLink(YANDEX_ENROLLMENT_URL)}
-                    className="block cursor-pointer rounded-lg border px-3 hover:animate-rotational-wave md:py-2"
+                    className="block cursor-pointer rounded-sm border px-3 hover:animate-rotational-wave md:py-2"
                     aria-label={`Записаться на ${title}`}
                 >
                     <span className="relative text-xl lg:text-3xl">

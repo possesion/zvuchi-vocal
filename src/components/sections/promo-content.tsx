@@ -42,7 +42,7 @@ export const PromoContent = () => {
                 <div className="aspect-[9/16] w-full max-w-[360px] mx-auto shadow-lg md:h-[580px] md:w-[360px]">
                     <video
                         ref={videoRef}
-                        className="h-full w-full rounded-lg object-cover"
+                        className="h-full w-full rounded-sm object-cover"
                         controls={isPlaying}
                         poster="/video-fallback.png"
                         preload="metadata"
@@ -56,7 +56,7 @@ export const PromoContent = () => {
                         <img
                             src="/video-fallback.png"
                             alt="Превью промо-видео школы вокала"
-                            className="h-full w-full rounded-lg object-cover"
+                            className="h-full w-full rounded-sm object-cover"
                         />
                         <p className="mt-4 text-center text-white">
                             Ваш браузер не поддерживает воспроизведение видео.

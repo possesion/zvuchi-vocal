@@ -160,7 +160,7 @@ export function EnrollmentModal({ isOpen, onClose }: EnrollmentModalProps) {
                             Имя *
                         </label>
                         <input
-                            className="w-full rounded-lg border border-gray-300 px-3 py-2 transition-all focus:border-transparent focus:ring-2 focus:ring-primary"
+                            className="w-full rounded-sm border border-gray-300 px-3 py-2 transition-all focus:border-transparent focus:ring-2 focus:ring-primary"
                             id="name"
                             name="name"
                             onInvalid={handleValidate('Введите имя')}
@@ -182,7 +182,7 @@ export function EnrollmentModal({ isOpen, onClose }: EnrollmentModalProps) {
                         </label>
                         <input
                             id="phone"
-                            className="w-full rounded-lg border border-gray-300 px-3 py-2 transition-all focus:border-transparent focus:ring-2 focus:ring-primary"
+                            className="w-full rounded-sm border border-gray-300 px-3 py-2 transition-all focus:border-transparent focus:ring-2 focus:ring-primary"
                             name="phone"
                             onInvalid={handleValidate('Введите номер телефона')}
                             onInput={handleValidate('')}
@@ -209,7 +209,7 @@ export function EnrollmentModal({ isOpen, onClose }: EnrollmentModalProps) {
                     </div>
                     <button
                         type="submit"
-                        className="w-full cursor-pointer transform rounded-lg bg-linear-to-r from-brand to-brand-secondary px-6 py-3 font-bold text-white shadow-lg transition-all duration-200 hover:scale-105 hover:from-primary/90 hover:to-primary/70 hover:shadow-xl"
+                        className="w-full cursor-pointer transform rounded-sm bg-linear-to-r from-brand to-brand-secondary px-6 py-3 font-bold text-white shadow-lg transition-all duration-200 hover:scale-105 hover:from-primary/90 hover:to-primary/70 hover:shadow-xl"
                     >
                         Записаться
                     </button>

@@ -97,7 +97,7 @@ export const VocalInstructor = ({ instructor }: VocalInstructor) => {
     }
 
     return (
-        <article className="group flex flex-col items-center justify-center text-center">
+        <article className="group flex flex-col items-center text-center lg:justify-center">
             <div
                 ref={ref}
                 onClick={togglePlay}
@@ -134,7 +134,7 @@ export const VocalInstructor = ({ instructor }: VocalInstructor) => {
                             <div className="relative h-full w-full max-h-[90vh] max-w-[90vw]">
                                 {/* Видео на весь доступный размер */}
                                 <iframe
-                                    className="h-full w-full rounded-lg"
+                                    className="h-full w-full rounded-sm"
                                     src={instructor.video}
                                     style={{ border: 'none' }}
                                     allow="clipboard-write; autoplay"
@@ -154,7 +154,7 @@ export const VocalInstructor = ({ instructor }: VocalInstructor) => {
                     </Dialog.Portal>
                 </Dialog.Root>
             </div>
-            <h3 className="bg-dark rounded-md shadow-lg px-4 pb-1 text-lg font-bold md:text-xl">{instructor.name}</h3>
+            <h3 className="bg-dark rounded-sm shadow-lg px-4 pb-1 text-lg font-bold md:text-xl">{instructor.name}</h3>
             <p className="mb-2 w-60"><b>Сверхсила: </b>{instructor.specialty}</p>
             <p><span className="mr-2" aria-hidden="true">📚</span>Опыт преподавания: {instructor.experience}</p>
         </article>
