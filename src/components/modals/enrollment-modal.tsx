@@ -136,7 +136,7 @@ export function EnrollmentModal({ isOpen, onClose }: EnrollmentModalProps) {
             />
 
             {/* Modal */}
-            <div className="animate-fade-in relative mx-4 w-full max-w-[480px] max-h-[90vh] overflow-y-auto rounded-2xl bg-white shadow-2xl">
+            <div className="animate-fade-in relative mx-4 w-full max-w-[480px] max-h-[90vh] overflow-y-auto rounded-sm bg-white shadow-2xl">
                 <header className="flex items-center justify-between border-b p-6">
                     <h2 id="modal-title" className="text-2xl font-bold text-gray-900">
                         Записаться на пробное&nbsp;занятие
