@@ -17,9 +17,6 @@ export default function ResetContestPage() {
         setMessage('Сброс результатов голосования...');
 
         try {
-            // Очищаем localStorage
-            localStorage.removeItem('hasVoted');
-
             // Сбрасываем результаты на сервере с паролем
             const response = await fetch('/api/contest-reset', {
                 method: 'POST',

@@ -60,11 +60,20 @@ export async function POST(request: Request) {
       JSON.stringify({ contestants: initialContestants }, null, 2)
     );
 
-    return NextResponse.json({
+    // Создаем ответ с очисткой cookie
+    const response = NextResponse.json({
       success: true,
       message: 'Результаты голосования успешно сброшены',
       contestants: initialContestants
     });
+
+    // Удаляем cookie hasVoted
+    response.cookies.set('hasVoted', '', {
+      maxAge: 0,
+      path: '/',
+    });
+
+    return response;
   } catch (error) {
     console.error('Error resetting votes:', error);
     return NextResponse.json(

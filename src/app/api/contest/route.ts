@@ -86,6 +86,16 @@ export async function POST(request: Request) {
       );
     }
 
+    // Проверяем cookie
+    const cookies = request.headers.get('cookie') || '';
+    const hasVoted = cookies.includes('hasVoted=true');
+    if (hasVoted) {
+      return NextResponse.json(
+        { error: 'You have already voted' },
+        { status: 403 }
+      );
+    }
+
     const data = readVotes();
     const contestant = data.contestants.find((c) => c.id === contestantId);
     
@@ -99,7 +109,16 @@ export async function POST(request: Request) {
     contestant.votes += 1;
     writeVotes(data);
 
-    return NextResponse.json({ success: true, contestant });
+    // Устанавливаем cookie на 15 минут
+    const response = NextResponse.json({ success: true, contestant });
+    response.cookies.set('hasVoted', 'true', {
+      maxAge: 60 * 60, // 60 минут
+      path: '/',
+      httpOnly: true,
+      sameSite: 'strict',
+    });
+
+    return response;
   } catch (error) {
     console.error('Error voting:', error);
     return NextResponse.json(
