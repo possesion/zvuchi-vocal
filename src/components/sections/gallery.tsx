@@ -61,7 +61,7 @@ export const Gallery = () => {
         <section className="container mx-auto px-4 py-10 lg:py-16">
             <header id="gallery" className='flex flex-col justify-center mb-[50px]'>
                 {/* from-violet-800/80 to-violet-950/80 */}
-                <div className='w-full bg-radial-[at_40%] from-orange-500/80 to-amber-600/90 to-80% pr-6 py-4 rounded-sm'>
+                <div className='w-full bg-dark pr-6 py-4 rounded-sm'>
                     <h2 className="text-center text-4xl font-bold tracking-tight text-white text-shadow-lg md:text-3xl xl:text-6xl">
                         Жизнь<br />
                         <span className="ml-10">Студии</span>

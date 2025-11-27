@@ -91,7 +91,7 @@ export default function Home() {
                                 <EnrollmentForm />
                             </div>
                             {/* from-violet-800/80 to-violet-950/80 */}
-                            <div className='w-full flex flex-col justify-center items-center bg-radial-[at_40%] from-orange-500/80 to-amber-600/90 to-80% mb-8 px-6 py-4 rounded-sm md:mb-12 '>
+                            <div className='w-full flex flex-col justify-center items-center bg-dark mb-8 px-6 py-4 rounded-sm md:mb-12 '>
                                 <h2 className="text-left text-4xl font-bold tracking-tight text-shadow-lg md:text-3xl xl:text-6xl">
                                     Наши<br />
                                     <span className="ml-5">педагоги</span>
@@ -118,7 +118,7 @@ export default function Home() {
                 <section id="subscriptions" className="main-bg py-10 text-white lg:py-16">
                     <header className="container mb-[120px] flex flex-col items-center md:mb-8">
                         {/* from-violet-800/80 to-violet-950/80 */}
-                        <div className='flex flex-col justify-center items-center bg-radial-[at_40%] from-orange-500/80 to-amber-600/80 to-80% pr-6 py-4 rounded-sm'>
+                        <div className='flex flex-col justify-center items-center bg-dark pr-6 py-4 rounded-sm opacity-85'>
                             <h2 className="mb-4 text-left text-4xl font-bold tracking-tight text-shadow-lg md:text-3xl xl:text-6xl">
                                 Наши<br />
                                 <span className="ml-5">абонементы</span>
