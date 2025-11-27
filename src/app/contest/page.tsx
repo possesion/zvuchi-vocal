@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 
@@ -9,6 +10,7 @@ interface Contestant {
   name: string;
   song: string;
   votes: number;
+  photo?: string;
 }
 
 export default function ContestPage() {
@@ -93,8 +95,8 @@ export default function ContestPage() {
 
           <div className="space-y-4">
             {contestants.map((contestant) => {
-              const percentage = totalVotes > 0 
-                ? ((contestant.votes / totalVotes) * 100).toFixed(1) 
+              const percentage = totalVotes > 0
+                ? ((contestant.votes / totalVotes) * 100).toFixed(1)
                 : '0';
 
               return (
@@ -103,29 +105,41 @@ export default function ContestPage() {
                   className="group relative overflow-hidden rounded-xl border border-white/20 bg-white/10 p-6 backdrop-blur-sm transition-all duration-300 hover:border-white/40 hover:bg-white/15"
                 >
                   <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-                    <div className="flex-1">
-                      <h3 className="mb-1 text-xl font-bold text-white">
-                        {contestant.name}
-                      </h3>
-                      <p className="text-white/70">{contestant.song}</p>
-                      {hasVoted && (
-                        <div className="mt-3">
-                          <div className="mb-1 flex items-center justify-between text-sm">
-                            <span className="text-white/60">
-                              {contestant.votes} {contestant.votes === 1 ? 'голос' : 'голосов'}
-                            </span>
-                            <span className="font-semibold text-white">
-                              {percentage}%
-                            </span>
-                          </div>
-                          <div className="h-2 overflow-hidden rounded-full bg-white/20">
-                            <div
-                              className="h-full rounded-full bg-gradient-to-r from-violet-500 to-purple-500 transition-all duration-500"
-                              style={{ width: `${percentage}%` }}
-                            />
-                          </div>
+                    <div className="flex flex-1 flex-col items-center gap-4 md:flex-row md:items-center">
+                      {contestant.photo && (
+                        <div className="relative h-[150px] w-[150px] flex-shrink-0 md:h-16 md:w-16">
+                          <Image
+                            src={contestant.photo}
+                            alt={contestant.name}
+                            fill
+                            className="rounded-full object-cover ring-2 ring-white/20"
+                          />
                         </div>
                       )}
+                      <div className="flex-1 text-center md:text-left">
+                        <h3 className="mb-1 text-xl font-bold text-white">
+                          {contestant.name}
+                        </h3>
+                        <p className="text-white/70">{contestant.song}</p>
+                        {hasVoted && (
+                          <div className="mt-3">
+                            <div className="mb-1 flex items-center justify-between text-sm">
+                              <span className="text-white/60">
+                                {contestant.votes} {contestant.votes === 1 ? 'голос' : 'голосов'}
+                              </span>
+                              <span className="font-semibold text-white">
+                                {percentage}%
+                              </span>
+                            </div>
+                            <div className="h-2 overflow-hidden rounded-full bg-white/20">
+                              <div
+                                className="h-full rounded-full bg-gradient-to-r from-violet-500 to-purple-500 transition-all duration-500"
+                                style={{ width: `${percentage}%` }}
+                              />
+                            </div>
+                          </div>
+                        )}
+                      </div>
                     </div>
 
                     <button
@@ -136,8 +150,8 @@ export default function ContestPage() {
                       {votingFor === contestant.id
                         ? 'Голосуем...'
                         : hasVoted
-                        ? 'Проголосовано'
-                        : 'Голосовать'}
+                          ? 'Проголосовано'
+                          : 'Голосовать'}
                     </button>
                   </div>
                 </div>

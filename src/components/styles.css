@@ -181,3 +181,6 @@
     transform: translate(-50%, -50%) scale(1);
   }
 }
+
+/* Оранжевый градиент для кнопок */
+/* bg-radial-[at_45%] from-orange-500/80 to-amber-600/90 to-80% */

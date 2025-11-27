@@ -1,0 +1,17 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Круглый фон -->
+  <circle cx="100" cy="100" r="100" fill="white"/>
+  
+  <!-- Текст "Дуэт" -->
+  <text 
+    x="100" 
+    y="115" 
+    font-family="Arial, sans-serif" 
+    font-size="48" 
+    font-weight="bold" 
+    fill="#ab1515" 
+    text-anchor="middle"
+  >
+    Дуэт
+  </text>
+</svg>
