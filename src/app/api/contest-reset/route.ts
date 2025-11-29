@@ -28,7 +28,6 @@ const initialContestants: Contestant[] = [
   { id: 15, photo: '/contest/duo.svg', name: 'Дуэт А.Бродкина и Е.Николаева', song: 'Desert Rose - Sting', votes: 0 },
   { id: 16, photo: '/contest/duo.svg', name: 'Дуэт Д.Коновалов и А.Кабанова', song: 'Последний день Помпеи - Сергей Лазарев', votes: 0 },
   { id: 18, photo: '/contest/ch-sasha.PNG', name: 'Чижикова Александра', song: 'Come Home – Willow', votes: 0 },
-  { id: 19, photo: '/contest/k-natalya.jpeg', name: 'Климова Наталья', song: 'Путь – Ольга Кормухина', votes: 0 },
   { id: 20, photo: '/contest/p-nikita.jpeg', name: 'Письменный Никита', song: 'Survive – Lewis Capaldi', votes: 0 },
   { id: 21, photo: '/contest/m-sergei.jpeg', name: 'Мерсов Сергей', song: 'Нищая – Александр Малинин', votes: 0 },
   { id: 22, photo: '/contest/s-elena.jpeg', name: 'Стребнева Елена', song: "Who's lovin you – Jennie Lena", votes: 0 },

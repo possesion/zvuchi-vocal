@@ -2,9 +2,9 @@
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
+import { ContestPieChart } from '@/components/contest/contest-pie-chart';
 
 interface Contestant {
   id: number;
@@ -81,16 +81,6 @@ export default function ContestPage() {
       percentage: totalVotes > 0 ? ((c.votes / totalVotes) * 100).toFixed(1) : '0'
     }));
 
-  // Цвета для секторов
-  const COLORS = [
-    '#8b5cf6', '#a78bfa', '#c4b5fd', '#ddd6fe',
-    '#7c3aed', '#6d28d9', '#5b21b6', '#4c1d95',
-    '#ec4899', '#f472b6', '#f9a8d4', '#fce7f3',
-    '#06b6d4', '#22d3ee', '#67e8f9', '#a5f3fc',
-    '#10b981', '#34d399', '#6ee7b7', '#a7f3d0',
-    '#f59e0b', '#fbbf24', '#fcd34d', '#fde68a'
-  ];
-
   if (isLoading) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-violet-950 via-purple-900 to-violet-950">
@@ -122,41 +112,8 @@ export default function ContestPage() {
 
           {/* Pie Chart */}
           {hasVoted && chartData.length > 0 && (
-            <div className="mb-12 rounded-2xl border border-white/20 bg-white/10 p-6 backdrop-blur-md">
-              <h2 className="mb-6 text-center text-2xl font-bold text-white">
-                Распределение голосов
-              </h2>
-              <ResponsiveContainer width="100%" height={400}>
-                <PieChart>
-                  <Pie
-                    data={chartData}
-                    cx="50%"
-                    cy="50%"
-                    labelLine={false}
-                    label={(entry) => `${((entry.percent || 0) * 100).toFixed(1)}%`}
-                    outerRadius={120}
-                    fill="#8884d8"
-                    dataKey="value"
-                  >
-                    {chartData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                    ))}
-                  </Pie>
-                  <Tooltip 
-                    contentStyle={{ 
-                      backgroundColor: 'rgba(0, 0, 0, 0.8)', 
-                      border: '1px solid rgba(255, 255, 255, 0.2)',
-                      borderRadius: '8px',
-                      color: 'white'
-                    }}
-                    formatter={(value: number) => [`${value} голосов`, 'Голоса']}
-                  />
-                  <Legend 
-                    wrapperStyle={{ color: 'white' }}
-                    formatter={(value) => <span style={{ color: 'white' }}>{value}</span>}
-                  />
-                </PieChart>
-              </ResponsiveContainer>
+            <div className="mb-12">
+              <ContestPieChart data={chartData} />
             </div>
           )}
 

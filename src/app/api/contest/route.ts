@@ -38,11 +38,11 @@ const initialContestants: Contestant[] = [
 
 function ensureDataFile() {
   const dataDir = path.join(process.cwd(), 'data');
-  
+
   if (!fs.existsSync(dataDir)) {
     fs.mkdirSync(dataDir, { recursive: true });
   }
-  
+
   if (!fs.existsSync(DATA_FILE)) {
     fs.writeFileSync(
       DATA_FILE,
@@ -78,7 +78,7 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     const { contestantId } = await request.json();
-    
+
     if (!contestantId) {
       return NextResponse.json(
         { error: 'Contestant ID is required' },
@@ -98,7 +98,7 @@ export async function POST(request: Request) {
 
     const data = readVotes();
     const contestant = data.contestants.find((c) => c.id === contestantId);
-    
+
     if (!contestant) {
       return NextResponse.json(
         { error: 'Contestant not found' },
@@ -112,7 +112,7 @@ export async function POST(request: Request) {
     // Устанавливаем cookie на 15 минут
     const response = NextResponse.json({ success: true, contestant });
     response.cookies.set('hasVoted', 'true', {
-      maxAge: 60 * 60, // 60 минут
+      maxAge: 60 * 125, // 125 минут
       path: '/',
       httpOnly: true,
       sameSite: 'strict',

@@ -5,21 +5,21 @@
       "photo": "/contest/k-dima.jpeg",
       "name": "Коновалов Дмитрий",
       "song": "Half a man - Dean Lewis",
-      "votes": 3
+      "votes": 0
     },
     {
       "id": 3,
       "photo": "/contest/l-sasha.jpeg",
       "name": "Лушникова Александра",
       "song": "I miss the misery - Halestorm",
-      "votes": 1
+      "votes": 0
     },
     {
       "id": 4,
       "photo": "/contest/l-ekaterina.jpeg",
       "name": "Левочкина Екатерина",
       "song": "Сколько шансов у любви - Садковская",
-      "votes": 1
+      "votes": 0
     },
     {
       "id": 5,
@@ -33,14 +33,14 @@
       "photo": "/contest/b-anna.jpeg",
       "name": "Бродкина Анна",
       "song": "Born to Die - Lana del Rey",
-      "votes": 1
+      "votes": 0
     },
     {
       "id": 7,
       "photo": "/contest/s-vlada.jpeg",
       "name": "Сахенко Владислава",
       "song": "You've got the love - Florence and the machine",
-      "votes": 2
+      "votes": 0
     },
     {
       "id": 8,
@@ -103,13 +103,6 @@
       "photo": "/contest/ch-sasha.PNG",
       "name": "Чижикова Александра",
       "song": "Come Home – Willow",
-      "votes": 0
-    },
-    {
-      "id": 19,
-      "photo": "/contest/k-natalya.jpeg",
-      "name": "Климова Наталья",
-      "song": "Путь – Ольга Кормухина",
       "votes": 0
     },
     {
