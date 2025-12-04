@@ -155,7 +155,7 @@ export const VocalInstructor = ({ instructor }: VocalInstructor) => {
                 </Dialog.Root>
             </div>
             <h3 className="bg-dark rounded-sm shadow-lg px-4 pb-1 text-lg font-bold md:text-xl">{instructor.name}</h3>
-            <p className="mb-2 w-60"><b>Сверхсила: </b>{instructor.specialty}</p>
+            <p className="mb-2 w-62"><b>Сверхсила: </b>{instructor.specialty}</p>
             <p><span className="mr-2" aria-hidden="true">📚</span>Опыт преподавания: {instructor.experience}</p>
         </article>
     )

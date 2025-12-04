@@ -2,10 +2,10 @@
 
 import Link from 'next/link';
 import { navigationList } from '@/app/constants';
-import { PlatformDialog } from '../modals/platform-dialog';
-import * as Dialog from '@radix-ui/react-dialog';
 import cn from 'classnames'
-import { SubscriptionsPaymentWidget } from '../common/subscription-payment-widget';
+// import { PlatformDialog } from '../modals/platform-dialog';
+// import * as Dialog from '@radix-ui/react-dialog';
+// import { SubscriptionsPaymentWidget } from '../common/subscription-payment-widget';
 
 export const NavMenu = () => {
     return (
@@ -19,7 +19,7 @@ export const NavMenu = () => {
                     {text}
                 </Link>
             ))}
-            <PlatformDialog className="h-[90lvh] w-[340px] md:w-[620px]"
+            {/* <PlatformDialog className="h-[90lvh] w-[340px] md:w-[620px]"
                 trigger={
                     <button className="group relative cursor-pointer text-lg font-bold text-white transition-colors duration-200">
                         Оплата
@@ -32,7 +32,7 @@ export const NavMenu = () => {
                     </Dialog.Title>
                     <SubscriptionsPaymentWidget />
                 </div>
-            </PlatformDialog>
+            </PlatformDialog> */}
         </nav>
     );
 };

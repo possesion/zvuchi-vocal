@@ -43,14 +43,15 @@ export default function Home() {
                             </div>
                             <Image
                                 src="/valeria/transparent-lera.png"
-                                className="absolute bottom-0 right-0 z-50 object-cover drop-shadow-2xl lg:w-[600px]"
-                                width={400}
-                                height={800}
+                                className="absolute bottom-0 right-[10%] z-50 h-auto w-[272px] object-contain drop-shadow-2xl sm:w-[320px] md:w-[320px] lg:w-[340px] xl:w-[360px]"
+                                width={380}
+                                height={760}
+                                quality={95}
                                 priority
                                 alt="Валерия - преподаватель вокала"
                             />
                             <div className="z-51 flex flex-col gap-y-6 p-8 lg:justify-start xl:gap-y-9">
-                                <h1 className="rotate-z-2 hidden hero-title bg-dark rounded-sm shadow-lg w-min px-5 py-3 text-2xl font-bold text-white xl:w-[350px] md:block xl:text-7xl">
+                                <h1 className="rotate-z-2 hidden hero-title bg-dark rounded-sm shadow-lg w-min px-5 py-3 text-2xl font-bold text-white sm:w-[210px] sm:text-4xl xl:w-[350px] md:block xl:text-7xl">
                                     ШКОЛА<br />
                                     <span className="ml-4">ВОКАЛА</span>
                                 </h1>
@@ -58,7 +59,7 @@ export default function Home() {
                                     Пусть тебя
                                     <span className="text-primary"> УСЛЫШАТ!</span>
                                 </h2>
-                                <div className="w-76 text-3xl text-white md:w-[500px] lg:text-3xl">
+                                <div className="w-76 text-2xl text-white md:w-[500px] lg:text-3xl">
                                     <p>Голос изменится после первого занятия!</p>
                                     Услышишь разницу <b>до</b> и <b className="after-highlight">после</b>.
                                     Проверь — это работает!

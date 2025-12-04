@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { Button, Dialog } from '@radix-ui/themes'
+import { Button } from '@radix-ui/themes'
 // import MenuBurger from '../app/burger-menu.svg';
 
 import {
@@ -16,8 +16,8 @@ import BurgerMenu from '@/app/burger-menu';
 import { SOCIAL_ICON_SIZE } from './common/constants'
 import { Socials } from './common/socials'
 import { STUDIO_MOBILE_PHONE } from '@/app/constants'
-import { PlatformDialog } from './modals/platform-dialog'
-import { SubscriptionsPaymentWidget } from './common/subscription-payment-widget'
+// import { PlatformDialog } from './modals/platform-dialog'
+// import { SubscriptionsPaymentWidget } from './common/subscription-payment-widget'
 
 export default function MobileMenu() {
     const [open, setOpen] = useState(false)
@@ -82,8 +82,7 @@ export default function MobileMenu() {
                             >
                                 Контакты
                             </Link>
-                            {/* w-[340px]  */}
-                            <PlatformDialog className="h-[90lvh] w-[90vw] md:w-[620px]"
+                            {/* <PlatformDialog className="h-[90lvh] w-[90vw] md:w-[620px]"
                                 trigger={<div className="flex items-center hover:text-red-400">
                                 Оплата
                             </div>}
@@ -94,7 +93,7 @@ export default function MobileMenu() {
                                     </Dialog.Title>
                                     <SubscriptionsPaymentWidget />
                                 </div>
-                            </PlatformDialog>
+                            </PlatformDialog> */}
                         </nav>
                         <section className='space-y-4'>
                             <p className='font-exo2 text-2xl font-semibold'>{STUDIO_MOBILE_PHONE}</p>
