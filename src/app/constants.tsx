@@ -128,7 +128,7 @@ export const instructors = [
         ),
         experience: '6 лет',
         image: '/valeria/lera.PNG?height=300&width=300',
-        video: 'https://rutube.ru/play/embed/8f21f290b8b499db931a36b9c3f45ed7/?p=NFNMNDe-TfS8_6Z-XjvB5w',
+        video: 'https://s3.twcstorage.ru/dd3d1966-zvuchi-media/mentors/IMG_7581.mp4',
     },
     {
         name: 'Мария Биттер',
@@ -144,7 +144,7 @@ export const instructors = [
             </div>
         ),
         image: '/maria/card.jpg?height=300&width=300',
-        video: 'https://rutube.ru/play/embed/319d5139e96d348900e654b2145fec5e/?p=Z2IcMERaZ4TioHbmywvakw',
+        video: 'https://s3.twcstorage.ru/dd3d1966-zvuchi-media/mentors/IMG_8697.mp4',
 
     },
     // {
@@ -179,7 +179,7 @@ export const instructors = [
             </div>
         ),
         image: '/maria-jukova/jukova.png?height=300&width=300',
-        video: '',
+        video: 'https://s3.twcstorage.ru/dd3d1966-zvuchi-media/mentors/IMG_1304.mp4',
     },
 ]
 

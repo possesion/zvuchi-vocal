@@ -27,6 +27,13 @@ export default function Home() {
                         size={SOCIAL_ICON_SIZE.sm}
                         className="container mx-auto hidden justify-end gap-x-1 pt-2 md:flex md:gap-x-2"
                     />
+                    <Image
+                        src="/gift.jpg"
+                        className="w-full object-contain sm:rounded-sm shadow-lg sm:hidden"
+                        width={380}
+                        height={220}
+                        alt="подарок"
+                    />
                     <section className="container mx-auto flex h-[100svh] sm:h-screen">
                         <div className="relative z-10 flex w-full justify-center">
                             <div className="absolute bottom-0 left-60 z-50 hidden lg:block">
@@ -43,7 +50,7 @@ export default function Home() {
                             </div>
                             <Image
                                 src="/valeria/transparent-lera.png"
-                                className="absolute bottom-0 right-[10%] z-50 h-auto w-[272px] object-contain drop-shadow-2xl sm:w-[320px] md:w-[320px] lg:w-[340px] xl:w-[360px]"
+                                className="absolute bottom-0 right-[10%] z-50 h-auto w-[272px] object-contain drop-shadow-2xl sm:w-[320px] md:w-[320px] lg:w-[340px] xl:w-[360px] [@media(max-height:600px)_and_(orientation:landscape)]:hidden"
                                 width={380}
                                 height={760}
                                 quality={95}
@@ -59,11 +66,18 @@ export default function Home() {
                                     Пусть тебя
                                     <span className="text-primary"> УСЛЫШАТ!</span>
                                 </h2>
-                                <div className="w-76 text-2xl text-white md:w-[500px] lg:text-3xl">
+                                <Image
+                                    src="/gift.jpg"
+                                    className="mt-3 hidden w-full rounded-sm shadow-lg sm:block 2xl:w-[380px]"
+                                    width={350}
+                                    height={200}
+                                    alt="подарок"
+                                />
+                                {/* <div className="w-76 text-2xl text-white md:w-[500px] lg:text-3xl">
                                     <p>Голос изменится после первого занятия!</p>
                                     Услышишь разницу <b>до</b> и <b className="after-highlight">после</b>.
                                     Проверь — это работает!
-                                </div>
+                                </div> */}
                                 <div className="mt-auto sm:m-0">
                                     <EnrollmentSection main />
                                 </div>
