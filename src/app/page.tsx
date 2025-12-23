@@ -34,7 +34,7 @@ export default function Home() {
                         height={220}
                         alt="подарок"
                     />
-                    <section className="container mx-auto flex h-[100svh] sm:h-screen">
+                    <section className="container mx-auto flex h-[70svh] sm:h-screen">
                         <div className="relative z-10 flex w-full justify-center">
                             <div className="absolute bottom-0 left-60 z-50 hidden lg:block">
                                 <Image

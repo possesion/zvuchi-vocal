@@ -16,9 +16,6 @@ bg-radial-[at_40%] from-orange-500/80 to-amber-600/80 to-80%
   --muted-foreground: 210 9% 31%;
 } */
 
-@screen {
-  --xs-landscape: '(max-width: 399px) and (orientation: landscape)'
-}
 @theme {
   --color-background: #f5f4f2;
   --color-foreground: #1a1a1a;
