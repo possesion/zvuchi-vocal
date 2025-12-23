@@ -13,9 +13,7 @@ export const Gallery = () => {
     >([])
     const [touchStart, setTouchStart] = useState(0);
     const [touchEnd, setTouchEnd] = useState(0);
-    const [galleryTouchStart, setGalleryTouchStart] = useState(0);
-    const [galleryTouchEnd, setGalleryTouchEnd] = useState(0);
-
+    
     // Для mouse drag
     const [isDragging, setIsDragging] = useState(false);
     const [dragStart, setDragStart] = useState(0);
@@ -27,31 +25,6 @@ export const Gallery = () => {
 
     function handleTouchMove(e: TouchEvent<HTMLElement>) {
         setTouchEnd(e.targetTouches[0].clientX);
-    }
-
-    function handleGalleryTouchStart(e: TouchEvent<HTMLElement>) {
-        setGalleryTouchStart(e.targetTouches[0].clientX);
-    }
-
-    function handleGalleryTouchMove(e: TouchEvent<HTMLElement>) {
-        setGalleryTouchEnd(e.targetTouches[0].clientX);
-    }
-
-    function handleGalleryTouchEnd() {
-        const gallery = document.querySelector('.gallery-scroll');
-        if (!gallery || Math.abs(galleryTouchStart - galleryTouchEnd) < 50) return;
-
-        const scrollAmount = 270; // ширина одного изображения + отступ
-
-        if (galleryTouchStart - galleryTouchEnd > 50) {
-            // Свайп влево - прокрутка вправо
-            gallery.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-        }
-
-        if (galleryTouchStart - galleryTouchEnd < -50) {
-            // Свайп вправо - прокрутка влево
-            gallery.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
-        }
     }
 
     // Mouse drag handlers
@@ -159,9 +132,6 @@ export const Gallery = () => {
                     className="gallery-scroll flex space-x-4 overflow-x-auto py-4 whitespace-nowrap scrollbar-hide no-scrollbar select-none cursor-grab"
                     role="region"
                     aria-label="Галерея фотографий студии"
-                    onTouchStart={handleGalleryTouchStart}
-                    onTouchMove={handleGalleryTouchMove}
-                    onTouchEnd={handleGalleryTouchEnd}
                     onMouseDown={handleMouseDown}
                     onMouseMove={handleMouseMove}
                     onMouseUp={handleMouseUp}
