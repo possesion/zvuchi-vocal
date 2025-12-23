@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { Dialog } from 'radix-ui'
 import 'react-image-gallery/styles/css/image-gallery.css'
 import { Shorts } from '../common/shorts'
+import { BUCKET_URL } from '../constants'
 
 export const Gallery = () => {
     const [images, setImages] = useState<
@@ -12,6 +13,13 @@ export const Gallery = () => {
     >([])
     const [touchStart, setTouchStart] = useState(0);
     const [touchEnd, setTouchEnd] = useState(0);
+    const [galleryTouchStart, setGalleryTouchStart] = useState(0);
+    const [galleryTouchEnd, setGalleryTouchEnd] = useState(0);
+
+    // Для mouse drag
+    const [isDragging, setIsDragging] = useState(false);
+    const [dragStart, setDragStart] = useState(0);
+    const [scrollStart, setScrollStart] = useState(0);
 
     function handleTouchStart(e: TouchEvent<HTMLElement>) {
         setTouchStart(e.targetTouches[0].clientX);
@@ -20,6 +28,63 @@ export const Gallery = () => {
     function handleTouchMove(e: TouchEvent<HTMLElement>) {
         setTouchEnd(e.targetTouches[0].clientX);
     }
+
+    function handleGalleryTouchStart(e: TouchEvent<HTMLElement>) {
+        setGalleryTouchStart(e.targetTouches[0].clientX);
+    }
+
+    function handleGalleryTouchMove(e: TouchEvent<HTMLElement>) {
+        setGalleryTouchEnd(e.targetTouches[0].clientX);
+    }
+
+    function handleGalleryTouchEnd() {
+        const gallery = document.querySelector('.gallery-scroll');
+        if (!gallery || Math.abs(galleryTouchStart - galleryTouchEnd) < 50) return;
+
+        const scrollAmount = 270; // ширина одного изображения + отступ
+
+        if (galleryTouchStart - galleryTouchEnd > 50) {
+            // Свайп влево - прокрутка вправо
+            gallery.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+        }
+
+        if (galleryTouchStart - galleryTouchEnd < -50) {
+            // Свайп вправо - прокрутка влево
+            gallery.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+        }
+    }
+
+    // Mouse drag handlers
+    const handleMouseDown = (e: React.MouseEvent) => {
+        const gallery = e.currentTarget as HTMLElement;
+        setIsDragging(true);
+        setDragStart(e.clientX);
+        setScrollStart(gallery.scrollLeft);
+        gallery.style.cursor = 'grabbing';
+    };
+
+    const handleMouseMove = (e: React.MouseEvent) => {
+        if (!isDragging) return;
+        e.preventDefault();
+
+        const gallery = e.currentTarget as HTMLElement;
+        const dragDistance = e.clientX - dragStart;
+        gallery.scrollLeft = scrollStart - dragDistance;
+    };
+
+    const handleMouseUp = (e: React.MouseEvent) => {
+        setIsDragging(false);
+        const gallery = e.currentTarget as HTMLElement;
+        gallery.style.cursor = 'grab';
+    };
+
+    const handleMouseLeave = (e: React.MouseEvent) => {
+        if (isDragging) {
+            setIsDragging(false);
+            const gallery = e.currentTarget as HTMLElement;
+            gallery.style.cursor = 'grab';
+        }
+    };
 
     const [selectedIndex, setSelectedIndex] = useState(0)
 
@@ -47,15 +112,11 @@ export const Gallery = () => {
 
 
     useEffect(() => {
-        (async () => {
-            try {
-                const response = await fetch('api/gallery')
-                const { images } = await response.json()
-                setImages(images)
-            } catch {
-                console.error('download error')
-            }
-        })()
+        const pictures = [];
+        for (let i = 1; i <= 42; i++) {
+            pictures.push({ alt: `photo-${i}`, fileName: `${i}.jpg`, src: `${BUCKET_URL}/dd3d1966-zvuchi-media/concert-29-11/${i}.jpg` })
+        }
+        setImages(pictures);
     }, [])
     return (
         <section className="container mx-auto px-4 py-10 lg:py-16">
@@ -68,9 +129,9 @@ export const Gallery = () => {
                     </h2>
                 </div>
 
-                 <p className='mt-3 text-white font-semibold text-center indent-5 lg:mt-5'>
+                <p className='mt-3 text-white font-semibold text-center indent-5 lg:mt-5'>
                     <b>Сцена</b> — это всегда праздник, и мы приглашаем вас на него снова и снова! Здесь мы храним память о каждом таком празднике: блики софитов, сияющие глаза артистов, аплодисменты зала. Наши фотографии и короткие видео — это больше, чем просто отчеты; это история эмоций, побед и волшебства, которое рождается, когда музыка оживает.
-                 </p>
+                </p>
             </header>
             <div className="relative">
                 {/* Подсказка для свайпа */}
@@ -95,24 +156,34 @@ export const Gallery = () => {
                 </div>
 
                 <div
-                    className="flex space-x-4 overflow-x-auto py-4 whitespace-nowrap scrollbar-hide no-scrollbar"
+                    className="gallery-scroll flex space-x-4 overflow-x-auto py-4 whitespace-nowrap scrollbar-hide no-scrollbar select-none cursor-grab"
                     role="region"
                     aria-label="Галерея фотографий студии"
+                    onTouchStart={handleGalleryTouchStart}
+                    onTouchMove={handleGalleryTouchMove}
+                    onTouchEnd={handleGalleryTouchEnd}
+                    onMouseDown={handleMouseDown}
+                    onMouseMove={handleMouseMove}
+                    onMouseUp={handleMouseUp}
+                    onMouseLeave={handleMouseLeave}
                 >
                     {images?.map((image, index) => (
                         <Dialog.Root key={image.fileName}>
                             <Dialog.Trigger asChild>
                                 <button
                                     onClick={() => openImage(index)}
-                                    className="relative aspect-square w-[270px] shrink-0 cursor-pointer overflow-hidden rounded-sm transition-opacity hover:opacity-90"
+                                    className="relative aspect-square w-[270px] shrink-0 cursor-pointer overflow-hidden rounded-sm transition-opacity hover:opacity-90 select-none"
                                     aria-label={`Открыть изображение ${image.alt}`}
+                                    onDragStart={(e) => e.preventDefault()}
                                 >
                                     <Image
                                         src={image.src}
                                         alt={image.alt}
                                         fill
                                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                                        className="object-cover"
+                                        className="object-cover pointer-events-none"
+                                        draggable={false}
+                                        onDragStart={(e) => e.preventDefault()}
                                     />
                                 </button>
                             </Dialog.Trigger>

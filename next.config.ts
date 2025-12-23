@@ -12,6 +12,12 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: "https",
+        hostname: "s3.twcstorage.ru",
+        port: "",
+        pathname: "/dd3d1966-zvuchi-media/**",
+      },
+      {
+        protocol: "https",
         hostname: "drive.google.com",
         port: "",
         pathname: "/file/**",
