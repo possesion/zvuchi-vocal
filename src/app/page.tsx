@@ -31,7 +31,9 @@ export default function Home() {
                         src="/gift.jpg"
                         className="w-full object-contain sm:rounded-sm shadow-lg sm:hidden"
                         width={380}
-                        height={220}
+                        height={220} 
+                        placeholder='blur' 
+                        blurDataURL='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=='
                         alt="подарок"
                     />
                     <section className="container mx-auto flex h-[70svh] sm:h-screen">

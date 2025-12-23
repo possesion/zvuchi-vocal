@@ -13,7 +13,7 @@ export const Gallery = () => {
     >([])
     const [touchStart, setTouchStart] = useState(0);
     const [touchEnd, setTouchEnd] = useState(0);
-    
+
     // Для mouse drag
     const [isDragging, setIsDragging] = useState(false);
     const [dragStart, setDragStart] = useState(0);
@@ -142,7 +142,7 @@ export const Gallery = () => {
                             <Dialog.Trigger asChild>
                                 <button
                                     onClick={() => openImage(index)}
-                                    className="relative aspect-square w-[270px] shrink-0 cursor-pointer overflow-hidden rounded-sm transition-opacity hover:opacity-90 select-none"
+                                    className="relative aspect-square w-[280px] h-[330px] shrink-0 cursor-pointer overflow-hidden rounded-sm transition-opacity hover:opacity-90 select-none"
                                     aria-label={`Открыть изображение ${image.alt}`}
                                     onDragStart={(e) => e.preventDefault()}
                                 >
@@ -150,10 +150,12 @@ export const Gallery = () => {
                                         src={image.src}
                                         alt={image.alt}
                                         fill
-                                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                        // sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                                         className="object-cover pointer-events-none"
                                         draggable={false}
-                                        onDragStart={(e) => e.preventDefault()}
+                                        onDragStart={(e) => e.preventDefault()} 
+                                        blurDataURL='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=='
+                                        placeholder='blur'
                                     />
                                 </button>
                             </Dialog.Trigger>
