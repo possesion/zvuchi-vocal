@@ -44,6 +44,9 @@ export default function Home() {
                                     className=""
                                     width={180}
                                     height={500}
+                                    priority
+                                    placeholder="blur"
+                                    blurDataURL='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII='
                                     alt="Микрофон"
                                 />
                                 {/* тень микрофон */}
@@ -55,8 +58,10 @@ export default function Home() {
                                 className="absolute bottom-0 right-[10%] z-50 h-auto w-[272px] object-contain drop-shadow-2xl sm:w-[320px] md:w-[320px] lg:w-[340px] xl:w-[360px] [@media(max-height:600px)_and_(orientation:landscape)]:hidden"
                                 width={380}
                                 height={760}
-                                quality={95}
+                                quality={85}
                                 priority
+                                placeholder="blur"
+                                blurDataURL='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII='
                                 alt="Валерия - преподаватель вокала"
                             />
                             <div className="z-51 flex flex-col gap-y-6 p-8 lg:justify-start xl:gap-y-9">

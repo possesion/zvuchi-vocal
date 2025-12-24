@@ -107,6 +107,7 @@ export const Contacts = () => {
                             <iframe
                                 src="https://yandex.ru/map-widget/v1/?ll=37.568838%2C55.785762&mode=search&oid=174002347974&ol=biz&z=17.13"
                                 width="100%"
+                                loading='lazy'
                                 className="h-[480px] xl:h-[480px]" // Карта
                                 allowFullScreen
                                 style={{ position: 'relative' }}
@@ -119,6 +120,7 @@ export const Contacts = () => {
                 <div className="relative col-span-2 m-auto h-[500px] w-[360px] overflow-auto rounded-sm border border-brand bg-background p-2 md:w-[450px] lg:col-span-1 lg:w-[450px] xl:h-[500px] 2xl:w-[500px]">
                     <iframe
                         className="box-border h-full w-full rounded-b-md border-[#e6e6e6]"
+                        loading='lazy'
                         src="https://yandex.ru/maps-reviews-widget/174002347974?comments"
                         title="Отзывы о школе вокала Звучи!"
                     ></iframe>

@@ -29,7 +29,7 @@ const nextConfig: NextConfig = {
         pathname: "/document/**",
       },
     ],
-    minimumCacheTTL: 60,
+    minimumCacheTTL: 2678400,
     dangerouslyAllowSVG: true,
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
     unoptimized: false,

@@ -45,7 +45,8 @@ export const Shorts = () => {
                         {SHORTS.map((shortUrl) => (
                             <iframe
                                 key={shortUrl}
-                                width="270"
+                                width="270" 
+                                loading='lazy'
                                 height="480"
                                 src={shortUrl}
                                 className='flex-shrink-0 rounded-sm border-none'

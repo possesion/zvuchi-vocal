@@ -150,12 +150,13 @@ export const Gallery = () => {
                                         src={image.src}
                                         alt={image.alt}
                                         fill
-                                        // sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                                         className="object-cover pointer-events-none"
                                         draggable={false}
                                         onDragStart={(e) => e.preventDefault()} 
                                         blurDataURL='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=='
                                         placeholder='blur'
+                                        loading={index < 6 ? "eager" : "lazy"}
+                                        quality={80}
                                     />
                                 </button>
                             </Dialog.Trigger>

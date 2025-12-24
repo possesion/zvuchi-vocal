@@ -23,8 +23,15 @@ const manrope = Manrope({
 });
 
 export const metadata: Metadata = {
-  title: "ЗВУЧИ",
-  description: "Вокальная студия",
+  title: "ЗВУЧИ - Вокальная студия | Уроки вокала в Москве",
+  description: "Профессиональные уроки вокала в Москве. Индивидуальный подход, опытные педагоги, методика EVT. Голос изменится после первого занятия!",
+  keywords: "вокал, Звучи, студия Звучи, уроки вокала, вокальная студия, пение, Москва, EVT, бэлтинг, драйв",
+  openGraph: {
+    title: "ЗВУЧИ - Вокальная студия",
+    description: "Профессиональные уроки вокала в Москве",
+    type: "website",
+    locale: "ru_RU",
+  },
 };
 
 export default function RootLayout({
@@ -35,6 +42,9 @@ export default function RootLayout({
   return (
     <html lang="ru">
       <head>
+        <link rel="preload" href="/valeria/transparent-lera.png" as="image" />
+        <link rel="preload" href="/micro.png" as="image" />
+        <link rel="dns-prefetch" href="https://s3.twcstorage.ru" />
         <script
           type="text/javascript"
           dangerouslySetInnerHTML={{
