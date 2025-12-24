@@ -26,11 +26,43 @@ export const metadata: Metadata = {
   title: "ЗВУЧИ - Вокальная студия | Уроки вокала в Москве",
   description: "Профессиональные уроки вокала в Москве. Индивидуальный подход, опытные педагоги, методика EVT. Голос изменится после первого занятия!",
   keywords: "вокал, Звучи, студия Звучи, уроки вокала, вокальная студия, пение, Москва, EVT, бэлтинг, драйв",
+  authors: [{ name: "ЗВУЧИ - Вокальная студия" }],
+  creator: "ЗВУЧИ - Вокальная студия",
+  publisher: "ЗВУЧИ - Вокальная студия",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
   openGraph: {
-    title: "ЗВУЧИ - Вокальная студия",
-    description: "Профессиональные уроки вокала в Москве",
+    title: "ЗВУЧИ - Вокальная студия | Уроки вокала в Москве",
+    description: "Профессиональные уроки вокала в Москве. Индивидуальный подход, опытные педагоги, методика EVT.",
     type: "website",
     locale: "ru_RU",
+    url: "https://zvuchi-vocal.ru",
+    siteName: "ЗВУЧИ - Вокальная студия",
+    images: [
+      {
+        url: "https://zvuchi-vocal.ru/valeria/transparent-lera.png",
+        width: 380,
+        height: 760,
+        alt: "Валерия - преподаватель вокала",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "ЗВУЧИ - Вокальная студия",
+    description: "Профессиональные уроки вокала в Москве",
+  },
+  alternates: {
+    canonical: "https://zvuchi-vocal.ru",
   },
 };
 
@@ -45,6 +77,53 @@ export default function RootLayout({
         <link rel="preload" href="/valeria/transparent-lera.png" as="image" />
         <link rel="preload" href="/micro.png" as="image" />
         <link rel="dns-prefetch" href="https://s3.twcstorage.ru" />
+        <link rel="canonical" href="https://zvuchi-vocal.ru" />
+
+        {/* Структурированные данные */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "MusicSchool",
+              "name": "ЗВУЧИ - Вокальная студия",
+              "description": "Профессиональные уроки вокала в Москве. Индивидуальный подход, опытные педагоги, методика EVT.",
+              "url": "https://zvuchi-vocal.ru",
+              "telephone": "+7 (977) 967-50-01",
+              "address": {
+                "@type": "PostalAddress",
+                "addressLocality": "Москва",
+                "addressCountry": "RU"
+              },
+              "offers": [
+                {
+                  "@type": "Offer",
+                  "name": "Абонемент на 4 занятия",
+                  "price": "11600",
+                  "priceCurrency": "RUB"
+                },
+                {
+                  "@type": "Offer",
+                  "name": "Абонемент на 6 занятий",
+                  "price": "16800",
+                  "priceCurrency": "RUB"
+                },
+                {
+                  "@type": "Offer",
+                  "name": "Абонемент на 8 занятий",
+                  "price": "21600",
+                  "priceCurrency": "RUB"
+                }
+              ],
+              "sameAs": [
+                "https://t.me/zvuchivocal",
+                "https://vk.com/zvuchi.vocal",
+                "https://www.tiktok.com/@zvuchi.vocal"
+              ]
+            })
+          }}
+        />
+
         <script
           type="text/javascript"
           dangerouslySetInnerHTML={{
