@@ -7,9 +7,5 @@ Sitemap: https://zvuchi-vocal.ru/sitemap.xml
 # Disallow admin and API routes
 Disallow: /api/
 Disallow: /_next/
+Disallow: /contest
 Disallow: /contest/reset-contest
-
-# Allow important pages
-Allow: /
-Allow: /contest
-Allow: /contest/result
