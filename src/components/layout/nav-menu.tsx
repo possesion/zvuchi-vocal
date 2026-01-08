@@ -14,7 +14,7 @@ export const NavMenu = () => {
                 <Link
                     key={id}
                     href={sectionId}
-                    className={cn({ 'hidden lg:block': hiddenOnMobile }, 'group relative cursor-pointer text-lg font-bold text-white transition-colors duration-200')}
+                    className={cn({ 'hidden lg:block': hiddenOnMobile }, 'group relative cursor-pointer text-lg font-bold text-white transition-colors duration-200 hover:text-brand')}
                 >
                     {text}
                 </Link>

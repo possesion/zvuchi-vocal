@@ -24,24 +24,45 @@ export const SUBSCRIPTION_LINKS = [
         duration: 55,
         name: 'Абонемент на месяц',
         link: 'https://auth.robokassa.ru/merchant/Invoice/8yaOatE00UCaFsN22cFM8A',
-        price: 11600,
+        price: 12800,
     },
     {
         count: 6,
         duration: 55,
         name: 'Абонемент на месяц',
         link: 'https://auth.robokassa.ru/merchant/Invoice/74b1AjMbQkSQ8FtjjslWnA',
-        price: 16800,
+        price: 18600,
     },
     {
         count: 8,
         duration: 55,
         name: 'Абонемент на месяц',
         link: 'https://auth.robokassa.ru/merchant/Invoice/0EWj8n5rlU25UCfN9B6t6A',
-        price: 21600,
+        price: 23900,
     },
 ];
 export const programs = [
+    {
+        icon: (
+            <div className="flex flex-col gap-1">
+                {[1, 2].map((id) => (
+                    <StarIcon
+                        key={id}
+                        color="var(--brand)"
+                        className="h-8 w-8"
+                    />
+                ))}
+            </div>
+        ),
+        number: '',
+        title: 'Пробное занятие',
+        description: 'Открой для себя новое хобби',
+        features: [
+            'Длительность урока - 45 минут',
+        ],
+        price: '1000₽',
+        originalPrice: '3500₽',
+    },
     {
         icon: <StarIcon
             color="var(--brand)"
@@ -57,7 +78,7 @@ export const programs = [
             // 'Бесплатная заморозка абонемента на 1 неделю',
         ],
         number: 1,
-        price: '11600₽',
+        price: '12800₽',
     },
     {
         icon: (
@@ -73,13 +94,13 @@ export const programs = [
         ),
         number: 2,
         title: 'Продвинутый',
-        description: 'Подходит для получения и запрепления новых знаний.',
+        description: 'Подходит для получения и закрепления новых знаний',
         features: [
             'Количество занятий – 6 (месяц)',
             // 'Длительность урока - 55 минут',
             // 'Бесплатная заморозка абонемента на 1 неделю',
         ],
-        price: '16800₽',
+        price: '18600₽',
     },
     {
         icon: (
@@ -101,7 +122,7 @@ export const programs = [
             // 'Бесплатная заморозка абонемента на 1 неделю',
         ],
         number: 3,
-        price: '21600₽',
+        price: '23900₽',
     },
 ]
 

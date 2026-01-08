@@ -42,6 +42,8 @@ const features = [
 
 export const FeatureList = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [touchStart, setTouchStart] = useState(0);
+  const [touchEnd, setTouchEnd] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -51,11 +53,42 @@ export const FeatureList = () => {
     return () => clearInterval(interval);
   }, []);
 
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > 50;
+    const isRightSwipe = distance < -50;
+
+    if (isLeftSwipe) {
+      // Свайп влево - следующий слайд
+      setCurrentIndex((prev) => (prev + 1) % features.length);
+    }
+    
+    if (isRightSwipe) {
+      // Свайп вправо - предыдущий слайд
+      setCurrentIndex((prev) => (prev - 1 + features.length) % features.length);
+    }
+  };
+
   return (
     <section className="bg-muted/50 py-8 lg:py-16">
       <div className="flex justify-center">
         {/* Mobile Carousel */}
-        <div className="relative w-full overflow-hidden md:hidden">
+        <div 
+          className="relative w-full overflow-hidden md:hidden"
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+        >
           <div
             className="flex transition-transform duration-700 ease-out"
             style={{ transform: `translateX(-${currentIndex * 100}%)` }}

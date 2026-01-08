@@ -99,19 +99,19 @@ export default function RootLayout({
                 {
                   "@type": "Offer",
                   "name": "Абонемент на 4 занятия",
-                  "price": "11600",
+                  "price": "12800",
                   "priceCurrency": "RUB"
                 },
                 {
                   "@type": "Offer",
                   "name": "Абонемент на 6 занятий",
-                  "price": "16800",
+                  "price": "18600",
                   "priceCurrency": "RUB"
                 },
                 {
                   "@type": "Offer",
                   "name": "Абонемент на 8 занятий",
-                  "price": "21600",
+                  "price": "23900",
                   "priceCurrency": "RUB"
                 }
               ],

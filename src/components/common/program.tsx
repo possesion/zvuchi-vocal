@@ -5,14 +5,15 @@ import { YANDEX_ENROLLMENT_URL } from "../constants";
 
 interface ProgramProps {
     title: string;
-    number: number;
+    number: string | number;
     features: string[];
     description: string;
     price: string;
+    originalPrice?: string;
     className?: string;
 }
 
-export const Program: FC<ProgramProps> = ({ description, features, title, number, price }) => {
+export const Program: FC<ProgramProps> = ({ description, features, title, number, price, originalPrice }) => {
     const { ref, animationClass } = useSlideUpAnimation();
     // const intersected = false;
 
@@ -45,7 +46,14 @@ export const Program: FC<ProgramProps> = ({ description, features, title, number
                 </ul>
             </div>
             <div className="flex justify-between pr-4 text-xl font-bold md:ml-auto md:flex-col lg:text-4xl">
-                <span>{price}</span>
+                <div className="flex items-center gap-3">
+                    {originalPrice && (
+                        <span className="text-lg text-white/60 line-through lg:text-2xl">
+                            {originalPrice}
+                        </span>
+                    )}
+                    <span>{price}</span>
+                </div>
                 <button
                     onClick={handleOpenLink(YANDEX_ENROLLMENT_URL)}
                     className="block cursor-pointer rounded-sm border px-3 hover:animate-rotational-wave md:py-2"

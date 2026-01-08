@@ -9,7 +9,7 @@ export const TOCHKA_PAYMENT_URL_WITH_RECEIPT =
 export const OGRNIP = 325774600433742
 export const INN = 770600435102
 export const ORGANIZATION_EMAIL = 'info@zvuchi-vocal.ru'
-export const TG_CHAT_URL = 'https://tglink.ru/vlrvally'
+export const TG_CHAT_URL = 'https://t.me/vlrvally' // 'https://tglink.ru/vlrvally'
 export const YANDEX_ENROLLMENT_URL = 'https://yandex.ru/business/widget/request/company/174002347974'
 export const BUCKET_URL = 'https://s3.twcstorage.ru';
 

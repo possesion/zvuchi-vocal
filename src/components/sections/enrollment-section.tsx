@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image';
 import { useState } from 'react';
 import { TG_CHAT_URL } from '../constants';
 import { EnrollmentModal } from '../modals/enrollment-modal';
@@ -12,16 +13,35 @@ export function EnrollmentSection({ main = false }) {
         }
     }
     return (
-        <section id="study" className="bg-muted/50 py-6 lg:py-14">
+        <section id="study" className="bg-muted/50 py-6 lg:py-8">
             <EnrollmentModal isOpen={openModal} onClose={() => setOpenModal(false)} />
             {main ? (
-                <button 
-                    className="group relative bg-radial-[at_40%] from-violet-800 to-violet-950 to-80% m-auto mb-4 block cursor-pointer overflow-hidden rounded-sm px-6 py-3 text-lg font-bold text-white shadow-[0_0_45px_5px] shadow-purple-900 transition-all duration-300 hover:scale-105" 
-                    onClick={() => setOpenModal(true)}
-                >
-                    Получи
-                    Бесплатное<br />пробное занятие
-                </button>
+                <div className='flex gap-x-2'>
+                    <button
+                        className="group relative bg-radial-[at_40%] from-violet-800 to-violet-950 to-80% mb-4 block cursor-pointer overflow-hidden rounded-sm px-6 py-3 text-lg font-bold text-white shadow-[0_0_45px_5px] shadow-purple-900 transition-all duration-300 hover:scale-105"
+                        onClick={() => setOpenModal(true)}
+                    >
+                        Оставь заявку
+                        {/* Запишись на занятие */}
+                        {/* Бесплатное<br />пробное занятие */}
+                    </button>
+                    <button
+                        onClick={handleOpenLink(TG_CHAT_URL)}
+                        className="group relative bg-radial-[at_40%] h-[52px] from-blue-700 to-blue-800 to-80% mb-4 block cursor-pointer overflow-hidden rounded-sm px-5 py-3 text-lg font-bold text-white shadow-[0_0_45px_5px] shadow-purple-900 transition-all duration-300 hover:scale-105"
+                        aria-label="Записаться на занятие через Telegram"
+                    >
+                        <span className="relative z-10 flex animate-glow items-center">
+                            {/* Напиши нам в */}
+                            <Image
+                                width={20}
+                                height={20}
+                                className="inline animate-bounce"
+                                src="/socials/tg.svg"
+                                alt="Telegram"
+                            />
+                        </span>
+                    </button>
+                </div>
             ) : (
                 <div className="container mx-auto px-4 text-white">
                     <div className="flex flex-col items-center text-center">

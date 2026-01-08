@@ -133,7 +133,7 @@ export default function PaymentForm() {
                 <Form.Control asChild>
                     <input
                         className="Input"
-                        placeholder="11600"
+                        placeholder="12800"
                         type="number"
                         {...register('amount', { required: true })}
                     />

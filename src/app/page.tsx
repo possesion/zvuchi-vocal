@@ -23,6 +23,13 @@ export default function Home() {
             <main className="w-full flex-1 primary-bg overflow-x-hidden">
                 {/* Hero Section */}
                 <div className="primary-bg">
+                    <Image
+                        src="/banner-top.png"
+                        className="hidden w-full rounded-sm shadow-lg sm:block"
+                        width={1280}
+                        height={100}
+                        alt="подарок"
+                    />
                     <Socials
                         size={SOCIAL_ICON_SIZE.sm}
                         className="container mx-auto hidden justify-end gap-x-1 pt-2 md:flex md:gap-x-2"
@@ -31,8 +38,8 @@ export default function Home() {
                         src="/gift.jpg"
                         className="w-full object-contain sm:rounded-sm shadow-lg sm:hidden"
                         width={380}
-                        height={220} 
-                        placeholder='blur' 
+                        height={220}
+                        placeholder='blur'
                         blurDataURL='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=='
                         alt="подарок"
                     />
@@ -73,19 +80,12 @@ export default function Home() {
                                     Пусть тебя
                                     <span className="text-primary"> УСЛЫШАТ!</span>
                                 </h2>
-                                <Image
-                                    src="/gift.jpg"
-                                    className="mt-3 hidden w-full rounded-sm shadow-lg sm:block 2xl:w-[380px]"
-                                    width={350}
-                                    height={200}
-                                    alt="подарок"
-                                />
-                                {/* <div className="w-76 text-2xl text-white md:w-[500px] lg:text-3xl">
+                                <div className="hidden w-76 text-2xl text-white md:w-[500px] lg:block lg:text-3xl">
                                     <p>Голос изменится после первого занятия!</p>
                                     Услышишь разницу <b>до</b> и <b className="after-highlight">после</b>.
                                     Проверь — это работает!
-                                </div> */}
-                                <div className="mt-auto sm:m-0">
+                                </div>
+                                <div className="mt-auto sm:m-0 pl-6 lg:pl-12">
                                     <EnrollmentSection main />
                                 </div>
                             </div>
@@ -139,7 +139,6 @@ export default function Home() {
                 {/* Programs Section */}
                 <section id="subscriptions" className="main-bg py-10 text-white lg:py-16">
                     <header className="container mb-[120px] flex flex-col items-center md:mb-8">
-                        {/* from-violet-800/80 to-violet-950/80 */}
                         <div className='flex flex-col justify-center items-center bg-dark pr-6 py-4 rounded-sm opacity-85'>
                             <h2 className="mb-4 text-left text-4xl font-bold tracking-tight text-shadow-lg md:text-3xl xl:text-6xl">
                                 Наши<br />
