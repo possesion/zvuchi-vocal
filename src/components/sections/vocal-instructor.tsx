@@ -18,7 +18,7 @@ interface VocalInstructor {
         video: string
     }
 }
-export const VocalInstructor = ({ instructor }: VocalInstructor) => {
+ const VocalInstructor = ({ instructor }: VocalInstructor) => {
     const videoRef = useRef<HTMLVideoElement>(null)
     const ref = useRef<HTMLDivElement>(null);
     const [isPlaying, setIsPlaying] = useState(false)
@@ -160,3 +160,5 @@ export const VocalInstructor = ({ instructor }: VocalInstructor) => {
         </article>
     )
 }
+
+export default VocalInstructor;

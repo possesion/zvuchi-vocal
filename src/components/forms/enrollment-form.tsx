@@ -4,7 +4,7 @@ import { InvalidEvent, useState } from 'react';
 import { Snackbar } from '../common/snackbar';
 import { submitMailForm } from '@/lib/submit-mail-form';
 
-export function EnrollmentForm() {
+export default function EnrollmentForm() {
     const [formData, setFormData] = useState({
         name: '',
         phone: '',

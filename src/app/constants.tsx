@@ -58,7 +58,7 @@ export const programs = [
         title: 'Пробное занятие',
         description: 'Открой для себя новое хобби',
         features: [
-            'Длительность урока - 45 минут',
+            'Длительность урока - 50 минут',
         ],
         price: '1000₽',
         originalPrice: '3500₽',

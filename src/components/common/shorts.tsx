@@ -2,10 +2,12 @@
 
 import { SHORTS } from "@/app/constants"
 import { ChevronLeft, ChevronRight } from 'lucide-react'
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 export const Shorts = () => {
     const [currentIndex, setCurrentIndex] = useState(0)
+    const [loadedVideos, setLoadedVideos] = useState(new Set([0])) // Загружаем только первое видео
+    const containerRef = useRef<HTMLDivElement>(null)
 
     const itemsPerPage = {
         mobile: 1,
@@ -14,6 +16,25 @@ export const Shorts = () => {
 
     const maxIndexMobile = SHORTS.length - itemsPerPage.mobile
     const maxIndexDesktop = SHORTS.length - itemsPerPage.desktop
+
+    // Предзагрузка соседних видео
+    useEffect(() => {
+        const isMobile = window.innerWidth < 768
+        const itemsToShow = isMobile ? itemsPerPage.mobile : itemsPerPage.desktop
+        const visibleIndices = []
+        for (let i = currentIndex; i < Math.min(currentIndex + itemsToShow, SHORTS.length); i++) {
+            visibleIndices.push(i)
+        }
+
+        // Добавляем соседние видео для предзагрузки
+        const indicesToLoad = new Set([
+            ...visibleIndices,
+            Math.max(0, currentIndex - 1), // предыдущее
+            Math.min(SHORTS.length - 1, currentIndex + (isMobile ? 1 : 3)) // следующее
+        ])
+
+        setLoadedVideos(prev => new Set([...prev, ...indicesToLoad]))
+    }, [currentIndex, itemsPerPage.mobile, itemsPerPage.desktop])
 
     const handlePrev = () => {
         setCurrentIndex((prev) => Math.max(0, prev - 1))
@@ -37,22 +58,30 @@ export const Shorts = () => {
                     <ChevronLeft className="h-6 w-6" />
                 </button>
 
-                <div className="flex-1 overflow-hidden max-w-[860px]">
+                <div className="flex-1 overflow-hidden max-w-[860px]" ref={containerRef}>
                     <div
                         className="flex gap-4 transition-transform duration-500 ease-out lg:gap-6"
                         style={{ transform: `translateX(-${currentIndex * (280 + 12)}px)` }}
                     >
-                        {SHORTS.map((shortUrl) => (
-                            <iframe
-                                key={shortUrl}
-                                width="270" 
-                                loading='lazy'
-                                height="480"
-                                src={shortUrl}
-                                className='flex-shrink-0 rounded-sm border-none'
-                                allow="clipboard-write; autoplay"
-                                allowFullScreen
-                            ></iframe>
+                        {SHORTS.map((shortUrl, index) => (
+                            <div key={shortUrl} className="flex-shrink-0 w-[270px] h-[480px] bg-gray-800 rounded-sm">
+                                {loadedVideos.has(index) ? (
+                                    <iframe
+                                        width="270"
+                                        height="480"
+                                        src={shortUrl}
+                                        className='w-full h-full rounded-sm border-none'
+                                        allow="clipboard-write"
+                                        allowFullScreen
+                                        loading="lazy"
+                                        title={`YouTube Short ${index + 1}`}
+                                    />
+                                ) : (
+                                    <div className="w-full h-full bg-gray-800 rounded-sm flex items-center justify-center">
+                                        <div className="animate-pulse bg-gray-700 w-16 h-16 rounded-full"></div>
+                                    </div>
+                                )}
+                            </div>
                         ))}
                     </div>
                 </div>
@@ -83,16 +112,25 @@ export const Shorts = () => {
                         className="flex gap-4 transition-transform duration-500 ease-out"
                         style={{ transform: `translateX(-${currentIndex * (270 + 16)}px)` }}
                     >
-                        {SHORTS.map((shortUrl) => (
-                            <iframe
-                                key={shortUrl}
-                                width="270"
-                                height="480"
-                                src={shortUrl}
-                                className='flex-shrink-0 rounded-sm border-none'
-                                allow="clipboard-write; autoplay"
-                                allowFullScreen
-                            ></iframe>
+                        {SHORTS.map((shortUrl, index) => (
+                            <div key={shortUrl} className="flex-shrink-0 w-[270px] h-[480px] bg-gray-800 rounded-sm">
+                                {loadedVideos.has(index) ? (
+                                    <iframe
+                                        width="270"
+                                        height="480"
+                                        src={`${shortUrl}&autoplay=0`}
+                                        className='w-full h-full rounded-sm border-none'
+                                        allow="clipboard-write"
+                                        allowFullScreen
+                                        loading="lazy"
+                                        title={`RuTube Short ${index + 1}`}
+                                    />
+                                ) : (
+                                    <div className="w-full h-full bg-gray-800 rounded-sm flex items-center justify-center">
+                                        <div className="animate-pulse bg-gray-700 w-16 h-16 rounded-full"></div>
+                                    </div>
+                                )}
+                            </div>
                         ))}
                     </div>
                 </div>

@@ -5,7 +5,6 @@ export { NavMenu } from './layout/nav-menu'
 // Section components
 export { FeatureList } from './sections/feature-list'
 export { Programs } from './sections/programs'
-export { VocalInstructor } from './sections/vocal-instructor'
 export { Gallery } from './sections/gallery'
 export { Contacts } from './sections/contacts'
 export { EnrollmentSection } from './sections/enrollment-section'

@@ -1,6 +1,7 @@
 
 
 import Image from 'next/image'
+import dynamic from 'next/dynamic'
 import { instructors } from './constants'
 import '@radix-ui/themes/styles.css'
 import { Programs } from '@/components/sections/programs'
@@ -9,12 +10,13 @@ import { Header } from '@/components/layout/header'
 import { Contacts } from '@/components/sections/contacts'
 import { Gallery } from '@/components/sections/gallery'
 import { EnrollmentSection } from '@/components/sections/enrollment-section'
-import { VocalInstructor } from '@/components/sections/vocal-instructor'
 import { PromoContent } from '@/components/sections/promo-content'
 import { Socials } from '@/components/common/socials'
 import { SOCIAL_ICON_SIZE } from '@/components/common/constants'
 import { Footer } from '@/components/layout/footer'
-import { EnrollmentForm } from '@/components/forms/enrollment-form'
+
+const EnrollmentForm = dynamic(() => import('@/components/forms/enrollment-form'))
+const VocalInstructor = dynamic(() => import('@/components/sections/vocal-instructor'))
 
 export default function Home() {
     return (
