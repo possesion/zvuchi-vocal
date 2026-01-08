@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { Button } from '@radix-ui/themes'
 // import MenuBurger from '../app/burger-menu.svg';
 
@@ -38,10 +39,12 @@ export default function MobileMenu() {
                 <SheetContent>
                     <SheetHeader className="mb-6">
                         <SheetTitle className="flex items-center gap-2 text-white">
-                            <img
+                            <Image
                                 className="h-10 w-40 md:h-16 md:w-56"
                                 src="/logo-white.svg"
                                 alt="Логотип школы вокала Звучи!"
+                                width={224}
+                                height={64}
                             />
                         </SheetTitle>
                     </SheetHeader>

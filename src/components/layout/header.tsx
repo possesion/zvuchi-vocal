@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import MobileMenu from '@/components/mobile-menu'
 import { NavMenu } from './nav-menu'
 
@@ -7,10 +8,13 @@ export const Header = () => {
         <header className="sticky top-0 z-40 header-bg shadow-xl backdrop-blur-md backdrop-saturate-150">
             <div className="container mx-auto flex h-12 items-center justify-between px-2 md:h-16">
                 <Link href="/" aria-label="Перейти на главную страницу">
-                    <img
+                    <Image
                         className="h-12 w-40 md:h-16 md:w-56"
                         src="/zvuchi-cropped.png"
                         alt="Логотип школы вокала Звучи!"
+                        width={224}
+                        height={64}
+                        priority
                     />
                 </Link>
                 <NavMenu />

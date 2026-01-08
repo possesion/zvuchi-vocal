@@ -27,7 +27,7 @@ export default function Home() {
                 <div className="primary-bg">
                     <Image
                         src="/banner-top.png"
-                        className="hidden w-full rounded-sm shadow-lg sm:block"
+                        className="hidden object-cover w-full h-[100px] shadow-lg sm:block"
                         width={1280}
                         height={100}
                         alt="подарок"

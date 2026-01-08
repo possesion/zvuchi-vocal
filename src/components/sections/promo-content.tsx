@@ -1,6 +1,7 @@
 'use client';
 
 import { CirclePlay } from "lucide-react";
+import Image from "next/image";
 import { useRef, useState } from "react"
 
 export const PromoContent = () => {
@@ -53,10 +54,12 @@ export const PromoContent = () => {
                         aria-label="Промо-видео школы вокала"
                     >
                         {/* Fallback для браузеров без поддержки video */}
-                        <img
+                        <Image
                             src="/video-fallback.png"
                             alt="Превью промо-видео школы вокала"
                             className="h-full w-full rounded-sm object-cover"
+                            width={360}
+                            height={580}
                         />
                         <p className="mt-4 text-center text-white">
                             Ваш браузер не поддерживает воспроизведение видео.

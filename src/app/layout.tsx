@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from 'next/image';
 import { Geist, Geist_Mono, Manrope, Exo_2 } from "next/font/google";
 import "./globals.css";
 
@@ -147,7 +148,7 @@ export default function RootLayout({
         />
         <noscript>
           <div>
-            <img
+            <Image
               src="https://mc.yandex.ru/watch/105392489"
               style={{ position: 'absolute', left: '-9999px' }}
               alt=""

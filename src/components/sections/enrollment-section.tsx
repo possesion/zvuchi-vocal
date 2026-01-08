@@ -60,11 +60,11 @@ export function EnrollmentSection({ main = false }) {
                             aria-label="Записаться на занятие через Telegram"
                         >
                             <span className="relative z-10 flex animate-glow items-center gap-3">
-                                <img
+                                <Image
                                     width={20}
                                     height={20}
                                     className="inline animate-bounce"
-                                    src="socials/tg.svg"
+                                    src="/socials/tg.svg"
                                     alt="Telegram"
                                 />
                                 Записаться
