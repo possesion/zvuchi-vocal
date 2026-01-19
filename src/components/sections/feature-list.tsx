@@ -2,8 +2,7 @@
 
 import { beltingDescription, driveDescription, evtTooltipContent, evtTooltipTitle } from "@/app/constants";
 import { BaseTooltip } from "../common/base-tooltip";
-import { useEffect, useState } from "react";
-import { CAROUSEL_TIMEOUT } from "../constants";
+import { useState } from "react";
 
 const features = [
   {
@@ -45,13 +44,13 @@ export const FeatureList = () => {
   const [touchStart, setTouchStart] = useState(0);
   const [touchEnd, setTouchEnd] = useState(0);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % features.length);
-    }, CAROUSEL_TIMEOUT);
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     setCurrentIndex((prev) => (prev + 1) % features.length);
+  //   }, CAROUSEL_TIMEOUT);
 
-    return () => clearInterval(interval);
-  }, []);
+  //   return () => clearInterval(interval);
+  // }, []);
 
   const handleTouchStart = (e: React.TouchEvent) => {
     setTouchStart(e.targetTouches[0].clientX);

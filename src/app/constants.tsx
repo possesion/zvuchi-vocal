@@ -61,7 +61,7 @@ export const programs = [
             'Длительность урока - 50 минут',
         ],
         price: '1000₽',
-        originalPrice: '3500₽',
+        originalPrice: '3890₽',
     },
     {
         icon: <StarIcon

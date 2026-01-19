@@ -21,8 +21,7 @@ export function EnrollmentSection({ main = false }) {
                         className="group relative bg-radial-[at_40%] from-violet-800 to-violet-950 to-80% mb-4 block cursor-pointer overflow-hidden rounded-sm px-6 py-3 text-lg font-bold text-white shadow-[0_0_45px_5px] shadow-purple-900 transition-all duration-300 hover:scale-105"
                         onClick={() => setOpenModal(true)}
                     >
-                        Оставить заявку
-                        {/* Запишись на занятие */}
+                        Оставить &nbsp; заявку
                         {/* Бесплатное<br />пробное занятие */}
                     </button>
                     <button

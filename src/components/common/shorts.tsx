@@ -74,7 +74,7 @@ export const Shorts = () => {
                                         allow="clipboard-write"
                                         allowFullScreen
                                         loading="lazy"
-                                        title={`YouTube Short ${index + 1}`}
+                                        title={`ruTube Short ${index + 1}`}
                                     />
                                 ) : (
                                     <div className="w-full h-full bg-gray-800 rounded-sm flex items-center justify-center">

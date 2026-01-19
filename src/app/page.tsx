@@ -25,18 +25,18 @@ export default function Home() {
             <main className="w-full flex-1 primary-bg overflow-x-hidden">
                 {/* Hero Section */}
                 <div className="primary-bg">
-                    <Image
+                    {/* <Image
                         src="/banner-top.png"
                         className="hidden object-cover w-full h-[100px] shadow-lg sm:block"
                         width={1280}
                         height={100}
                         alt="подарок"
-                    />
+                    /> */}
                     <Socials
                         size={SOCIAL_ICON_SIZE.sm}
                         className="container mx-auto hidden justify-end gap-x-1 pt-2 md:flex md:gap-x-2"
                     />
-                    <Image
+                    {/* <Image
                         src="/gift.jpg"
                         className="w-full object-contain sm:rounded-sm shadow-lg sm:hidden"
                         width={380}
@@ -44,8 +44,8 @@ export default function Home() {
                         placeholder='blur'
                         blurDataURL='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=='
                         alt="подарок"
-                    />
-                    <section className="container mx-auto flex h-[70svh] sm:h-screen">
+                    /> */}
+                    <section className="container mx-auto flex h-[100svh] sm:h-screen">
                         <div className="relative z-10 flex w-full justify-center">
                             <div className="absolute bottom-0 left-60 z-50 hidden lg:block">
                                 <Image
@@ -64,8 +64,8 @@ export default function Home() {
                             </div>
                             <Image
                                 src="/valeria/transparent-lera.png"
-                                className="absolute bottom-0 right-[10%] z-50 h-auto w-[272px] object-contain drop-shadow-2xl sm:w-[320px] md:w-[320px] lg:w-[340px] xl:w-[360px] [@media(max-height:600px)_and_(orientation:landscape)]:hidden"
-                                width={380}
+                                className="absolute bottom-0 right-[10%] z-50 h-auto w-[252px] object-contain drop-shadow-2xl sm:w-[320px] md:w-[320px] lg:w-[340px] xl:w-[360px] [@media(max-height:600px)_and_(orientation:landscape)]:hidden"
+                                width={252}
                                 height={760}
                                 quality={85}
                                 priority
@@ -82,7 +82,7 @@ export default function Home() {
                                     Пусть тебя
                                     <span className="text-primary"> УСЛЫШАТ!</span>
                                 </h2>
-                                <div className="hidden w-76 text-2xl text-white md:w-[500px] lg:block lg:text-3xl">
+                                <div className=" w-76 text-2xl text-white md:w-[500px] lg:block lg:text-3xl">
                                     <p>Голос изменится после первого занятия!</p>
                                     Услышишь разницу <b>до</b> и <b className="after-highlight">после</b>.
                                     Проверь — это работает!
