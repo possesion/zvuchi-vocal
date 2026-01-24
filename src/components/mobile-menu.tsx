@@ -17,6 +17,7 @@ import BurgerMenu from '@/app/burger-menu';
 import { SOCIAL_ICON_SIZE } from './common/constants'
 import { Socials } from './common/socials'
 import { STUDIO_MOBILE_PHONE } from '@/app/constants'
+import { PromoModalWrapper } from './modals/promo-modal-wrapper'
 // import { PlatformDialog } from './modals/platform-dialog'
 // import { SubscriptionsPaymentWidget } from './common/subscription-payment-widget'
 
@@ -71,6 +72,7 @@ export default function MobileMenu() {
                             >
                                 Абонементы
                             </Link>
+                            <PromoModalWrapper />
                             <Link
                                 href="#gallery"
                                 className="flex items-center hover:text-red-400"

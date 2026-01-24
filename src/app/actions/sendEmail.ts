@@ -7,7 +7,13 @@ interface SendEmailProps {
     name: string
     phone: string
     preferredDate?: string
-    formType?: string
+    formType?: 'enrollment-form' | 'promo'
+}
+
+const formTypeText = {
+    'enrollment-form': 'форма записи',
+    promo: 'сезонная промо-кампания',
+    default: 'модальное окно',
 }
 
 const transporter = nodemailer.createTransport({
@@ -45,13 +51,12 @@ export async function sendEmail({ name, phone, preferredDate, formType }: SendEm
         console.log('SMTP подключение успешно', { name, phone })
 
         // Формируем текст письма
-        const formTypeText = formType === 'enrollment-form' ? 'форма записи' : 'модальное окно';
         const preferredDateText = preferredDate
             ? `Желаемая дата урока: ${new Date(preferredDate).toLocaleDateString('ru-RU')}`
             : 'Желаемая дата урока: не указана';
 
         const emailText = `
-            Новая заявка на обучение вокалу (${formTypeText}):
+            Новая заявка на обучение вокалу (${formTypeText[formType || 'default']}):
             Имя: ${name}
             Телефон: ${phone}
             ${preferredDateText}
@@ -73,7 +78,7 @@ export async function sendEmail({ name, phone, preferredDate, formType }: SendEm
               <p><strong>Имя:</strong> ${name}</p>
               <p><strong>Телефон:</strong> ${phone}</p>
               ${preferredDate ? `<p><strong>Желаемая дата урока:</strong> ${new Date(preferredDate).toLocaleDateString('ru-RU')}</p>` : '<p><strong>Желаемая дата урока:</strong> не указана</p>'}
-              <p><strong>Источник:</strong> ${formTypeText}</p>
+              <p><strong>Источник:</strong> ${formTypeText[formType || 'default']}</p>
               <p><strong>Дата заявки:</strong> ${new Date().toLocaleString('ru-RU')}</p>
             </div>
 

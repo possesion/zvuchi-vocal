@@ -7,6 +7,7 @@ import { EnrollmentModal } from '../modals/enrollment-modal';
 
 export function EnrollmentSection({ main = false }) {
     const [openModal, setOpenModal] = useState(false);
+    const [openValentineModal, setOpenValentineModal] = useState(true);
     const handleOpenLink = (link: string) => () => {
         if (window) {
             window.open(link, '_blank');
@@ -14,7 +15,21 @@ export function EnrollmentSection({ main = false }) {
     }
     return (
         <section id="study" className="bg-muted/50 py-6 lg:py-8">
-            <EnrollmentModal isOpen={openModal} onClose={() => setOpenModal(false)} />
+            <EnrollmentModal hasPicture isOpen={openValentineModal} onClose={() => setOpenValentineModal(false)}>
+                <div className='w-full'>
+                    <h2 id="modal-title" className="text-xl font-bold text-gray-900 md:text-2xl">
+                        4 урока по&nbsp;вокалу <br/>для двоих +&nbsp;Запись песни
+                    </h2>
+                    <div className="text-right text-2xl font-bold text-gray-900 md:text-3xl">
+                        18999 ₽
+                    </div>
+                </div>
+            </EnrollmentModal>
+            <EnrollmentModal isOpen={openModal} onClose={() => setOpenModal(false)}>
+                <h2 id="modal-title" className="text-xl font-bold text-gray-900">
+                    Записаться на пробное&nbsp;занятие
+                </h2>
+            </EnrollmentModal>
             {main ? (
                 <div className='flex gap-x-2'>
                     <button
@@ -30,7 +45,6 @@ export function EnrollmentSection({ main = false }) {
                         aria-label="Записаться на занятие через Telegram"
                     >
                         <span className="relative z-10 flex animate-glow items-center">
-                            {/* Напиши нам в */}
                             <Image
                                 width={20}
                                 height={20}

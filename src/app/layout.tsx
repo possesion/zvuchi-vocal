@@ -152,6 +152,8 @@ export default function RootLayout({
               src="https://mc.yandex.ru/watch/105392489"
               style={{ position: 'absolute', left: '-9999px' }}
               alt=""
+              height={1}
+              width={1}
             />
           </div>
         </noscript>
