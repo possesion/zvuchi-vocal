@@ -173,7 +173,7 @@ export function EnrollmentModal({ children, isOpen, onClose, hasPicture }: Enrol
                                 className="object-cover rounded-t-sm"
                             />
                         </div>}
-                        <header className={cn(hasPicture ? 'p-3' : 'p-6', { 'border-b': hasPicture }, "flex items-center justify-between p-3")}>
+                        <header className={cn(hasPicture ? 'px-3 py-1' : 'p-6', { 'border-b': hasPicture }, "flex items-center justify-between p-3")}>
                             {children}
                             <button
                                 onClick={onClose}
@@ -185,7 +185,7 @@ export function EnrollmentModal({ children, isOpen, onClose, hasPicture }: Enrol
                         </header>
 
                         {/* Mobile Form */}
-                        <form onSubmit={handleSubmit} className={cn(hasPicture ? 'p-3': 'p-6', "space-y-4")}>
+                        <form onSubmit={handleSubmit} className={cn(hasPicture ? 'px-3 py-1': 'p-6', "space-y-4")}>
                             <div>
                                 <label
                                     htmlFor="name"
