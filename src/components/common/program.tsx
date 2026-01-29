@@ -18,7 +18,7 @@ export const Program: FC<ProgramProps> = ({ description, features, title, number
     // const intersected = false;
 
     const handleOpenLink = (link: string) => () => {
-        if (window) {
+        if (typeof window !== 'undefined') {
             window.open(link, '_blank');
         }
     }

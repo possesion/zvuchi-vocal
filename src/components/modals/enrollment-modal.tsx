@@ -131,7 +131,7 @@ export function EnrollmentModal({ children, isOpen, onClose, hasPicture }: Enrol
 
     // Блокировка скролла при открытии модалки
     useEffect(() => {
-        if (isOpen) {
+        if (isOpen && typeof window !== 'undefined') {
             // Сохраняем текущую позицию скролла
             const scrollY = window.scrollY;
 

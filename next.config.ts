@@ -8,7 +8,6 @@ const nextConfig: NextConfig = {
     formats: ['image/webp', 'image/avif'],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
-    domains: ["drive.google.com", "photos.google.com", "docs.google.com"],
     remotePatterns: [
       {
         protocol: "https",
@@ -27,6 +26,12 @@ const nextConfig: NextConfig = {
         hostname: "docs.google.com",
         port: "",
         pathname: "/document/**",
+      },
+      {
+        protocol: "https",
+        hostname: "mc.yandex.ru",
+        port: "",
+        pathname: "/watch/105392489",
       },
     ],
     minimumCacheTTL: 2678400,

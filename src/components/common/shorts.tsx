@@ -19,6 +19,8 @@ export const Shorts = () => {
 
     // Предзагрузка соседних видео
     useEffect(() => {
+        if (typeof window === 'undefined') return;
+        
         const isMobile = window.innerWidth < 768
         const itemsToShow = isMobile ? itemsPerPage.mobile : itemsPerPage.desktop
         const visibleIndices = []

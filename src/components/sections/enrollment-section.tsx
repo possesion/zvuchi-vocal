@@ -9,7 +9,7 @@ export function EnrollmentSection({ main = false }) {
     const [openModal, setOpenModal] = useState(false);
     const [openValentineModal, setOpenValentineModal] = useState(true);
     const handleOpenLink = (link: string) => () => {
-        if (window) {
+        if (typeof window !== 'undefined') {
             window.open(link, '_blank');
         }
     }

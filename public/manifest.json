@@ -16,16 +16,6 @@
       "type": "image/x-icon"
     },
     {
-      "src": "/favicon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml"
-    },
-    {
-      "src": "/apple-touch-icon.png",
-      "sizes": "180x180",
-      "type": "image/png"
-    },
-    {
       "src": "/main-image.jpg",
       "sizes": "1200x630",
       "type": "image/jpeg",

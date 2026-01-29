@@ -15,13 +15,16 @@ export const BaseTooltip: FC<BaseTooltipProps> = ({ trigger, content }) => {
   useEffect(() => {
     // Определяем мобильное устройство
     const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768 || 'ontouchstart' in window);
+      if (typeof window !== 'undefined') {
+        setIsMobile(window.innerWidth < 768 || 'ontouchstart' in window);
+      }
     };
     
     checkMobile();
-    window.addEventListener('resize', checkMobile);
-    
-    return () => window.removeEventListener('resize', checkMobile);
+    if (typeof window !== 'undefined') {
+      window.addEventListener('resize', checkMobile);
+      return () => window.removeEventListener('resize', checkMobile);
+    }
   }, []);
 
   const handleClick = () => {

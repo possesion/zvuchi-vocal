@@ -16,10 +16,10 @@ import { SOCIAL_ICON_SIZE } from '@/components/common/constants'
 import { Footer } from '@/components/layout/footer'
 
 const EnrollmentForm = dynamic(() => import('@/components/forms/enrollment-form'), {
-  loading: () => <div className="animate-pulse bg-white/10 rounded-2xl h-64 w-full" />
+  loading: () => <div className="animate-pulse bg-white/10 rounded-2xl h-64 w-full" />,
 })
 const VocalInstructor = dynamic(() => import('@/components/sections/vocal-instructor'), {
-  loading: () => <div className="animate-pulse bg-white/10 rounded-2xl h-64 w-full" />
+  loading: () => <div className="animate-pulse bg-white/10 rounded-2xl h-64 w-full" />,
 })
 
 export default function Home() {

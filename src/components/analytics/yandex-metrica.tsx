@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react'
 import { usePathname, useSearchParams } from 'next/navigation'
+import { Suspense } from 'react'
 
 declare global {
   interface Window {
@@ -9,7 +10,7 @@ declare global {
   }
 }
 
-export function YandexMetrica() {
+function YandexMetricaInner() {
   const pathname = usePathname()
   const searchParams = useSearchParams()
 
@@ -22,6 +23,14 @@ export function YandexMetrica() {
   }, [pathname, searchParams])
 
   return null
+}
+
+export function YandexMetrica() {
+  return (
+    <Suspense fallback={null}>
+      <YandexMetricaInner />
+    </Suspense>
+  )
 }
 
 // Функции для отслеживания событий
@@ -40,5 +49,5 @@ export const trackPhoneClick = () => {
 }
 
 export const trackSocialClick = (social: string) => {
-  trackEvent('social_click', { social_network: social })
+  trackEvent('social_network_click', { social_network: social })
 }
