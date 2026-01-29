@@ -50,9 +50,9 @@ export const PromoContent = () => {
                         onPause={() => setIsPlaying(false)}
                         onPlay={() => setIsPlaying(true)}
                         onLoadStart={() => setIsPlaying(false)}
-                        src="https://s3.twcstorage.ru/dd3d1966-zvuchi-media/promo.mp4"
                         aria-label="Промо-видео школы вокала"
                     >
+                        <source src="https://s3.twcstorage.ru/dd3d1966-zvuchi-media/promo.mp4" type="video/mp4" />
                         {/* Fallback для браузеров без поддержки video */}
                         <Image
                             src="/video-fallback.png"

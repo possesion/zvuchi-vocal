@@ -15,8 +15,12 @@ import { Socials } from '@/components/common/socials'
 import { SOCIAL_ICON_SIZE } from '@/components/common/constants'
 import { Footer } from '@/components/layout/footer'
 
-const EnrollmentForm = dynamic(() => import('@/components/forms/enrollment-form'))
-const VocalInstructor = dynamic(() => import('@/components/sections/vocal-instructor'))
+const EnrollmentForm = dynamic(() => import('@/components/forms/enrollment-form'), {
+  loading: () => <div className="animate-pulse bg-white/10 rounded-2xl h-64 w-full" />
+})
+const VocalInstructor = dynamic(() => import('@/components/sections/vocal-instructor'), {
+  loading: () => <div className="animate-pulse bg-white/10 rounded-2xl h-64 w-full" />
+})
 
 export default function Home() {
     return (
@@ -59,8 +63,8 @@ export default function Home() {
                                     alt="Микрофон"
                                 />
                                 {/* тень микрофон */}
-                                <div className="pointer-events-none h-14 w-9 absolute left-21 top-5 mic-shadow animate-blurred-fade-in"></div>
-                                <div className="pointer-events-none h-3 w-24 absolute left-13 bottom-5 stand-shadow animate-blurred-fade-in"></div>
+                                <div className="pointer-events-none h-14 w-9 absolute left-21 top-5 mic-shadow animate-blurred-fade-in" aria-hidden="true"></div>
+                                <div className="pointer-events-none h-3 w-24 absolute left-13 bottom-5 stand-shadow animate-blurred-fade-in" aria-hidden="true"></div>
                             </div>
                             <Image
                                 src="/valeria/transparent-lera.png"
@@ -78,10 +82,10 @@ export default function Home() {
                                     ШКОЛА<br />
                                     <span className="ml-4">ВОКАЛА</span>
                                 </h1>
-                                <h2 className="hidden typing-animation mx-auto shrink-0 overflow-hidden text-nowrap pr-3 text-2xl font-bold text-white xl:text-5xl">
+                                <div className="hidden typing-animation mx-auto shrink-0 overflow-hidden text-nowrap pr-3 text-2xl font-bold text-white xl:text-5xl">
                                     Пусть тебя
                                     <span className="text-primary"> УСЛЫШАТ!</span>
-                                </h2>
+                                </div>
                                 <div className=" w-76 text-2xl text-white md:w-[500px] lg:block lg:text-3xl">
                                     <p>Голос изменится после первого занятия!</p>
                                     Услышишь разницу <b>до</b> и <b className="after-highlight">после</b>.
@@ -116,10 +120,10 @@ export default function Home() {
                             </div>
                             {/* from-violet-800/80 to-violet-950/80 */}
                             <div className='w-full flex flex-col justify-center items-center bg-dark mb-8 px-6 py-4 rounded-sm md:mb-12 '>
-                                <h2 className="text-left text-4xl font-bold tracking-tight text-shadow-lg md:text-3xl xl:text-6xl">
+                                <h3 className="text-left text-4xl font-bold tracking-tight text-shadow-lg md:text-3xl xl:text-6xl">
                                     Наши<br />
                                     <span className="ml-5">педагоги</span>
-                                </h2>
+                                </h3>
                             </div>
                             <p className='mb-3 text-white font-semibold indent-5'>
                                 За каждым сияющим успехом на сцене стоит вдохновляющий наставник. Тот, кто превращает голос в магию, а уроки — в путешествие. Не просто педагоги, а проводники в мир музыки, чьи сердца бьются в ритм с учениками.
@@ -142,10 +146,10 @@ export default function Home() {
                 <section id="subscriptions" className="main-bg py-10 text-white lg:py-16">
                     <header className="container mb-[120px] flex flex-col items-center md:mb-8">
                         <div className='flex flex-col justify-center items-center bg-dark pr-6 py-4 rounded-sm opacity-85'>
-                            <h2 className="mb-4 text-left text-4xl font-bold tracking-tight text-shadow-lg md:text-3xl xl:text-6xl">
+                            <h3 className="mb-4 text-left text-4xl font-bold tracking-tight text-shadow-lg md:text-3xl xl:text-6xl">
                                 Наши<br />
                                 <span className="ml-5">абонементы</span>
-                            </h2>
+                            </h3>
                             <article className='max-w-2xl text-center font-bold sm:text-left md:pl-6'>
                                 <p className="text-center">
                                     От джаза до рока — учим петь в любом жанре!

@@ -9,3 +9,16 @@ Disallow: /api/
 Disallow: /_next/
 Disallow: /contest
 Disallow: /contest/reset-contest
+
+# Allow important resources
+Allow: /og-image.jpg
+Allow: /valeria/
+Allow: /socials/
+Allow: /*.css
+Allow: /*.js
+
+# Crawl-delay for respectful crawling
+Crawl-delay: 1
+
+# Host directive
+Host: https://zvuchi-vocal.ru

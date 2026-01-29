@@ -1,0 +1,35 @@
+{
+  "name": "ЗВУЧИ - Вокальная студия",
+  "short_name": "ЗВУЧИ",
+  "description": "Профессиональные уроки вокала в Москве. Индивидуальный подход, опытные педагоги, методика EVT.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#1a1a1a",
+  "theme_color": "#8B5CF6",
+  "orientation": "portrait-primary",
+  "categories": ["education", "music"],
+  "lang": "ru",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "16x16 32x32 48x48",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "/main-image.jpg",
+      "sizes": "1200x630",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    }
+  ]
+}
