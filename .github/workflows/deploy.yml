@@ -10,14 +10,15 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Deploy via SSH
-        uses: appleboy/ssh-action@v0.1.5
+        uses: appleboy/ssh-action@v1
         with:
-          host: ${{ secrets.VPS_IP }}
+          host: ${{ secrets.HOST }}
+          port: ${{ secrets.PORT }}
           username: ${{ secrets.VPS_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          password: ${{ secrets.VPS_PASSWORD }}
           script: |
             cd /root/web/zvuchi-vocal
             git pull
             npm install
             npm run build
-            pm2 restart next-app
+            pm2 restart 0
