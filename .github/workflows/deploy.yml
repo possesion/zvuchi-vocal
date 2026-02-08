@@ -1,0 +1,23 @@
+# .github/workflows/deploy.yml
+name: Deploy to VPS
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v0.1.5
+        with:
+          host: ${{ secrets.VPS_IP }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd /root/web/zvuchi-vocal
+            git pull
+            npm install
+            npm run build
+            pm2 restart next-app

@@ -11,7 +11,7 @@ Disallow: /contest
 Disallow: /contest/reset-contest
 
 # Allow important resources
-Allow: /og-image.jpg
+Allow: /main-image.jpg
 Allow: /valeria/
 Allow: /socials/
 Allow: /*.css

@@ -1,8 +1,18 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  allowedDevOrigins: ["*"],
+  // Development settings
+  ...(process.env.NODE_ENV === 'development' && {
+    typescript: {
+      ignoreBuildErrors: false,
+    },
+    eslint: {
+      ignoreDuringBuilds: false,
+    },
+  }),
 
+  allowedDevOrigins: ["*"],
+  htmlLimitedBots: /.*/,
   // Image optimization
   images: {
     formats: ['image/webp', 'image/avif'],
@@ -46,6 +56,21 @@ const nextConfig: NextConfig = {
 
   // Security headers
   async headers() {
+    // В режиме разработки не применяем строгие заголовки безопасности
+    if (process.env.NODE_ENV === 'development') {
+      return [
+        {
+          source: '/_next/static/(.*)',
+          headers: [
+            {
+              key: 'Cache-Control',
+              value: 'no-cache, no-store, must-revalidate',
+            },
+          ],
+        },
+      ];
+    }
+
     return [
       {
         source: '/(.*)',
@@ -63,6 +88,61 @@ const nextConfig: NextConfig = {
             value: 'origin-when-cross-origin',
           },
         ],
+      },
+      // Заголовки для CSS файлов
+      {
+        source: '/_next/static/css/(.*)',
+        headers: [
+          {
+            key: 'Content-Type',
+            value: 'text/css; charset=utf-8',
+          },
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      // Заголовки для JS файлов
+      {
+        source: '/_next/static/chunks/(.*)',
+        headers: [
+          {
+            key: 'Content-Type',
+            value: 'application/javascript; charset=utf-8',
+          },
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      // Общие заголовки для статических ресурсов
+      {
+        source: '/_next/static/(.*)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+    ];
+  },
+
+  // Redirects for www to non-www
+  async redirects() {
+    return [
+      {
+        source: '/:path*',
+        has: [
+          {
+            type: 'host',
+            value: 'www.zvuchi-vocal.ru',
+          },
+        ],
+        destination: 'https://zvuchi-vocal.ru/:path*',
+        permanent: true,
       },
     ];
   },

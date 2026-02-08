@@ -3,23 +3,18 @@
 import { useEffect } from 'react'
 import { usePathname, useSearchParams } from 'next/navigation'
 import { Suspense } from 'react'
-
-declare global {
-  interface Window {
-    ym: (id: number, method: string, ...args: unknown[]) => void
-  }
-}
+import { useYandexMetrica, trackPageView } from '@/hooks/use-yandex-metrica'
 
 function YandexMetricaInner() {
   const pathname = usePathname()
   const searchParams = useSearchParams()
+  
+  // Инициализируем Yandex.Metrica
+  useYandexMetrica()
 
   useEffect(() => {
     const url = `${pathname}${searchParams.toString() ? `?${searchParams.toString()}` : ''}`
-    
-    if (typeof window !== 'undefined' && window.ym) {
-      window.ym(105392489, 'hit', url)
-    }
+    trackPageView(url)
   }, [pathname, searchParams])
 
   return null
@@ -33,21 +28,5 @@ export function YandexMetrica() {
   )
 }
 
-// Функции для отслеживания событий
-export const trackEvent = (eventName: string, params?: Record<string, unknown>) => {
-  if (typeof window !== 'undefined' && window.ym) {
-    window.ym(105392489, 'reachGoal', eventName, params)
-  }
-}
-
-export const trackFormSubmit = (formName: string) => {
-  trackEvent('form_submit', { form_name: formName })
-}
-
-export const trackPhoneClick = () => {
-  trackEvent('phone_click')
-}
-
-export const trackSocialClick = (social: string) => {
-  trackEvent('social_network_click', { social_network: social })
-}
+// Экспортируем функции отслеживания из хука
+export { trackEvent, trackFormSubmit, trackPhoneClick, trackSocialClick } from '@/hooks/use-yandex-metrica'
