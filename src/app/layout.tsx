@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import Image from 'next/image';
 import Script from 'next/script';
 import { Geist, Geist_Mono, Manrope, Exo_2 } from "next/font/google";
-import { YandexMetrica } from '@/components/analytics/yandex-metrica';
+import Metrika from '@/lib/metrika';
 import "./globals.css";
+import { Suspense } from "react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -304,7 +304,7 @@ export default function RootLayout({
         <link rel="preload" href="/micro.png" as="image" />
         <link rel="preload" href="/main-image.jpg" as="image" />
         <link rel="dns-prefetch" href="https://s3.twcstorage.ru" />
-        
+
         {/* Дополнительные мета-теги для SEO */}
         <meta name="msapplication-TileColor" content="#8B5CF6" />
         <meta name="mobile-web-app-capable" content="yes" />
@@ -319,7 +319,7 @@ export default function RootLayout({
         />
 
         {/* Yandex.Metrica noscript */}
-        <noscript>
+        {/* <noscript>
           <div>
             <Image
               src="https://mc.yandex.ru/watch/105392489"
@@ -329,7 +329,7 @@ export default function RootLayout({
               width={1}
             />
           </div>
-        </noscript>
+        </noscript> */}
 
         {/* Google Analytics] */}
         <Script
@@ -348,8 +348,11 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${exo2.variable} ${geistMono.variable} ${manrope.variable} ${manrope.className} antialiased`}
       >
-        <YandexMetrica />
         {children}
+
+        <Suspense>
+          <Metrika />
+        </Suspense>
       </body>
     </html>
   );
