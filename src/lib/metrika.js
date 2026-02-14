@@ -37,7 +37,7 @@ export default function Metrika() {
         referrer: document.referrer,
         url: location.href,
         accurateTrackBounce:true,
-        trackLinks:tru
+        trackLinks:true
       });
     `}
     </Script>

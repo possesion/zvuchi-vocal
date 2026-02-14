@@ -130,23 +130,6 @@ const nextConfig: NextConfig = {
     ];
   },
 
-  // Redirects for www to non-www
-  async redirects() {
-    return [
-      {
-        source: '/:path*',
-        has: [
-          {
-            type: 'host',
-            value: 'www.zvuchi-vocal.ru',
-          },
-        ],
-        destination: 'https://zvuchi-vocal.ru/:path*',
-        permanent: true,
-      },
-    ];
-  },
-
   // Experimental features
   experimental: {
     serverActions: {
