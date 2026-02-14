@@ -17,8 +17,8 @@ jobs:
           username: ${{ secrets.VPS_USER }}
           password: ${{ secrets.VPS_PASSWORD }}
           script: |
-            cd /root/web/zvuchi-vocal
-            git pull
+            cd web/zvuchi-vocal/
+            git pull origin main
             npm install
             npm run build
             pm2 restart 0

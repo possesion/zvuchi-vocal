@@ -4,11 +4,19 @@ import Image from 'next/image';
 import { useState } from 'react';
 import { TG_CHAT_URL } from '../constants';
 import { EnrollmentModal } from '../modals/enrollment-modal';
+import { trackEvent } from '@/hooks/use-yandex-metrica';
 
 export function EnrollmentSection({ main = false }) {
     const [openModal, setOpenModal] = useState(false);
     const [openValentineModal, setOpenValentineModal] = useState(true);
+    
+    const handleOpenModal = () => {
+        trackEvent('open_enrollment_modal');
+        setOpenModal(true);
+    };
+    
     const handleOpenLink = (link: string) => () => {
+        trackEvent('write-tg');
         if (typeof window !== 'undefined') {
             window.open(link, '_blank');
         }
@@ -34,8 +42,7 @@ export function EnrollmentSection({ main = false }) {
                 <div className='flex gap-x-2'>
                     <button
                         className="group relative bg-radial-[at_40%] from-violet-800 to-violet-950 to-80% mb-4 block cursor-pointer overflow-hidden rounded-sm px-6 py-3 text-lg font-bold text-white shadow-[0_0_45px_5px] shadow-purple-900 transition-all duration-300 hover:scale-105"
-                        onClick={() => setOpenModal(true)}
-                        // onclick="ym(105392489,'reachGoal','write-tg')"
+                        onClick={handleOpenModal}
                     >
                         Оставить &nbsp; заявку
                         {/* Бесплатное<br />пробное занятие */}

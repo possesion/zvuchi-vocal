@@ -2,8 +2,20 @@
 
 import { MapPin, Phone, Mail } from 'lucide-react'
 import { ORGANIZATION_EMAIL } from '@/components/constants'
+import { trackPhoneClick, trackEvent } from '@/hooks/use-yandex-metrica'
 
 export const Contacts = () => {
+    const handlePhoneClick = () => {
+        trackPhoneClick();
+    };
+
+    const handleEmailClick = () => {
+        trackEvent('email_click');
+    };
+
+    const handleMapClick = () => {
+        trackEvent('map_click');
+    };
 
     return (
         <section id="contacts" className="container mx-auto bg-muted/30 px-4 py-8 text-white lg:py-12">
@@ -36,6 +48,7 @@ export const Contacts = () => {
                         <p className="text-muted-foreground">
                             <a
                                 href="tel:+79779675001"
+                                onClick={handlePhoneClick}
                                 className="transition-colors hover:text-primary"
                             >
                                 +7 (977) 967-50-01
@@ -43,6 +56,7 @@ export const Contacts = () => {
                             <br />
                             <a
                                 href="tel:+79851266605"
+                                onClick={handlePhoneClick}
                                 className="transition-colors hover:text-primary"
                             >
                                 +7 (985) 126-66-05
@@ -63,6 +77,7 @@ export const Contacts = () => {
                         <p className="text-muted-foreground">
                             <a
                                 href={`mailto:${ORGANIZATION_EMAIL}`}
+                                onClick={handleEmailClick}
                                 className="transition-colors hover:text-primary"
                             >
                                 {ORGANIZATION_EMAIL}
@@ -84,6 +99,7 @@ export const Contacts = () => {
                         >
                             <a
                                 href="https://yandex.ru/maps/org/zvuchi_/174002347974/?utm_medium=mapframe&utm_source=maps"
+                                onClick={handleMapClick}
                                 style={{
                                     color: '#eee',
                                     fontSize: '12px',

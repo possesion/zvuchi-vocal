@@ -2,6 +2,7 @@ import { useSlideUpAnimation } from "@/hooks/use-slide-up-animation";
 import { FC } from "react"
 import cn from 'classnames'
 import { YANDEX_ENROLLMENT_URL } from "../constants";
+import { trackEvent } from '@/hooks/use-yandex-metrica';
 
 interface ProgramProps {
     title: string;
@@ -18,6 +19,10 @@ export const Program: FC<ProgramProps> = ({ description, features, title, number
     // const intersected = false;
 
     const handleOpenLink = (link: string) => () => {
+        trackEvent('subscription_click', { 
+            subscription_name: title,
+            price: price 
+        });
         if (typeof window !== 'undefined') {
             window.open(link, '_blank');
         }
