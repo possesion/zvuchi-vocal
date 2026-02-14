@@ -318,19 +318,6 @@ export default function RootLayout({
           }}
         />
 
-        {/* Yandex.Metrica noscript */}
-        {/* <noscript>
-          <div>
-            <Image
-              src="https://mc.yandex.ru/watch/105392489"
-              style={{ position: 'absolute', left: '-9999px' }}
-              alt="Yandex Metrica"
-              height={1}
-              width={1}
-            />
-          </div>
-        </noscript> */}
-
         {/* Google Analytics] */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-80QM6W2Z28"
