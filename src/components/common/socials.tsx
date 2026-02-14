@@ -2,8 +2,6 @@ import Image from 'next/image'
 import { FC } from 'react';
 import { SOCIAL_ICON_SIZE } from './constants';
 import { socials } from '@/app/constants';
-import { trackSocialClick } from '@/hooks/use-yandex-metrica';
-
 
 interface SocialsProps {
     className?: string;
@@ -11,9 +9,6 @@ interface SocialsProps {
 }
 
 export const Socials: FC<SocialsProps> = ({ className, size = SOCIAL_ICON_SIZE.md }) => {
-    const handleSocialClick = (socialName: string) => () => {
-        trackSocialClick(socialName);
-    };
 
     return (
         <div className={className} role="list" aria-label="Социальные сети">
@@ -23,7 +18,6 @@ export const Socials: FC<SocialsProps> = ({ className, size = SOCIAL_ICON_SIZE.m
                     key={alt}
                     target="_blank"
                     rel="noopener noreferrer"
-                    onClick={handleSocialClick(alt)}
                     className="group flex flex-col items-center text-center transition-transform hover:scale-110"
                     aria-label={`Перейти в ${alt}`}
                 >
