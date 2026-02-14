@@ -6,6 +6,7 @@ import cn from 'classnames';
 import { X } from 'lucide-react';
 import { Snackbar } from '../common/snackbar';
 import { Offera } from '@/components/common/offera';
+import { trackFormSubmit } from '@/hooks/use-yandex-metrica';
 
 interface EnrollmentModalProps {
     children: ReactNode,
@@ -63,6 +64,10 @@ export function EnrollmentModal({ children, isOpen, onClose, hasPicture }: Enrol
             const result = await response.json();
 
             if (response.ok) {
+                // Отслеживаем успешную отправку формы
+                const formType = hasPicture ? 'promo_form' : 'enrollment_form';
+                trackFormSubmit(formType);
+                
                 // Показываем успешное уведомление
                 setSnackbar({
                     isVisible: true,
