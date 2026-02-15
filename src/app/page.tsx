@@ -9,7 +9,6 @@ import { FeatureList } from '@/components/sections/feature-list'
 import { Header } from '@/components/layout/header'
 import { Contacts } from '@/components/sections/contacts'
 import { Gallery } from '@/components/sections/gallery'
-import { EnrollmentSection } from '@/components/sections/enrollment-section'
 import { PromoContent } from '@/components/sections/promo-content'
 import { Socials } from '@/components/common/socials'
 import { SOCIAL_ICON_SIZE } from '@/components/common/constants'
@@ -40,15 +39,6 @@ export default function Home() {
                         size={SOCIAL_ICON_SIZE.sm}
                         className="container mx-auto hidden justify-end gap-x-1 pt-2 md:flex md:gap-x-2"
                     />
-                    {/* <Image
-                        src="/gift.jpg"
-                        className="w-full object-contain sm:rounded-sm shadow-lg sm:hidden"
-                        width={380}
-                        height={220}
-                        placeholder='blur'
-                        blurDataURL='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=='
-                        alt="подарок"
-                    /> */}
                     <section className="container mx-auto flex h-[100svh] sm:h-screen">
                         <div className="relative z-10 flex w-full justify-center">
                             <div className="absolute bottom-0 left-60 z-50 hidden lg:block">
@@ -91,9 +81,10 @@ export default function Home() {
                                     Услышишь разницу <b>до</b> и <b className="after-highlight">после</b>.
                                     Проверь — это работает!
                                 </div>
-                                <div className="mt-auto sm:m-0 pl-6 lg:pl-12">
+                                {/* всплывающее окно для акций - десктоп */}
+                                {/* <div className="mt-auto sm:m-0 pl-6 lg:pl-12">
                                     <EnrollmentSection main />
-                                </div>
+                                </div> */}
                             </div>
                         </div>
                     </section>
