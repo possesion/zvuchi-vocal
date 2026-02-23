@@ -13,6 +13,7 @@ import { PromoContent } from '@/components/sections/promo-content'
 import { Socials } from '@/components/common/socials'
 import { SOCIAL_ICON_SIZE } from '@/components/common/constants'
 import { Footer } from '@/components/layout/footer'
+import { EnrollmentSection } from '@/components'
 
 const EnrollmentForm = dynamic(() => import('@/components/forms/enrollment-form'), {
   loading: () => <div className="animate-pulse bg-white/10 rounded-2xl h-64 w-full" />,
@@ -61,10 +62,9 @@ export default function Home() {
                                 className="absolute bottom-0 right-[10%] z-50 h-auto w-[252px] object-contain drop-shadow-2xl sm:w-[320px] md:w-[320px] lg:w-[340px] xl:w-[360px] [@media(max-height:600px)_and_(orientation:landscape)]:hidden"
                                 width={252}
                                 height={760}
-                                quality={85}
+                                quality={90}
                                 priority
-                                placeholder="blur"
-                                blurDataURL='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII='
+                                unoptimized
                                 alt="Валерия - преподаватель вокала"
                             />
                             <div className="z-51 flex flex-col gap-y-6 p-8 lg:justify-start xl:gap-y-9">
@@ -82,9 +82,9 @@ export default function Home() {
                                     Проверь — это работает!
                                 </div>
                                 {/* всплывающее окно для акций - десктоп */}
-                                {/* <div className="mt-auto sm:m-0 pl-6 lg:pl-12">
+                                <div className="mt-auto sm:m-0 pl-6 lg:pl-12">
                                     <EnrollmentSection main />
-                                </div> */}
+                                </div>
                             </div>
                         </div>
                     </section>
@@ -106,10 +106,7 @@ export default function Home() {
                     {/* Instructors Section */}
                     <section className="pb-10 text-white md:pb-16">
                         <header className="container px-4 mb-4 flex flex-col items-center text-center md:mb-8">
-                            <div className="mx-auto mt-8 mb-[120px] flex justify-center lg:mt-16">
-                                <EnrollmentForm />
-                            </div>
-                            {/* from-violet-800/80 to-violet-950/80 */}
+                            
                             <div className='w-full flex flex-col justify-center items-center bg-dark mb-8 px-6 py-4 rounded-sm md:mb-12 '>
                                 <h3 className="text-left text-4xl font-bold tracking-tight text-shadow-lg md:text-3xl xl:text-6xl">
                                     Наши<br />
@@ -119,8 +116,7 @@ export default function Home() {
                             <p className='mb-3 text-white font-semibold indent-5'>
                                 За каждым сияющим успехом на сцене стоит вдохновляющий наставник. Тот, кто превращает голос в магию, а уроки — в путешествие. Не просто педагоги, а проводники в мир музыки, чьи сердца бьются в ритм с учениками.
                             </p>
-                        </header>
-                        <div id="instructors" className="container grid grid-cols-1 gap-8 grid-off sm:grid-cols-2 lg:gap-y-12 lg:grid-cols-3">
+                            <div id="instructors" className="container grid grid-cols-1 gap-8 grid-off sm:grid-cols-2 lg:gap-y-12 lg:grid-cols-3">
                             {instructors.map((instructor) => {
                                 return (
                                     <VocalInstructor
@@ -130,6 +126,10 @@ export default function Home() {
                                 )
                             })}
                         </div>
+                        <div className="mx-auto mt-8 mb-[120px] flex justify-center lg:mt-16">
+                                <EnrollmentForm />
+                            </div>
+                        </header>
                     </section>
                 </div>
 

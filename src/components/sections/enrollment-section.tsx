@@ -8,7 +8,6 @@ import { trackEvent } from '@/hooks/use-yandex-metrica';
 
 export function EnrollmentSection({ main = false }) {
     const [openModal, setOpenModal] = useState(false);
-    const [openValentineModal, setOpenValentineModal] = useState(true);
     
     const handleOpenModal = () => {
         trackEvent('open_enrollment_modal');
@@ -23,7 +22,7 @@ export function EnrollmentSection({ main = false }) {
     }
     return (
         <section id="study" className="bg-muted/50 py-6 lg:py-8">
-            <EnrollmentModal hasPicture isOpen={openValentineModal} onClose={() => setOpenValentineModal(false)}>
+            {/* <EnrollmentModal hasPicture isOpen={openValentineModal} onClose={() => setOpenValentineModal(false)}>
                 <div className='w-full'>
                     <h2 id="modal-title" className="text-xl font-bold text-gray-900 md:text-2xl">
                         4 урока по&nbsp;вокалу <br/>для двоих +&nbsp;Запись песни
@@ -32,7 +31,7 @@ export function EnrollmentSection({ main = false }) {
                         18999 ₽
                     </div>
                 </div>
-            </EnrollmentModal>
+            </EnrollmentModal> */}
             <EnrollmentModal isOpen={openModal} onClose={() => setOpenModal(false)}>
                 <h2 id="modal-title" className="text-xl font-bold text-gray-900">
                     Записаться на пробное&nbsp;занятие

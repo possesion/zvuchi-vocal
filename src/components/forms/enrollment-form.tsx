@@ -3,6 +3,7 @@
 import { InvalidEvent, useState } from 'react';
 import { Snackbar } from '../common/snackbar';
 import { submitMailForm } from '@/lib/submit-mail-form';
+import { trackEvent } from '@/hooks/use-yandex-metrica';
 
 export default function EnrollmentForm() {
     const [formData, setFormData] = useState({
@@ -48,6 +49,7 @@ export default function EnrollmentForm() {
             });
 
             if (response && response.ok) {
+                trackEvent('open_enrollment_modal');
                 setSnackbar({
                     isVisible: true,
                     message:
