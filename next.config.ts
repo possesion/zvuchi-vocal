@@ -72,23 +72,6 @@ const nextConfig: NextConfig = {
     }
 
     return [
-      {
-        source: '/(.*)',
-        headers: [
-          {
-            key: 'X-Frame-Options',
-            value: 'DENY',
-          },
-          {
-            key: 'X-Content-Type-Options',
-            value: 'nosniff',
-          },
-          {
-            key: 'Referrer-Policy',
-            value: 'origin-when-cross-origin',
-          },
-        ],
-      },
       // Заголовки для CSS файлов
       {
         source: '/_next/static/css/(.*)',
