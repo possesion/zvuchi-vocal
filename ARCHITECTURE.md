@@ -216,8 +216,6 @@ public/
 ## Безопасность
 
 ### Заголовки безопасности
-- X-Frame-Options: DENY
-- X-Content-Type-Options: nosniff
 - Referrer-Policy: origin-when-cross-origin
 
 ### Валидация
