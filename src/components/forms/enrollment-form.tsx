@@ -111,11 +111,11 @@ export default function EnrollmentForm() {
     };
 
     // Получаем минимальную дату (завтра)
-    const getMinDate = () => {
-        const tomorrow = new Date();
-        tomorrow.setDate(tomorrow.getDate() + 1);
-        return tomorrow.toISOString().split('T')[0];
-    };
+    // const getMinDate = () => {
+    //     const tomorrow = new Date();
+    //     tomorrow.setDate(tomorrow.getDate() + 1);
+    //     return tomorrow.toISOString().split('T')[0];
+    // };
 
     return (
         <div className="w-full rounded-sm bg-white/15 p-8 shadow-xl backdrop-blur-md border border-white/10">
@@ -129,7 +129,7 @@ export default function EnrollmentForm() {
                     </p>
                 </header>
 
-                <form onSubmit={handleSubmit} className="grid gap-6 md:grid-cols-3 md:gap-8">
+                <form onSubmit={handleSubmit} className="max-w-[700px] mx-auto grid gap-6 md:grid-cols-2 md:gap-8">
                     <div className="group">
                         <label
                             htmlFor="form-name"
@@ -173,7 +173,7 @@ export default function EnrollmentForm() {
                         />
                     </div>
 
-                    <div className="group">
+                    {/* <div className="group">
                         <label
                             htmlFor="form-date"
                             className="mb-2 block text-sm font-semibold uppercase tracking-wide text-white/80"
@@ -192,7 +192,7 @@ export default function EnrollmentForm() {
                         <p className="mt-1 text-xs text-white/60">
                             Необязательно
                         </p>
-                    </div>
+                    </div> */}
 
                     <div className="md:col-span-3">
                         <button
@@ -208,7 +208,7 @@ export default function EnrollmentForm() {
                                         <span className="text-lg">Отправляем заявку...</span>
                                     </>
                                 ) : (
-                                    <span className="text-lg">Хочу записаться</span>
+                                    <span className="text-xl">Хочу записаться</span>
                                 )}
                             </div>
                         </button>

@@ -6,7 +6,6 @@ import nodemailer from 'nodemailer'
 interface SendEmailProps {
     name: string
     phone: string
-    preferredDate?: string
     formType?: 'enrollment-form' | 'promo'
 }
 
@@ -27,7 +26,7 @@ const transporter = nodemailer.createTransport({
     },
 })
 
-export async function sendEmail({ name, phone, preferredDate, formType }: SendEmailProps) {
+export async function sendEmail({ name, phone, formType }: SendEmailProps) {
     // Валидация переменных окружения
     if (
         !process.env.EMAIL_HOST ||
@@ -51,15 +50,14 @@ export async function sendEmail({ name, phone, preferredDate, formType }: SendEm
         console.log('SMTP подключение успешно', { name, phone })
 
         // Формируем текст письма
-        const preferredDateText = preferredDate
-            ? `Желаемая дата урока: ${new Date(preferredDate).toLocaleDateString('ru-RU')}`
-            : 'Желаемая дата урока: не указана';
+        // const preferredDateText = preferredDate
+        //     ? `Желаемая дата урока: ${new Date(preferredDate).toLocaleDateString('ru-RU')}`
+        //     : 'Желаемая дата урока: не указана';
 
         const emailText = `
             Новая заявка на обучение вокалу (${formTypeText[formType || 'default']}):
             Имя: ${name}
             Телефон: ${phone}
-            ${preferredDateText}
             Дата заявки: ${new Date().toLocaleString('ru-RU')}
                 `.trim()
 
@@ -77,7 +75,6 @@ export async function sendEmail({ name, phone, preferredDate, formType }: SendEm
             <div style="background: white; padding: 20px; border-radius: 6px; margin: 20px 0;">
               <p><strong>Имя:</strong> ${name}</p>
               <p><strong>Телефон:</strong> ${phone}</p>
-              ${preferredDate ? `<p><strong>Желаемая дата урока:</strong> ${new Date(preferredDate).toLocaleDateString('ru-RU')}</p>` : '<p><strong>Желаемая дата урока:</strong> не указана</p>'}
               <p><strong>Источник:</strong> ${formTypeText[formType || 'default']}</p>
               <p><strong>Дата заявки:</strong> ${new Date().toLocaleString('ru-RU')}</p>
             </div>

@@ -150,6 +150,7 @@ export const Gallery = () => {
                                         src={image.src}
                                         alt={image.alt}
                                         fill
+                                        sizes="280px"
                                         className="object-cover pointer-events-none"
                                         draggable={false}
                                         onDragStart={(e) => e.preventDefault()} 
@@ -174,7 +175,7 @@ export const Gallery = () => {
                                             onTouchEnd={handleTouchEnd}
                                             width={800}
                                             height={600}
-                                            sizes="100vw"
+                                            sizes="(max-width: 768px) 90vw, 80vw"
                                             className="max-h-[80vh] max-w-full object-contain"
                                         />
                                         <Dialog.Close asChild>
