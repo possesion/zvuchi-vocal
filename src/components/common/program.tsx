@@ -61,7 +61,7 @@ export const Program: FC<ProgramProps> = ({ description, features, title, number
                 </div>
                 <button
                     onClick={handleOpenLink(YANDEX_ENROLLMENT_URL)}
-                    className="block cursor-pointer rounded-sm border px-3 hover:animate-rotational-wave md:py-2"
+                    className="w-[130px] ml-auto block cursor-pointer rounded-sm border px-3 hover:animate-rotational-wave md:py-2"
                     aria-label={`Записаться на ${title}`}
                 >
                     <span className="relative text-xl lg:text-3xl">

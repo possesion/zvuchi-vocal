@@ -1,17 +1,15 @@
 'use client'
 
-import { MapPin, Phone, Mail } from 'lucide-react'
-import { ORGANIZATION_EMAIL } from '@/components/constants'
-import { trackPhoneClick, trackEvent } from '@/hooks/use-yandex-metrica'
+import { trackEvent } from '@/hooks/use-yandex-metrica'
 
 export const Contacts = () => {
-    const handlePhoneClick = () => {
-        trackPhoneClick();
-    };
+    // const handlePhoneClick = () => {
+    //     trackPhoneClick();
+    // };
 
-    const handleEmailClick = () => {
-        trackEvent('email_click');
-    };
+    // const handleEmailClick = () => {
+    //     trackEvent('email_click');
+    // };
 
     const handleMapClick = () => {
         trackEvent('map_click');
@@ -21,7 +19,7 @@ export const Contacts = () => {
         <section id="contacts" className="container mx-auto bg-muted/30 px-4 py-8 text-white lg:py-12">
             <div className="grid grid-cols-1 gap-8 md:gap-12 lg:grid-cols-2">
                 {/* Контактная информация */}
-                <div className="col-span-2 flex flex-col items-center justify-center gap-x-8 sm:flex-row xl:col-span-2">
+                {/* <div className="col-span-2 flex flex-col items-center justify-center gap-x-8 sm:flex-row xl:col-span-2">
                     <address className="flex w-60 flex-col items-center not-italic">
                         <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary/10">
                             <MapPin
@@ -84,7 +82,7 @@ export const Contacts = () => {
                             </a>
                         </p>
                     </div>
-                </div>
+                </div> */}
 
                 {/* Схема проезда */}
                 {/* <div className="col-span-2 m-auto h-[550px] w-[360px] space-y-3 rounded-sm border border-brand bg-background p-2 md:w-[500px] lg:col-span-1 lg:w-[500px] lg:space-y-6 xl:h-[600px] 2xl:w-[500px]"> */}
