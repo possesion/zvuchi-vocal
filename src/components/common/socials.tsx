@@ -13,7 +13,7 @@ export const Socials: FC<SocialsProps> = ({ className, size = SOCIAL_ICON_SIZE.m
 
     return (
         <div className={className} role="list" aria-label="Социальные сети">
-            <Phone />
+            <Phone className="hidden text-white transition-colors hover:text-primary xl:block" />
             {socials.map(({ alt, src, url }) => (
                 <a
                     href={url}

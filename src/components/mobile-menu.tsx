@@ -16,7 +16,7 @@ import {
 import BurgerMenu from '@/app/burger-menu';
 import { SOCIAL_ICON_SIZE } from './common/constants'
 import { Socials } from './common/socials'
-import { STUDIO_MOBILE_PHONE } from '@/app/constants'
+import { Phone } from './common/phone'
 // import { SubscriptionsPaymentWidget } from './common/subscription-payment-widget'
 
 export default function MobileMenu() {
@@ -100,7 +100,7 @@ export default function MobileMenu() {
                             </PlatformDialog> */}
                         </nav>
                         <section className='space-y-4'>
-                            <p className='font-exo2 text-2xl font-semibold'>{STUDIO_MOBILE_PHONE}</p>
+                            <Phone className='block font-exo2 text-2xl font-semibold' />
                             <Socials
                                 size={SOCIAL_ICON_SIZE.md}
                                 className="flex mx-auto gap-x-4"
