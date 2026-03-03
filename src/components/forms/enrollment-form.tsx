@@ -4,31 +4,16 @@ import { InvalidEvent, useState } from 'react';
 import { Snackbar } from '../common/snackbar';
 import { submitMailForm } from '@/lib/submit-mail-form';
 import { trackEvent } from '@/hooks/use-yandex-metrica';
+import { formatPhoneNumber } from '../common/utils';
+import { Offera } from '@/components/common/offera';
 
 export default function EnrollmentForm() {
     const [formData, setFormData] = useState({
         name: '',
         phone: '',
-        preferredDate: '',
     });
-
-    const formatPhoneNumber = (value: string) => {
-        // Удаляем все символы кроме цифр
-        const phoneNumber = value.replace(/\D/g, '');
-        
-        // Если номер начинается с 8, заменяем на 7
-        const normalizedNumber = phoneNumber.startsWith('8') 
-            ? '7' + phoneNumber.slice(1) 
-            : phoneNumber;
-        
-        // Применяем маску +7 (XXX) XXX-XX-XX
-        if (normalizedNumber.length === 0) return '';
-        if (normalizedNumber.length <= 1) return `+${normalizedNumber}`;
-        if (normalizedNumber.length <= 4) return `+7 (${normalizedNumber.slice(1)}`;
-        if (normalizedNumber.length <= 7) return `+7 (${normalizedNumber.slice(1, 4)}) ${normalizedNumber.slice(4)}`;
-        if (normalizedNumber.length <= 9) return `+7 (${normalizedNumber.slice(1, 4)}) ${normalizedNumber.slice(4, 7)}-${normalizedNumber.slice(7)}`;
-        return `+7 (${normalizedNumber.slice(1, 4)}) ${normalizedNumber.slice(4, 7)}-${normalizedNumber.slice(7, 9)}-${normalizedNumber.slice(9, 11)}`;
-    };
+    const [isAgreed, setIsAgreed] = useState(false);
+    const [offeraIsOpen, setOfferaIsOpen] = useState(false);
 
     const [snackbar, setSnackbar] = useState({
         isVisible: false,
@@ -49,7 +34,7 @@ export default function EnrollmentForm() {
             });
 
             if (response && response.ok) {
-                trackEvent('open_enrollment_modal');
+                trackEvent('call_request');
                 setSnackbar({
                     isVisible: true,
                     message:
@@ -61,8 +46,8 @@ export default function EnrollmentForm() {
                 setFormData({
                     name: '',
                     phone: '',
-                    preferredDate: '',
                 });
+                setIsAgreed(false);
             } else {
                 setSnackbar({
                     isVisible: true,
@@ -173,31 +158,39 @@ export default function EnrollmentForm() {
                         />
                     </div>
 
-                    {/* <div className="group">
-                        <label
-                            htmlFor="form-date"
-                            className="mb-2 block text-sm font-semibold uppercase tracking-wide text-white/80"
-                        >
-                            Желаемая дата урока
-                        </label>
-                        <input
-                            id="form-date"
-                            className="standart-date w-full rounded-sm border border-white/20 bg-white/10 px-4 py-3 text-white transition-all duration-300 focus:border-brand focus:bg-white/15 focus:ring-2 focus:ring-brand/30 group-hover:border-white/40"
-                            name="preferredDate"
-                            onChange={handleChange}
-                            type='date'
-                            min={getMinDate()}
-                            value={formData.preferredDate}
-                        />
-                        <p className="mt-1 text-xs text-white/60">
-                            Необязательно
-                        </p>
-                    </div> */}
+                    <div className="md:col-span-2">
+                        <div className="flex items-start justify-center gap-2">
+                            <input
+                                type="checkbox"
+                                id="privacy-enrollment"
+                                checked={isAgreed}
+                                onChange={(e) => setIsAgreed(e.target.checked)}
+                                className="mt-1 h-4 w-4 rounded border-white/30 bg-white/10 text-brand focus:ring-2 focus:ring-brand"
+                            />
+                            <Offera document="/documents/privacy.txt" isOpen={offeraIsOpen}>
+                                <label
+                                    htmlFor="privacy-enrollment"
+                                    className="text-xs leading-relaxed text-white/90"
+                                >
+                                    Я соглашаюсь с{' '}
+                                    <button
+                                        type="button"
+                                        onClick={() => {
+                                            setOfferaIsOpen((prev) => !prev)
+                                        }}
+                                        className="cursor-pointer text-white underline transition-colors duration-200 hover:font-bold"
+                                    >
+                                        Политикой конфиденциальности
+                                    </button>
+                                </label>
+                            </Offera>
+                        </div>
+                    </div>
 
                     <div className="md:col-span-3">
                         <button
                             type="submit"
-                            disabled={isSubmitting}
+                            disabled={isSubmitting || !isAgreed}
                             className="cursor-pointer bg-radial-[at_40%] from-violet-800 to-violet-950 to-80% group relative mx-auto block overflow-hidden rounded-sm w-full px-8 py-4 font-bold text-white shadow-lg transition-all duration-300 hover:shadow-xl hover:-translate-y-0.5 hover:shadow-[rgb(88,22,66)]/40 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:translate-y-0 md:w-70"
                         >
                             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full transition-transform duration-700 group-hover:translate-x-full"></div>

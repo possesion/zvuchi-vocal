@@ -2,6 +2,7 @@ import Image from 'next/image'
 import { FC } from 'react';
 import { SOCIAL_ICON_SIZE } from './constants';
 import { socials } from '@/app/constants';
+import { Phone } from './phone';
 
 interface SocialsProps {
     className?: string;
@@ -12,12 +13,7 @@ export const Socials: FC<SocialsProps> = ({ className, size = SOCIAL_ICON_SIZE.m
 
     return (
         <div className={className} role="list" aria-label="Социальные сети">
-            <a
-                href="tel:+79779675001"
-                className="hidden text-white transition-colors hover:text-primary xl:block"
-            >
-                +7 (977) 967-50-01
-            </a>
+            <Phone />
             {socials.map(({ alt, src, url }) => (
                 <a
                     href={url}

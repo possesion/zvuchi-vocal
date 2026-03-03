@@ -6,7 +6,9 @@ import cn from 'classnames';
 import { X } from 'lucide-react';
 import { Snackbar } from '../common/snackbar';
 import { Offera } from '@/components/common/offera';
-import { trackFormSubmit } from '@/hooks/use-yandex-metrica';
+import { trackEvent } from '@/hooks/use-yandex-metrica';
+import { submitMailForm } from '@/lib/submit-mail-form';
+import { formatPhoneNumber } from '../common/utils';
 
 interface EnrollmentModalProps {
     children: ReactNode,
@@ -21,24 +23,7 @@ export function EnrollmentModal({ children, isOpen, onClose, hasPicture }: Enrol
         name: '',
         phone: '',
     });
-
-    const formatPhoneNumber = (value: string) => {
-        // Удаляем все символы кроме цифр
-        const phoneNumber = value.replace(/\D/g, '');
-
-        // Если номер начинается с 8, заменяем на 7
-        const normalizedNumber = phoneNumber.startsWith('8')
-            ? '7' + phoneNumber.slice(1)
-            : phoneNumber;
-
-        // Применяем маску +7 (XXX) XXX-XX-XX
-        if (normalizedNumber.length === 0) return '';
-        if (normalizedNumber.length <= 1) return `+${normalizedNumber}`;
-        if (normalizedNumber.length <= 4) return `+7 (${normalizedNumber.slice(1)}`;
-        if (normalizedNumber.length <= 7) return `+7 (${normalizedNumber.slice(1, 4)}) ${normalizedNumber.slice(4)}`;
-        if (normalizedNumber.length <= 9) return `+7 (${normalizedNumber.slice(1, 4)}) ${normalizedNumber.slice(4, 7)}-${normalizedNumber.slice(7)}`;
-        return `+7 (${normalizedNumber.slice(1, 4)}) ${normalizedNumber.slice(4, 7)}-${normalizedNumber.slice(7, 9)}-${normalizedNumber.slice(9, 11)}`;
-    };
+    const [isAgreed, setIsAgreed] = useState(false);
 
     const [snackbar, setSnackbar] = useState({
         isVisible: false,
@@ -53,26 +38,21 @@ export function EnrollmentModal({ children, isOpen, onClose, hasPicture }: Enrol
             if (hasPicture) {
                 formData.formType = 'promo';
             }
-            const response = await fetch('/api/send-mail', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData),
+
+            const response = await submitMailForm({
+                ...formData,
+                formType: 'enrollment-form',
             });
 
-            const result = await response.json();
-
-            if (response.ok) {
+            if (response && response.ok) {
                 // Отслеживаем успешную отправку формы
-                const formType = hasPicture ? 'promo_form' : 'enrollment_form';
-                trackFormSubmit(formType);
-                
-                // Показываем успешное уведомление
+                // const formType = hasPicture ? 'promo_form' : 'enrollment_form';
+                trackEvent('call_request');
+
                 setSnackbar({
                     isVisible: true,
                     message:
-                        result.message ||
+                        response.data.message ||
                         'Спасибо! Мы свяжемся с вами в ближайшее время.',
                     type: 'success',
                 });
@@ -82,6 +62,7 @@ export function EnrollmentModal({ children, isOpen, onClose, hasPicture }: Enrol
                     name: '',
                     phone: '',
                 });
+                setIsAgreed(false);
 
                 // Закрываем модальное окно через 2 секунды
                 setTimeout(() => {
@@ -92,7 +73,7 @@ export function EnrollmentModal({ children, isOpen, onClose, hasPicture }: Enrol
                 setSnackbar({
                     isVisible: true,
                     message:
-                        result.error ||
+                        response.error ||
                         'Произошла ошибка при отправке заявки. Попробуйте позже.',
                     type: 'error',
                 });
@@ -170,95 +151,104 @@ export function EnrollmentModal({ children, isOpen, onClose, hasPicture }: Enrol
             <div className={cn(hasPicture && 'md:max-w-[800px]', "animate-fade-in relative mx-4 w-full max-w-[480px] max-h-[100svh] overflow-y-auto rounded-sm bg-white shadow-2xl")}>
                 {/* Mobile Layout */}
                 <div className="md:hidden">
-                        {hasPicture && <div className="relative h-[220px] w-auto">
-                            <Image
-                                src='/promo/valentine-promo.png'
-                                alt='valentine-promo'
-                                fill
-                                className="object-cover rounded-t-sm"
-                            />
-                        </div>}
-                        <header className={cn(hasPicture ? 'px-3 py-1' : 'p-6', { 'border-b': hasPicture }, "flex items-center justify-between p-3")}>
-                            {children}
-                            <button
-                                onClick={onClose}
-                                className="absolute right-1 top-1 rounded-full p-2 transition-colors hover:bg-gray-100"
-                                aria-label="Закрыть модальное окно"
+                    {hasPicture && <div className="relative h-[220px] w-auto">
+                        <Image
+                            src='/promo/valentine-promo.png'
+                            alt='valentine-promo'
+                            fill
+                            className="object-cover rounded-t-sm"
+                        />
+                    </div>}
+                    <header className={cn(hasPicture ? 'px-3 py-1' : 'px-6 pt-7 pb-3', { 'border-b': hasPicture }, "flex items-center justify-center")}>
+                        {children}
+                        <button
+                            onClick={onClose}
+                            className="absolute right-1 top-1 rounded-full p-2 transition-colors hover:bg-gray-100"
+                            aria-label="Закрыть модальное окно"
+                        >
+                            <X className="h-6 w-6" />
+                        </button>
+                    </header>
+
+                    {/* Mobile Form */}
+                    <form onSubmit={handleSubmit} className={cn(hasPicture ? 'px-3 py-1' : 'p-6', "space-y-4")}>
+                        <div>
+                            <label
+                                htmlFor="name"
+                                className="mb-1 block text-sm font-medium text-gray-700"
                             >
-                                <X className="h-6 w-6" />
-                            </button>
-                        </header>
+                                Имя *
+                            </label>
+                            <input
+                                className="w-full rounded-sm border border-gray-300 px-3 py-2 transition-all focus:border-transparent focus:ring-2 focus:ring-primary"
+                                id="name"
+                                name="name"
+                                onInvalid={handleValidate('Введите имя')}
+                                onInput={handleValidate('')}
+                                onChange={handleChange}
+                                placeholder="Ваше имя"
+                                required
+                                type="text"
+                                value={formData.name}
+                            />
+                        </div>
 
-                        {/* Mobile Form */}
-                        <form onSubmit={handleSubmit} className={cn(hasPicture ? 'px-3 py-1': 'p-6', "space-y-4")}>
-                            <div>
+                        <div>
+                            <label
+                                htmlFor="phone"
+                                className="mb-1 block text-sm font-medium text-gray-700"
+                            >
+                                Телефон *
+                            </label>
+                            <input
+                                id="phone"
+                                className="w-full rounded-sm border border-gray-300 px-3 py-2 transition-all focus:border-transparent focus:ring-2 focus:ring-primary"
+                                name="phone"
+                                onInvalid={handleValidate('Введите номер телефона')}
+                                onInput={handleValidate('')}
+                                onChange={handleChange}
+                                placeholder="+7 (999) 000-00-00"
+                                required
+                                type="tel"
+                                value={formData.phone}
+                                maxLength={18}
+                            />
+                        </div>
+
+                        <div className="flex items-start gap-2">
+                            <input
+                                type="checkbox"
+                                id="privacy-mobile"
+                                checked={isAgreed}
+                                onChange={(e) => setIsAgreed(e.target.checked)}
+                                className="mt-1 h-4 w-4 rounded border-gray-300 text-brand focus:ring-2 focus:ring-brand"
+                            />
+                            <Offera document="/documents/privacy.txt" isOpen={offeraIsOpen}>
                                 <label
-                                    htmlFor="name"
-                                    className="mb-1 block text-sm font-medium text-gray-700"
+                                    htmlFor="privacy-mobile"
+                                    className="text-xs leading-relaxed text-gray-900"
                                 >
-                                    Имя *
-                                </label>
-                                <input
-                                    className="w-full rounded-sm border border-gray-300 px-3 py-2 transition-all focus:border-transparent focus:ring-2 focus:ring-primary"
-                                    id="name"
-                                    name="name"
-                                    onInvalid={handleValidate('Введите имя')}
-                                    onInput={handleValidate('')}
-                                    onChange={handleChange}
-                                    placeholder="Ваше имя"
-                                    required
-                                    type="text"
-                                    value={formData.name}
-                                />
-                            </div>
-
-                            <div>
-                                <label
-                                    htmlFor="phone"
-                                    className="mb-1 block text-sm font-medium text-gray-700"
-                                >
-                                    Телефон *
-                                </label>
-                                <input
-                                    id="phone"
-                                    className="w-full rounded-sm border border-gray-300 px-3 py-2 transition-all focus:border-transparent focus:ring-2 focus:ring-primary"
-                                    name="phone"
-                                    onInvalid={handleValidate('Введите номер телефона')}
-                                    onInput={handleValidate('')}
-                                    onChange={handleChange}
-                                    placeholder="+7 (999) 000-00-00"
-                                    required
-                                    type="tel"
-                                    value={formData.phone}
-                                    maxLength={18}
-                                />
-                            </div>
-
-                            <div className="flex justify-between">
-                                <Offera document="/documents/privacy.txt" isOpen={offeraIsOpen}>
+                                    Я соглашаюсь с{' '}
                                     <button
                                         type="button"
                                         onClick={() => {
                                             setOfferaIsOpen((prev) => !prev)
                                         }}
-                                        className="group relative transition-colors duration-200 text-gray-900 dark:hover:text-red-400 text-xs leading-relaxed"
+                                        className="cursor-pointer text-brand underline transition-colors duration-200 hover:text-brand/80"
                                     >
-                                        <span className="block">
-                                            Нажимая кнопку <span className="mr-1 font-bold">Записаться</span> вы соглашаетесь с{' '}
-                                            <span className="cursor-pointer text-brand underline">
-                                                Политикой конфиденциальности.
-                                            </span>
-                                        </span>
+                                        Политикой конфиденциальности
                                     </button>
-                                </Offera>
-                            </div>
-                            <button
-                                type="submit"
-                                className="w-full cursor-pointer transform rounded-sm bg-linear-to-r from-brand to-brand-secondary px-6 py-3 font-bold text-white shadow-lg transition-all duration-200 hover:scale-105 hover:from-primary/90 hover:to-primary/70 hover:shadow-xl"
-                            >
-                                Записаться
-                            </button>
-                        </form>
+                                </label>
+                            </Offera>
+                        </div>
+                        <button
+                            type="submit"
+                            disabled={!isAgreed}
+                            className="w-full cursor-pointer transform rounded-sm bg-linear-to-r from-brand to-brand-secondary px-6 py-3 font-bold text-white shadow-lg transition-all duration-200 hover:scale-105 hover:from-primary/90 hover:to-primary/70 hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:scale-100"
+                        >
+                            Записаться
+                        </button>
+                    </form>
                 </div>
 
                 {/* Desktop Layout */}
@@ -273,7 +263,7 @@ export function EnrollmentModal({ children, isOpen, onClose, hasPicture }: Enrol
                     </div>}
 
                     {/* Desktop Content - Right Side */}
-                    <div className={cn(hasPicture && 'w-1/2', "flex flex-col")}>
+                    <div className={cn(hasPicture && 'w-1/2', "flex flex-col w-full")}>
                         <header className="flex items-center justify-between p-6">
                             {children}
                             <button
@@ -331,27 +321,36 @@ export function EnrollmentModal({ children, isOpen, onClose, hasPicture }: Enrol
                             </div>
 
                             <div className="flex-1 flex flex-col justify-end space-y-4">
-                                <div className="flex justify-between">
+                                <div className="flex items-start gap-2">
+                                    <input
+                                        type="checkbox"
+                                        id="privacy-desktop"
+                                        checked={isAgreed}
+                                        onChange={(e) => setIsAgreed(e.target.checked)}
+                                        className="mt-1 h-4 w-4 rounded border-gray-300 text-brand focus:ring-2 focus:ring-brand"
+                                    />
                                     <Offera document="/documents/privacy.txt" isOpen={offeraIsOpen}>
-                                        <button
-                                            type="button"
-                                            onClick={() => {
-                                                setOfferaIsOpen((prev) => !prev)
-                                            }}
-                                            className="group relative transition-colors duration-200 dark:hover:text-red-400 text-xs leading-relaxed"
+                                        <label
+                                            htmlFor="privacy-desktop"
+                                            className="text-xs leading-relaxed text-gray-900"
                                         >
-                                            <span className="block">
-                                                Нажимая кнопку <span className="mr-1 font-bold">Записаться</span> вы соглашаетесь с{' '}
-                                                <span className="cursor-pointer text-brand underline">
-                                                    Политикой конфиденциальности.
-                                                </span>
-                                            </span>
-                                        </button>
+                                            Я соглашаюсь с{' '}
+                                            <button
+                                                type="button"
+                                                onClick={() => {
+                                                    setOfferaIsOpen((prev) => !prev)
+                                                }}
+                                                className="cursor-pointer text-brand underline transition-colors duration-200 hover:text-brand/80"
+                                            >
+                                                Политикой конфиденциальности
+                                            </button>
+                                        </label>
                                     </Offera>
                                 </div>
                                 <button
                                     type="submit"
-                                    className="w-full cursor-pointer transform rounded-sm bg-linear-to-r from-brand to-brand-secondary px-6 py-3 font-bold text-white shadow-lg transition-all duration-200 hover:scale-105 hover:from-primary/90 hover:to-primary/70 hover:shadow-xl"
+                                    disabled={!isAgreed}
+                                    className="w-full cursor-pointer transform rounded-sm bg-linear-to-r from-brand to-brand-secondary px-6 py-3 font-bold text-white shadow-lg transition-all duration-200 hover:scale-105 hover:from-primary/90 hover:to-primary/70 hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:scale-100"
                                 >
                                     Записаться
                                 </button>

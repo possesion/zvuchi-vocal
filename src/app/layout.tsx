@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import Script from 'next/script';
 import { Geist, Geist_Mono, Manrope, Exo_2 } from "next/font/google";
 import Metrika from '@/lib/metrika';
@@ -55,7 +54,9 @@ const schemaData = {
         "@type": "PostalAddress",
         addressLocality: "Москва",
         addressCountry: "RU",
-        addressRegion: "Москва"
+        addressRegion: "Москва",
+        postalCode: '101000',
+        streetAdress: 'Ленинградский проспект, 34',
       },
       geo: {
         "@type": "GeoCoordinates",
@@ -204,92 +205,6 @@ const schemaData = {
       ]
     }
   ]
-};
-
-export const metadata: Metadata = {
-  title: {
-    default: "ЗВУЧИ - Вокальная студия | Уроки вокала в Москве",
-    template: "%s | ЗВУЧИ - Вокальная студия"
-  },
-  description: "Профессиональные уроки вокала в Москве. Индивидуальный подход, опытные педагоги, методика EVT. Голос изменится после первого занятия! ✨ Первое занятие бесплатно",
-  icons: {
-    icon: [
-      { url: '/favicon.ico' },
-      new URL('/favicon.ico', 'https://zvuchi-vocal.ru'),
-    ],
-  },
-  keywords: ["вокал", "уроки вокала", "вокальная студия", "пение", "Москва", "EVT", "бэлтинг", "драйв", "Звучи", "студия Звучи"],
-  authors: [{ name: "ЗВУЧИ - Вокальная студия", url: "https://zvuchi-vocal.ru" }],
-  creator: "Казанцев Геннадий Викторович",
-  publisher: "ЗВУЧИ - Вокальная студия",
-  formatDetection: {
-    email: false,
-    address: false,
-    telephone: false,
-  },
-  manifest: 'https://zvuchi-vocal.ru/manifest.json',
-  metadataBase: new URL('https://zvuchi-vocal.ru'),
-  robots: {
-    index: true,
-    follow: true,
-    nocache: false,
-    googleBot: {
-      index: true,
-      follow: true,
-      noimageindex: false,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-    },
-  },
-  openGraph: {
-    title: "ЗВУЧИ - Вокальная студия | Уроки вокала в Москве",
-    description: "Профессиональные уроки вокала в Москве. Индивидуальный подход, опытные педагоги, методика EVT. Голос изменится после первого занятия!",
-    type: "website",
-    locale: "ru_RU",
-    url: "https://zvuchi-vocal.ru",
-    siteName: "ЗВУЧИ - Вокальная студия",
-    images: [
-      {
-        url: "/main-image.jpg",
-        width: 1200,
-        height: 630,
-        alt: "ЗВУЧИ - Вокальная студия. Профессиональные уроки вокала в Москве",
-        type: "image/jpeg",
-      },
-      {
-        url: "/valeria/transparent-lera.png",
-        width: 380,
-        height: 760,
-        alt: "Валерия - преподаватель вокала студии ЗВУЧИ",
-        type: "image/png",
-      },
-    ],
-    videos: [
-      {
-        url: "https://s3.twcstorage.ru/dd3d1966-zvuchi-media/promo.mp4",
-        width: 360,
-        height: 640,
-        type: "video/mp4",
-      },
-    ],
-  },
-  alternates: {
-    canonical: "https://zvuchi-vocal.ru",
-  },
-  verification: {
-    yandex: "7e59eba73c6a74d8",
-    google: "G-80QM6W2Z28",
-  },
-  category: "Education",
-  classification: "Образование, Музыка, Вокал",
-  other: {
-    'yandex-verification': '7e59eba73c6a74d8',
-    'geo.region': 'RU-MOW',
-    'geo.placename': 'Москва',
-    'geo.position': '55.755826;37.617300',
-    'ICBM': '55.755826, 37.617300',
-  },
 };
 
 export default function RootLayout({
