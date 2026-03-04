@@ -259,31 +259,31 @@ export const events = [
 export const navigationList = [
     {
         id: 1,
-        text: "О нас",
-        sectionId: "#about",
+        text: 'О нас',
+        sectionId: '/about',
     },
     {
         id: 2,
         text: 'Преподаватели',
-        sectionId: '#instructors',
+        sectionId: '/instructors',
     },
     {
         id: 3,
         text: 'Абонементы',
-        sectionId: '#subscriptions',
+        sectionId: '/programs',
     },
     {
         id: 4,
         text: 'Галерея',
-        sectionId: '#gallery',
+        sectionId: '/gallery',
         hiddenOnMobile: true,
     },
     {
         id: 6,
         text: 'Контакты',
-        sectionId: '#contacts',
+        sectionId: '/contacts',
     },
-]
+];
 
 export const socials = [
     // {
