@@ -23,7 +23,7 @@ export default function ContactsPage() {
         <div className="relative min-h-screen font-exo2">
             <Header />
             <main className="w-full flex-1 primary-bg overflow-x-hidden">
-                <div className="primary-bg py-16">
+                <div className="primary-bg py-12">
                     <section className="container mx-auto px-4 text-white">
                         <header className="mb-12 text-center">
                             <h1 className="mb-6 text-4xl font-bold tracking-tight text-shadow-lg md:text-5xl xl:text-7xl">

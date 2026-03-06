@@ -14,7 +14,8 @@ interface VocalInstructor {
         experience: string
         image: string
         name: string
-        specialty: string
+        specialty: string[]
+        feature: string
         video: string
     }
 }
@@ -155,7 +156,8 @@ interface VocalInstructor {
                 </Dialog.Root>
             </div>
             <h3 className="bg-dark rounded-sm shadow-lg px-4 pb-1 text-lg font-bold md:text-xl">{instructor.name}</h3>
-            <p className="mb-2 w-62"><b>Сверхсила: </b>{instructor.specialty}</p>
+            <p className="w-70"><b>Предмет: </b>{instructor.specialty?.join(', ')}</p>
+            <p className="mb-2 w-70"><b>Сверхсила: </b>{instructor.feature}</p>
             <p><span className="mr-2" aria-hidden="true">📚</span>Опыт преподавания: {instructor.experience}</p>
         </article>
     )

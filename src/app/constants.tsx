@@ -1,5 +1,7 @@
 import { StarIcon } from 'lucide-react'
 
+export const actionButtonStyle = 'bg-radial-[at_40%] from-violet-800 to-violet-950 to-80% shadow-[0_0_45px_5px] shadow-purple-900';
+
 export const evtTooltipTitle = 'Estill Voice Training ';
 
 export const evtTooltipContent = '(EVT) — это научная модель развития голоса, разработанная певицей и исследователем Джо Эстилл, которая учит сознательному контролю над структурами голосового аппарата для достижения гибкости, силы и здоровья голоса в любом стиле';
@@ -129,7 +131,8 @@ export const programs = [
 export const instructors = [
     {
         name: 'Валерия Ковшова',
-        specialty: 'Джазовая импровизация, мелизматика и экстрим-вокал',
+        specialty: ['Вокал'],
+        feature: 'Джазовая импровизация, мелизматика и экстрим-вокал',
         bio: (
             <div className='font-semibold'>
                 <li><span className='mr-2'>🎓</span>Образование: МГКИ (эстрадно-джазовый вокал)</li>
@@ -153,7 +156,8 @@ export const instructors = [
     },
     {
         name: 'Мария Биттер',
-        specialty: 'Бэлтинг, Микст и вокальные фишки',
+        specialty: ['Вокал'],
+        feature: 'Бэлтинг, Микст и вокальные фишки',
         experience: '10 лет',
         bio: (
             <div className='font-semibold'>
@@ -170,7 +174,8 @@ export const instructors = [
     },
     {
         name: 'Мария Жукова',
-        specialty: 'Техники плотных высоких нот, этно мелизматика и душевное отношение к голосу',
+        specialty: ['Вокал', 'Фортепиано'],
+        feature: 'Техники плотных высоких нот, этно мелизматика и душевное отношение к голосу',
         experience: '4 года',
         bio: (
             <div className='font-semibold'>
@@ -186,7 +191,8 @@ export const instructors = [
     },
     {
         name: 'Элина Губкина',
-        specialty: 'Огненные гитарные соляки',
+        specialty: ['Гитара'],
+        feature: 'Огненные гитарные соляки',
         experience: '5 лет',
         bio: (
             <div className='font-semibold'>

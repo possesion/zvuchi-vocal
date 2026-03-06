@@ -4,6 +4,7 @@ import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 import { instructors } from '@/app/constants';
 import { generatePageMetadata } from '@/lib/metadata';
+import Link from 'next/link';
 
 const VocalInstructor = dynamic(() => import('@/components/sections/vocal-instructor'), {
     loading: () => <div className="animate-pulse bg-white/10 rounded-2xl h-64 w-full" />,
@@ -27,8 +28,8 @@ export default function InstructorsPage() {
         <div className="relative min-h-screen font-exo2">
             <Header />
             <main className="w-full flex-1 primary-bg overflow-x-hidden">
-                <div className="primary-bg py-16">
-                    <section className="container pb-10 text-white md:pb-16">
+                <div className="primary-bg py-12">
+                    <section className="container text-white">
                         <header className="mb-12 flex flex-col items-center text-center">
                             <div className="w-full mb-8 flex flex-col justify-center items-center bg-dark px-6 py-4 rounded-sm md:mb-12">
                                 <h1 className="text-4xl font-bold tracking-tight text-shadow-lg md:text-5xl xl:text-7xl">
@@ -36,10 +37,11 @@ export default function InstructorsPage() {
                                     <span className="ml-5">педагоги</span>
                                 </h1>
                             </div>
-                            <p className="mb-8 max-w-3xl text-lg text-white/90 md:text-xl">
-                                За каждым сияющим успехом на сцене стоит вдохновляющий наставник. 
+                            <p className="max-w-3xl text-xl text-white/90 md:text-xl">
+                                Подберите себе преподавателя по вокалу, фортепиано или гитаре.
+                                {/* За каждым сияющим успехом на сцене стоит вдохновляющий наставник. 
                                 Тот, кто превращает голос в магию, а уроки — в путешествие. 
-                                Не просто педагоги, а проводники в мир музыки, чьи сердца бьются в ритм с учениками.
+                                Не просто педагоги, а проводники в мир музыки, чьи сердца бьются в ритм с учениками. */}
                             </p>
                         </header>
 
@@ -51,6 +53,19 @@ export default function InstructorsPage() {
                                 />
                             ))}
                         </div>
+                    {/* <section className='mt-16 backdrop-blur-md'> */}
+                        <div className="grid gap-8 md:grid-cols-3 mt-16 backdrop-blur-md">
+                            <Link
+                                href="/programs"
+                                className="group rounded-sm bg-white/10 p-8 backdrop-blur-md transition-all hover:bg-white/20 hover:scale-105"
+                            >
+                                <h3 className="mb-4 text-2xl font-bold">Абонементы</h3>
+                                <p className="text-white/80">
+                                    Выберите подходящую программу обучения
+                                </p>
+                            </Link>
+                        </div>
+                    {/* </section> */}
                     </section>
                 </div>
             </main>

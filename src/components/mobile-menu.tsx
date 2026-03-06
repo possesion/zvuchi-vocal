@@ -78,6 +78,13 @@ export default function MobileMenu() {
                                 Галерея
                             </Link>
                             <Link
+                                href="/wiki"
+                                className="flex items-center hover:text-red-400"
+                                onClick={handleLinkClick}
+                            >
+                                Информация
+                            </Link>
+                            <Link
                                 href="/contacts"
                                 className="flex items-center hover:text-red-400"
                                 onClick={handleLinkClick}

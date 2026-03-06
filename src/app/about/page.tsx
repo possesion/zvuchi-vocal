@@ -4,6 +4,7 @@ import { Footer } from '@/components/layout/footer';
 import { PromoContent } from '@/components/sections/promo-content';
 import { FeatureList } from '@/components/sections/feature-list';
 import { generatePageMetadata } from '@/lib/metadata';
+import Link from 'next/link';
 
 export const metadata: Metadata = generatePageMetadata({
     title: 'О нас',
@@ -23,26 +24,34 @@ export default function AboutPage() {
         <div className="relative min-h-screen font-exo2">
             <Header />
             <main className="w-full flex-1 primary-bg overflow-x-hidden">
-                <div className="primary-bg py-16">
-                    <section className="container py-10 text-white md:py-16">
-                        <header className="mb-12 text-center">
-                            <h1 className="mb-6 text-4xl font-bold tracking-tight text-shadow-lg md:text-5xl xl:text-7xl">
-                                О нашей студии
+                <div className="primary-bg">
+                    <section className="container py-12 text-white">
+                        <header className="text-center">
+                            <h1 className="text-4xl font-bold tracking-tight text-shadow-lg md:text-5xl xl:text-7xl">
+                                TL;DR
                             </h1>
-                            <p className="mx-auto max-w-3xl text-lg text-white/90 md:text-xl">
-                                ЗВУЧИ - это место, где каждый голос находит свое звучание
-                            </p>
                         </header>
 
                         <PromoContent />
 
-                        <h2 className="mt-16 mb-8 text-center text-4xl font-bold tracking-tight text-shadow-lg md:text-3xl xl:text-6xl">
+                        <h2 className="mt-16 text-center text-4xl font-bold tracking-tight text-shadow-lg md:text-3xl xl:text-6xl">
                             <span className="ml-5">Звучи! – это...</span>
                         </h2>
                         <FeatureList />
 
-                        <section className="mt-16 rounded-sm bg-white/10 p-8 backdrop-blur-md">
-                            <h2 className="mb-6 text-3xl font-bold">Наша миссия</h2>
+                        <section className='mt-16 backdrop-blur-md'>
+                            <div className="grid gap-8 md:grid-cols-3">
+                                <Link
+                                    href="/instructors"
+                                    className="group rounded-sm bg-white/10 p-8 backdrop-blur-md transition-all hover:bg-white/20 hover:scale-105"
+                                >
+                                    <h3 className="mb-4 text-2xl font-bold">Наши педагоги</h3>
+                                    <p className="text-white/80">
+                                        Познакомьтесь с нашими опытными преподавателями
+                                    </p>
+                                </Link>
+                            </div>
+                            {/* <h2 className="mb-6 text-3xl font-bold">Наша миссия</h2>
                             <p className="mb-4 text-lg leading-relaxed">
                                 Мы верим, что каждый человек обладает уникальным голосом, который заслуживает быть услышанным. 
                                 Наша цель - помочь вам раскрыть свой вокальный потенциал, независимо от начального уровня подготовки.
@@ -50,7 +59,7 @@ export default function AboutPage() {
                             <p className="text-lg leading-relaxed">
                                 В студии ЗВУЧИ мы используем современные методики обучения, включая EVT (Estill Voice Training), 
                                 которые позволяют добиться результатов уже после первого занятия.
-                            </p>
+                            </p> */}
                         </section>
                     </section>
                 </div>

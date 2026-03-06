@@ -22,7 +22,7 @@ export default function GalleryPage() {
         <div className="relative min-h-screen font-exo2">
             <Header />
             <main className="w-full flex-1 primary-bg overflow-x-hidden">
-                <div className="primary-bg py-16">
+                <div className="primary-bg py-12">
                     <Gallery />
                 </div>
             </main>

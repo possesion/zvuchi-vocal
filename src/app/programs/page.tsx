@@ -27,7 +27,7 @@ export default function ProgramsPage() {
         <div className="relative min-h-screen font-exo2">
             <Header />
             <main className="w-full flex-1 primary-bg overflow-x-hidden">
-                <section className="main-bg py-16 text-white">
+                <section className="main-bg py-12 text-white">
                     <header className="container mb-12 flex flex-col items-center">
                         <div className="flex flex-col justify-center items-center bg-dark px-6 py-4 rounded-sm opacity-85">
                             <h1 className="mb-4 text-4xl font-bold tracking-tight text-shadow-lg md:text-5xl xl:text-7xl">
@@ -37,9 +37,6 @@ export default function ProgramsPage() {
                             <article className="max-w-2xl text-center font-bold md:text-lg">
                                 <p className="mb-2">
                                     От джаза до рока — учим петь в любом жанре!
-                                </p>
-                                <p>
-                                    Индивидуальный подход для всех уровней: от нуля до профессионала
                                 </p>
                             </article>
                         </div>
