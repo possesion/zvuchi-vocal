@@ -46,22 +46,6 @@ export function QuizModal({ className, isOpen, onClose }: QuizModalProps) {
 
     const totalSteps = 4;
 
-    useEffect(() => {
-        if (isOpen && typeof window !== 'undefined') {
-            const scrollY = window.scrollY;
-            document.body.style.position = 'fixed';
-            document.body.style.top = `-${scrollY}px`;
-            document.body.style.width = '100%';
-
-            return () => {
-                document.body.style.position = '';
-                document.body.style.top = '';
-                document.body.style.width = '';
-                window.scrollTo(0, scrollY);
-            };
-        }
-    }, [isOpen]);
-
     // Отслеживание шагов квиза
     useEffect(() => {
         if (isOpen && step >= 2 && !trackedStepsRef.current.has(step)) {
@@ -238,25 +222,6 @@ export function QuizModal({ className, isOpen, onClose }: QuizModalProps) {
                     canProceed={canProceed}
                 />
             </div>
-
-            <QuizModalContent
-                    className='hidden h-full pt-8 pb-6 px-4 md:p-6 md:flex md:flex-col md:justify-between'
-                    step={step}
-                    totalSteps={totalSteps}
-                    quizAnswers={quizAnswers}
-                    formData={formData}
-                    isAgreed={isAgreed}
-                    offeraIsOpen={offeraIsOpen}
-                    handleQuizAnswer={handleQuizAnswer}
-                    handleNext={handleNext}
-                    handleBack={handleBack}
-                    handleSubmit={handleSubmit}
-                    handleValidate={handleValidate}
-                    handleChange={handleChange}
-                    setIsAgreed={setIsAgreed}
-                    setOfferaIsOpen={setOfferaIsOpen}
-                    canProceed={canProceed}
-                />
 
             <Snackbar
                 isVisible={snackbar.isVisible}

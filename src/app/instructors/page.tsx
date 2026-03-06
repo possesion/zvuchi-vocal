@@ -64,6 +64,25 @@ export default function InstructorsPage() {
                                     Выберите подходящую программу обучения
                                 </p>
                             </Link>
+                            <Link
+                                href="/gallery"
+                                className="hidden group rounded-sm bg-white/10 p-8 backdrop-blur-md transition-all hover:bg-white/20 hover:scale-105 sm:block"
+                            >
+                                <h3 className="mb-4 text-2xl font-bold">Галерея</h3>
+                                <p className="text-white/80">
+                                    Посмотрите фото и видео из жизни студии
+                                </p>
+                            </Link>
+                            <Link
+                                href="/contacts"
+                                className="hidden group rounded-sm bg-white/10 p-8 backdrop-blur-md transition-all hover:bg-white/20 hover:scale-105 sm:block"
+                            >
+                                <h3 className="mb-4 text-2xl font-bold">Контакты</h3>
+                                <p className="text-white/80">
+                                    Адрес студии и отзывы
+                                </p>
+                            </Link>
+
                         </div>
                     {/* </section> */}
                     </section>

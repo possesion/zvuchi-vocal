@@ -46,7 +46,7 @@ export default function Home() {
                         size={SOCIAL_ICON_SIZE.sm}
                         className="container mx-auto hidden justify-end gap-x-1 pt-2 md:flex md:gap-x-2"
                     />
-                    <section className="container mx-auto flex h-[100svh] sm:h-screen">
+                    <section className="container mx-auto flex h-[100svh] sm:h-screen 2xl:h-min">
                         <div className="relative z-10 flex flex-col items-center w-full sm:justify-center sm:flex-row">
                             {/* <div 
                             className='mt-auto mb-16 scale-110'
@@ -83,8 +83,7 @@ export default function Home() {
                             </div>
                             <Image
                                 src="/valeria/transparent-lera.png"
-                                className="bottom-0 right-[15%] z-50 h-auto w-[252px] object-contain drop-shadow-2xl sm:right-[5%] sm:w-[320px] md:w-[320px] lg:w-[340px] xl:w-[360px] [@media(max-height:600px)_and_(orientation:landscape)]:hidden"
-                                // className="absolute bottom-0 right-[15%] z-50 h-auto w-[252px] object-contain drop-shadow-2xl sm:right-[5%] sm:w-[320px] md:w-[320px] lg:w-[340px] xl:w-[360px] [@media(max-height:600px)_and_(orientation:landscape)]:hidden"
+                                className="bottom-0 right-[15%] z-50 h-auto w-[252px] object-contain drop-shadow-2xl sm:right-[5%] sm:w-[320px] md:w-[320px] lg:w-[340px] xl:w-[360px] 3xl:w-[500px] [@media(max-height:600px)_and_(orientation:landscape)]:hidden"
                                 width={252}
                                 height={760}
                                 sizes="(max-width: 640px) 252px, (max-width: 768px) 320px, (max-width: 1024px) 340px, 360px"
@@ -105,9 +104,6 @@ export default function Home() {
                                 className="group rounded-sm bg-white/10 p-8 backdrop-blur-md transition-all hover:bg-white/20 hover:scale-105"
                             >
                                 <h3 className="text-center text-2xl font-bold">Больше информации о студии</h3>
-                                {/* <p className="text-white/80">
-                                    информация о студии
-                                </p> */}
                             </Link>
                             <Link
                                 href="/instructors"
