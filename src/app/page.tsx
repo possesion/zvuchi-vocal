@@ -46,7 +46,7 @@ export default function Home() {
                         size={SOCIAL_ICON_SIZE.sm}
                         className="container mx-auto hidden justify-end gap-x-1 pt-2 md:flex md:gap-x-2"
                     />
-                    <section className="container mx-auto flex h-[100svh] sm:h-screen 2xl:h-min">
+                    <section className="container mx-auto flex h-[100svh] sm:h-screen 3xl:h-min">
                         <div className="relative z-10 flex flex-col items-center w-full sm:justify-center sm:flex-row">
                             <div className="z-51 mb-auto flex flex-col gap-y-6 lg:justify-start xl:gap-y-7">
                                 {/* <h1 className="rotate-z-2 hidden hero-title bg-dark rounded-sm shadow-lg w-min px-5 py-3 text-2xl font-bold text-white sm:w-[210px] sm:text-4xl xl:w-[350px] md:block xl:text-7xl">
