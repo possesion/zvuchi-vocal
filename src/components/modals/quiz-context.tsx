@@ -1,0 +1,175 @@
+'use client';
+
+import { createContext, useContext, useRef, useState, useEffect, InvalidEvent, ReactNode } from 'react';
+import { trackEvent, trackFormSubmit } from '@/hooks/use-yandex-metrica';
+import { formatPhoneNumber } from '@/components/common/utils';
+import { EXPERIENCE_OPTIONS, GENRE_OPTIONS, MOTIVATION_OPTIONS } from './constants';
+
+export type QuizAnswers = {
+    experience: string;
+    genre: string;
+    genreOther?: string;
+    motivation: string;
+    motivationOther?: string;
+};
+
+interface SnackbarState {
+    isVisible: boolean;
+    message: string;
+    type: 'success' | 'error';
+}
+
+interface QuizContextValue {
+    step: number;
+    totalSteps: number;
+    quizAnswers: QuizAnswers;
+    formData: { name: string; phone: string };
+    isAgreed: boolean;
+    offeraIsOpen: boolean;
+    snackbar: SnackbarState;
+    isOpen: boolean;
+    canProceed: () => boolean;
+    handleOpen: () => void;
+    handleClose: () => void;
+    handleNext: () => void;
+    handleBack: () => void;
+    handleQuizAnswer: (field: keyof QuizAnswers, value: string) => void;
+    handleSubmit: (e: React.FormEvent) => void;
+    handleValidate: (text: string) => (e: InvalidEvent<HTMLInputElement>) => void;
+    handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    setIsAgreed: (value: boolean) => void;
+    setOfferaIsOpen: (value: boolean | ((prev: boolean) => boolean)) => void;
+    setSnackbar: (value: SnackbarState | ((prev: SnackbarState) => SnackbarState)) => void;
+}
+
+const QuizContext = createContext<QuizContextValue | null>(null);
+
+export function useQuiz() {
+    const ctx = useContext(QuizContext);
+    if (!ctx) throw new Error('useQuiz must be used within QuizProvider');
+    return ctx;
+}
+
+export function QuizProvider({ children, onClose }: { children: ReactNode; onClose?: () => void }) {
+    const totalSteps = 4;
+    const [isOpen, setIsOpen] = useState(false);
+    const [step, setStep] = useState(1);
+    const [quizAnswers, setQuizAnswers] = useState<QuizAnswers>({ experience: '', genre: '', motivation: '' });
+    const [formData, setFormData] = useState({ name: '', phone: '' });
+    const [isAgreed, setIsAgreed] = useState(false);
+    const [offeraIsOpen, setOfferaIsOpen] = useState(false);
+    const [snackbar, setSnackbar] = useState<SnackbarState>({ isVisible: false, message: '', type: 'success' });
+    const trackedStepsRef = useRef<Set<number>>(new Set());
+
+    useEffect(() => {
+        if (isOpen && step >= 2 && !trackedStepsRef.current.has(step)) {
+            const eventNames: Record<number, string> = {
+                2: 'quiz_step_2_genre',
+                3: 'quiz_step_3_motivation',
+                4: 'quiz_step_4_contact',
+            };
+            const eventName = eventNames[step];
+            if (eventName) {
+                trackEvent(eventName, quizAnswers);
+                trackedStepsRef.current.add(step);
+            }
+        }
+    }, [step, isOpen, quizAnswers]);
+
+    useEffect(() => {
+        if (!isOpen) trackedStepsRef.current.clear();
+    }, [isOpen]);
+
+    const handleOpen = () => {
+        trackEvent('open_quiz_modal');
+        setIsOpen(true);
+    };
+
+    const handleClose = () => {
+        setIsOpen(false);
+        onClose?.();
+    };
+
+    const handleNext = () => { if (step < totalSteps) setStep(step + 1); };
+    const handleBack = () => { if (step > 1) setStep(step - 1); };
+
+    const handleQuizAnswer = (field: keyof QuizAnswers, value: string) => {
+        setQuizAnswers({
+            ...quizAnswers,
+            [field]: value,
+            genreOther: field !== 'genreOther' ? '' : value,
+            motivationOther: field !== 'motivationOther' ? '' : value,
+        });
+    };
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        try {
+            const emailData = {
+                ...formData,
+                formType: 'quiz',
+                quizAnswers: {
+                    experience: EXPERIENCE_OPTIONS.find((o) => o.value === quizAnswers.experience)?.label || '',
+                    genre: quizAnswers.genre === 'other'
+                        ? quizAnswers.genreOther || 'Другое'
+                        : GENRE_OPTIONS.find((o) => o.value === quizAnswers.genre)?.label || '',
+                    motivation: quizAnswers.motivation === 'other'
+                        ? quizAnswers.motivationOther || 'Другое'
+                        : MOTIVATION_OPTIONS.find((o) => o.value === quizAnswers.motivation)?.label || '',
+                },
+            };
+
+            const response = await fetch('/api/send-mail', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(emailData),
+            });
+            const result = await response.json();
+
+            if (response.ok) {
+                trackFormSubmit('quiz_form');
+                setSnackbar({ isVisible: true, message: result.message || 'Спасибо! Мы свяжемся с вами в ближайшее время.', type: 'success' });
+                setFormData({ name: '', phone: '' });
+                setQuizAnswers({ experience: '', genre: '', motivation: '' });
+                setIsAgreed(false);
+                setStep(1);
+                setTimeout(handleClose, 2000);
+            } else {
+                setSnackbar({ isVisible: true, message: result.error || 'Произошла ошибка при отправке заявки. Попробуйте позже.', type: 'error' });
+            }
+        } catch (error) {
+            console.error('Ошибка при отправке:', error);
+            setSnackbar({ isVisible: true, message: 'Произошла ошибка при отправке заявки. Попробуйте позже.', type: 'error' });
+        }
+    };
+
+    const handleValidate = (text: string) => (e: InvalidEvent<HTMLInputElement>) => {
+        e.target.setCustomValidity(text);
+    };
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: name === 'phone' ? formatPhoneNumber(value) : value });
+    };
+
+    const canProceed = (): boolean => {
+        switch (step) {
+            case 1: return quizAnswers.experience !== '';
+            case 2: return quizAnswers.genre !== '' && (quizAnswers.genre !== 'other' || !!quizAnswers.genreOther);
+            case 3: return quizAnswers.motivation !== '' && (quizAnswers.motivation !== 'other' || !!quizAnswers.motivationOther);
+            case 4: return !!(formData.name && formData.phone && isAgreed);
+            default: return false;
+        }
+    };
+
+    return (
+        <QuizContext.Provider value={{
+            step, totalSteps, quizAnswers, formData, isAgreed, offeraIsOpen,
+            snackbar, isOpen, canProceed, handleOpen, handleClose, handleNext,
+            handleBack, handleQuizAnswer, handleSubmit, handleValidate,
+            handleChange, setIsAgreed, setOfferaIsOpen, setSnackbar,
+        }}>
+            {children}
+        </QuizContext.Provider>
+    );
+}

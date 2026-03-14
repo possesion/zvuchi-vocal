@@ -1,64 +1,27 @@
 'use client';
 
-import { InvalidEvent } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import cn from 'classnames';
 import { Offera } from '@/components/common/offera';
 import { EXPERIENCE_OPTIONS, GENRE_OPTIONS, MOTIVATION_OPTIONS } from './constants';
-
-type QuizAnswers = {
-    experience: string;
-    genre: string;
-    genreOther?: string;
-    motivation: string;
-    motivationOther?: string;
-};
+import { useQuiz } from './quiz-context';
 
 interface QuizModalContentProps {
-    step: number;
-    totalSteps: number;
-    quizAnswers: QuizAnswers;
-    formData: {
-        name: string;
-        phone: string;
-    };
-    isAgreed: boolean;
-    offeraIsOpen: boolean;
-    handleQuizAnswer: (field: keyof QuizAnswers, value: string) => void;
-    handleNext: () => void;
-    handleBack: () => void;
-    handleSubmit: (e: React.FormEvent) => void;
-    handleValidate: (text: string) => (e: InvalidEvent<HTMLInputElement>) => void;
-    handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    setIsAgreed: (value: boolean) => void;
-    setOfferaIsOpen: (value: boolean | ((prev: boolean) => boolean)) => void;
-    canProceed: () => boolean;
     className?: string;
 }
 
-export const QuizModalContent = ({
-    className,
-    step,
-    totalSteps,
-    quizAnswers,
-    formData,
-    isAgreed,
-    offeraIsOpen,
-    handleQuizAnswer,
-    handleNext,
-    handleBack,
-    handleSubmit,
-    handleValidate,
-    handleChange,
-    setIsAgreed,
-    setOfferaIsOpen,
-    canProceed,
-}: QuizModalContentProps) => {
+export const QuizModalContent = ({ className }: QuizModalContentProps) => {
+    const {
+        step, totalSteps, quizAnswers, formData, isAgreed, offeraIsOpen,
+        handleQuizAnswer, handleNext, handleBack, handleSubmit,
+        handleValidate, handleChange, setIsAgreed, setOfferaIsOpen, canProceed,
+    } = useQuiz();
+
     return (
-        <div id='quiz-modal-content' className={className}>
+        <div id="quiz-modal-content" className={className}>
             <h2 className="hidden text-xl text-center font-bold text-gray-900 md:inline md:text-2xl">
-                        Пройди опрос и получи скидку!
-                    </h2>
+                Пройди опрос и получи скидку!
+            </h2>
             {/* Progress Bar */}
             <div className="mt-2 mb-4">
                 <div className="mb-2 flex justify-between text-sm text-gray-600">
@@ -73,7 +36,6 @@ export const QuizModalContent = ({
                 </div>
             </div>
 
-            {/* Step 1: Experience */}
             {step === 1 && (
                 <div className="space-y-3">
                     <h2 className="text-2xl font-bold text-gray-900 md:text-3xl">
@@ -86,20 +48,17 @@ export const QuizModalContent = ({
                                 onClick={() => handleQuizAnswer('experience', option.value)}
                                 className={cn(
                                     'w-full rounded-sm border-2 p-3 text-left transition-all hover:border-brand',
-                                    quizAnswers.experience === option.value
-                                        ? 'border-brand bg-brand/10'
-                                        : 'border-gray-200'
+                                    quizAnswers.experience === option.value ? 'border-brand bg-brand/10' : 'border-gray-200'
                                 )}
                             >
                                 <span className="text-lg font-medium">{option.label}</span>
                             </button>
                         ))}
-                        <div className='sm:h-[50px] sm:mt-6' />
+                        <div className="sm:h-[50px] sm:mt-6" />
                     </div>
                 </div>
             )}
 
-            {/* Step 2: Genre */}
             {step === 2 && (
                 <div className="space-y-6">
                     <h2 className="text-2xl font-bold text-gray-900 md:text-3xl">
@@ -112,9 +71,7 @@ export const QuizModalContent = ({
                                 onClick={() => handleQuizAnswer('genre', option.value)}
                                 className={cn(
                                     'w-full rounded-sm border-2 p-3 text-left transition-all hover:border-brand',
-                                    quizAnswers.genre === option.value
-                                        ? 'border-brand bg-brand/10'
-                                        : 'border-gray-200'
+                                    quizAnswers.genre === option.value ? 'border-brand bg-brand/10' : 'border-gray-200'
                                 )}
                             >
                                 <span className="text-lg font-medium">{option.label}</span>
@@ -132,7 +89,6 @@ export const QuizModalContent = ({
                 </div>
             )}
 
-            {/* Step 3: Motivation */}
             {step === 3 && (
                 <div className="space-y-6">
                     <h2 className="text-2xl font-bold text-gray-900 md:text-3xl">
@@ -145,9 +101,7 @@ export const QuizModalContent = ({
                                 onClick={() => handleQuizAnswer('motivation', option.value)}
                                 className={cn(
                                     'w-full rounded-sm border-2 p-3 text-left transition-all hover:border-brand',
-                                    quizAnswers.motivation === option.value
-                                        ? 'border-brand bg-brand/10'
-                                        : 'border-gray-200'
+                                    quizAnswers.motivation === option.value ? 'border-brand bg-brand/10' : 'border-gray-200'
                                 )}
                             >
                                 <span className="text-lg font-medium">{option.label}</span>
@@ -165,14 +119,11 @@ export const QuizModalContent = ({
                 </div>
             )}
 
-            {/* Step 4: Contact Form */}
             {step === 4 && (
                 <div className="h-60 mb-12 rounded-sm bg-green-50 p-4 text-center">
                     <h2 className="mb-2 text-2xl font-bold text-green-800">🎉 Поздравляем!</h2>
                     <div className="mb-2">
-                        <span className="font-bold text-lg text-brand line-through lg:text-2xl">
-                            3890₽
-                        </span>
+                        <span className="font-bold text-lg text-brand line-through lg:text-2xl">3890₽</span>
                         <span className="ml-2 text-lg text-green-700 font-bold">1000₽</span>
                     </div>
                     <p className="text-lg text-green-700">
@@ -180,6 +131,7 @@ export const QuizModalContent = ({
                     </p>
                 </div>
             )}
+
             {step === 4 && (
                 <div className="space-y-6">
                     <form onSubmit={handleSubmit} className="space-y-4">
@@ -200,8 +152,7 @@ export const QuizModalContent = ({
                                 value={formData.name}
                             />
                         </div>
-
-                        <div className=''>
+                        <div>
                             <label htmlFor="quiz-phone" className="mb-1 block text-sm font-medium text-gray-700">
                                 Телефон *
                             </label>
@@ -220,7 +171,7 @@ export const QuizModalContent = ({
                             />
                         </div>
                         <div className="flex flex-col items-start gap-2">
-                            <div className='flex align-center gap-x-2'>
+                            <div className="flex align-center gap-x-2">
                                 <input
                                     type="checkbox"
                                     id="quiz-privacy"
@@ -253,9 +204,8 @@ export const QuizModalContent = ({
                 </div>
             )}
 
-            {/* Navigation Buttons */}
             {step < 4 && (
-                <div id='quiz-navigation' className="mt-8 flex justify-between gap-4">
+                <div id="quiz-navigation" className="mt-8 flex justify-between gap-4">
                     <button
                         onClick={handleBack}
                         disabled={step === 1}
@@ -264,7 +214,6 @@ export const QuizModalContent = ({
                         <ChevronLeft className="h-5 w-5" />
                         Назад
                     </button>
-
                     <button
                         onClick={handleNext}
                         disabled={!canProceed()}

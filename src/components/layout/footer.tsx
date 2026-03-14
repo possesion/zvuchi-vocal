@@ -17,8 +17,8 @@ export const Footer = () => {
                     />
                     © {new Date().getFullYear()}
                 </div>
-
-                <div className="flex flex-col gap-2 pb-2 lg:flex-row">
+                {/* pb-2 TODO понять, зачем тут отступ */}
+                <div className="flex flex-col gap-2 lg:flex-row">
                     <p className="text-sm text-white">
                         <span className="mr-2 font-bold">ИП</span>Казанцев
                         Геннадий Викторович{' '}
