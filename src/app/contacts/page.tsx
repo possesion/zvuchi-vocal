@@ -29,9 +29,9 @@ export default function ContactsPage() {
                             <h1 className="mb-6 text-4xl font-bold tracking-tight text-shadow-lg md:text-5xl xl:text-7xl">
                                 Контакты
                             </h1>
-                            <p className="mx-auto max-w-2xl text-lg text-white/90 md:text-xl">
+                            {/* <p className="mx-auto max-w-2xl text-lg text-white/90 md:text-xl">
                                 Свяжитесь с нами удобным способом
-                            </p>
+                            </p> */}
                         </header>
 
                         <Contacts />

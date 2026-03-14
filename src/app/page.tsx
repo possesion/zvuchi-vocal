@@ -46,24 +46,8 @@ export default function Home() {
                         size={SOCIAL_ICON_SIZE.sm}
                         className="container mx-auto hidden justify-end gap-x-1 pt-2 md:flex md:gap-x-2"
                     />
-                    <section className="container mx-auto flex h-[100svh] sm:h-screen 2xl:h-min">
+                    <section className="container mx-auto flex h-[100svh] sm:h-screen 3xl:h-min">
                         <div className="relative z-10 flex flex-col items-center w-full sm:justify-center sm:flex-row">
-                            {/* <div 
-                            className='mt-auto mb-16 scale-110'
-                            // className="absolute bottom-0 left-60 z-50 hidden lg:block"
-                            >
-                                <Image
-                                    src="/micro.png"
-                                    width={180}
-                                    height={500}
-                                    priority
-                                    placeholder="blur"
-                                    blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                                    alt="Микрофон"
-                                />
-                                <div className="pointer-events-none h-14 w-9 absolute left-21 top-5 mic-shadow animate-blurred-fade-in" aria-hidden="true"></div>
-                                <div className="pointer-events-none h-3 w-24 absolute left-13 bottom-5 stand-shadow animate-blurred-fade-in" aria-hidden="true"></div>
-                            </div> */}
                             <div className="z-51 mb-auto flex flex-col gap-y-6 lg:justify-start xl:gap-y-7">
                                 {/* <h1 className="rotate-z-2 hidden hero-title bg-dark rounded-sm shadow-lg w-min px-5 py-3 text-2xl font-bold text-white sm:w-[210px] sm:text-4xl xl:w-[350px] md:block xl:text-7xl">
                                     ШКОЛА<br />
@@ -78,7 +62,7 @@ export default function Home() {
                                     Ставим правильную технику и достигаем высоких <b className="after-highlight">результатов</b>
                                 </div>
                                 <div className="absolute bottom-16 sm:static sm:m-0">
-                                    <EnrollmentSection main />
+                                    <EnrollmentSection />
                                 </div>
                             </div>
                             <Image

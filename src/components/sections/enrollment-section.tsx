@@ -1,21 +1,19 @@
 'use client';
 
 import Image from 'next/image';
-import { useState } from 'react';
 import { TG_CHAT_URL } from '../constants';
-import { EnrollmentModal } from '../modals/enrollment-modal';
 import { trackEvent } from '@/hooks/use-yandex-metrica';
 import { QuizButton } from '../common/quiz-button';
+import { QuizModalContent } from '../modals/quiz-modal-content';
+import { QuizProvider } from '../modals/quiz-context';
 
-export function EnrollmentSection({ main = false }) {
-    const [openModal, setOpenModal] = useState(false);
-    
+export function EnrollmentSection() {
 
     // const handleOpenModal = () => {
     //     trackEvent('open_enrollment_modal');
     //     setOpenModal(true);
     // };
-    
+
     const handleOpenLink = (link: string) => () => {
         trackEvent('write-tg');
         if (typeof window !== 'undefined') {
@@ -23,19 +21,22 @@ export function EnrollmentSection({ main = false }) {
         }
     }
     return (
-        <section id="study" className="bg-muted/50 ">
-            {/* <EnrollmentModal hasPicture isOpen={openValentineModal} onClose={() => setOpenValentineModal(false)}>
-                <div className='w-full'>
-                    <h2 id="modal-title" className="text-xl font-bold text-gray-900 md:text-2xl"></h2>
-                    <div className="text-right text-2xl font-bold text-gray-900 md:text-3xl"></div>
+        <QuizProvider>
+            <section id="study" className="bg-muted/50">
+                {/* <EnrollmentModal isOpen={openModal} onClose={() => setOpenModal(false)}>
+                    <h2 id="modal-title" className="text-xl font-bold text-gray-900">
+                        Записаться на пробное&nbsp;занятие
+                    </h2>
+                </EnrollmentModal> */}
+                <div className='sm:hidden'>
+                    <QuizButton>
+                        <button
+                            className='group relative bg-radial-[at_40%] from-violet-800 to-violet-950 to-80% shadow-[0_0_45px_5px] shadow-purple-900 mb-4 cursor-pointer overflow-hidden rounded-sm px-9 py-3 text-2xl font-bold text-white transition-all duration-300 hover:scale-105'>
+                            <span className="relative z-10 flex items-center justify-center gap-2">Пройди опрос и получи скидку</span>
+                            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full transition-transform duration-700 group-hover:translate-x-full" />
+                        </button>
+                    </QuizButton>
                 </div>
-            </EnrollmentModal> */}
-            <EnrollmentModal isOpen={openModal} onClose={() => setOpenModal(false)}>
-                <h2 id="modal-title" className="text-xl font-bold text-gray-900">
-                    Записаться на пробное&nbsp;занятие
-                </h2>
-            </EnrollmentModal>
-            {main ? (
                 <div className="flex flex-col gap-2">
                     <div className="flex flex-col-reverse gap-x-2 ">
                         {/* <button
@@ -44,7 +45,10 @@ export function EnrollmentSection({ main = false }) {
                         >
                             Оставить &nbsp; заявку
                         </button> */}
-                        <QuizButton />
+
+                        <div className="hidden sm:block sm:bg-white md:w-[630px] sm:h-[630px] shadow-md rounded-sm">
+                            <QuizModalContent className="h-full pt-8 pb-6 px-4 md:p-6 flex flex-col justify-between" />
+                        </div>
 
                         <button
                             onClick={handleOpenLink(TG_CHAT_URL)}
@@ -58,37 +62,7 @@ export function EnrollmentSection({ main = false }) {
                         </button>
                     </div>
                 </div>
-            ) : (
-                <div className="container mx-auto px-4 text-white">
-                    <div className="flex flex-col items-center text-center">
-                        <h2 className="mb-4 text-2xl font-bold tracking-tight md:text-3xl">
-                            Готов начать свой вокальный путь?
-                        </h2>
-                        <p className="mb-8 max-w-2xl">
-                            Присоединяйтесь к нашей вокальной школе и
-                            раскройте свой талант под руководством опытных
-                            педагогов
-                        </p>
-
-                        <button
-                            onClick={handleOpenLink(TG_CHAT_URL)}
-                            className="cursor-pointer rounded-sm bg-black/70 p-4 shadow-2xl"
-                            aria-label="Записаться на занятие через Telegram"
-                        >
-                            <span className="relative z-10 flex animate-glow items-center gap-3">
-                                <Image
-                                    width={20}
-                                    height={20}
-                                    className="inline animate-bounce"
-                                    src="/socials/tg.svg"
-                                    alt="Telegram"
-                                />
-                                Записаться
-                            </span>
-                        </button>
-                    </div>
-                </div>
-            )}
-        </section>
+            </section>
+        </QuizProvider>
     )
 }

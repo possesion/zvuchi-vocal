@@ -16,7 +16,7 @@ export const Contacts = () => {
     };
 
     return (
-        <section id="contacts" className="container mx-auto bg-muted/30 px-4 py-8 text-white lg:py-12">
+        <section id="contacts" className="mx-auto bg-muted/30 py-8 text-white lg:py-12">
             <div className="grid grid-cols-1 gap-8 md:gap-12 lg:grid-cols-2">
                 {/* Контактная информация */}
                 {/* <div className="col-span-2 flex flex-col items-center justify-center gap-x-8 sm:flex-row xl:col-span-2">
@@ -85,8 +85,7 @@ export const Contacts = () => {
                 </div> */}
 
                 {/* Схема проезда */}
-                {/* <div className="col-span-2 m-auto h-[550px] w-[360px] space-y-3 rounded-sm border border-brand bg-background p-2 md:w-[500px] lg:col-span-1 lg:w-[500px] lg:space-y-6 xl:h-[600px] 2xl:w-[500px]"> */}
-                <div className="col-span-2 m-auto h-[420px] w-[330px] space-y-3 rounded-sm border border-brand bg-background p-2 md:w-[450px] lg:col-span-1 lg:space-y-6 xl:h-[500px] 2xl:w-[450px]">
+                <div className="col-span-2 m-auto h-[500px] w-[350px] space-y-3 rounded-sm border border-brand bg-background p-2 md:w-[450px] md:h-[600px] lg:col-span-1 lg:space-y-6 xl:h-[600px] xl:w-[500px]">
 
                     <div className="rounded-sm bg-muted/50">
                         <div
@@ -122,7 +121,7 @@ export const Contacts = () => {
                                 src="https://yandex.ru/map-widget/v1/?ll=37.568838%2C55.785762&mode=search&oid=174002347974&ol=biz&z=17.13"
                                 width="100%"
                                 loading='lazy'
-                                className="h-[400px] xl:h-[480px]" // Карта
+                                className="h-[480px] md:h-[580px]" // Карта xl:h-[480px]
                                 allowFullScreen
                                 style={{ position: 'relative' }}
                                 title="Карта расположения школы вокала Звучи!"
@@ -131,7 +130,7 @@ export const Contacts = () => {
                     </div>
                 </div>
 
-                <div className="relative col-span-2 m-auto h-[480px] w-[330px] overflow-auto rounded-sm border border-brand bg-background p-2 md:w-[450px] lg:col-span-1 lg:w-[450px] xl:h-[500px] 2xl:w-[500px]">
+                <div className="relative col-span-2 m-auto h-[760px] w-[350px] overflow-auto rounded-sm border border-brand bg-background p-2 md:w-[450px] md:h-[600px] lg:col-span-1 lg:w-[450px] sm:h-[600px] xl:w-[500px]">
                     <iframe
                         className="box-border h-full w-full rounded-b-md border-[#e6e6e6]"
                         loading='lazy'
