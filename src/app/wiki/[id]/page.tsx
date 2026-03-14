@@ -6,9 +6,7 @@ import { glossaryTerms, categoryLabels } from "../glossary-data";
 import { ChevronLeft } from "lucide-react";
 
 interface WikiTermPageProps {
-    params: {
-        id: string;
-    };
+    params: Promise<{ id: string }>;
 }
 
 export async function generateStaticParams() {
@@ -18,13 +16,11 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: WikiTermPageProps) {
-    const { id } = await params
+    const { id } = await params;
     const term = glossaryTerms.find((t) => t.id === id);
     
     if (!term) {
-        return {
-            title: 'Термин не найден',
-        };
+        return { title: 'Термин не найден' };
     }
 
     return {
@@ -33,8 +29,9 @@ export async function generateMetadata({ params }: WikiTermPageProps) {
     };
 }
 
-export default function WikiTermPage({ params }: WikiTermPageProps) {
-    const term = glossaryTerms.find((t) => t.id === params.id);
+export default async function WikiTermPage({ params }: WikiTermPageProps) {
+    const { id } = await params;
+    const term = glossaryTerms.find((t) => t.id === id);
 
     if (!term) {
         notFound();
