@@ -253,7 +253,7 @@ export const events = [
 export const navigationList = [
     {
         id: 1,
-        text: 'О нас',
+        text: 'О студии',
         sectionId: '/about',
     },
     {
@@ -274,7 +274,7 @@ export const navigationList = [
     },
     {
         id: 5,
-        text: 'Инфо',
+        text: 'База знаний',
         sectionId: '/wiki',
         hiddenOnMobile: true,
     },

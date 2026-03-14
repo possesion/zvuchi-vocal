@@ -7,7 +7,7 @@ import { generatePageMetadata } from '@/lib/metadata';
 import Link from 'next/link';
 
 export const metadata: Metadata = generatePageMetadata({
-    title: 'О нас',
+    title: 'О студии',
     description: 'Вокальная студия ЗВУЧИ - профессиональное обучение вокалу в Москве. Индивидуальный подход, современные методики, опытные педагоги.',
     path: '/about',
     keywords: [
@@ -28,7 +28,7 @@ export default function AboutPage() {
                     <section className="container py-12 text-white">
                         <header className="text-center">
                             <h1 className="text-4xl font-bold tracking-tight text-shadow-lg md:text-5xl xl:text-7xl">
-                                TL;DR
+                                О студии
                             </h1>
                         </header>
 

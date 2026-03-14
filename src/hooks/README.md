@@ -54,7 +54,7 @@ trackEvent('purchase', {
 
 ```typescript
 trackPageView('/about', {
-  title: 'О нас',
+  title: 'О студии',
   referer: document.referrer
 })
 ```
