@@ -54,7 +54,7 @@ export default function MobileMenu() {
                                 className="flex items-center hover:text-red-400"
                                 onClick={handleLinkClick}
                             >
-                                О нас
+                                О студии
                             </Link>
                             <Link
                                 href="/instructors"
@@ -82,7 +82,7 @@ export default function MobileMenu() {
                                 className="flex items-center hover:text-red-400"
                                 onClick={handleLinkClick}
                             >
-                                Информация
+                                База знаний
                             </Link>
                             <Link
                                 href="/contacts"

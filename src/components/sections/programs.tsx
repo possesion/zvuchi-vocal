@@ -4,10 +4,15 @@ import { programs } from "@/app/constants";
 import cn from 'classnames'
 import { Program } from "../common/program";
 import { QuizModal } from "../modals/quiz-modal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export const Programs = () => {
   const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    document.body.style.overflow = open ? 'hidden' : 'unset';
+    return () => { document.body.style.overflow = 'unset'; };
+  }, [open]);
 
   return (
     <div className={cn("container mx-auto cursor-grab pb-4 no-scrollbar lg:px-2 xl:justify-center")}>
@@ -42,15 +47,15 @@ export const Programs = () => {
               <span className="text-lg text-white/60 line-through lg:text-2xl">3890₽</span>
               <span>1000₽</span>
             </div>
-              <button
-                onClick={() => setOpen(true)}
-                className="w-full ml-auto block cursor-pointer rounded-sm border px-3 hover:animate-rotational-wave sm:w-[280px] md:py-2"
-                aria-label={`Записаться на первое занятие`}
-              >
-                <span className="relative text-xl lg:text-3xl">
-                  <div>Получить скидку</div>
-                </span>
-              </button>
+            <button
+              onClick={() => setOpen(true)}
+              className="w-full ml-auto block cursor-pointer rounded-sm border px-3 hover:animate-rotational-wave sm:w-[280px] md:py-2"
+              aria-label={`Записаться на первое занятие`}
+            >
+              <span className="relative text-xl lg:text-3xl">
+                <div>Получить скидку</div>
+              </span>
+            </button>
           </div>
         </article>
         {programs.map(({ description, features, title, number, price }) => (
