@@ -50,54 +50,47 @@ export default function MobileMenu() {
                     <div className='h-5/6 flex flex-col justify-between'>
                         <nav className="flex flex-col space-y-4 px-2 py-2 text-2xl font-exo2">
                             <Link
-                                href="#about"
+                                href="/about"
                                 className="flex items-center hover:text-red-400"
                                 onClick={handleLinkClick}
                             >
                                 О нас
                             </Link>
                             <Link
-                                href="#instructors"
+                                href="/instructors"
                                 className="flex items-center hover:text-red-400"
                                 onClick={handleLinkClick}
                             >
                                 Преподаватели
                             </Link>
                             <Link
-                                href="#subscriptions"
+                                href="/programs"
                                 className="flex items-center hover:text-red-400"
                                 onClick={handleLinkClick}
                             >
                                 Абонементы
                             </Link>
-                            {/* всплывающее окно для акций */}
-                            {/* <PromoModalWrapper /> */}
                             <Link
-                                href="#gallery"
+                                href="/gallery"
                                 className="flex items-center hover:text-red-400"
                                 onClick={handleLinkClick}
                             >
                                 Галерея
                             </Link>
                             <Link
-                                href="#contacts"
+                                href="/wiki"
+                                className="flex items-center hover:text-red-400"
+                                onClick={handleLinkClick}
+                            >
+                                Информация
+                            </Link>
+                            <Link
+                                href="/contacts"
                                 className="flex items-center hover:text-red-400"
                                 onClick={handleLinkClick}
                             >
                                 Контакты
                             </Link>
-                            {/* <PlatformDialog className="h-[90lvh] w-[90vw] md:w-[620px]"
-                                trigger={<div className="flex items-center hover:text-red-400">
-                                Оплата
-                            </div>}
-                            >
-                                <div className="h-full p-6">
-                                    <Dialog.Title className="mb-4 text-white text-2xl font-bold">
-                                        Оплата
-                                    </Dialog.Title>
-                                    <SubscriptionsPaymentWidget />
-                                </div>
-                            </PlatformDialog> */}
                         </nav>
                         <section className='space-y-4'>
                             <Phone className='block font-exo2 text-2xl font-semibold' />

@@ -92,20 +92,7 @@ export const Gallery = () => {
         setImages(pictures);
     }, [])
     return (
-        <section className="container mx-auto px-4 py-10 lg:py-16">
-            <header id="gallery" className='flex flex-col justify-center mb-[50px]'>
-                {/* from-violet-800/80 to-violet-950/80 */}
-                <div className='w-full bg-dark pr-6 py-4 rounded-sm'>
-                    <h2 className="text-center text-4xl font-bold tracking-tight text-white text-shadow-lg md:text-3xl xl:text-6xl">
-                        Жизнь<br />
-                        <span className="ml-10">Студии</span>
-                    </h2>
-                </div>
-
-                {/* Опичание для раздела. Добавить при необходимости */}
-                {/* <p className='mt-3 text-white font-semibold text-center indent-5 lg:mt-5'>
-                </p> */}
-            </header>
+        <section id="gallery"  className="container mx-auto px-4 py-10 lg:py-16">
             <div className="relative">
                 {/* Подсказка для свайпа */}
                 <div className="absolute -top-2 right-4 z-10 flex items-center gap-2 rounded-sm bg-white/10 px-4 py-2 backdrop-blur-sm">

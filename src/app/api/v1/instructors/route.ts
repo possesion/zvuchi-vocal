@@ -7,6 +7,7 @@ export async function GET() {
         const instructorsData = instructors.map((instructor, index) => ({
             id: `instructor-${index + 1}`,
             name: instructor.name,
+            feature: instructor.feature,
             specialty: instructor.specialty,
             bio: instructor.bio,
             image: instructor.image,

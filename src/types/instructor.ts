@@ -3,13 +3,14 @@ import { ReactNode } from 'react'
 export interface Instructor {
     id: string
     name: string
-    specialty: string
+    specialty: string[]
     bio: ReactNode
     image: string
     video?: string
     // experience: number
     education: string[]
     achievements: string[]
+    feature: string;
     socialLinks?: {
         instagram?: string
         telegram?: string
