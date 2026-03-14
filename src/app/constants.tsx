@@ -44,27 +44,15 @@ export const SUBSCRIPTION_LINKS = [
     },
 ];
 export const programs = [
-    {
-        icon: (
-            <div className="flex flex-col gap-1">
-                {[1, 2].map((id) => (
-                    <StarIcon
-                        key={id}
-                        color="var(--brand)"
-                        className="h-8 w-8"
-                    />
-                ))}
-            </div>
-        ),
-        number: '',
-        title: 'Пробное занятие',
-        description: 'Открой для себя новое хобби',
-        features: [
-            'Длительность урока - 55 минут',
-        ],
-        price: '1000₽',
-        originalPrice: '3890₽',
-    },
+    // {
+    //     number: '',
+    //     title: 'Разовое посещение',
+    //     description: 'Открой для себя новое хобби',
+    //     features: [
+    //         'Длительность урока - 55 минут',
+    //     ],
+    //     price: '3890₽',
+    // },
     {
         icon: <StarIcon
             color="var(--brand)"
@@ -282,6 +270,12 @@ export const navigationList = [
         id: 4,
         text: 'Галерея',
         sectionId: '/gallery',
+        hiddenOnMobile: true,
+    },
+    {
+        id: 5,
+        text: 'Инфо',
+        sectionId: '/wiki',
         hiddenOnMobile: true,
     },
     {

@@ -11,6 +11,7 @@ import { EXPERIENCE_OPTIONS, GENRE_OPTIONS, MOTIVATION_OPTIONS } from '../modals
 
 interface QuizButtonProps {
     className?: string;
+    isModal?: boolean;
 }
 
 type QuizAnswers = {
@@ -21,7 +22,7 @@ type QuizAnswers = {
     motivationOther?: string;
 };
 
-export function QuizButton({ className }: QuizButtonProps) {
+export function QuizButton({ className, isModal }: QuizButtonProps) {
     const [isOpen, setIsOpen] = useState(false);
 
     const [step, setStep] = useState(1);
@@ -217,7 +218,7 @@ export function QuizButton({ className }: QuizButtonProps) {
             />
 
             {/* Десктопная версия без модального окна */}
-            <div className="hidden sm:block sm:bg-white md:w-[630px] sm:h-[630px] shadow-md rounded-sm">
+            {isModal && <div className="hidden sm:block sm:bg-white md:w-[630px] sm:h-[630px] shadow-md rounded-sm">
                 <QuizModalContent
                     className="h-full pt-8 pb-6 px-4 md:p-6 flex flex-col justify-between"
                     step={step}
@@ -236,7 +237,7 @@ export function QuizButton({ className }: QuizButtonProps) {
                     setOfferaIsOpen={setOfferaIsOpen}
                     canProceed={canProceed}
                 />
-            </div>
+            </div>}
 
             <Snackbar
                 isVisible={snackbar.isVisible}

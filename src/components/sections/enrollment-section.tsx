@@ -10,12 +10,6 @@ import { QuizButton } from '../common/quiz-button';
 export function EnrollmentSection({ main = false }) {
     const [openModal, setOpenModal] = useState(false);
     
-//     useEffect(() => {
-//   document.body.style.overflow = 'hidden';
-//   return () => {
-//     document.body.style.overflow = 'unset'; // Возвращаем скролл
-//   };
-// }, [isModalOpen]);
 
     // const handleOpenModal = () => {
     //     trackEvent('open_enrollment_modal');

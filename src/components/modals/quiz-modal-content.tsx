@@ -4,7 +4,6 @@ import { InvalidEvent } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import cn from 'classnames';
 import { Offera } from '@/components/common/offera';
-import { programs } from '@/app/constants';
 import { EXPERIENCE_OPTIONS, GENRE_OPTIONS, MOTIVATION_OPTIONS } from './constants';
 
 type QuizAnswers = {
@@ -172,9 +171,9 @@ export const QuizModalContent = ({
                     <h2 className="mb-2 text-2xl font-bold text-green-800">🎉 Поздравляем!</h2>
                     <div className="mb-2">
                         <span className="font-bold text-lg text-brand line-through lg:text-2xl">
-                            {programs[0].originalPrice}
+                            3890₽
                         </span>
-                        <span className="ml-2 text-lg text-green-700 font-bold">{programs[0].price}</span>
+                        <span className="ml-2 text-lg text-green-700 font-bold">1000₽</span>
                     </div>
                     <p className="text-lg text-green-700">
                         – Стоимость первого занятия с <span className="font-bold">70% скидкой</span>

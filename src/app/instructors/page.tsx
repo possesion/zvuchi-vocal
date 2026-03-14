@@ -30,7 +30,7 @@ export default function InstructorsPage() {
             <main className="w-full flex-1 primary-bg overflow-x-hidden">
                 <div className="primary-bg py-12">
                     <section className="container text-white">
-                        <header className="mb-12 flex flex-col items-center text-center">
+                        <header className="mb-12 flex flex-col items-center">
                             <div className="w-full mb-8 flex flex-col justify-center items-center bg-dark px-6 py-4 rounded-sm md:mb-12">
                                 <h1 className="text-4xl font-bold tracking-tight text-shadow-lg md:text-5xl xl:text-7xl">
                                     Наши<br />
@@ -39,9 +39,6 @@ export default function InstructorsPage() {
                             </div>
                             <p className="max-w-3xl text-xl text-white/90 md:text-xl">
                                 Подберите себе преподавателя по вокалу, фортепиано или гитаре.
-                                {/* За каждым сияющим успехом на сцене стоит вдохновляющий наставник. 
-                                Тот, кто превращает голос в магию, а уроки — в путешествие. 
-                                Не просто педагоги, а проводники в мир музыки, чьи сердца бьются в ритм с учениками. */}
                             </p>
                         </header>
 
@@ -53,7 +50,6 @@ export default function InstructorsPage() {
                                 />
                             ))}
                         </div>
-                    {/* <section className='mt-16 backdrop-blur-md'> */}
                         <div className="grid gap-8 md:grid-cols-3 mt-16 backdrop-blur-md">
                             <Link
                                 href="/programs"
@@ -82,7 +78,6 @@ export default function InstructorsPage() {
                                     Адрес студии и отзывы
                                 </p>
                             </Link>
-
                         </div>
                     {/* </section> */}
                     </section>
