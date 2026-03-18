@@ -157,7 +157,7 @@ export function QuizProvider({ children, onClose }: { children: ReactNode; onClo
             case 1: return quizAnswers.experience !== '';
             case 2: return quizAnswers.genre !== '' && (quizAnswers.genre !== 'other' || !!quizAnswers.genreOther);
             case 3: return quizAnswers.motivation !== '' && (quizAnswers.motivation !== 'other' || !!quizAnswers.motivationOther);
-            case 4: return !!(formData.name && formData.phone && isAgreed);
+            case 4: return !!(formData.name && formData.phone.length === 18 && isAgreed);
             default: return false;
         }
     };
