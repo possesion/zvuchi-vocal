@@ -13,20 +13,16 @@ function mergeTerm(base: GlossaryTerm) {
     };
 }
 
-export function GET(
-    _req: NextRequest,
-    { params }: { params: { id: string } }
-) {
+export async function GET(_req: NextRequest, props: { params: Promise<{ id: string }> }) {
+    const params = await props.params;
     const base = glossaryTerms.find((t) => t.id === params.id);
     if (!base) return NextResponse.json({ error: 'Not found' }, { status: 404 });
 
     return NextResponse.json(mergeTerm(base));
 }
 
-export async function PATCH(
-    req: NextRequest,
-    { params }: { params: { id: string } }
-) {
+export async function PATCH(req: NextRequest, props: { params: Promise<{ id: string }> }) {
+    const params = await props.params;
     const auth = req.headers.get('Authorization');
     if (!auth) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
