@@ -1,9 +1,12 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { headers } from "next/headers";
 import { Header } from "@/components";
 import { Footer } from "@/components/layout/footer";
-import { glossaryTerms, categoryLabels } from "../glossary-data";
+import { glossaryTerms, categoryLabels, GlossaryTerm } from "../glossary-data";
 import { ChevronLeft } from "lucide-react";
+import { TermEditor } from "./term-editor";
+import { getTermOverride } from "@/lib/db";
 
 interface WikiTermPageProps {
     params: Promise<{ id: string }>;
@@ -37,6 +40,15 @@ export default async function WikiTermPage({ params }: WikiTermPageProps) {
         notFound();
     }
 
+    const headersList = await headers();
+    const isAuthorized = !!headersList.get('Authorization');
+
+    // Подтягиваем override из БД если есть
+    const override = getTermOverride(id);
+    const displayTerm: GlossaryTerm = override
+        ? { ...term, title: override.title, description: override.description, category: override.category as GlossaryTerm['category'] }
+        : term;
+
     return (
         <div className="relative min-h-screen font-exo2">
             <Header />
@@ -56,20 +68,25 @@ export default async function WikiTermPage({ params }: WikiTermPageProps) {
                         </Link>
 
                         <div className="mx-auto max-w-4xl">
+                            {isAuthorized && (
+                                <div className="mb-6">
+                                    <TermEditor term={displayTerm} />
+                                </div>
+                            )}
                             <article className="rounded-sm bg-white/10 backdrop-blur-sm p-8 md:p-12">
                                 <div className="mb-6 flex items-center gap-3">
                                     <span className="rounded-full bg-brand px-4 py-2 text-sm font-semibold uppercase tracking-wide">
-                                        {categoryLabels[term.category]}
+                                        {categoryLabels[displayTerm.category]}
                                     </span>
                                 </div>
                                 
                                 <h1 className="mb-6 text-3xl font-bold text-white md:text-5xl">
-                                    {term.title}
+                                    {displayTerm.title}
                                 </h1>
                                 
                                 <div className="prose prose-invert prose-lg max-w-none">
                                     <p className="leading-relaxed whitespace-pre-wrap text-gray-200">
-                                        {term.description}
+                                        {displayTerm.description}
                                     </p>
                                 </div>
                             </article>

@@ -8,7 +8,7 @@ export async function POST(request: NextRequest) {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                Authorization: 'Bearer ' + process.env.NEXT_PUBLIC_TOCHKA_TOKEN,
+                Authorization: 'Bearer ' + 'zvuchi' // process.env.NEXT_PUBLIC_TOCHKA_TOKEN,
             },
             body: JSON.stringify(paymentData),
         })
