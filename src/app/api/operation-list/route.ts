@@ -10,7 +10,7 @@ export async function GET() {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
-                    Authorization: `Bearer ${process.env.NEXT_PUBLIC_TOCHKA_API_KEY}`,
+                    Authorization: `Bearer zvuchi`, // ${process.env.NEXT_PUBLIC_TOCHKA_API_KEY}
                 },
             }
         )
