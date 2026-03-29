@@ -53,13 +53,9 @@ export default function Home() {
                                     ШКОЛА<br />
                                     <span className="ml-4">ВОКАЛА</span>
                                 </h1> */}
-                                <div className="hidden typing-animation mx-auto shrink-0 overflow-hidden text-nowrap pr-3 text-2xl font-bold text-white xl:text-5xl">
-                                    Пусть тебя
-                                    <span className="text-primary"> УСЛЫШАТ!</span>
-                                </div>
-                                <div className="w-full px-2 pt-6 text-2xl text-center text-white md:w-[630px] lg:block lg:text-3xl">
-                                    <p>Красиво петь может каждый! </p>
-                                    Ставим правильную технику и достигаем высоких <b className="after-highlight">результатов</b>
+                                <div className="w-full px-2 pt-6 text-xl text-center text-white md:w-[630px] md:text-2xl lg:block lg:text-3xl">
+                                    <p>Красиво петь может каждый! </p>
+                                    Ставим правильную технику и достигаем высоких <a href='/gallery' className="after-highlight">результатов</a>
                                 </div>
                                 <div className="absolute bottom-16 sm:static sm:m-0">
                                     <EnrollmentSection />

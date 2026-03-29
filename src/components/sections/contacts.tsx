@@ -85,7 +85,7 @@ export const Contacts = () => {
                 </div> */}
 
                 {/* Схема проезда */}
-                <div className="col-span-2 m-auto h-[500px] w-[350px] space-y-3 rounded-sm border border-brand bg-background p-2 md:w-[450px] md:h-[600px] lg:col-span-1 lg:space-y-6 xl:h-[600px] xl:w-[500px]">
+                <div className="col-span-2 m-auto h-[500px] w-[335px] space-y-3 rounded-sm border border-brand bg-background p-2 md:w-[450px] md:h-[600px] lg:col-span-1 lg:space-y-6 xl:h-[600px] xl:w-[500px]">
 
                     <div className="rounded-sm bg-muted/50">
                         <div
@@ -130,7 +130,7 @@ export const Contacts = () => {
                     </div>
                 </div>
 
-                <div className="relative col-span-2 m-auto h-[760px] w-[350px] overflow-auto rounded-sm border border-brand bg-background p-2 md:w-[450px] md:h-[600px] lg:col-span-1 lg:w-[450px] sm:h-[600px] xl:w-[500px]">
+                <div className="relative col-span-2 m-auto h-[760px] w-[335px] overflow-auto rounded-sm border border-brand bg-background p-2 md:w-[450px] md:h-[600px] lg:col-span-1 lg:w-[450px] sm:h-[600px] xl:w-[500px]">
                     <iframe
                         className="box-border h-full w-full rounded-b-md border-[#e6e6e6]"
                         loading='lazy'

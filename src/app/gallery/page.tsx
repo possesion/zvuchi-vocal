@@ -3,6 +3,7 @@ import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 import { Gallery } from '@/components/sections/gallery';
 import { generatePageMetadata } from '@/lib/metadata';
+import EnrollmentForm from '@/components/forms/enrollment-form';
 
 export const metadata: Metadata = generatePageMetadata({
     title: 'Галерея',
@@ -31,11 +32,11 @@ export default function GalleryPage() {
                                     <span className="ml-5">студии</span>
                                 </h1>
                             </div>
-                            <p className="max-w-3xl text-xl text-white/90 md:text-2xl">
-                            Фото с концертов, музыкальные распевки и отзывы
-                            </p>
                         </header>
-                    <Gallery />
+                        <Gallery />
+                        <div className="mx-auto mt-16 flex justify-center">
+                            <EnrollmentForm />
+                        </div>
                     </section>
                 </div>
             </main>
