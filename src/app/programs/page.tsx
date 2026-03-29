@@ -3,12 +3,7 @@ import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 import { Programs } from '@/components/sections/programs';
 import { generatePageMetadata } from '@/lib/metadata';
-import dynamic from 'next/dynamic';
 import Link from 'next/link';
-
-const EnrollmentForm = dynamic(() => import('@/components/forms/enrollment-form'), {
-    loading: () => <div className="animate-pulse bg-white/10 rounded-2xl h-64 w-full" />,
-});
 
 export const metadata: Metadata = generatePageMetadata({
     title: 'Абонементы и цены',
@@ -43,9 +38,6 @@ export default function ProgramsPage() {
                         </div>
                     </header>
                     <Programs />
-                    <div className="container mx-auto mt-16 flex justify-center">
-                        <EnrollmentForm />
-                    </div>
                     <div className="container grid gap-8 md:grid-cols-3 mt-16 backdrop-blur-md">
                             <Link
                                 href="/gallery"
