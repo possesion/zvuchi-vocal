@@ -3,7 +3,11 @@ import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 import { Gallery } from '@/components/sections/gallery';
 import { generatePageMetadata } from '@/lib/metadata';
-import EnrollmentForm from '@/components/forms/enrollment-form';
+import dynamic from 'next/dynamic';
+
+const EnrollmentForm = dynamic(() => import('@/components/forms/enrollment-form'), {
+    loading: () => <div className="animate-pulse bg-white/10 rounded-2xl h-64 w-full" />,
+});
 
 export const metadata: Metadata = generatePageMetadata({
     title: 'Галерея',
