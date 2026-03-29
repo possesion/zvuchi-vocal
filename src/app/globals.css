@@ -325,7 +325,7 @@ body {
 
 @utility container {
   margin-inline: auto;
-  padding-inline: 1rem;
+  padding-inline: .8rem;
 }
 
 @layer utilities {

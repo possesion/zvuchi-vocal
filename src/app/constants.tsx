@@ -13,9 +13,10 @@ export const driveDescription = 'Приём вокального исполне�
 export const STUDIO_MOBILE_PHONE = '+7 (977) 967-50-01';
 
 export const SHORTS = [
+    'https://rutube.ru/play/embed/ef71c434cbe70e508849c122d281010b/?p=cuO_1-tqunutUpqxNe0J0g',
+    'https://rutube.ru/play/embed/a295af27816cc274f356352453b9e620/?p=dNHOC3Cg-vDXLqsngV9VTg',
     'https://rutube.ru/play/embed/ca943387a7e3b370f6ba4d93e6ba88d7/?p=H7d4KoyWjGooI7A5wkosFQ',
     'https://rutube.ru/play/embed/ba21a6c785395000803c33136d84d841/?p=OeLbwIORH4GZl3DRL4DxfQ',
-    'https://rutube.ru/play/embed/a295af27816cc274f356352453b9e620/?p=dNHOC3Cg-vDXLqsngV9VTg',
     'https://rutube.ru/play/embed/593c9972643e54f8c8a267d2dd8bff55/?p=a9rFYaVC3lOormfRNbElQA',
     'https://rutube.ru/play/embed/2b85cf9a8dc4c30f1641b043407a72f1/?p=87otbUldatqPNL6S-FXrlw'
 ];

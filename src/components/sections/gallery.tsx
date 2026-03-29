@@ -92,7 +92,10 @@ export const Gallery = () => {
         setImages(pictures);
     }, [])
     return (
-        <section id="gallery"  className="container mx-auto px-4 py-10 lg:py-16">
+        <section id="gallery" className="mx-auto py-10 md:px-4 lg:py-16">
+            <p className="text-xl font-semibold text-white/90 md:text-2xl">
+                Фото с концертов
+            </p>
             <div className="relative">
                 {/* Подсказка для свайпа */}
                 <div className="absolute -top-2 right-4 z-10 flex items-center gap-2 rounded-sm bg-white/10 px-4 py-2 backdrop-blur-sm">
@@ -140,7 +143,7 @@ export const Gallery = () => {
                                         sizes="280px"
                                         className="object-cover pointer-events-none"
                                         draggable={false}
-                                        onDragStart={(e) => e.preventDefault()} 
+                                        onDragStart={(e) => e.preventDefault()}
                                         blurDataURL='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=='
                                         placeholder='blur'
                                         loading={index < 6 ? "eager" : "lazy"}
