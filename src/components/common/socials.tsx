@@ -1,36 +1,28 @@
-import Image from 'next/image'
 import { FC } from 'react';
 import { SOCIAL_ICON_SIZE } from './constants';
-import { socials } from '@/app/constants';
 import { Phone } from './phone';
+import { SocialLink } from './social-link';
+
+interface SocialLink {
+    alt: string;
+    src: string;
+    url: string;
+}
 
 interface SocialsProps {
     className?: string;
-    size?: SOCIAL_ICON_SIZE
+    links?: SocialLink[];
+    size?: SOCIAL_ICON_SIZE;
+    sendAnalytics?: boolean;
 }
 
-export const Socials: FC<SocialsProps> = ({ className, size = SOCIAL_ICON_SIZE.md }) => {
-
+export const Socials: FC<SocialsProps> = ({ className, links = [], size = SOCIAL_ICON_SIZE.md, sendAnalytics = false }) => {
     return (
         <div className={className} role="list" aria-label="Социальные сети">
             <Phone className="hidden text-white transition-colors hover:text-primary xl:block" />
-            {socials.map(({ alt, src, url }) => (
-                <a
-                    href={url}
-                    key={alt}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group flex flex-col items-center text-center transition-transform hover:scale-110"
-                    aria-label={`Перейти в ${alt}`}
-                >
-                    <Image
-                        alt={alt}
-                        width={size}
-                        height={size}
-                        src={src}
-                    />
-                </a>
+            {links.map(({ alt, src, url }) => (
+                <SocialLink key={alt} alt={alt} src={src} url={url} size={size} sendAnalytics={sendAnalytics} />
             ))}
         </div>
-    )
-}
+    );
+};

@@ -98,5 +98,5 @@ export const glossaryTerms: GlossaryTerm[] = [
 export const categoryLabels: Record<GlossaryTerm['category'], string> = {
     method: 'Методика',
     technique: 'Техника',
-    concept: 'Концепция',
+    concept: 'Анатомия',
 };

@@ -1,25 +1,26 @@
 'use client';
 
-import { FC } from "react"
+import { FC, ReactElement } from "react"
 import { trackEvent } from "@/hooks/use-yandex-metrica";
+import { STUDIO_MOBILE_PHONE } from "@/app/constants";
 
 interface PhoneProps {
     className?: string;
-    phoneNumber?: string;
+    label?: string | ReactElement;
 }
 
-export const Phone: FC<PhoneProps> = ({ className, phoneNumber = '+7 (977) 967-50-01' }) => {
+export const Phone: FC<PhoneProps> = ({ className, label = STUDIO_MOBILE_PHONE }) => {
     const handleSendAnalytic = (link: string) => () => {
         trackEvent(link);
     }
 
     return (
         <a
-            href="tel:+79779675001"
+            href="tel:+79966476035"
             onClick={handleSendAnalytic('phone_click')}
             className={className}
         >
-            {phoneNumber}
+            {label}
         </a>
     )
 }

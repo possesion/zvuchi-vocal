@@ -3,9 +3,10 @@
 import { useState } from 'react';
 import { Pencil, X, Check } from 'lucide-react';
 import { GlossaryTerm, categoryLabels } from '../glossary-data';
+import { instructors } from '@/app/constants';
 
 interface TermEditorProps {
-    term: GlossaryTerm;
+    term: GlossaryTerm & { author?: string };
 }
 
 export function TermEditor({ term }: TermEditorProps) {
@@ -13,6 +14,7 @@ export function TermEditor({ term }: TermEditorProps) {
     const [title, setTitle] = useState(term.title);
     const [description, setDescription] = useState(term.description);
     const [category, setCategory] = useState(term.category);
+    const [author, setAuthor] = useState(term.author ?? '');
     const [saving, setSaving] = useState(false);
     const [error, setError] = useState('');
 
@@ -23,7 +25,7 @@ export function TermEditor({ term }: TermEditorProps) {
             const res = await fetch(`/api/v1/wiki/${term.id}`, {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ title, description, category }),
+                body: JSON.stringify({ title, description, category, author }),
             });
 
             if (!res.ok) {
@@ -44,6 +46,7 @@ export function TermEditor({ term }: TermEditorProps) {
         setTitle(term.title);
         setDescription(term.description);
         setCategory(term.category);
+        setAuthor(term.author ?? '');
         setIsEditing(false);
         setError('');
     };
@@ -89,6 +92,22 @@ export function TermEditor({ term }: TermEditorProps) {
                     {(Object.keys(categoryLabels) as GlossaryTerm['category'][]).map((key) => (
                         <option key={key} value={key} className="bg-gray-900">
                             {categoryLabels[key]}
+                        </option>
+                    ))}
+                </select>
+            </div>
+
+            <div className="space-y-1">
+                <label className="text-sm text-gray-300">Автор</label>
+                <select
+                    value={author}
+                    onChange={(e) => setAuthor(e.target.value)}
+                    className="w-full rounded-sm bg-white/10 border border-white/20 px-3 py-2 text-white focus:border-brand focus:outline-none"
+                >
+                    <option value="" className="bg-gray-900">— не указан —</option>
+                    {instructors.map((inst) => (
+                        <option key={inst.name} value={inst.name} className="bg-gray-900">
+                            {inst.name}
                         </option>
                     ))}
                 </select>

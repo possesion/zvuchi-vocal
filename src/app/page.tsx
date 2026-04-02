@@ -9,6 +9,7 @@ import { Footer } from '@/components/layout/footer';
 import { Socials } from '@/components/common/socials';
 import { SOCIAL_ICON_SIZE } from '@/components/common/constants';
 import { EnrollmentSection } from '@/components';
+import { contacts } from './constants';
 
 export const metadata: Metadata = {
     title: 'ЗВУЧИ - Вокальная студия | Уроки вокала в Москве',
@@ -43,7 +44,9 @@ export default function Home() {
             <main className="w-full flex-1 primary-bg overflow-x-hidden">
                 <div className="primary-bg">
                     <Socials
+                        links={contacts}
                         size={SOCIAL_ICON_SIZE.sm}
+                        sendAnalytics
                         className="container mx-auto hidden justify-end gap-x-1 pt-2 md:flex md:gap-x-2"
                     />
                     <section className="container mx-auto flex h-[100svh] sm:h-min">
@@ -57,7 +60,7 @@ export default function Home() {
                                     <p>Красиво петь может каждый! </p>
                                     Ставим правильную технику и достигаем высоких <a href='/gallery' className="after-highlight">результатов</a>
                                 </div>
-                                <div className="absolute bottom-16 sm:static sm:m-0">
+                                <div className="absolute bottom-30 sm:static sm:m-0">
                                     <EnrollmentSection />
                                 </div>
                             </div>

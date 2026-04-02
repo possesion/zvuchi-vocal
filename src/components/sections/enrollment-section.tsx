@@ -1,33 +1,14 @@
 'use client';
 
-import Image from 'next/image';
-import { TG_CHAT_URL } from '../constants';
-import { trackEvent } from '@/hooks/use-yandex-metrica';
 import { QuizButton } from '../common/quiz-button';
 import { QuizModalContent } from '../modals/quiz-modal-content';
 import { QuizProvider } from '../modals/quiz-context';
 
 export function EnrollmentSection() {
-
-    // const handleOpenModal = () => {
-    //     trackEvent('open_enrollment_modal');
-    //     setOpenModal(true);
-    // };
-
-    const handleOpenLink = (link: string) => () => {
-        trackEvent('write-tg');
-        if (typeof window !== 'undefined') {
-            window.open(link, '_blank');
-        }
-    }
+ 
     return (
         <QuizProvider>
             <section id="study" className="bg-muted/50">
-                {/* <EnrollmentModal isOpen={openModal} onClose={() => setOpenModal(false)}>
-                    <h2 id="modal-title" className="text-xl font-bold text-gray-900">
-                        Записаться на пробное&nbsp;занятие
-                    </h2>
-                </EnrollmentModal> */}
                 <div className='sm:hidden'>
                     <QuizButton>
                         <button
@@ -39,18 +20,11 @@ export function EnrollmentSection() {
                 </div>
                 <div className="flex flex-col gap-2">
                     <div className="flex flex-col-reverse gap-x-2 ">
-                        {/* <button
-                            className="group relative bg-radial-[at_40%] from-violet-800 to-violet-950 to-80% mb-4 block cursor-pointer overflow-hidden rounded-sm px-5 py-3 text-xl font-bold text-white shadow-[0_0_45px_5px] shadow-purple-900 transition-all duration-300 hover:scale-105"
-                            onClick={handleOpenModal}
-                        >
-                            Оставить &nbsp; заявку
-                        </button> */}
-
                         <div className="hidden sm:block sm:bg-white md:w-[630px] sm:h-[630px] shadow-md rounded-sm">
                             <QuizModalContent className="h-full pt-8 pb-6 px-4 md:p-6 flex flex-col justify-between" />
                         </div>
 
-                        <button
+                        {/* <button
                             onClick={handleOpenLink(TG_CHAT_URL)}
                             className="group relative bg-radial-[at_40%] h-[52px] w-full self-center from-blue-700 to-blue-800 to-80% mb-4 block cursor-pointer overflow-hidden rounded-sm px-5 py-3 text-lg font-bold text-white shadow-[0_0_45px_5px] shadow-purple-900 transition-all duration-300 sm:hidden hover:scale-105"
                             aria-label="Записаться на занятие через Telegram"
@@ -59,7 +33,7 @@ export function EnrollmentSection() {
                                 <Image width={20} height={20} className="inline animate-bounce" src="/socials/tg.svg" alt="Telegram" />
                                 <span className='text-center'>  Написать нам в Telegram</span>
                             </span>
-                        </button>
+                        </button> */}
                     </div>
                 </div>
             </section>

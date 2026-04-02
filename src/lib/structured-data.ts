@@ -26,7 +26,7 @@ export const organizationSchema = {
         addressLocality: 'Москва',
         addressCountry: 'RU',
     },
-    telephone: '+7 (977) 967-50-01',
+    telephone: '+7 (996) 647-60-35',
     email: 'info@zvuchi-vocal.ru',
     sameAs: [
         'https://vk.com/zvuchi.vocal',
@@ -55,7 +55,7 @@ export const localBusinessSchema = {
         longitude: 37.6173,
     },
     url: 'https://zvuchi-vocal.ru',
-    telephone: '+7 (977) 967-50-01',
+    telephone: '+7 (996) 647-60-35',
     priceRange: '₽₽',
     openingHoursSpecification: [
         {
@@ -80,7 +80,7 @@ export const educationalOrganizationSchema = {
         addressLocality: 'Москва',
         addressCountry: 'RU',
     },
-    telephone: '+7 (977) 967-50-01',
+    telephone: '+7 (996) 647-60-35',
 };
 
 export const breadcrumbSchema = (items: Array<{ name: string; url: string }>) => ({

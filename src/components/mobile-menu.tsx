@@ -4,7 +4,6 @@ import { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Button } from '@radix-ui/themes'
-// import MenuBurger from '../app/burger-menu.svg';
 
 import {
     Sheet,
@@ -17,6 +16,7 @@ import BurgerMenu from '@/app/burger-menu';
 import { SOCIAL_ICON_SIZE } from './common/constants'
 import { Socials } from './common/socials'
 import { Phone } from './common/phone'
+import { contacts } from '@/app/constants'
 // import { SubscriptionsPaymentWidget } from './common/subscription-payment-widget'
 
 export default function MobileMenu() {
@@ -95,7 +95,9 @@ export default function MobileMenu() {
                         <section className='space-y-4'>
                             <Phone className='block font-exo2 text-2xl font-semibold' />
                             <Socials
+                                links={contacts}
                                 size={SOCIAL_ICON_SIZE.md}
+                                sendAnalytics
                                 className="flex mx-auto gap-x-4"
                             />
                         </section>

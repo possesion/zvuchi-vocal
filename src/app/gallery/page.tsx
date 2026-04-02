@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import { headers } from 'next/headers';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 import { Gallery } from '@/components/sections/gallery';
@@ -22,7 +23,10 @@ export const metadata: Metadata = generatePageMetadata({
     ],
 });
 
-export default function GalleryPage() {
+export default async function GalleryPage() {
+    const headersList = await headers();
+    const isAuthorized = headersList.get('Authorization') === 'Bearer zvuchi';
+
     return (
         <div className="relative min-h-screen font-exo2">
             <Header />
@@ -37,7 +41,7 @@ export default function GalleryPage() {
                                 </h1>
                             </div>
                         </header>
-                        <Gallery />
+                        <Gallery isAuthorized={isAuthorized} />
                         <div className="mx-auto mt-16 flex justify-center">
                             <EnrollmentForm />
                         </div>

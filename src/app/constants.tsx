@@ -2,15 +2,10 @@ import { StarIcon } from 'lucide-react'
 
 export const actionButtonStyle = 'bg-radial-[at_40%] from-violet-800 to-violet-950 to-80% shadow-[0_0_45px_5px] shadow-purple-900';
 
-export const evtTooltipTitle = 'Estill Voice Training ';
+export const STUDIO_MOBILE_PHONE = '+7 (996) 647-60-35';
+export const VALERIA_MOBILE_PHONE = '+7 (977) 967-50-01';
+export const GENNADIY_MOBILE_PHONE = '+7 (985) 126-66-05';
 
-export const evtTooltipContent = '(EVT) — это научная модель развития голоса, разработанная певицей и исследователем Джо Эстилл, которая учит сознательному контролю над структурами голосового аппарата для достижения гибкости, силы и здоровья голоса в любом стиле';
-
-export const beltingDescription = 'Вокальная техника пения высоких нот с использованием грудного регистра, обеспечивающая мощное, объёмное и напористое звучание';
-
-export const driveDescription = 'Приём вокального исполнения (пения), при котором к чистому звуку извлекаемому горловым образом (голосом), примешивается известная доля другого звука, нередко представляющего собой немузыкальный звук';
-
-export const STUDIO_MOBILE_PHONE = '+7 (977) 967-50-01';
 
 export const SHORTS = [
     'https://rutube.ru/play/embed/ef71c434cbe70e508849c122d281010b/?p=cuO_1-tqunutUpqxNe0J0g',
@@ -306,5 +301,23 @@ export const socials = [
         url: 'https://www.tiktok.com/@zvuchi.vocal?_t=ZS-8yqbaCZDVqb&_r=1',
         src: "/socials/tiktok.svg",
         alt: "tiktok",
+    },
+]
+
+export const contacts = [
+    {
+        url: 'https://t.me/zvuchiTG',
+        src: "/socials/telegram.svg",
+        alt: "tg",
+    },
+    {
+        url: 'https://vk.com/zvuchi.vocal',
+        src: "/socials/vk.svg",
+        alt: "vk",
+    },
+    {
+        url: 'https://max.ru/u/f9LHodD0cOLUX61zEOL-D_VBmWbuLAmuVmelJn3yWP_Zpm8YDeFQvj2i7Z0',
+        src: "/socials/max.svg",
+        alt: "max",
     },
 ]
