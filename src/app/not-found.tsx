@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { Header } from '@/components/layout/header'
 import { Footer } from '@/components/layout/footer'
+import { STUDIO_MOBILE_PHONE } from './constants'
 
 export default function NotFound() {
   return (
@@ -27,7 +28,7 @@ export default function NotFound() {
                   href="tel:+79779675001" 
                   className="text-primary hover:text-primary/80 font-semibold"
                 >
-                  +7 (977) 967-50-01
+                  {STUDIO_MOBILE_PHONE}
                 </a>
               </div>
             </div>

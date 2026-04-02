@@ -4,12 +4,13 @@ import { getTermOverride, upsertTerm } from '@/lib/db';
 
 function mergeTerm(base: GlossaryTerm) {
     const override = getTermOverride(base.id);
-    if (!override) return base;
+    if (!override) return { ...base, author: '' };
     return {
         ...base,
         title: override.title,
         description: override.description,
         category: override.category as GlossaryTerm['category'],
+        author: override.author,
     };
 }
 
@@ -37,6 +38,7 @@ export async function PATCH(req: NextRequest, props: { params: Promise<{ id: str
         title: body.title ?? base.title,
         description: body.description ?? base.description,
         category: body.category ?? base.category,
+        author: body.author ?? '',
     });
 
     return NextResponse.json(updated);

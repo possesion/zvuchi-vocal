@@ -4,6 +4,7 @@ import { Footer } from '@/components/layout/footer';
 import { Contacts } from '@/components/sections/contacts';
 import { Socials } from '@/components/common/socials';
 import { generatePageMetadata } from '@/lib/metadata';
+import { socials } from '../constants';
 
 export const metadata: Metadata = generatePageMetadata({
     title: 'Контакты',
@@ -45,7 +46,7 @@ export default function ContactsPage() {
                                     Следите за нашими новостями, мастер-классами и вдохновляющими историями
                                 </p>
                             </header>
-                            <Socials className="flex justify-center items-center gap-x-8 md:gap-x-12" />
+                            <Socials className="flex justify-center items-center gap-x-8 md:gap-x-12" links={socials} />
                         </section>
                     </section>
                 </div>

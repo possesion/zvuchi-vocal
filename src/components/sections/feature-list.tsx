@@ -1,8 +1,7 @@
 'use client';
 
-import { beltingDescription, driveDescription, evtTooltipContent, evtTooltipTitle } from "@/app/constants";
-import { BaseTooltip } from "../common/base-tooltip";
 import { useState } from "react";
+import Link from "next/link";
 
 const features = [
   {
@@ -10,7 +9,17 @@ const features = [
     title: "Персональный подход",
     description: (
       <>
-        Ваш голос - уникален. Наши занятия помогут раскрыть его потенциал, изучить техники от <BaseTooltip trigger='Бэлтинга' content={<>{beltingDescription}</>} /> до <BaseTooltip trigger='Драйва' content={<>{driveDescription}</>} /> и создать свой узнаваемый стиль
+        Ваш голос - уникален. Наши занятия помогут раскрыть его потенциал, изучить техники от <Link
+          href="/wiki/belting"
+          className="cursor-help underline font-bold touch-manipulation"
+        >
+          Бэлтинга
+        </Link> до <Link
+          href="/wiki/drive"
+          className="cursor-help underline font-bold touch-manipulation"
+        >
+          Драйва
+        </Link> и создать свой узнаваемый стиль
       </>
     ),
     image: "/about/about-1.jpg"
@@ -21,7 +30,12 @@ const features = [
     description: (
       <>
         Учитесь у профессионалов – наши педагоги сертифицированы по методике{' '}
-        <BaseTooltip trigger="EVT" content={<><b>{evtTooltipTitle}</b>{evtTooltipContent} </>} />
+        <Link
+          href="/wiki/evt"
+          className="cursor-help underline font-bold touch-manipulation"
+        >
+          EVT
+        </Link>
         {' '}и имеют многолетний опыт выступлений и преподавания.
       </>
     ),
@@ -62,7 +76,7 @@ export const FeatureList = () => {
 
   const handleTouchEnd = () => {
     if (!touchStart || !touchEnd) return;
-    
+
     const distance = touchStart - touchEnd;
     const isLeftSwipe = distance > 50;
     const isRightSwipe = distance < -50;
@@ -71,7 +85,7 @@ export const FeatureList = () => {
       // Свайп влево - следующий слайд
       setCurrentIndex((prev) => (prev + 1) % features.length);
     }
-    
+
     if (isRightSwipe) {
       // Свайп вправо - предыдущий слайд
       setCurrentIndex((prev) => (prev - 1 + features.length) % features.length);
@@ -82,7 +96,7 @@ export const FeatureList = () => {
     <section className="bg-muted/50 py-8 lg:py-16">
       <div className="flex justify-center">
         {/* Mobile Carousel */}
-        <div 
+        <div
           className="relative w-full overflow-hidden md:hidden"
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}

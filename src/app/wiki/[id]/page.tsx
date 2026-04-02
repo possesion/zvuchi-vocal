@@ -45,6 +45,7 @@ export default async function WikiTermPage({ params }: WikiTermPageProps) {
 
     // Подтягиваем override из БД если есть
     const override = getTermOverride(id);
+    const author = override?.author ?? '';
     const displayTerm: GlossaryTerm = override
         ? { ...term, title: override.title, description: override.description, category: override.category as GlossaryTerm['category'] }
         : term;
@@ -70,7 +71,7 @@ export default async function WikiTermPage({ params }: WikiTermPageProps) {
                         <div className="mx-auto max-w-4xl">
                             {isAuthorized && (
                                 <div className="mb-6">
-                                    <TermEditor term={displayTerm} />
+                                    <TermEditor term={{ ...displayTerm, author }} />
                                 </div>
                             )}
                             <article className="rounded-sm bg-white/10 backdrop-blur-sm p-8 md:p-12">
@@ -89,6 +90,18 @@ export default async function WikiTermPage({ params }: WikiTermPageProps) {
                                         {displayTerm.description}
                                     </p>
                                 </div>
+
+                                {author && (
+                                    <p className="mt-6 text-sm text-gray-400">
+                                        Автор: {' '}
+                                        <Link
+                                            href="/instructors"
+                                            className="text-gray-200 font-medium hover:text-brand transition-colors"
+                                        >
+                                            {author}
+                                        </Link>
+                                    </p>
+                                )}
                             </article>
 
                             <div className="mt-8">

@@ -5,6 +5,7 @@ import Metrika from '@/lib/metrika';
 import './globals.css';
 import { Suspense } from 'react';
 import { organizationSchema, localBusinessSchema, educationalOrganizationSchema } from '@/lib/structured-data';
+import { CallButton } from '@/components/common/call-button';
 
 export const metadata: Metadata = {
     metadataBase: new URL('https://zvuchi-vocal.ru'),
@@ -121,6 +122,7 @@ export default function RootLayout({
         <Suspense>
           <Metrika />
         </Suspense>
+        <CallButton />
       </body>
     </html>
   );

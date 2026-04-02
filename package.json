@@ -11,6 +11,8 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.1021.0",
+    "@aws-sdk/s3-request-presigner": "^3.1021.0",
     "@midudev/tailwind-animations": "^0.2.0",
     "@radix-ui/react-dialog": "^1.1.13",
     "@radix-ui/react-separator": "^1.1.8",
