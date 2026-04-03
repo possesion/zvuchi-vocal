@@ -268,12 +268,12 @@ export const navigationList = [
         sectionId: '/gallery',
         hiddenOnMobile: true,
     },
-    // {
-    //     id: 5,
-    //     text: 'База знаний',
-    //     sectionId: '/wiki',
-    //     hiddenOnMobile: true,
-    // },
+    {
+        id: 5,
+        text: 'База знаний',
+        sectionId: '/wiki',
+        hiddenOnMobile: true,
+    },
     {
         id: 6,
         text: 'Контакты',
