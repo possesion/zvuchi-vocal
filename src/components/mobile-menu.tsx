@@ -77,13 +77,13 @@ export default function MobileMenu() {
                             >
                                 Галерея
                             </Link>
-                            {/* <Link
+                            <Link
                                 href="/wiki"
                                 className="flex items-center hover:text-red-400"
                                 onClick={handleLinkClick}
                             >
                                 База знаний
-                            </Link> */}
+                            </Link>
                             <Link
                                 href="/contacts"
                                 className="flex items-center hover:text-red-400"
