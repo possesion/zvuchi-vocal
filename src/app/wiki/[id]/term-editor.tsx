@@ -1,21 +1,26 @@
 'use client';
 
 import { useState } from 'react';
-import { Pencil, X, Check } from 'lucide-react';
-import { GlossaryTerm, categoryLabels } from '../glossary-data';
+import { useRouter } from 'next/navigation';
+import { Pencil, X, Check, Trash2 } from 'lucide-react';
 import { instructors } from '@/app/constants';
+import type { WikiTermRow, WikiCategoryRow } from '@/lib/db';
 
 interface TermEditorProps {
-    term: GlossaryTerm & { author?: string };
+    term: WikiTermRow;
+    categories: WikiCategoryRow[];
 }
 
-export function TermEditor({ term }: TermEditorProps) {
+export function TermEditor({ term, categories }: TermEditorProps) {
+    const router = useRouter();
     const [isEditing, setIsEditing] = useState(false);
+    const [confirmDelete, setConfirmDelete] = useState(false);
     const [title, setTitle] = useState(term.title);
     const [description, setDescription] = useState(term.description);
     const [category, setCategory] = useState(term.category);
     const [author, setAuthor] = useState(term.author ?? '');
     const [saving, setSaving] = useState(false);
+    const [deleting, setDeleting] = useState(false);
     const [error, setError] = useState('');
 
     const handleSave = async () => {
@@ -51,16 +56,60 @@ export function TermEditor({ term }: TermEditorProps) {
         setError('');
     };
 
+    const handleDelete = async () => {
+        setDeleting(true);
+        try {
+            await fetch(`/api/v1/wiki/${term.id}`, {
+                method: 'DELETE',
+                headers: { Authorization: 'authorized' },
+            });
+            router.push('/wiki');
+            router.refresh();
+        } finally {
+            setDeleting(false);
+            setConfirmDelete(false);
+        }
+    };
+
     if (!isEditing) {
         return (
-            <button
-                onClick={() => setIsEditing(true)}
-                className="inline-flex items-center gap-2 rounded-sm bg-white/10 px-4 py-2 text-sm text-white transition-all hover:bg-white/20"
-                aria-label="Редактировать статью"
-            >
-                <Pencil className="h-4 w-4" />
-                Редактировать
-            </button>
+            <div className="flex items-center gap-3">
+                <button
+                    onClick={() => setIsEditing(true)}
+                    className="inline-flex items-center gap-2 rounded-sm bg-white/10 px-4 py-2 text-sm text-white transition-all hover:bg-white/20"
+                    aria-label="Редактировать статью"
+                >
+                    <Pencil className="h-4 w-4" />
+                    Редактировать
+                </button>
+                {confirmDelete ? (
+                    <div className="flex items-center gap-2">
+                        <span className="text-sm text-white/70">Удалить статью?</span>
+                        <button
+                            onClick={handleDelete}
+                            disabled={deleting}
+                            className="rounded-sm bg-red-600 px-3 py-2 text-sm text-white transition-colors hover:bg-red-700 disabled:opacity-50"
+                        >
+                            {deleting ? '...' : 'Да'}
+                        </button>
+                        <button
+                            onClick={() => setConfirmDelete(false)}
+                            className="rounded-sm bg-white/10 px-3 py-2 text-sm text-white transition-colors hover:bg-white/20"
+                        >
+                            Нет
+                        </button>
+                    </div>
+                ) : (
+                    <button
+                        onClick={() => setConfirmDelete(true)}
+                        className="inline-flex items-center gap-2 rounded-sm bg-white/10 px-4 py-2 text-sm text-white transition-all hover:bg-red-600/80"
+                        aria-label="Удалить статью"
+                    >
+                        <Trash2 className="h-4 w-4" />
+                        Удалить
+                    </button>
+                )}
+            </div>
         );
     }
 
@@ -86,12 +135,12 @@ export function TermEditor({ term }: TermEditorProps) {
                 <label className="text-sm text-gray-300">Категория</label>
                 <select
                     value={category}
-                    onChange={(e) => setCategory(e.target.value as GlossaryTerm['category'])}
+                    onChange={(e) => setCategory(e.target.value)}
                     className="w-full rounded-sm bg-white/10 border border-white/20 px-3 py-2 text-white focus:border-brand focus:outline-none"
                 >
-                    {(Object.keys(categoryLabels) as GlossaryTerm['category'][]).map((key) => (
-                        <option key={key} value={key} className="bg-gray-900">
-                            {categoryLabels[key]}
+                    {categories.map((c) => (
+                        <option key={c.id} value={c.id} className="bg-gray-900">
+                            {c.label}
                         </option>
                     ))}
                 </select>

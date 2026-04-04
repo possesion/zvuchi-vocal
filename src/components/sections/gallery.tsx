@@ -223,7 +223,7 @@ export const Gallery = ({ isAuthorized = false }: { isAuthorized?: boolean }) =>
                     ))}
                 </div>
             </div>
-            <Shorts />
+            <Shorts isAuthorized={isAuthorized} />
 
             {deleteTarget && (
                 <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/70">

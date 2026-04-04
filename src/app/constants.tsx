@@ -298,7 +298,7 @@ export const socials = [
         alt: "vk",
     },
     {
-        url: 'https://www.tiktok.com/@zvuchi.vocal?_t=ZS-8yqbaCZDVqb&_r=1',
+        url: 'https://www.tiktok.com/@zvuchi.vocal',
         src: "/socials/tiktok.svg",
         alt: "tiktok",
     },
