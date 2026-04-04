@@ -18,6 +18,8 @@ export const Shorts = ({ isAuthorized = false }: { isAuthorized?: boolean }) => 
     const [input, setInput] = useState('');
     const [adding, setAdding] = useState(false);
     const [showForm, setShowForm] = useState(false);
+    const [deleteTarget, setDeleteTarget] = useState<string | null>(null);
+    const [deleting, setDeleting] = useState(false);
 
     useEffect(() => {
         fetch('/api/v1/shorts')
@@ -41,6 +43,22 @@ export const Shorts = ({ isAuthorized = false }: { isAuthorized?: boolean }) => 
             setShowForm(false);
         } finally {
             setAdding(false);
+        }
+    };
+
+    const handleDelete = async () => {
+        if (!deleteTarget) return;
+        setDeleting(true);
+        try {
+            await fetch('/api/v1/shorts', {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json', Authorization: 'authorized' },
+                body: JSON.stringify({ url: deleteTarget }),
+            });
+            setUrls((prev) => prev.filter((u) => u !== deleteTarget));
+        } finally {
+            setDeleting(false);
+            setDeleteTarget(null);
         }
     };
 
@@ -93,20 +111,56 @@ export const Shorts = ({ isAuthorized = false }: { isAuthorized?: boolean }) => 
                     {urls.map((shortUrl, index) => (
                         <SwiperSlide
                             key={shortUrl}
-                            className="flex-shrink-0 w-full aspect-[9/16] bg-gray-800 rounded-sm"
+                            className="relative flex-shrink-0 w-full aspect-[9/16] bg-gray-800 rounded-sm"
                         >
                             <iframe
-                                src={`${shortUrl}&autoplay=0`}
+                                src={shortUrl}
                                 className="w-full h-full rounded-sm border-none"
                                 allow="clipboard-write"
                                 allowFullScreen
                                 loading="lazy"
                                 title={`RuTube Short ${index + 1}`}
                             />
+                            {isAuthorized && (
+                                <button
+                                    onClick={() => setDeleteTarget(shortUrl)}
+                                    className="absolute right-2 top-2 z-10 rounded-full bg-black/60 p-1.5 text-white transition-colors hover:bg-red-600"
+                                    aria-label="Удалить видео"
+                                >
+                                    <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                </button>
+                            )}
                         </SwiperSlide>
                     ))}
                 </Swiper>
             </div>
+
+            {deleteTarget && (
+                <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/70">
+                    <div className="mx-4 w-full max-w-sm rounded-lg bg-zinc-900 p-6 text-white shadow-xl">
+                        <p className="mb-2 text-lg font-semibold">Удалить видео?</p>
+                        <p className="mb-6 text-sm text-white/60">Это действие нельзя отменить.</p>
+                        <div className="flex justify-end gap-3">
+                            <button
+                                onClick={() => setDeleteTarget(null)}
+                                disabled={deleting}
+                                className="rounded-md px-4 py-2 text-sm text-white/70 transition-colors hover:text-white"
+                            >
+                                Отмена
+                            </button>
+                            <button
+                                onClick={handleDelete}
+                                disabled={deleting}
+                                className="rounded-md bg-red-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-red-700 disabled:opacity-50"
+                            >
+                                {deleting ? 'Удаление...' : 'Удалить'}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
