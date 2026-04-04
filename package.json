@@ -17,6 +17,7 @@
     "@radix-ui/react-dialog": "^1.1.13",
     "@radix-ui/react-separator": "^1.1.8",
     "@radix-ui/themes": "^3.2.1",
+    "@tailwindcss/typography": "^0.5.19",
     "better-sqlite3": "^12.8.0",
     "classnames": "^2.5.1",
     "lucide-react": "^0.511.0",

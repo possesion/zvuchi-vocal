@@ -4,7 +4,8 @@ import { headers } from 'next/headers';
 import { Header } from '@/components';
 import { Footer } from '@/components/layout/footer';
 import { ChevronLeft } from 'lucide-react';
-import ReactMarkdown from 'react-markdown';import { TermEditor } from './term-editor';
+import ReactMarkdown from 'react-markdown';
+import { TermEditor } from './term-editor';
 import { getTermById, getAllTerms, getCategories } from '@/lib/db';
 
 interface WikiTermPageProps {
