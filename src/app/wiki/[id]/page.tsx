@@ -3,7 +3,8 @@ import { notFound } from 'next/navigation';
 import { headers } from 'next/headers';
 import { Header } from '@/components';
 import { Footer } from '@/components/layout/footer';
-import { ChevronLeft } from 'lucide-react';import { TermEditor } from './term-editor';
+import { ChevronLeft } from 'lucide-react';
+import ReactMarkdown from 'react-markdown';import { TermEditor } from './term-editor';
 import { getTermById, getAllTerms, getCategories } from '@/lib/db';
 
 interface WikiTermPageProps {
@@ -66,9 +67,7 @@ export default async function WikiTermPage({ params }: WikiTermPageProps) {
                                     {term.title}
                                 </h1>
                                 <div className="prose prose-invert prose-lg max-w-none">
-                                    <p className="leading-relaxed whitespace-pre-wrap text-gray-200">
-                                        {term.description}
-                                    </p>
+                                    <ReactMarkdown>{term.description}</ReactMarkdown>
                                 </div>
                                 {term.author && (
                                     <p className="mt-6 text-sm text-gray-400">

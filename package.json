@@ -27,6 +27,7 @@
     "react-dom": "19.0.1",
     "react-hook-form": "^7.62.0",
     "react-image-gallery": "^1.4.0",
+    "react-markdown": "^10.1.0",
     "react-use": "^17.6.0",
     "recharts": "^3.5.0",
     "swiper": "^12.1.3"

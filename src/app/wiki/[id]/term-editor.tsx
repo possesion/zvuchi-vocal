@@ -2,9 +2,16 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import ReactMarkdown from 'react-markdown';
 import { Pencil, X, Check, Trash2 } from 'lucide-react';
+import cn from 'classnames';
 import { instructors } from '@/app/constants';
 import type { WikiTermRow, WikiCategoryRow } from '@/lib/db';
+
+enum EditorMode {
+    edit = 'edit',
+    preview = 'preview'
+}
 
 interface TermEditorProps {
     term: WikiTermRow;
@@ -22,6 +29,7 @@ export function TermEditor({ term, categories }: TermEditorProps) {
     const [saving, setSaving] = useState(false);
     const [deleting, setDeleting] = useState(false);
     const [error, setError] = useState('');
+    const [descTab, setDescTab] = useState<EditorMode>(EditorMode.edit);
 
     const handleSave = async () => {
         setSaving(true);
@@ -163,13 +171,37 @@ export function TermEditor({ term, categories }: TermEditorProps) {
             </div>
 
             <div className="space-y-1">
-                <label className="text-sm text-gray-300">Описание</label>
-                <textarea
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                    rows={8}
-                    className="w-full rounded-sm bg-white/10 border border-white/20 px-3 py-2 text-white placeholder-white/40 focus:border-brand focus:outline-none resize-y"
-                />
+                <div className="flex items-center justify-between mb-1">
+                    <label className="text-sm text-gray-300">Описание</label>
+                    <div className="flex rounded-sm overflow-hidden border border-white/20 text-xs">
+                        <button
+                            type="button"
+                            onClick={() => setDescTab(EditorMode.edit)}
+                            className={cn('px-3 py-1 transition-colors', descTab === EditorMode.edit ? 'bg-white/20 text-white' : 'text-gray-400 hover:text-white')}
+                        >
+                            Редактор
+                        </button>
+                        <button
+                            type="button"
+                            onClick={() => setDescTab(EditorMode.preview)}
+                            className={cn('px-3 py-1 transition-colors', descTab === EditorMode.preview ? 'bg-white/20 text-white' : 'text-gray-400 hover:text-white')}
+                        >
+                            Превью
+                        </button>
+                    </div>
+                </div>
+                {descTab === 'edit' ? (
+                    <textarea
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
+                        rows={8}
+                        className="w-full rounded-sm bg-white/10 border border-white/20 px-3 py-2 text-white placeholder-white/40 focus:border-brand focus:outline-none resize-y font-mono text-sm"
+                    />
+                ) : (
+                    <div className="min-h-[12rem] w-full rounded-sm bg-white/10 border border-white/20 px-3 py-2 prose prose-invert prose-sm max-w-none">
+                        <ReactMarkdown>{description}</ReactMarkdown>
+                    </div>
+                )}
             </div>
 
             {error && <p className="text-sm text-red-400">{error}</p>}
