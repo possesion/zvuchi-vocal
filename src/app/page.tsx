@@ -60,7 +60,7 @@ export default function Home() {
                                     <p>Красиво петь может каждый! </p>
                                     Ставим правильную технику и достигаем высоких <a href='/gallery' className="after-highlight">результатов</a>
                                 </div>
-                                <div className="absolute bottom-30 sm:static sm:m-0">
+                                <div className="absolute bottom-36 sm:static sm:m-0">
                                     <EnrollmentSection />
                                 </div>
                             </div>
