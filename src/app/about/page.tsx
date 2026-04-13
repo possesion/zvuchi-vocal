@@ -3,6 +3,7 @@ import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 import { PromoContent } from '@/components/sections/promo-content';
 import { FeatureList } from '@/components/sections/feature-list';
+import { Faq } from '@/components/sections/faq';
 import { generatePageMetadata } from '@/lib/metadata';
 import Link from 'next/link';
 
@@ -38,6 +39,7 @@ export default function AboutPage() {
                             <span className="ml-5">Звучи! – это...</span>
                         </h2>
                         <FeatureList />
+                        <Faq />
 
                         <section className='mt-16 backdrop-blur-md'>
                             <div className="grid gap-8 md:grid-cols-3">

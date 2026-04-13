@@ -447,3 +447,7 @@ body {
     0%, 100% { box-shadow: 0 0 8px 2px #ed3a3a33, 0 0 20px 6px #f7555520; }
     50%       { box-shadow: 0 0 16px 6px #ed3a3a55, 0 0 36px 12px #f7555838; }
 }
+
+li::marker {
+  color: var(--color-brand);
+}

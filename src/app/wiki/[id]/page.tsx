@@ -58,7 +58,7 @@ export default async function WikiTermPage({ params }: WikiTermPageProps) {
                                     <TermEditor term={term} categories={categories} />
                                 </div>
                             )}
-                            <article className="rounded-sm bg-white/10 backdrop-blur-sm p-8 md:p-12">
+                            <article className="rounded-sm bg-white/10 backdrop-blur-sm p-4 md:p-10">
                                 <div className="mb-6 flex items-center gap-3">
                                     <span className="rounded-full bg-brand px-4 py-2 text-sm font-semibold uppercase tracking-wide">
                                         {categoryMap[term.category] ?? term.category}
@@ -67,7 +67,7 @@ export default async function WikiTermPage({ params }: WikiTermPageProps) {
                                 <h1 className="mb-6 text-3xl font-bold text-white md:text-5xl">
                                     {term.title}
                                 </h1>
-                                <div className="prose prose-invert prose-lg max-w-none">
+                                <div className="prose prose-invert prose-md max-w-none text-wrap hyphens-auto" lang="ru">
                                     <ReactMarkdown>{term.description}</ReactMarkdown>
                                 </div>
                                 {term.author && (
