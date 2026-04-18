@@ -95,13 +95,6 @@ export default function EnrollmentForm() {
         }
     };
 
-    // Получаем минимальную дату (завтра)
-    // const getMinDate = () => {
-    //     const tomorrow = new Date();
-    //     tomorrow.setDate(tomorrow.getDate() + 1);
-    //     return tomorrow.toISOString().split('T')[0];
-    // };
-
     return (
         <div className="w-full rounded-sm bg-white/15 p-8 shadow-xl backdrop-blur-md border border-white/10">
             <div className="mx-auto max-w-4xl">

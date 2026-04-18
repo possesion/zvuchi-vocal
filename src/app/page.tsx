@@ -79,7 +79,7 @@ export default function Home() {
                 </div>
 
                 {/* Quick Links Section */}
-                <section className="main-bg py-12 text-white">
+                <section className="main-bg min-h-screen py-12 text-white">
                     <div className="container">
                         <div className="grid gap-8 md:grid-cols-3">
                             <Link

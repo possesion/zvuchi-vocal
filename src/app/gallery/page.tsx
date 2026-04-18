@@ -23,9 +23,11 @@ export const metadata: Metadata = generatePageMetadata({
     ],
 });
 
+import { checkAuth } from '@/lib/auth';
+
 export default async function GalleryPage() {
     const headersList = await headers();
-    const isAuthorized = headersList.get('Authorization') === 'Bearer zvuchi';
+    const isAuthorized = checkAuth(headersList);
 
     return (
         <div className="relative min-h-screen font-exo2">

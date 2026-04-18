@@ -6,9 +6,11 @@ import { getAllTerms, getCategories } from '@/lib/db';
 import { ChevronRight } from 'lucide-react';
 import { WikiAddForm } from './wiki-add-form';
 
+import { checkAuth } from '@/lib/auth';
+
 export default async function WikiPage() {
     const headersList = await headers();
-    const isAuthorized = headersList.get('Authorization') === 'Bearer zvuchi';
+    const isAuthorized = checkAuth(headersList);
     const terms = getAllTerms();
     const categories = getCategories();
     const categoryMap = Object.fromEntries(categories.map((c) => [c.id, c.label]));

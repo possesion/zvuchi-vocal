@@ -177,7 +177,7 @@ html {
 
 
 body {
-  background: var(--background);
+  background: var(--color-foreground);
   color: var(--brand-secondary);
 }
 

@@ -1,16 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getShortsFromDb, addShortToDb, deleteShortFromDb } from '@/lib/db';
 import { SHORTS } from '@/app/constants';
+import { checkApiAuth } from '@/lib/auth';
 
 export async function GET() {
     const dbShorts = getShortsFromDb();
-    // DB-шорты в начале, затем статические (без дублей)
     const all = [...new Set([...dbShorts, ...SHORTS])];
     return NextResponse.json({ urls: all });
 }
 
 export async function POST(req: NextRequest) {
-    if (!req.headers.get('Authorization')) {
+    if (!checkApiAuth(req)) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
     const { url } = await req.json();
@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
 }
 
 export async function DELETE(req: NextRequest) {
-    if (!req.headers.get('Authorization')) {
+    if (!checkApiAuth(req)) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
     const { url } = await req.json();

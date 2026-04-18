@@ -79,7 +79,6 @@ export default function InstructorsPage() {
                                 </p>
                             </Link>
                         </div>
-                    {/* </section> */}
                     </section>
                 </div>
             </main>

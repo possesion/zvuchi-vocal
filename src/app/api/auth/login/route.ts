@@ -5,7 +5,7 @@ export async function POST(req: NextRequest) {
 
     if (login === 'valeria' && password === process.env.ZVUCHI_PASSWORD) {
         const res = NextResponse.json({ success: true })
-        res.cookies.set('auth_token', 'Bearer zvuchi', {
+        res.cookies.set('auth_token', process.env.ADMIN_TOKEN!, {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
             sameSite: 'lax',

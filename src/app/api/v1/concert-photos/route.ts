@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { uploadConcertPhoto, listConcertPhotos, deleteConcertPhoto } from '@/lib/s3';
+import { checkApiAuth } from '@/lib/auth';
 
 export async function GET() {
     try {
@@ -12,8 +13,7 @@ export async function GET() {
 }
 
 export async function POST(req: NextRequest) {
-    const auth = req.headers.get('Authorization');
-    if (!auth) {
+    if (!checkApiAuth(req)) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -48,8 +48,7 @@ export async function POST(req: NextRequest) {
 }
 
 export async function DELETE(req: NextRequest) {
-    const auth = req.headers.get('Authorization');
-    if (!auth) {
+    if (!checkApiAuth(req)) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
