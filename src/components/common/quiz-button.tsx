@@ -4,6 +4,7 @@ import { ReactElement, useEffect } from 'react';
 import { QuizModal } from '../modals/quiz-modal';
 import { Snackbar } from '../common/snackbar';
 import { QuizProvider, useQuiz } from '../modals/quiz-context';
+import { useUI } from '../providers/ui-context';
 
 interface QuizButtonProps {
     children?: ReactElement;
@@ -12,11 +13,16 @@ interface QuizButtonProps {
 
 function QuizButtonInner({ children }: QuizButtonProps) {
     const { isOpen, handleOpen, handleClose, snackbar, setSnackbar } = useQuiz();
+    const { setQuizOpen } = useUI();
 
     useEffect(() => {
         document.body.style.overflow = isOpen ? 'hidden' : 'unset';
-        return () => { document.body.style.overflow = 'unset'; };
-    }, [isOpen]);
+        setQuizOpen(isOpen);
+        return () => {
+            document.body.style.overflow = 'unset';
+            setQuizOpen(false);
+        };
+    }, [isOpen, setQuizOpen]);
 
     return (
         <>

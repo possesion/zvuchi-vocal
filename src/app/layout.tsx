@@ -5,6 +5,7 @@ import Metrika from '@/lib/metrika';
 import './globals.css';
 import { Suspense } from 'react';
 import { organizationSchema, localBusinessSchema, educationalOrganizationSchema } from '@/lib/structured-data';
+import { UIProvider } from '@/components/providers/ui-context';
 import { CallButton } from '@/components/common/call-button';
 
 export const metadata: Metadata = {
@@ -117,12 +118,13 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${exo2.variable} ${geistMono.variable} ${manrope.variable} ${manrope.className} antialiased`}
       >
-        {children}
-
-        <Suspense>
-          <Metrika />
-        </Suspense>
-        <CallButton />
+        <UIProvider>
+          {children}
+          <Suspense>
+            <Metrika />
+          </Suspense>
+          <CallButton />
+        </UIProvider>
       </body>
     </html>
   );

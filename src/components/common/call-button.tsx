@@ -7,6 +7,7 @@ import { trackEvent } from '@/hooks/use-yandex-metrica';
 import { contacts, STUDIO_MOBILE_PHONE } from '@/app/constants';
 import Image from 'next/image';
 import { DesktopPopup } from './desktop-popup';
+import { useUI } from '@/components/providers/ui-context';
 
 
 
@@ -115,6 +116,9 @@ function MobileDrawer() {
 
 export function CallButton() {
     const isMobile = !useMedia('(min-width: 768px)', true);
+    const { quizOpen } = useUI();
+
+    if (quizOpen) return null;
 
     return isMobile ? <MobileDrawer /> : <DesktopPopup />;
 }
