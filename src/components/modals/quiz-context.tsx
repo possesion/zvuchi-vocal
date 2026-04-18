@@ -131,7 +131,7 @@ export function QuizProvider({ children, onClose }: { children: ReactNode; onClo
             const result = await response.json();
 
             if (response.ok) {
-                // trackEvent('quiz_form')
+                trackEvent('quiz_form')
                 showSnackbar('Спасибо! Мы свяжемся с вами в ближайшее время.', 'success');
                 setFormData({ name: '', phone: '' });
                 setQuizAnswers({ experience: '', genre: '', motivation: '' });
