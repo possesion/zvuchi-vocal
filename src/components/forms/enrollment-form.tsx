@@ -1,26 +1,17 @@
 'use client';
 
 import { InvalidEvent, useState } from 'react';
-import { Snackbar } from '../common/snackbar';
 import { submitMailForm } from '@/lib/submit-mail-form';
 import { trackEvent } from '@/hooks/use-yandex-metrica';
 import { formatPhoneNumber } from '../common/utils';
 import { Offera } from '@/components/common/offera';
+import { useUI } from '@/components/providers/ui-context';
 
 export default function EnrollmentForm() {
-    const [formData, setFormData] = useState({
-        name: '',
-        phone: '',
-    });
+    const { showSnackbar } = useUI();
+    const [formData, setFormData] = useState({ name: '', phone: '' });
     const [isAgreed, setIsAgreed] = useState(false);
     const [offeraIsOpen, setOfferaIsOpen] = useState(false);
-
-    const [snackbar, setSnackbar] = useState({
-        isVisible: false,
-        message: '',
-        type: 'success' as 'success' | 'error',
-    });
-
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -35,35 +26,15 @@ export default function EnrollmentForm() {
 
             if (response && response.ok) {
                 trackEvent('call_request');
-                setSnackbar({
-                    isVisible: true,
-                    message:
-                        response.data?.message ||
-                        'Спасибо! Мы свяжемся с вами в ближайшее время.',
-                    type: 'success',
-                });
-
-                setFormData({
-                    name: '',
-                    phone: '',
-                });
+                showSnackbar(response.data?.message || 'Спасибо! Мы свяжемся с вами в ближайшее время.', 'success');
+                setFormData({ name: '', phone: '' });
                 setIsAgreed(false);
             } else {
-                setSnackbar({
-                    isVisible: true,
-                    message:
-                        response?.error ||
-                        'Произошла ошибка при отправке заявки. Попробуйте позже.',
-                    type: 'error',
-                });
+                showSnackbar(response?.error || 'Произошла ошибка при отправке заявки. Попробуйте позже.', 'error');
             }
         } catch (error) {
             console.error('Ошибка при отправке:', error);
-            setSnackbar({
-                isVisible: true,
-                message: 'Произошла ошибка при отправке заявки. Попробуйте позже.',
-                type: 'error',
-            });
+            showSnackbar('Произошла ошибка при отправке заявки. Попробуйте позже.', 'error');
         } finally {
             setIsSubmitting(false);
         }
@@ -201,17 +172,6 @@ export default function EnrollmentForm() {
                     </div>
                 </form>
             </div>
-
-            {/* Snackbar для уведомлений */}
-            <Snackbar
-                isVisible={snackbar.isVisible}
-                message={snackbar.message}
-                type={snackbar.type}
-                onClose={() =>
-                    setSnackbar((prev) => ({ ...prev, isVisible: false }))
-                }
-                duration={4000}
-            />
         </div>
     );
 }

@@ -4,6 +4,7 @@ import { createContext, useContext, useState, useEffect, InvalidEvent, ReactNode
 import { trackEvent } from '@/hooks/use-yandex-metrica';
 import { formatPhoneNumber } from '@/components/common/utils';
 import { EXPERIENCE_OPTIONS, GENRE_OPTIONS, MOTIVATION_OPTIONS } from './constants';
+import { useUI } from '@/components/providers/ui-context';
 
 export type QuizAnswers = {
     experience: string;
@@ -13,12 +14,6 @@ export type QuizAnswers = {
     motivationOther?: string;
 };
 
-interface SnackbarState {
-    isVisible: boolean;
-    message: string;
-    type: 'success' | 'error';
-}
-
 interface QuizContextValue {
     step: number;
     totalSteps: number;
@@ -26,7 +21,6 @@ interface QuizContextValue {
     formData: { name: string; phone: string };
     isAgreed: boolean;
     offeraIsOpen: boolean;
-    snackbar: SnackbarState;
     isOpen: boolean;
     canProceed: () => boolean;
     handleOpen: () => void;
@@ -39,7 +33,6 @@ interface QuizContextValue {
     handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     setIsAgreed: (value: boolean) => void;
     setOfferaIsOpen: (value: boolean | ((prev: boolean) => boolean)) => void;
-    setSnackbar: (value: SnackbarState | ((prev: SnackbarState) => SnackbarState)) => void;
 }
 
 const QuizContext = createContext<QuizContextValue | null>(null);
@@ -52,13 +45,13 @@ export function useQuiz() {
 
 export function QuizProvider({ children, onClose }: { children: ReactNode; onClose?: () => void }) {
     const totalSteps = 4;
+    const { showSnackbar } = useUI();
     const [isOpen, setIsOpen] = useState(false);
     const [step, setStep] = useState(1);
     const [quizAnswers, setQuizAnswers] = useState<QuizAnswers>({ experience: '', genre: '', motivation: '' });
     const [formData, setFormData] = useState({ name: '', phone: '' });
     const [isAgreed, setIsAgreed] = useState(false);
     const [offeraIsOpen, setOfferaIsOpen] = useState(false);
-    const [snackbar, setSnackbar] = useState<SnackbarState>({ isVisible: false, message: '', type: 'success' });
     const trackedStepsKey = 'quiz_tracked_steps';
 
     const getTrackedSteps = (): Set<number> => {
@@ -138,19 +131,19 @@ export function QuizProvider({ children, onClose }: { children: ReactNode; onClo
             const result = await response.json();
 
             if (response.ok) {
-                trackEvent('quiz_form')
-                setSnackbar({ isVisible: true, message: result.message || 'Спасибо! Мы свяжемся с вами в ближайшее время.', type: 'success' });
+                // trackEvent('quiz_form')
+                showSnackbar('Спасибо! Мы свяжемся с вами в ближайшее время.', 'success');
                 setFormData({ name: '', phone: '' });
                 setQuizAnswers({ experience: '', genre: '', motivation: '' });
                 setIsAgreed(false);
                 setStep(1);
                 setTimeout(handleClose, 2000);
             } else {
-                setSnackbar({ isVisible: true, message: result.error || 'Произошла ошибка при отправке заявки. Попробуйте позже.', type: 'error' });
+                showSnackbar(result.error || 'Произошла ошибка при отправке заявки. Попробуйте позже.', 'error');
             }
         } catch (error) {
             console.error('Ошибка при отправке:', error);
-            setSnackbar({ isVisible: true, message: 'Произошла ошибка при отправке заявки. Попробуйте позже.', type: 'error' });
+            showSnackbar('Произошла ошибка при отправке заявки. Попробуйте позже.', 'error');
         }
     };
 
@@ -176,9 +169,9 @@ export function QuizProvider({ children, onClose }: { children: ReactNode; onClo
     return (
         <QuizContext.Provider value={{
             step, totalSteps, quizAnswers, formData, isAgreed, offeraIsOpen,
-            snackbar, isOpen, canProceed, handleOpen, handleClose, handleNext,
+            isOpen, canProceed, handleOpen, handleClose, handleNext,
             handleBack, handleQuizAnswer, handleSubmit, handleValidate,
-            handleChange, setIsAgreed, setOfferaIsOpen, setSnackbar,
+            handleChange, setIsAgreed, setOfferaIsOpen,
         }}>
             {children}
         </QuizContext.Provider>

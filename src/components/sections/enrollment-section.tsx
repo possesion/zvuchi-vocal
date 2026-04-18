@@ -23,17 +23,6 @@ export function EnrollmentSection() {
                         <div className="hidden sm:block sm:bg-white md:w-[630px] sm:h-[630px] shadow-md rounded-sm">
                             <QuizModalContent className="h-full pt-8 pb-6 px-4 md:p-6 flex flex-col justify-between" />
                         </div>
-
-                        {/* <button
-                            onClick={handleOpenLink(TG_CHAT_URL)}
-                            className="group relative bg-radial-[at_40%] h-[52px] w-full self-center from-blue-700 to-blue-800 to-80% mb-4 block cursor-pointer overflow-hidden rounded-sm px-5 py-3 text-lg font-bold text-white shadow-[0_0_45px_5px] shadow-purple-900 transition-all duration-300 sm:hidden hover:scale-105"
-                            aria-label="Записаться на занятие через Telegram"
-                        >
-                            <span className="relative z-10 flex animate-glow items-center justify-center">
-                                <Image width={20} height={20} className="inline animate-bounce" src="/socials/tg.svg" alt="Telegram" />
-                                <span className='text-center'>  Написать нам в Telegram</span>
-                            </span>
-                        </button> */}
                     </div>
                 </div>
             </section>

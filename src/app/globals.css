@@ -451,3 +451,8 @@ body {
 li::marker {
   color: var(--color-brand);
 }
+
+@keyframes shrink {
+  from { width: 100%; }
+  to { width: 0%; }
+}

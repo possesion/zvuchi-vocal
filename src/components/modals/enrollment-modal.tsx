@@ -4,12 +4,11 @@ import { InvalidEvent, useState, useEffect, type ReactNode } from 'react';
 import Image from 'next/image';
 import cn from 'classnames';
 import { X } from 'lucide-react';
-import { Snackbar } from '../common/snackbar';
 import { Offera } from '@/components/common/offera';
 import { trackEvent } from '@/hooks/use-yandex-metrica';
 import { submitMailForm } from '@/lib/submit-mail-form';
 import { formatPhoneNumber } from '../common/utils';
-
+import { useUI } from '@/components/providers/ui-context';
 interface EnrollmentModalProps {
     children: ReactNode,
     isOpen: boolean;
@@ -18,18 +17,13 @@ interface EnrollmentModalProps {
 }
 
 export function EnrollmentModal({ children, isOpen, onClose, hasPicture }: EnrollmentModalProps) {
+    const { showSnackbar } = useUI();
     const [offeraIsOpen, setOfferaIsOpen] = useState(false)
     const [formData, setFormData] = useState<{ name: string, phone: string, formType?: 'promo' }>({
         name: '',
         phone: '',
     });
     const [isAgreed, setIsAgreed] = useState(false);
-
-    const [snackbar, setSnackbar] = useState({
-        isVisible: false,
-        message: '',
-        type: 'success' as 'success' | 'error',
-    });
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -45,47 +39,17 @@ export function EnrollmentModal({ children, isOpen, onClose, hasPicture }: Enrol
             });
 
             if (response && response.ok) {
-                // Отслеживаем успешную отправку формы
-                // const formType = hasPicture ? 'promo_form' : 'enrollment_form';
                 trackEvent('call_request');
-
-                setSnackbar({
-                    isVisible: true,
-                    message:
-                        response.data.message ||
-                        'Спасибо! Мы свяжемся с вами в ближайшее время.',
-                    type: 'success',
-                });
-
-                // Сброс формы
-                setFormData({
-                    name: '',
-                    phone: '',
-                });
+                showSnackbar(response.data.message || 'Спасибо! Мы свяжемся с вами в ближайшее время.', 'success');
+                setFormData({ name: '', phone: '' });
                 setIsAgreed(false);
-
-                // Закрываем модальное окно через 2 секунды
-                setTimeout(() => {
-                    onClose();
-                }, 2000);
+                setTimeout(() => { onClose(); }, 2000);
             } else {
-                // Показываем ошибку
-                setSnackbar({
-                    isVisible: true,
-                    message:
-                        response.error ||
-                        'Произошла ошибка при отправке заявки. Попробуйте позже.',
-                    type: 'error',
-                });
+                showSnackbar(response.error || 'Произошла ошибка при отправке заявки. Попробуйте позже.', 'error');
             }
         } catch (error) {
             console.error('Ошибка при отправке:', error);
-            setSnackbar({
-                isVisible: true,
-                message:
-                    'Произошла ошибка при отправке заявки. Попробуйте позже.',
-                type: 'error',
-            });
+            showSnackbar('Произошла ошибка при отправке заявки. Попробуйте позже.', 'error');
         }
     };
 
@@ -359,17 +323,6 @@ export function EnrollmentModal({ children, isOpen, onClose, hasPicture }: Enrol
                     </div>
                 </div>
             </div>
-
-            {/* Snackbar для уведомлений */}
-            <Snackbar
-                isVisible={snackbar.isVisible}
-                message={snackbar.message}
-                type={snackbar.type}
-                onClose={() =>
-                    setSnackbar((prev) => ({ ...prev, isVisible: false }))
-                }
-                duration={4000}
-            />
         </div>
     );
 }

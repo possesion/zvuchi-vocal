@@ -1,7 +1,9 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef } from 'react'
+import { createPortal } from 'react-dom'
 import { CheckCircle, XCircle, X } from 'lucide-react'
+import cn from 'classnames'
 
 interface SnackbarProps {
     message: string
@@ -11,65 +13,39 @@ interface SnackbarProps {
     duration?: number
 }
 
-export function Snackbar({
-    message,
-    type,
-    isVisible,
-    onClose,
-    duration = 4000,
-}: SnackbarProps) {
-    const [isAnimating, setIsAnimating] = useState(false)
+export function Snackbar({ message, type, isVisible, onClose, duration = 4000 }: SnackbarProps) {
+    const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
     useEffect(() => {
-        if (isVisible) {
-            setIsAnimating(true)
-
-            // Автоматически скрываем через указанное время
-            const timer = setTimeout(() => {
-                setIsAnimating(false)
-                setTimeout(onClose, 300) // Ждем окончания анимации
-            }, duration)
-
-            return () => clearTimeout(timer)
-        }
+        if (!isVisible) return
+        timerRef.current = setTimeout(onClose, duration)
+        return () => { if (timerRef.current) clearTimeout(timerRef.current) }
     }, [isVisible, duration, onClose])
 
     if (!isVisible) return null
 
-    const icon =
-        type === 'success' ? (
-            <CheckCircle className="h-5 w-5 text-green-500" />
-        ) : (
-            <XCircle className="h-5 w-5 text-red-500" />
-        )
+    const isSuccess = type === 'success'
 
-    const bgColor =
-        type === 'success'
-            ? 'bg-green-50 border-green-200'
-            : 'bg-red-50 border-red-200'
-
-    const textColor = type === 'success' ? 'text-green-800' : 'text-red-800'
-
-    return (
-        <div className="fixed right-4 top-4 z-50 w-full max-w-sm" role="alert" aria-live="polite">
-            <div
-                className={`
-          ${bgColor} transform rounded-sm border p-4 shadow-lg transition-all duration-300 ease-in-out
-          ${isAnimating ? 'translate-x-0 opacity-100' : 'translate-x-full opacity-0'}
-        `}
-            >
-                <div className="flex items-start space-x-3">
-                    {icon}
-                    <div className="flex-1">
-                        <p className={`text-sm font-medium ${textColor}`}>
-                            {message}
-                        </p>
-                    </div>
+    const content = (
+        <div
+            className="fixed left-1/2 top-4 z-[9999] w-[calc(100vw-2rem)] max-w-sm -translate-x-1/2"
+            role="alert"
+            aria-live="polite"
+        >
+            <div className={cn(
+                'rounded-sm border p-4 shadow-lg',
+                isSuccess ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200',
+            )}>
+                <div className="flex items-start gap-3">
+                    {isSuccess
+                        ? <CheckCircle className="h-5 w-5 shrink-0 text-green-500" />
+                        : <XCircle className="h-5 w-5 shrink-0 text-red-500" />
+                    }
+                    <p className={cn('flex-1 text-sm font-medium', isSuccess ? 'text-green-800' : 'text-red-800')}>
+                        {message}
+                    </p>
                     <button
-                        onClick={() => {
-                            setIsAnimating(false)
-                            setTimeout(onClose, 300)
-                        }}
+                        onClick={onClose}
                         className="text-gray-400 transition-colors hover:text-gray-600"
                         aria-label="Закрыть уведомление"
                     >
@@ -77,20 +53,16 @@ export function Snackbar({
                     </button>
                 </div>
 
-                {/* Прогресс-бар */}
-                <div className="mt-3 h-1 overflow-hidden rounded-full bg-gray-200">
+                <div className="mt-3 h-1 overflow-hidden rounded-full bg-gray-200" aria-hidden="true">
                     <div
-                        className={`h-full transition-all duration-300 ease-linear ${
-                            type === 'success' ? 'bg-green-500' : 'bg-red-500'
-                        }`}
-                        style={{
-                            width: isAnimating ? '100%' : '0%',
-                            transition: `width ${duration}ms linear`,
-                        }}
-                        aria-hidden="true"
+                        className={cn('h-full rounded-full', isSuccess ? 'bg-green-500' : 'bg-red-500')}
+                        style={{ animation: `shrink ${duration}ms linear forwards` }}
                     />
                 </div>
             </div>
         </div>
     )
+
+    if (typeof document === 'undefined') return null
+    return createPortal(content, document.body)
 }

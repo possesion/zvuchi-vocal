@@ -16,7 +16,6 @@ interface ProgramProps {
 
 export const Program: FC<ProgramProps> = ({ description, features, title, number, price, originalPrice }) => {
     const { ref, animationClass } = useSlideUpAnimation();
-    // const intersected = false;
 
     const handleOpenLink = (link: string) => () => {
         trackEvent('subscription_click', { 

@@ -20,7 +20,6 @@ export { PlatformDialog } from './modals/platform-dialog'
 
 // Common components
 export { Snackbar } from './common/snackbar'
-export { Button } from './common/button'
 export { Input } from './common/input'
 export { LoadingSpinner } from './common/loading-spinner'
 
