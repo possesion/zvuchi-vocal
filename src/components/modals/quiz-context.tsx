@@ -1,7 +1,7 @@
 'use client';
 
-import { createContext, useContext, useRef, useState, useEffect, InvalidEvent, ReactNode } from 'react';
-import { trackEvent, trackFormSubmit } from '@/hooks/use-yandex-metrica';
+import { createContext, useContext, useState, useEffect, InvalidEvent, ReactNode } from 'react';
+import { trackEvent } from '@/hooks/use-yandex-metrica';
 import { formatPhoneNumber } from '@/components/common/utils';
 import { EXPERIENCE_OPTIONS, GENRE_OPTIONS, MOTIVATION_OPTIONS } from './constants';
 
@@ -59,26 +59,42 @@ export function QuizProvider({ children, onClose }: { children: ReactNode; onClo
     const [isAgreed, setIsAgreed] = useState(false);
     const [offeraIsOpen, setOfferaIsOpen] = useState(false);
     const [snackbar, setSnackbar] = useState<SnackbarState>({ isVisible: false, message: '', type: 'success' });
-    const trackedStepsRef = useRef<Set<number>>(new Set());
+    const trackedStepsKey = 'quiz_tracked_steps';
 
-    useEffect(() => {
-        if (isOpen && step >= 2 && !trackedStepsRef.current.has(step)) {
-            const eventNames: Record<number, string> = {
-                2: 'quiz_step_2_genre',
-                3: 'quiz_step_3_motivation',
-                4: 'quiz_step_4_contact',
-            };
-            const eventName = eventNames[step];
-            if (eventName) {
-                trackEvent(eventName, quizAnswers);
-                trackedStepsRef.current.add(step);
-            }
+    const getTrackedSteps = (): Set<number> => {
+        try {
+            const raw = sessionStorage.getItem(trackedStepsKey);
+            return raw ? new Set(JSON.parse(raw) as number[]) : new Set();
+        } catch {
+            return new Set();
         }
-    }, [step, isOpen, quizAnswers]);
+    };
+
+    const addTrackedStep = (step: number) => {
+        try {
+            const steps = getTrackedSteps();
+            steps.add(step);
+            sessionStorage.setItem(trackedStepsKey, JSON.stringify([...steps]));
+        } catch {
+            console.error('Ошибка при получении данных о прохождении опроса');
+        }
+    };
 
     useEffect(() => {
-        if (!isOpen) trackedStepsRef.current.clear();
-    }, [isOpen]);
+        if (step < 2) return;
+        if (getTrackedSteps().has(step)) return;
+        const eventNames: Record<number, string> = {
+            2: 'quiz_step_2_genre',
+            3: 'quiz_step_3_motivation',
+            4: 'quiz_step_4_contact',
+        };
+        const eventName = eventNames[step];
+        if (eventName) {
+            trackEvent(eventName, quizAnswers);
+            addTrackedStep(step);
+        }
+    }, [step, isOpen]); // eslint-disable-line react-hooks/exhaustive-deps
+
 
     const handleOpen = () => {
         trackEvent('open_quiz_modal');
@@ -94,12 +110,7 @@ export function QuizProvider({ children, onClose }: { children: ReactNode; onClo
     const handleBack = () => { if (step > 1) setStep(step - 1); };
 
     const handleQuizAnswer = (field: keyof QuizAnswers, value: string) => {
-        setQuizAnswers({
-            ...quizAnswers,
-            [field]: value,
-            genreOther: field !== 'genreOther' ? '' : value,
-            motivationOther: field !== 'motivationOther' ? '' : value,
-        });
+        setQuizAnswers((prev) => ({ ...prev, [field]: value }));
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -127,7 +138,7 @@ export function QuizProvider({ children, onClose }: { children: ReactNode; onClo
             const result = await response.json();
 
             if (response.ok) {
-                trackFormSubmit('quiz_form');
+                trackEvent('quiz_form')
                 setSnackbar({ isVisible: true, message: result.message || 'Спасибо! Мы свяжемся с вами в ближайшее время.', type: 'success' });
                 setFormData({ name: '', phone: '' });
                 setQuizAnswers({ experience: '', genre: '', motivation: '' });
