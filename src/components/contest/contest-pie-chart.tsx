@@ -76,7 +76,7 @@ export function ContestPieChart({ data, height = 400 }: ContestPieChartProps) {
               boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
             }}
             itemStyle={{ color: '#1a1a1a' }}
-            formatter={(value: number) => [`${value} голосов`, 'Голоса']}
+            formatter={(value) => [`${value} голосов`, 'Голоса']}
           />
           <Legend 
             wrapperStyle={{ color: 'white', paddingTop: '20px' }}

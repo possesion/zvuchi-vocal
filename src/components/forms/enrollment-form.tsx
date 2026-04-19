@@ -1,68 +1,33 @@
 'use client';
 
-import { InvalidEvent, useState } from 'react';
+import { useState } from 'react';
 import { submitMailForm } from '@/lib/submit-mail-form';
 import { trackEvent } from '@/hooks/use-yandex-metrica';
-import { formatPhoneNumber } from '../common/utils';
 import { Offera } from '@/components/common/offera';
 import { useUI } from '@/components/providers/ui-context';
+import { useContactForm } from '@/hooks/useContactForm';
 
 export default function EnrollmentForm() {
-    const { showSnackbar } = useUI();
-    const [formData, setFormData] = useState({ name: '', phone: '' });
-    const [isAgreed, setIsAgreed] = useState(false);
+    const { notify } = useUI();
+    const { formData, isAgreed, setIsAgreed, isSubmitting, setIsSubmitting, handleChange, handleValidate, reset } = useContactForm();
     const [offeraIsOpen, setOfferaIsOpen] = useState(false);
-    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsSubmitting(true);
-
         try {
-            const response = await submitMailForm({
-                ...formData,
-                formType: 'enrollment-form',
-            });
-
-            if (response && response.ok) {
+            const response = await submitMailForm({ ...formData, formType: 'enrollment-form' });
+            if (response?.ok) {
                 trackEvent('call_request');
-                showSnackbar(response.data?.message || 'Спасибо! Мы свяжемся с вами в ближайшее время.', 'success');
-                setFormData({ name: '', phone: '' });
-                setIsAgreed(false);
+                notify(response.data?.message || 'Спасибо! Мы свяжемся с вами в ближайшее время.', 'success');
+                reset();
             } else {
-                showSnackbar(response?.error || 'Произошла ошибка при отправке заявки. Попробуйте позже.', 'error');
+                notify(response?.error || 'Произошла ошибка при отправке заявки. Попробуйте позже.', 'error');
             }
-        } catch (error) {
-            console.error('Ошибка при отправке:', error);
-            showSnackbar('Произошла ошибка при отправке заявки. Попробуйте позже.', 'error');
+        } catch {
+            notify('Произошла ошибка при отправке заявки. Попробуйте позже.', 'error');
         } finally {
             setIsSubmitting(false);
-        }
-    };
-
-    const handleValidate =
-        (text: string) => (e: InvalidEvent<HTMLInputElement>) => {
-            e.target.setCustomValidity(text);
-        };
-
-    const handleChange = (
-        e: React.ChangeEvent<
-            HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-        >
-    ) => {
-        const { name, value } = e.target;
-        
-        if (name === 'phone') {
-            const formattedPhone = formatPhoneNumber(value);
-            setFormData({
-                ...formData,
-                [name]: formattedPhone,
-            });
-        } else {
-            setFormData({
-                ...formData,
-                [name]: value,
-            });
         }
     };
 
@@ -80,10 +45,7 @@ export default function EnrollmentForm() {
 
                 <form onSubmit={handleSubmit} className="max-w-[700px] mx-auto grid gap-6 md:grid-cols-2 md:gap-8">
                     <div className="group">
-                        <label
-                            htmlFor="form-name"
-                            className="mb-2 block text-sm font-semibold uppercase tracking-wide text-white/80"
-                        >
+                        <label htmlFor="form-name" className="mb-2 block text-sm font-semibold uppercase tracking-wide text-white/80">
                             Ваше имя
                         </label>
                         <input
@@ -101,10 +63,7 @@ export default function EnrollmentForm() {
                     </div>
 
                     <div className="group">
-                        <label
-                            htmlFor="form-phone"
-                            className="mb-2 block text-sm font-semibold uppercase tracking-wide text-white/80"
-                        >
+                        <label htmlFor="form-phone" className="mb-2 block text-sm font-semibold uppercase tracking-wide text-white/80">
                             Телефон
                         </label>
                         <input
@@ -132,16 +91,11 @@ export default function EnrollmentForm() {
                                 className="mt-1 h-4 w-4 rounded border-white/30 bg-white/10 text-brand focus:ring-2 focus:ring-brand"
                             />
                             <Offera document="/documents/privacy.txt" isOpen={offeraIsOpen}>
-                                <label
-                                    htmlFor="privacy-enrollment"
-                                    className="text-xs leading-relaxed text-white/90"
-                                >
+                                <label htmlFor="privacy-enrollment" className="text-xs leading-relaxed text-white/90">
                                     Я соглашаюсь с{' '}
                                     <button
                                         type="button"
-                                        onClick={() => {
-                                            setOfferaIsOpen((prev) => !prev)
-                                        }}
+                                        onClick={() => setOfferaIsOpen((prev) => !prev)}
                                         className="cursor-pointer text-white underline transition-colors duration-200 hover:font-bold"
                                     >
                                         Политикой конфиденциальности
@@ -157,11 +111,11 @@ export default function EnrollmentForm() {
                             disabled={isSubmitting || !isAgreed}
                             className="cursor-pointer bg-radial-[at_40%] from-violet-800 to-violet-950 to-80% group relative mx-auto block overflow-hidden rounded-sm w-full px-8 py-4 font-bold text-white shadow-lg transition-all duration-300 hover:shadow-xl hover:-translate-y-0.5 hover:shadow-[rgb(88,22,66)]/40 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:translate-y-0 md:w-70"
                         >
-                            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full transition-transform duration-700 group-hover:translate-x-full"></div>
+                            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full transition-transform duration-700 group-hover:translate-x-full" />
                             <div className="relative flex items-center justify-center">
                                 {isSubmitting ? (
                                     <>
-                                        <div className="mr-3 h-5 w-5 animate-spin rounded-full border-2 border-white/30 border-t-white"></div>
+                                        <div className="mr-3 h-5 w-5 animate-spin rounded-full border-2 border-white/30 border-t-white" />
                                         <span className="text-lg">Отправляем заявку...</span>
                                     </>
                                 ) : (
