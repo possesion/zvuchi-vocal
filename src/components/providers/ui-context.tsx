@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useReducer, ReactNode } from 'react';
+import { createContext, useContext, useReducer, useCallback, ReactNode } from 'react';
 import { Snackbar } from '../common/snackbar';
 
 export type NotificationType = 'success' | 'error';
@@ -64,14 +64,14 @@ const UIContext = createContext<UIContextValue>({
 export function UIProvider({ children }: { children: ReactNode }) {
     const [state, dispatch] = useReducer(uiReducer, initialState);
 
-    const setQuizOpen = (open: boolean) =>
-        dispatch({ type: 'SET_QUIZ_OPEN', payload: open });
+    const setQuizOpen = useCallback((open: boolean) =>
+        dispatch({ type: 'SET_QUIZ_OPEN', payload: open }), []);
 
-    const notify = (message: string, type: NotificationType = 'success') =>
-        dispatch({ type: 'ADD_NOTIFICATION', payload: { message, type } });
+    const notify = useCallback((message: string, type: NotificationType = 'success') =>
+        dispatch({ type: 'ADD_NOTIFICATION', payload: { message, type } }), []);
 
-    const dismiss = (id: string) =>
-        dispatch({ type: 'REMOVE_NOTIFICATION', payload: id });
+    const dismiss = useCallback((id: string) =>
+        dispatch({ type: 'REMOVE_NOTIFICATION', payload: id }), []);
 
     // Показываем только последнее уведомление через Snackbar
     const latest = state.notifications[state.notifications.length - 1];
