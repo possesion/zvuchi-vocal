@@ -1,6 +1,6 @@
-import { NextResponse } from 'next/server'
 import { programs } from '@/app/constants'
 import { ProgramResponse } from '@/types/program'
+import { apiOk, apiError } from '@/lib/api-response'
 
 export async function GET() {
     try {
@@ -15,28 +15,14 @@ export async function GET() {
                 program.title === 'Продвинутый' ? 'intermediate' as const : 'advanced' as const,
             icon: program.icon,
             category: 'individual' as const,
-            lessonsCount: program.title === 'Базовый' ? 4 :
-                program.title === 'Продвинутый' ? 6 : 8,
+            lessonsCount: program.title === 'Базовый' ? 4 : program.title === 'Продвинутый' ? 6 : 8,
             lessonDuration: 55,
             popular: program.title === 'Продвинутый',
-            new: false
+            new: false,
         }))
-
-        const response: ProgramResponse = {
-            programs: programsData,
-            total: programsData.length
-        }
-
-        return NextResponse.json(response)
-    } catch (error) {
-        console.error('Programs API error:', error)
-        return NextResponse.json(
-            {
-                success: false,
-                error: 'Failed to fetch programs',
-                timestamp: new Date()
-            },
-            { status: 500 }
-        )
+        const response: ProgramResponse = { programs: programsData, total: programsData.length }
+        return apiOk(response)
+    } catch {
+        return apiError('Failed to fetch programs')
     }
 }

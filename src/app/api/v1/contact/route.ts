@@ -1,79 +1,25 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { ContactFormData, EnrollmentFormData } from '@/types'
+import { NextRequest } from 'next/server'
+import { apiOk, apiError } from '@/lib/api-response'
 
 export async function POST(request: NextRequest) {
     try {
         const body = await request.json()
-        const { type, ...formData } = body
+        const { type, name, email, phone, message, program } = body
 
         if (type === 'contact') {
-            const contactData = formData as ContactFormData
-
-            // Validate required fields
-            if (!contactData.name || !contactData.email || !contactData.message) {
-                return NextResponse.json(
-                    {
-                        success: false,
-                        error: 'Missing required fields',
-                        timestamp: new Date()
-                    },
-                    { status: 400 }
-                )
-            }
-
-            // Here you would send the email using your email service
-            console.log('Contact form submission:', contactData)
-
-            return NextResponse.json({
-                success: true,
-                message: 'Contact form submitted successfully',
-                timestamp: new Date()
-            })
+            if (!name || !email || !message) return apiError('Missing required fields', 400)
+            console.log('Contact form submission:', { name, email, message })
+            return apiOk({ message: 'Contact form submitted successfully' })
         }
 
         if (type === 'enrollment') {
-            const enrollmentData = formData as EnrollmentFormData
-
-            // Validate required fields
-            if (!enrollmentData.name || !enrollmentData.email || !enrollmentData.phone || !enrollmentData.program) {
-                return NextResponse.json(
-                    {
-                        success: false,
-                        error: 'Missing required fields',
-                        timestamp: new Date()
-                    },
-                    { status: 400 }
-                )
-            }
-
-            // Here you would send the enrollment email
-            console.log('Enrollment form submission:', enrollmentData)
-
-            return NextResponse.json({
-                success: true,
-                message: 'Enrollment request submitted successfully',
-                timestamp: new Date()
-            })
+            if (!name || !email || !phone || !program) return apiError('Missing required fields', 400)
+            console.log('Enrollment form submission:', { name, email, phone, program })
+            return apiOk({ message: 'Enrollment request submitted successfully' })
         }
 
-        return NextResponse.json(
-            {
-                success: false,
-                error: 'Invalid form type',
-                timestamp: new Date()
-            },
-            { status: 400 }
-        )
-
-    } catch (error) {
-        console.error('Contact API error:', error)
-        return NextResponse.json(
-            {
-                success: false,
-                error: 'Failed to process form submission',
-                timestamp: new Date()
-            },
-            { status: 500 }
-        )
+        return apiError('Invalid form type', 400)
+    } catch {
+        return apiError('Failed to process form submission')
     }
 }

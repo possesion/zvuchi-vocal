@@ -1,8 +1,8 @@
 'use client';
 
-import { createContext, useContext, useState, useEffect, InvalidEvent, ReactNode } from 'react';
+import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { trackEvent } from '@/hooks/use-yandex-metrica';
-import { formatPhoneNumber } from '@/components/common/utils';
+import { formatPhoneNumber } from '@/lib/format';
 import { EXPERIENCE_OPTIONS, GENRE_OPTIONS, MOTIVATION_OPTIONS } from './constants';
 import { useUI } from '@/components/providers/ui-context';
 
@@ -29,7 +29,7 @@ interface QuizContextValue {
     handleBack: () => void;
     handleQuizAnswer: (field: keyof QuizAnswers, value: string) => void;
     handleSubmit: (e: React.FormEvent) => void;
-    handleValidate: (text: string) => (e: InvalidEvent<HTMLInputElement>) => void;
+    handleValidate: (text: string) => (e: React.FormEvent<HTMLInputElement>) => void;
     handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     setIsAgreed: (value: boolean) => void;
     setOfferaIsOpen: (value: boolean | ((prev: boolean) => boolean)) => void;
@@ -45,7 +45,7 @@ export function useQuiz() {
 
 export function QuizProvider({ children, onClose }: { children: ReactNode; onClose?: () => void }) {
     const totalSteps = 4;
-    const { showSnackbar } = useUI();
+    const { notify } = useUI();
     const [isOpen, setIsOpen] = useState(false);
     const [step, setStep] = useState(1);
     const [quizAnswers, setQuizAnswers] = useState<QuizAnswers>({ experience: '', genre: '', motivation: '' });
@@ -131,24 +131,24 @@ export function QuizProvider({ children, onClose }: { children: ReactNode; onClo
             const result = await response.json();
 
             if (response.ok) {
-                // trackEvent('quiz_form')
-                showSnackbar('Спасибо! Мы свяжемся с вами в ближайшее время.', 'success');
+                trackEvent('quiz_form')
+                notify('Спасибо! Мы свяжемся с вами в ближайшее время.', 'success');
                 setFormData({ name: '', phone: '' });
                 setQuizAnswers({ experience: '', genre: '', motivation: '' });
                 setIsAgreed(false);
                 setStep(1);
                 setTimeout(handleClose, 2000);
             } else {
-                showSnackbar(result.error || 'Произошла ошибка при отправке заявки. Попробуйте позже.', 'error');
+                notify(result.error || 'Произошла ошибка при отправке заявки. Попробуйте позже.', 'error');
             }
         } catch (error) {
             console.error('Ошибка при отправке:', error);
-            showSnackbar('Произошла ошибка при отправке заявки. Попробуйте позже.', 'error');
+            notify('Произошла ошибка при отправке заявки. Попробуйте позже.', 'error');
         }
     };
 
-    const handleValidate = (text: string) => (e: InvalidEvent<HTMLInputElement>) => {
-        e.target.setCustomValidity(text);
+    const handleValidate = (text: string) => (e: React.FormEvent<HTMLInputElement>) => {
+        e.currentTarget.setCustomValidity(text);
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

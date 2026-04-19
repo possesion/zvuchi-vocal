@@ -1,6 +1,6 @@
-import { NextResponse } from 'next/server'
 import { instructors } from '@/app/constants'
 import { InstructorResponse } from '@/types/instructor'
+import { apiOk, apiError } from '@/lib/api-response'
 
 export async function GET() {
     try {
@@ -12,28 +12,14 @@ export async function GET() {
             bio: instructor.bio,
             image: instructor.image,
             video: instructor.video,
-            // experience: instructor.experience || 0,
             education: [],
             achievements: [],
             rating: 4.8,
-            reviewsCount: 25
+            reviewsCount: 25,
         }))
-
-        const response: InstructorResponse = {
-            instructors: instructorsData,
-            total: instructorsData.length
-        }
-
-        return NextResponse.json(response)
-    } catch (error) {
-        console.error('Instructors API error:', error)
-        return NextResponse.json(
-            {
-                success: false,
-                error: 'Failed to fetch instructors',
-                timestamp: new Date()
-            },
-            { status: 500 }
-        )
+        const response: InstructorResponse = { instructors: instructorsData, total: instructorsData.length }
+        return apiOk(response)
+    } catch {
+        return apiError('Failed to fetch instructors')
     }
 }

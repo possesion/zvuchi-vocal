@@ -1,81 +1,44 @@
 'use client';
 
-import { InvalidEvent, useState, useEffect, type ReactNode } from 'react';
+import { useState, useEffect, type ReactNode } from 'react';
 import Image from 'next/image';
 import cn from 'classnames';
 import { X } from 'lucide-react';
 import { Offera } from '@/components/common/offera';
 import { trackEvent } from '@/hooks/use-yandex-metrica';
 import { submitMailForm } from '@/lib/submit-mail-form';
-import { formatPhoneNumber } from '../common/utils';
 import { useUI } from '@/components/providers/ui-context';
+import { useContactForm } from '@/hooks/useContactForm';
+
 interface EnrollmentModalProps {
-    children: ReactNode,
+    children: ReactNode;
     isOpen: boolean;
     onClose: () => void;
     hasPicture?: boolean;
 }
 
 export function EnrollmentModal({ children, isOpen, onClose, hasPicture }: EnrollmentModalProps) {
-    const { showSnackbar } = useUI();
-    const [offeraIsOpen, setOfferaIsOpen] = useState(false)
-    const [formData, setFormData] = useState<{ name: string, phone: string, formType?: 'promo' }>({
-        name: '',
-        phone: '',
-    });
-    const [isAgreed, setIsAgreed] = useState(false);
+    const { notify } = useUI();
+    const { formData, isAgreed, setIsAgreed, handleChange, handleValidate, reset } = useContactForm();
+    const [offeraIsOpen, setOfferaIsOpen] = useState(false);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-
         try {
-            if (hasPicture) {
-                formData.formType = 'promo';
-            }
-
             const response = await submitMailForm({
                 ...formData,
-                formType: 'enrollment-form',
+                formType: hasPicture ? 'promo' : 'enrollment-form',
             });
-
-            if (response && response.ok) {
+            if (response?.ok) {
                 trackEvent('call_request');
-                showSnackbar(response.data.message || 'Спасибо! Мы свяжемся с вами в ближайшее время.', 'success');
-                setFormData({ name: '', phone: '' });
-                setIsAgreed(false);
-                setTimeout(() => { onClose(); }, 2000);
+                notify(response.data?.message || 'Спасибо! Мы свяжемся с вами в ближайшее время.', 'success');
+                reset();
+                setTimeout(onClose, 2000);
             } else {
-                showSnackbar(response.error || 'Произошла ошибка при отправке заявки. Попробуйте позже.', 'error');
+                notify(response?.error || 'Произошла ошибка при отправке заявки. Попробуйте позже.', 'error');
             }
-        } catch (error) {
-            console.error('Ошибка при отправке:', error);
-            showSnackbar('Произошла ошибка при отправке заявки. Попробуйте позже.', 'error');
-        }
-    };
-
-    const handleValidate =
-        (text: string) => (e: InvalidEvent<HTMLInputElement>) => {
-            e.target.setCustomValidity(text);
-        };
-
-    const handleChange = (
-        e: React.ChangeEvent<
-            HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-        >
-    ) => {
-        const { name, value } = e.target;
-
-        if (name === 'phone') {
-            const formattedPhone = formatPhoneNumber(value);
-            setFormData({
-                ...formData,
-                [name]: formattedPhone,
-            });
-        } else {
-            setFormData({
-                ...formData,
-                [name]: value,
-            });
+        } catch {
+            notify('Произошла ошибка при отправке заявки. Попробуйте позже.', 'error');
         }
     };
 
