@@ -157,21 +157,21 @@ export const instructors = [
 
     },
     {
-        name: 'Мария Жукова',
-        specialty: ['Вокал', 'Фортепиано'],
-        feature: 'Техники плотных высоких нот, этно мелизматика и душевное отношение к голосу',
+        name: 'Андрей Скобликов',
+        specialty: ['Вокал'],
+        feature: 'Бэлтинг, мелизматика, стилистика и грув',
         experience: '4 года',
         bio: (
             <div className='font-semibold'>
                 {/* Преподаватель по вокалу, фортепиано и сольфеджио  студии ЗВУЧИ */}
-                <li><span className='mr-2'>🎓</span>Образование МПГУ эстрадно-джазовый вокал и фортепиано</li>
+                <li><span className='mr-2'>🎓</span>Образование МГИК - Московский государственный институт культуры</li>
                 <li><span className='mr-2'>⭐</span>
-                    Сверхсила: Техники плотных высоких нот, этно мелизматика и душевное отношение к голосу
+                    Сверхсила: Бэлтинг, мелизматика, стилистика и грув
                 </li>
             </div>
         ),
-        image: '/maria-jukova/jukova.png?height=300&width=300',
-        video: 'https://s3.twcstorage.ru/dd3d1966-zvuchi-media/mentors/IMG_1304.mp4',
+        image: '/andrei/profile.jpg?height=300&width=300',
+        video: '',
     },
     {
         name: 'Элина Губкина',
