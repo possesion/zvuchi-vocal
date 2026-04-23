@@ -42,6 +42,7 @@ function getDb(): Database.Database {
                 description TEXT NOT NULL,
                 category TEXT NOT NULL,
                 author TEXT NOT NULL DEFAULT '',
+                cover_url TEXT NOT NULL DEFAULT '',
                 updated_at TEXT NOT NULL DEFAULT (datetime('now'))
             )
         `);
@@ -53,6 +54,12 @@ function getDb(): Database.Database {
             insertCat.run('method', 'Методика');
             insertCat.run('concept', 'Анатомия');
         })();
+
+        // Migration: add cover_url if missing
+        const cols = db.prepare('PRAGMA table_info(wiki_terms)').all() as { name: string }[];
+        if (!cols.some((c) => c.name === 'cover_url')) {
+            db.exec("ALTER TABLE wiki_terms ADD COLUMN cover_url TEXT NOT NULL DEFAULT ''");
+        }
 
         // Seed terms
         const insertTerm = db.prepare(
@@ -71,6 +78,7 @@ export interface WikiTermRow {
     description: string;
     category: string;
     author: string;
+    cover_url: string;
     updated_at: string;
 }
 
@@ -107,13 +115,14 @@ export function getTermById(id: string): WikiTermRow | undefined {
 export function upsertTerm(term: Omit<WikiTermRow, 'updated_at'>): WikiTermRow {
     getDb()
         .prepare(`
-            INSERT INTO wiki_terms (id, title, description, category, author, updated_at)
-            VALUES (@id, @title, @description, @category, @author, datetime('now'))
+            INSERT INTO wiki_terms (id, title, description, category, author, cover_url, updated_at)
+            VALUES (@id, @title, @description, @category, @author, @cover_url, datetime('now'))
             ON CONFLICT(id) DO UPDATE SET
                 title = excluded.title,
                 description = excluded.description,
                 category = excluded.category,
                 author = excluded.author,
+                cover_url = excluded.cover_url,
                 updated_at = excluded.updated_at
         `)
         .run(term);

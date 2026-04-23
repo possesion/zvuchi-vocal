@@ -11,15 +11,22 @@ export const s3 = new S3Client({
 });
 
 export const BUCKET = process.env.S3_BUCKET!;
-export const CONCERT_PREFIX = 'concert-photos/';
 
-export async function uploadConcertPhoto(
+// Стратегии хранения — определяют префикс для каждого типа контента
+export const S3Prefix = {
+    concertPhotos: 'concert-photos/',
+    wikiCovers: 'wiki-covers/',
+} as const;
+
+export type S3PrefixKey = keyof typeof S3Prefix;
+
+export async function uploadImage(
     buffer: Buffer,
     fileName: string,
-    contentType: string
+    contentType: string,
+    prefix: string
 ): Promise<string> {
-    const key = `${CONCERT_PREFIX}${fileName}`;
-
+    const key = `${prefix}${fileName}`;
     await s3.send(new PutObjectCommand({
         Bucket: BUCKET,
         Key: key,
@@ -27,23 +34,18 @@ export async function uploadConcertPhoto(
         ContentType: contentType,
         ACL: 'public-read',
     }));
-
     return `${process.env.S3_ENDPOINT}/${BUCKET}/${key}`;
 }
 
-export async function deleteConcertPhoto(fileName: string): Promise<void> {
-    const key = `${CONCERT_PREFIX}${fileName}`;
+export async function deleteImage(fileName: string, prefix: string): Promise<void> {
+    const key = `${prefix}${fileName}`;
     await s3.send(new DeleteObjectCommand({ Bucket: BUCKET, Key: key }));
 }
 
-export async function listConcertPhotos(): Promise<string[]> {
-    const result = await s3.send(new ListObjectsV2Command({
-        Bucket: BUCKET,
-        Prefix: CONCERT_PREFIX,
-    }));
-
+export async function listImages(prefix: string): Promise<string[]> {
+    const result = await s3.send(new ListObjectsV2Command({ Bucket: BUCKET, Prefix: prefix }));
     return (result.Contents ?? [])
-        .filter((obj) => obj.Key && obj.Key !== CONCERT_PREFIX)
+        .filter((obj) => obj.Key && obj.Key !== prefix)
         .sort((a, b) => (b.LastModified?.getTime() ?? 0) - (a.LastModified?.getTime() ?? 0))
         .map((obj) => `${process.env.S3_ENDPOINT}/${BUCKET}/${obj.Key}`);
 }
