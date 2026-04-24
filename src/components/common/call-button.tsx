@@ -84,7 +84,7 @@ function MobileDrawer() {
     return (
         <Drawer.Root>
             <Drawer.Trigger asChild>
-                <div className="fixed bottom-6 right-6 z-50">
+                <div className="fixed bottom-7 right-6 z-50">
                     <CircleButton onClick={() => {}} />
                 </div>
             </Drawer.Trigger>

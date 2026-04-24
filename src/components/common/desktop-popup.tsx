@@ -19,7 +19,7 @@ export function DesktopPopup() {
     }, [open]);
 
     return (
-        <div ref={ref} className="fixed bottom-6 right-6 z-50 flex items-end gap-3">
+        <div ref={ref} className="fixed bottom-18 right-12 z-50 flex items-end gap-3">
             {open && (
                 <div className="w-80 rounded-2xl bg-white shadow-2xl overflow-hidden border border-gray-100 animate-in fade-in slide-in-from-bottom-2 duration-150 mb-0">
                     <p className="text-center text-sm text-gray-500 py-3 px-4 border-b border-gray-100">

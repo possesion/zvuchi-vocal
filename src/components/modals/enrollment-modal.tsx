@@ -15,9 +15,10 @@ interface EnrollmentModalProps {
     isOpen: boolean;
     onClose: () => void;
     hasPicture?: boolean;
+    trackEventLabel?: string;
 }
 
-export function EnrollmentModal({ children, isOpen, onClose, hasPicture }: EnrollmentModalProps) {
+export function EnrollmentModal({ children, isOpen, onClose, hasPicture, trackEventLabel }: EnrollmentModalProps) {
     const { notify } = useUI();
     const { formData, isAgreed, setIsAgreed, handleChange, handleValidate, reset } = useContactForm();
     const [offeraIsOpen, setOfferaIsOpen] = useState(false);
@@ -30,7 +31,9 @@ export function EnrollmentModal({ children, isOpen, onClose, hasPicture }: Enrol
                 formType: hasPicture ? 'promo' : 'enrollment-form',
             });
             if (response?.ok) {
-                trackEvent('call_request');
+                if (trackEventLabel){
+                    trackEvent(trackEventLabel);
+                }
                 notify(response.data?.message || 'Спасибо! Мы свяжемся с вами в ближайшее время.', 'success');
                 reset();
                 setTimeout(onClose, 2000);
@@ -44,23 +47,17 @@ export function EnrollmentModal({ children, isOpen, onClose, hasPicture }: Enrol
 
     // Блокировка скролла при открытии модалки
     useEffect(() => {
-        if (isOpen && typeof window !== 'undefined') {
-            // Сохраняем текущую позицию скролла
-            const scrollY = window.scrollY;
-
-            // Блокируем скролл
-            document.body.style.position = 'fixed';
-            document.body.style.top = `-${scrollY}px`;
-            document.body.style.width = '100%';
-
-            return () => {
-                // Восстанавливаем скролл при закрытии
-                document.body.style.position = '';
-                document.body.style.top = '';
-                document.body.style.width = '';
-                window.scrollTo(0, scrollY);
-            };
-        }
+        if (!isOpen) return;
+        const scrollY = window.scrollY;
+        document.body.style.position = 'fixed';
+        document.body.style.top = `-${scrollY}px`;
+        document.body.style.width = '100%';
+        return () => {
+            document.body.style.position = '';
+            document.body.style.top = '';
+            document.body.style.width = '';
+            window.scrollTo(0, scrollY);
+        };
     }, [isOpen]);
 
     if (!isOpen) return null;

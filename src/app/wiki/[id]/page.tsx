@@ -5,6 +5,7 @@ import { Header } from '@/components';
 import { Footer } from '@/components/layout/footer';
 import { ChevronLeft } from 'lucide-react';
 import { ArticleCover } from '@/components/wiki/article-cover';
+import { WikiCta } from '@/components/wiki/wiki-cta';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { TermEditor } from './term-editor';
@@ -60,9 +61,10 @@ export default async function WikiTermPage({ params }: WikiTermPageProps) {
                                     <TermEditor term={term} categories={categories} />
                                 </div>
                             )}
+
                             <article className="rounded-sm bg-white/10 backdrop-blur-sm p-4 md:p-10">
                                 <div className="mb-6 flex items-center gap-3 md:mb-2">
-                                    <span className="rounded-full bg-brand px-4 py-2 text-sm font-semibold uppercase tracking-wide">
+                                    <span className="rounded-full bg-brand/70 px-4 py-2 text-sm font-semibold uppercase tracking-wide">
                                         {categoryMap[term.category] ?? term.category}
                                     </span>
                                 </div>
@@ -71,7 +73,7 @@ export default async function WikiTermPage({ params }: WikiTermPageProps) {
                                 )}
                                 <h1 className="mb-6 text-3xl font-bold text-white md:text-5xl">
                                     {term.title}
-                                </h1>                                
+                                </h1>
                                 <div className="prose prose-invert prose-md max-w-none text-wrap hyphens-auto" lang="ru">
                                     <ReactMarkdown remarkPlugins={[remarkGfm]}>{term.description}</ReactMarkdown>
                                 </div>
@@ -87,6 +89,8 @@ export default async function WikiTermPage({ params }: WikiTermPageProps) {
                                     </p>
                                 )}
                             </article>
+
+                            <WikiCta category={term.category} />
 
                             <div className="mt-8">
                                 <h2 className="mb-4 text-xl font-bold text-white">Другие термины</h2>

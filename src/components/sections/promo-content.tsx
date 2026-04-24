@@ -1,5 +1,6 @@
 'use client';
 
+import { trackEvent } from "@/hooks/use-yandex-metrica";
 import { CirclePlay } from "lucide-react";
 import Image from "next/image";
 import { useRef, useState } from "react"
@@ -14,6 +15,7 @@ export const PromoContent = () => {
     const handlePlayClick = () => {
         if (videoRef.current) {
             videoRef.current.play()
+            trackEvent('play-promo-video')
             setIsPlaying(true)
         }
     }

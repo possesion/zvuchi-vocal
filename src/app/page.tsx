@@ -86,7 +86,10 @@ export default function Home() {
                                 href="/about"
                                 className="group rounded-sm bg-white/10 p-8 backdrop-blur-md transition-all hover:bg-white/20 hover:scale-105"
                             >
-                                <h3 className="text-center text-2xl font-bold">Больше информации о студии</h3>
+                                <h3 className="mb-4 text-2xl font-bold">Больше информации</h3>
+                                <p className="text-white/80">
+                                    О студии и ответы на частые вопросы
+                                </p>
                             </Link>
                             <Link
                                 href="/programs"

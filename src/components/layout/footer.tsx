@@ -32,9 +32,6 @@ export const Footer = () => {
                 </div>
 
                 <div className="flex flex-col items-start gap-2 py-2">
-                    <h4 className="hidden text-lg font-bold text-white sm:inline">
-                        О компании
-                    </h4>
                     <Offera document="/documents/privacy.txt">
                         <button className="group relative cursor-pointer text-white transition-colors duration-200 hover:text-brand dark:hover:text-red-400">
                             Политика конфиденциальности
