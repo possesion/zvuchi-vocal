@@ -14,3 +14,10 @@ export const YANDEX_ENROLLMENT_URL = 'https://yandex.ru/business/widget/request/
 export const BUCKET_URL = 'https://s3.twcstorage.ru';
 
 export const CAROUSEL_TIMEOUT = 10000;
+
+export enum Subject {
+    vocal='Вокал',
+    guitar='Гитара',
+    ukulele='Укулеле',
+    piano='Фортепиано'
+}

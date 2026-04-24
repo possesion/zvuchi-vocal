@@ -157,8 +157,8 @@ interface VocalInstructor {
             </div>
             <h3 className="bg-dark rounded-sm shadow-lg px-4 pb-1 text-lg font-bold md:text-xl">{instructor.name}</h3>
             <p className="w-70"><b>Предмет: </b>{instructor.specialty?.join(', ')}</p>
-            <p className="mb-2 w-70"><b>Сверхсила: </b>{instructor.feature}</p>
-            <p><span className="mr-2" aria-hidden="true">📚</span>Опыт преподавания: {instructor.experience}</p>
+            <p className="w-70 hyphens-auto" lang="ru"><b>Сверхсила: </b>{instructor.feature}</p>
+            <p><span className="mr-2" aria-hidden="true">📚</span><b>Опыт преподавания:</b> {instructor.experience}</p>
         </article>
     )
 }
