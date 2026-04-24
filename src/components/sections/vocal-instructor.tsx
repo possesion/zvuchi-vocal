@@ -10,7 +10,7 @@ import classNames from 'classnames'
 
 interface VocalInstructor {
     instructor: {
-        bio: React.JSX.Element
+        bio: React.JSX.Element | string
         experience: string
         image: string
         name: string
@@ -109,7 +109,7 @@ interface VocalInstructor {
                         <div
                             className="relative h-68 w-68 rounded-full inset-ring-4 inset-ring-violet-900" key={instructor.image}>
                             <Image
-                                src={instructor.image || '/placeholder.svg'}
+                                src={instructor.image || '/placeholder.png'}
                                 sizes="300px"
                                 alt={`Фото преподавателя ${instructor.name}`}
                                 fill

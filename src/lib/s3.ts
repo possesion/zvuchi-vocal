@@ -16,6 +16,8 @@ export const BUCKET = process.env.S3_BUCKET!;
 export const S3Prefix = {
     concertPhotos: 'concert-photos/',
     wikiCovers: 'wiki-covers/',
+    newsCovers: 'news-covers/',
+    instructorPhotos: 'instructor-photos/',
 } as const;
 
 export type S3PrefixKey = keyof typeof S3Prefix;

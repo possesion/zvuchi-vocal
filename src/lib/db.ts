@@ -32,6 +32,25 @@ function getDb(): Database.Database {
                 url TEXT NOT NULL UNIQUE,
                 created_at TEXT NOT NULL DEFAULT (datetime('now'))
             );
+            CREATE TABLE IF NOT EXISTS news (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                title TEXT NOT NULL,
+                summary TEXT NOT NULL,
+                content TEXT NOT NULL,
+                cover_url TEXT NOT NULL DEFAULT '',
+                published_at TEXT NOT NULL DEFAULT (datetime('now'))
+            );
+            CREATE TABLE IF NOT EXISTS instructors (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT NOT NULL,
+                specialty TEXT NOT NULL DEFAULT '',
+                feature TEXT NOT NULL DEFAULT '',
+                experience TEXT NOT NULL DEFAULT '',
+                bio TEXT NOT NULL DEFAULT '',
+                image TEXT NOT NULL DEFAULT '',
+                video TEXT NOT NULL DEFAULT '',
+                sort_order INTEGER NOT NULL DEFAULT 0
+            );
             CREATE TABLE IF NOT EXISTS wiki_categories (
                 id TEXT PRIMARY KEY,
                 label TEXT NOT NULL
@@ -68,6 +87,20 @@ function getDb(): Database.Database {
         db.transaction(() => {
             for (const term of SEED_TERMS) insertTerm.run(term);
         })();
+
+        // Seed instructors
+        const instrCount = (db.prepare('SELECT COUNT(*) as c FROM instructors').get() as { c: number }).c;
+        if (instrCount === 0) {
+            const insertInstr = db.prepare(
+                'INSERT INTO instructors (name, specialty, feature, experience, bio, image, video, sort_order) VALUES (@name, @specialty, @feature, @experience, @bio, @image, @video, @sort_order)'
+            );
+            db.transaction(() => {
+                insertInstr.run({ name: 'Валерия Ковшова', specialty: 'Вокал', feature: 'Джазовая импровизация, мелизматика и экстрим-вокал', experience: '6 лет', bio: 'Образование: МГКИ (эстрадно-джазовый вокал)\nПовышала квалификацию на курсах EVT и у Дарьи Манаковой\nСолистка джаз-банда Extra Time Jazz Band\nОпыт преподавания: 6 лет', image: '/valeria/lera.PNG', video: 'https://s3.twcstorage.ru/dd3d1966-zvuchi-media/mentors/IMG_7581.mp4', sort_order: 1 });
+                insertInstr.run({ name: 'Мария Биттер', specialty: 'Вокал', feature: 'Бэлтинг, Микст и вокальные фишки', experience: '10 лет', bio: 'Высшее муз. образование (МПГУ)\nКурсы Estill Voice\nМастер-классы у Дарьи Манаковой и Ольги Кляйн\nОпыт преподавания: 10 лет', image: '/maria/card.jpg', video: 'https://s3.twcstorage.ru/dd3d1966-zvuchi-media/mentors/IMG_8697.mp4', sort_order: 2 });
+                insertInstr.run({ name: 'Мария Жукова', specialty: 'Вокал, Фортепиано', feature: 'Техники плотных высоких нот, этно мелизматика и душевное отношение к голосу', experience: '4 года', bio: 'Образование МПГУ эстрадно-джазовый вокал и фортепиано\nТехники плотных высоких нот, этно мелизматика', image: '/maria-jukova/jukova.png', video: 'https://s3.twcstorage.ru/dd3d1966-zvuchi-media/mentors/IMG_1304.mp4', sort_order: 3 });
+                insertInstr.run({ name: 'Элина Губкина', specialty: 'Гитара', feature: 'Огненные гитарные соляки', experience: '5 лет', bio: 'Образование МПГУ эстрадно-джазовый вокал и фортепиано\nОпыт преподавания: 5 лет', image: '/elina/elina.jpeg', video: '', sort_order: 4 });
+            })();
+        }
     }
     return db;
 }
@@ -146,4 +179,46 @@ export function addShortToDb(url: string): void {
 
 export function deleteShortFromDb(url: string): void {
     getDb().prepare('DELETE FROM shorts WHERE url = ?').run(url);
+}
+
+export interface InstructorRow {
+    id: number;
+    name: string;
+    specialty: string;
+    feature: string;
+    experience: string;
+    bio: string;
+    image: string;
+    video: string;
+    sort_order: number;
+}
+
+export function getAllInstructors(): InstructorRow[] {
+    return getDb()
+        .prepare('SELECT * FROM instructors ORDER BY sort_order ASC, id ASC')
+        .all() as InstructorRow[];
+}
+
+export function getInstructorById(id: number): InstructorRow | undefined {
+    return getDb()
+        .prepare('SELECT * FROM instructors WHERE id = ?')
+        .get(id) as InstructorRow | undefined;
+}
+
+export function createInstructor(data: Omit<InstructorRow, 'id'>): InstructorRow {
+    const result = getDb()
+        .prepare('INSERT INTO instructors (name, specialty, feature, experience, bio, image, video, sort_order) VALUES (@name, @specialty, @feature, @experience, @bio, @image, @video, @sort_order)')
+        .run(data);
+    return getInstructorById(result.lastInsertRowid as number)!;
+}
+
+export function updateInstructor(data: InstructorRow): InstructorRow {
+    getDb()
+        .prepare('UPDATE instructors SET name=@name, specialty=@specialty, feature=@feature, experience=@experience, bio=@bio, image=@image, video=@video, sort_order=@sort_order WHERE id=@id')
+        .run(data);
+    return getInstructorById(data.id)!;
+}
+
+export function deleteInstructor(id: number): void {
+    getDb().prepare('DELETE FROM instructors WHERE id = ?').run(id);
 }

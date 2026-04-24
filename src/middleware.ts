@@ -4,6 +4,8 @@ const PROTECTED_API_PATHS = [
     '/api/v1/concert-photos',
     '/api/v1/wiki',
     '/api/v1/shorts',
+    '/api/v1/news',
+    '/api/v1/instructors',
 ]
 
 function isProtectedMutation(req: NextRequest): boolean {
