@@ -66,6 +66,37 @@ function getDb(): Database.Database {
             )
         `);
 
+        // Seed news
+        const newsCount = (db.prepare('SELECT COUNT(*) as c FROM news').get() as { c: number }).c;
+        if (newsCount === 0) {
+            const insertNews = db.prepare(
+                'INSERT INTO news (title, summary, content, cover_url, published_at) VALUES (@title, @summary, @content, @cover_url, @published_at)'
+            );
+            db.transaction(() => {
+                insertNews.run({
+                    title: 'Открытый концерт студии ЗВУЧИ — апрель 2025',
+                    summary: 'В апреле мы провели большой отчётный концерт. Наши ученики выступили на сцене впервые — и это было незабываемо!',
+                    content: 'В апреле 2025 года студия ЗВУЧИ провела свой очередной отчётный концерт. На сцену вышли ученики всех уровней — от начинающих до продвинутых. Каждый исполнил по 1–2 песни, которые готовил несколько месяцев.\n\nКонцерт прошёл в уютном зале на 80 мест. Зрители тепло встречали каждого исполнителя. Особенно запомнилось выступление дуэта — два ученика, которые занимаются всего полгода, исполнили джазовый стандарт.\n\nСледующий концерт запланирован на июнь. Если хочешь выступить — записывайся на занятия уже сейчас!',
+                    cover_url: '',
+                    published_at: '2025-04-15 18:00:00',
+                });
+                insertNews.run({
+                    title: 'Новый педагог в студии — Мария Жукова',
+                    summary: 'Мы рады представить нового преподавателя вокала. Мария специализируется на этно-мелизматике и технике плотных высоких нот.',
+                    content: 'Студия ЗВУЧИ продолжает расти! Мы рады представить нашего нового педагога — Марию Жукову.\n\nМария окончила МПГУ по специальности «эстрадно-джазовый вокал и фортепиано». Её сверхсила — техники плотных высоких нот, этно-мелизматика и душевное отношение к голосу.\n\nМария уже ведёт занятия в студии. Если хочешь попробовать — запишись на пробный урок!',
+                    cover_url: '',
+                    published_at: '2025-03-01 12:00:00',
+                });
+                insertNews.run({
+                    title: 'Мастер-класс по джазовой импровизации',
+                    summary: 'В феврале Валерия провела открытый мастер-класс по джазовой импровизации. Рассказываем, как это было.',
+                    content: 'В феврале 2025 года наш педагог Валерия Ковшова провела открытый мастер-класс по джазовой импровизации.\n\nУчастники узнали, как строить мелодические линии над джазовыми аккордами, как использовать мелизматику и как не бояться импровизировать на сцене.\n\nМастер-класс длился 2 часа и собрал 15 участников — как учеников студии, так и гостей. По итогам мероприятия несколько человек записались на регулярные занятия.\n\nСледите за нашими анонсами — мы планируем проводить подобные мероприятия регулярно!',
+                    cover_url: '',
+                    published_at: '2025-02-10 15:00:00',
+                });
+            })();
+        }
+
         // Seed categories
         const insertCat = db.prepare('INSERT OR IGNORE INTO wiki_categories (id, label) VALUES (?, ?)');
         db.transaction(() => {
@@ -179,6 +210,45 @@ export function addShortToDb(url: string): void {
 
 export function deleteShortFromDb(url: string): void {
     getDb().prepare('DELETE FROM shorts WHERE url = ?').run(url);
+}
+
+export interface NewsRow {
+    id: number;
+    title: string;
+    summary: string;
+    content: string;
+    cover_url: string;
+    published_at: string;
+}
+
+export function getLatestNews(limit = 5): NewsRow[] {
+    return getDb()
+        .prepare('SELECT * FROM news ORDER BY published_at DESC LIMIT ?')
+        .all(limit) as NewsRow[];
+}
+
+export function getNewsById(id: number): NewsRow | undefined {
+    return getDb()
+        .prepare('SELECT * FROM news WHERE id = ?')
+        .get(id) as NewsRow | undefined;
+}
+
+export function createNews(news: Omit<NewsRow, 'id'>): NewsRow {
+    const result = getDb()
+        .prepare('INSERT INTO news (title, summary, content, cover_url, published_at) VALUES (@title, @summary, @content, @cover_url, @published_at)')
+        .run(news);
+    return getNewsById(result.lastInsertRowid as number)!;
+}
+
+export function updateNews(news: NewsRow): NewsRow {
+    getDb()
+        .prepare('UPDATE news SET title=@title, summary=@summary, content=@content, cover_url=@cover_url, published_at=@published_at WHERE id=@id')
+        .run(news);
+    return getNewsById(news.id)!;
+}
+
+export function deleteNews(id: number): void {
+    getDb().prepare('DELETE FROM news WHERE id = ?').run(id);
 }
 
 export interface InstructorRow {

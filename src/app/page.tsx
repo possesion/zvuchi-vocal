@@ -10,6 +10,11 @@ import { Socials } from '@/components/common/socials';
 import { SOCIAL_ICON_SIZE } from '@/components/common/constants';
 import { EnrollmentSection } from '@/components';
 import { contacts } from './constants';
+import { getLatestNews } from '@/lib/db';
+import { NewsFeed } from '@/components/sections/news-feed';
+import { NewsAddForm } from './news-add-form';
+import { checkAuth } from '@/lib/auth';
+import { headers } from 'next/headers';
 
 export const metadata: Metadata = {
     title: 'ЗВУЧИ - Вокальная студия | Уроки вокала в Москве',
@@ -37,7 +42,10 @@ export const metadata: Metadata = {
     },
 };
 
-export default function Home() {
+export default async function Home() {
+    const news = getLatestNews(5);
+    const headersList = await headers();
+    const isAuthorized = checkAuth(headersList);
     return (
         <div className="relative min-h-screen font-exo2">
             <Header />
@@ -112,6 +120,12 @@ export default function Home() {
                             </Link>
                         </div>
                     </div>
+                {isAuthorized && (
+                    <div className="container pt-8">
+                        <NewsAddForm />
+                    </div>
+                )}
+                <NewsFeed posts={news} isAuthorized={isAuthorized} />
                 </section>
             </main>
             <Footer />
