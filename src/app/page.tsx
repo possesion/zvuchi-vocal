@@ -11,7 +11,7 @@ import { SOCIAL_ICON_SIZE } from '@/components/common/constants';
 import { EnrollmentSection } from '@/components';
 import { contacts } from './constants';
 import { getLatestNews } from '@/lib/db';
-import { NewsFeed } from '@/components/sections/news-feed';
+import { NewsFeed } from '@/components/sections/news/news-feed';
 import { NewsAddForm } from './news-add-form';
 import { checkAuth } from '@/lib/auth';
 import { headers } from 'next/headers';
