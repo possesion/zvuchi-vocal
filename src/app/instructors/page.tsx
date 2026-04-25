@@ -28,7 +28,7 @@ export default async function InstructorsPage() {
     // Адаптируем InstructorRow к формату VocalInstructor
     const instructorProps = instructors.map((inst) => ({
         name: inst.name,
-        specialty: inst.specialty.split(',').map((s) => s.trim()).filter(Boolean),
+        specialty: (inst.specialty ?? '').split(',').map((s) => s.trim()).filter(Boolean),
         feature: inst.feature,
         experience: inst.experience,
         bio: inst.bio,

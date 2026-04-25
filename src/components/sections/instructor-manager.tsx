@@ -64,7 +64,6 @@ function InstructorForm({ initial, onSave, onCancel, title }: InstructorFormProp
     };
 
     return (
-        // TODO ОТРЕФАЧИТЬ
         <form onSubmit={handleSubmit} className="rounded-sm bg-zinc-900 p-5 space-y-3">
             <div className="flex items-start gap-4">
                 <PhotoPicker currentUrl={form.image} onUploaded={(url) => setForm((f) => ({ ...f, image: url }))} />
@@ -103,43 +102,47 @@ export function InstructorManager({ instructors }: InstructorManagerProps) {
     const [deleting, setDeleting] = useState(false);
 
     const handleAdd = async (data: FormData) => {
-        const res = await fetch('/api/v1/instructors', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ ...data, image: '' }), // фото загружается отдельно
-        });
-        const created = await res.json();
+        try {
+            const res = await fetch('/api/v1/instructors', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ ...data, image: '' }),
+            });
+            if (!res.ok) return;
+            const created = await res.json();
 
-        // Если выбрано локальное фото (blob:) — загружаем в S3
-        if (data.image.startsWith('blob:') && created.id) {
-            const blob = await fetch(data.image).then((r) => r.blob());
-            const file = new File([blob], 'photo.jpg', { type: blob.type });
-            const fd = new FormData();
-            fd.append('file', file);
-            await fetch(`/api/v1/instructors/${created.id}/photo`, { method: 'POST', body: fd });
-        }
-
+            if (data.image.startsWith('blob:') && created.id) {
+                const blob = await fetch(data.image).then((r) => r.blob());
+                const file = new File([blob], 'photo.jpg', { type: blob.type });
+                const fd = new FormData();
+                fd.append('file', file);
+                await fetch(`/api/v1/instructors/${created.id}/photo`, { method: 'POST', body: fd });
+                URL.revokeObjectURL(data.image);
+            }
+        } catch { /* silent — router.refresh покажет актуальное состояние */ }
         setAdding(false);
         router.refresh();
     };
 
     const handleEdit = async (id: number, data: FormData) => {
-        // Если фото изменилось на blob — загружаем в S3 отдельно
-        if (data.image.startsWith('blob:')) {
-            const blob = await fetch(data.image).then((r) => r.blob());
-            const file = new File([blob], 'photo.jpg', { type: blob.type });
-            const fd = new FormData();
-            fd.append('file', file);
-            const photoRes = await fetch(`/api/v1/instructors/${id}/photo`, { method: 'POST', body: fd });
-            const photoData = await photoRes.json();
-            if (photoRes.ok) data = { ...data, image: photoData.url };
-        }
+        try {
+            if (data.image.startsWith('blob:')) {
+                const blob = await fetch(data.image).then((r) => r.blob());
+                const file = new File([blob], 'photo.jpg', { type: blob.type });
+                const fd = new FormData();
+                fd.append('file', file);
+                const photoRes = await fetch(`/api/v1/instructors/${id}/photo`, { method: 'POST', body: fd });
+                const photoData = await photoRes.json();
+                URL.revokeObjectURL(data.image);
+                if (photoRes.ok) data = { ...data, image: photoData.url };
+            }
 
-        await fetch(`/api/v1/instructors/${id}`, {
-            method: 'PATCH',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data),
-        });
+            await fetch(`/api/v1/instructors/${id}`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data),
+            });
+        } catch { /* silent */ }
         setEditingId(null);
         router.refresh();
     };
