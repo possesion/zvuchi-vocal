@@ -41,6 +41,7 @@ jobs:
           script: |
             cd web/zvuchi-vocal/
             git pull origin main
-            npm i
+            npm ci
+            npm rebuild better-sqlite3
             npm run build
             pm2 restart 0
