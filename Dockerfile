@@ -15,6 +15,9 @@ RUN npm ci
 # Copy source code
 COPY . .
 
+# Clean Next.js cache to avoid Server Action mismatch
+RUN rm -rf .next
+
 # Build the application
 RUN npm run build
 
