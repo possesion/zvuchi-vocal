@@ -30,7 +30,7 @@ RUN apk add --no-cache cairo jpeg pango giflib
 COPY package*.json ./
 
 # Install only production dependencies
-RUN npm ci --only=production
+RUN npm ci
 
 # Copy built application from builder
 COPY --from=builder /app/.next ./.next
