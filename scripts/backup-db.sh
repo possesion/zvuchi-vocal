@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Database backup script for SQLite
+# Database backup script for SQLite!
 # Usage: ./scripts/backup-db.sh
 
 set -e
