@@ -22,25 +22,21 @@ const nextConfig: NextConfig = {
       {
         protocol: "https",
         hostname: "s3.twcstorage.ru",
-        port: "",
-        pathname: "/dd3d1966-zvuchi-media/**",
+        pathname: "/**",
       },
       {
         protocol: "https",
         hostname: "drive.google.com",
-        port: "",
         pathname: "/file/**",
       },
       {
         protocol: "https",
         hostname: "docs.google.com",
-        port: "",
         pathname: "/document/**",
       },
       {
         protocol: "https",
         hostname: "mc.yandex.ru",
-        port: "",
         pathname: "/watch/105392489",
       },
     ],
