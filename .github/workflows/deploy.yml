@@ -20,19 +20,28 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: "23.11.0"  
+          node-version: "23"
+          cache: ${{ steps.detect-package-manager.outputs.manager }}
+      - name: Restore cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            .next/cache
+          # Generate a new cache whenever packages or source files change.
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**.[jt]s', '**.[jt]sx') }}
+          # If source files changed but packages didn't, rebuild from a prior cache.
+          restore-keys: |
+            ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-    
       - name: Install dependencies
-        run: npm i
-      - name: Create data directory
-        run: mkdir -p data
+        run: npm ci
       - name: Lint
         run: npm run lint
 
+      - name: Type check
+        run: npm run type-check
+
       - name: Test
         run: npm run test
-
-      - name: Build
-        run: npm run build
 
   deploy:
     name: Deploy
@@ -40,6 +49,8 @@ jobs:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     steps:
+      - uses: actions/checkout@v6
+      
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1.0.3
         with:
@@ -48,8 +59,15 @@ jobs:
           username: ${{ secrets.VPS_USER }}
           password: ${{ secrets.VPS_PASSWORD }}
           script: |
-            cd web/zvuchi-vocal/
+            set -e
+            cd /root/web/zvuchi-vocal/
+            
+            echo "Starting deployment..."
+            
+            # Backup database before deployment
+            echo "Creating database backup..."
+            bash scripts/backup-db.sh
+            
+            # Pull latest changes
+            echo "Pulling latest changes..."
             git pull origin main
-            npm i
-            npm run build
-            pm2 restart 0
