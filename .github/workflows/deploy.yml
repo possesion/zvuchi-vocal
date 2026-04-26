@@ -21,25 +21,13 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "23"
-          cache: ${{ steps.detect-package-manager.outputs.manager }}
-      - name: Restore cache
-        uses: actions/cache@v4
-        with:
-          path: |
-            .next/cache
-          # Generate a new cache whenever packages or source files change.
-          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**.[jt]s', '**.[jt]sx') }}
-          # If source files changed but packages didn't, rebuild from a prior cache.
-          restore-keys: |
-            ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-    
+          cache: npm
       - name: Install dependencies
         run: npm ci
       - name: Lint
         run: npm run lint
-
       - name: Type check
         run: npm run type-check
-
       - name: Test
         run: npm run test
 
@@ -71,3 +59,34 @@ jobs:
             # Pull latest changes
             echo "Pulling latest changes..."
             git pull origin main
+            
+            # Build Docker image
+            echo "Building Docker image..."
+            docker build -t zvuchi-vocal:latest .
+            
+            # Stop and remove old container
+            echo "Stopping old container..."
+            docker stop zvuchi-vocal || true
+            docker rm zvuchi-vocal || true
+            
+            # Run new container with volume for database
+            echo "Starting new container..."
+            docker run -d \
+              --name zvuchi-vocal \
+              --restart unless-stopped \
+              -p 3000:3000 \
+              -v /root/web/zvuchi-vocal/data:/app/data \
+              --env-file .env \
+              zvuchi-vocal:latest
+            
+            # Wait for container to be healthy
+            echo "Waiting for container to be healthy..."
+            sleep 5
+            
+            if docker ps | grep -q zvuchi-vocal; then
+              echo "✅ Deployment completed successfully"
+            else
+              echo "❌ Container failed to start"
+              docker logs zvuchi-vocal
+              exit 1
+            fi
