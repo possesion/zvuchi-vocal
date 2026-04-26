@@ -9,7 +9,6 @@ import 'swiper/css/navigation';
 import type { NewsRow } from '@/lib/db';
 import { NewsCard } from './news-card';
 import { NewsModal } from './news-modal';
-import { NewsEditForm } from './news-edit-form';
 
 interface NewsFeedProps {
     posts: NewsRow[];
@@ -19,7 +18,6 @@ interface NewsFeedProps {
 export function NewsFeed({ posts, isAuthorized = false }: NewsFeedProps) {
     const router = useRouter();
     const [activePost, setActivePost] = useState<NewsRow | null>(null);
-    const [editingPost, setEditingPost] = useState<NewsRow | null>(null);
     const [deleteTarget, setDeleteTarget] = useState<number | null>(null);
     const [deleting, setDeleting] = useState(false);
 
@@ -48,7 +46,7 @@ export function NewsFeed({ posts, isAuthorized = false }: NewsFeedProps) {
                 <Swiper
                     modules={[Navigation]}
                     spaceBetween={50}
-                    slidesPerView='auto'
+                    slidesPerView="auto"
                     navigation
                     scrollbar={{ draggable: true }}
                     breakpoints={{
@@ -58,28 +56,25 @@ export function NewsFeed({ posts, isAuthorized = false }: NewsFeedProps) {
                     }}
                 >
                     {posts.map((post) => (
-                        <SwiperSlide className="relative flex-shrink-0 w-full aspect-[3/4] rounded-sm" key={post.id}>
-                            {editingPost?.id === post.id ? (
-                                <NewsEditForm
-                                    post={editingPost}
-                                    onSaved={() => { setEditingPost(null); router.refresh(); }}
-                                    onCancel={() => setEditingPost(null)}
-                                />
-                            ) : (
-                                <NewsCard
-                                    post={post}
-                                    onOpen={setActivePost}
-                                    isAuthorized={isAuthorized}
-                                    onDelete={setDeleteTarget}
-                                    onEdit={setEditingPost}
-                                />
-                            )}
+                        <SwiperSlide className="relative flex-shrink-0 w-full aspect-[4/4] rounded-sm overflow-auto" key={post.id}>
+                            <NewsCard
+                                post={post}
+                                onOpen={setActivePost}
+                                isAuthorized={isAuthorized}
+                                onDelete={setDeleteTarget}
+                            />
                         </SwiperSlide>
                     ))}
                 </Swiper>
             </div>
 
-            {activePost && <NewsModal post={activePost} onClose={() => setActivePost(null)} />}
+            {activePost && (
+                <NewsModal
+                    post={activePost}
+                    onClose={() => setActivePost(null)}
+                    isAuthorized={isAuthorized}
+                />
+            )}
 
             {deleteTarget !== null && createPortal(
                 <div className="fixed inset-0 z-[200] flex items-center justify-center bg-black/70">
@@ -87,10 +82,10 @@ export function NewsFeed({ posts, isAuthorized = false }: NewsFeedProps) {
                         <p className="mb-2 text-lg font-semibold">Удалить новость?</p>
                         <p className="mb-6 text-sm text-white/60">Это действие нельзя отменить.</p>
                         <div className="flex justify-end gap-3">
-                            <button onClick={() => setDeleteTarget(null)} disabled={deleting} className="rounded-md px-4 py-2 text-sm text-white/70 hover:text-white">
+                            <button onClick={() => setDeleteTarget(null)} disabled={deleting} className="rounded-sm px-4 py-2 text-sm text-white/70 hover:text-white">
                                 Отмена
                             </button>
-                            <button onClick={confirmDelete} disabled={deleting} className="rounded-md bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700 disabled:opacity-50">
+                            <button onClick={confirmDelete} disabled={deleting} className="rounded-sm bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700 disabled:opacity-50">
                                 {deleting ? 'Удаление...' : 'Удалить'}
                             </button>
                         </div>

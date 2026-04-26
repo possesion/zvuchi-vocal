@@ -38,6 +38,7 @@ function getDb(): Database.Database {
                 summary TEXT NOT NULL,
                 content TEXT NOT NULL,
                 cover_url TEXT NOT NULL DEFAULT '',
+                views INTEGER NOT NULL DEFAULT 0,
                 published_at TEXT NOT NULL DEFAULT (datetime('now'))
             );
             CREATE TABLE IF NOT EXISTS instructors (
@@ -78,6 +79,12 @@ function getDb(): Database.Database {
         const cols = db.prepare('PRAGMA table_info(wiki_terms)').all() as { name: string }[];
         if (!cols.some((c) => c.name === 'cover_url')) {
             db.exec("ALTER TABLE wiki_terms ADD COLUMN cover_url TEXT NOT NULL DEFAULT ''");
+        }
+
+        // Migration: add views to news if missing
+        const newsCols = db.prepare('PRAGMA table_info(news)').all() as { name: string }[];
+        if (!newsCols.some((c) => c.name === 'views')) {
+            db.exec('ALTER TABLE news ADD COLUMN views INTEGER NOT NULL DEFAULT 0');
         }
 
         // Seed terms
@@ -187,6 +194,7 @@ export interface NewsRow {
     summary: string;
     content: string;
     cover_url: string;
+    views: number;
     published_at: string;
 }
 
@@ -202,9 +210,9 @@ export function getNewsById(id: number): NewsRow | undefined {
         .get(id) as NewsRow | undefined;
 }
 
-export function createNews(news: Omit<NewsRow, 'id'>): NewsRow {
+export function createNews(news: Omit<NewsRow, 'id' | 'views'>): NewsRow {
     const result = getDb()
-        .prepare('INSERT INTO news (title, summary, content, cover_url, published_at) VALUES (@title, @summary, @content, @cover_url, @published_at)')
+        .prepare('INSERT INTO news (title, summary, content, cover_url, views, published_at) VALUES (@title, @summary, @content, @cover_url, 0, @published_at)')
         .run(news);
     return getNewsById(result.lastInsertRowid as number)!;
 }
@@ -218,6 +226,10 @@ export function updateNews(news: NewsRow): NewsRow {
 
 export function deleteNews(id: number): void {
     getDb().prepare('DELETE FROM news WHERE id = ?').run(id);
+}
+
+export function incrementNewsViews(id: number): void {
+    getDb().prepare('UPDATE news SET views = views + 1 WHERE id = ?').run(id);
 }
 
 export interface InstructorRow {
