@@ -76,7 +76,7 @@ jobs:
               --restart unless-stopped \
               -p 3000:3000 \
               -v /root/web/zvuchi-vocal/data:/app/data \
-              --env-file .env \
+              --env-file /root/web/zvuchi-vocal/.env \
               zvuchi-vocal:latest
             
             # Wait for container to be healthy
