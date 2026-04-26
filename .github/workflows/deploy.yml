@@ -6,16 +6,34 @@ on:
   pull_request:
     branches: [main]
 
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
 jobs:
   prepare:
     name: Prepare
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-
+      - uses: actions/checkout@v6
+      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "23"
+          cache: ${{ steps.detect-package-manager.outputs.manager }}
+      - name: Restore cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            .next/cache
+          # Generate a new cache whenever packages or source files change.
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**.[jt]s', '**.[jt]sx') }}
+          # If source files changed but packages didn't, rebuild from a prior cache.
+          restore-keys: |
+            ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-    
       - name: Install dependencies
         run: npm i
-
       - name: Lint
         run: npm run lint
 
