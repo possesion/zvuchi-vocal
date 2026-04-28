@@ -44,14 +44,16 @@ export default async function InstructorsPage() {
                     <section className="container text-white">
                         <header className="mb-12 flex flex-col items-center">
                             <div className="w-full mb-8 flex flex-col justify-center items-center bg-dark px-6 py-4 rounded-sm md:mb-12">
-                                <h1 className="text-4xl font-bold tracking-tight text-shadow-lg md:text-5xl xl:text-7xl">
+                                <h1 className="mb-4 text-4xl font-bold tracking-tight text-shadow-lg md:text-5xl xl:text-7xl">
                                     Наши<br />
                                     <span className="ml-5">педагоги</span>
                                 </h1>
+                                <article className="max-w-2xl text-center font-bold md:text-lg">
+                                    <p className="mb-2">
+                                        Подберите себе преподавателя по вокалу, фортепиано или гитаре.
+                                    </p>
+                                </article>
                             </div>
-                            <p className="max-w-3xl text-xl text-white/90 md:text-xl">
-                                Подберите себе преподавателя по вокалу, фортепиано или гитаре.
-                            </p>
                         </header>
 
                         {isAuthorized && (
