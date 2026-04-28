@@ -65,8 +65,8 @@ export const Shorts = ({ isAuthorized = false }: { isAuthorized?: boolean }) => 
     return (
         <div className="relative pt-16 lg:pt-32">
             <div className="mb-4 flex items-center justify-between">
-                <p className="text-xl font-semibold text-white/90 md:text-2xl">
-                    Музыкальные распевки и отзывы
+                <p className="text-xl font-semibold text-white/90 md:text-3xl">
+                    Видео
                 </p>
                 {isAuthorized && (
                     <button

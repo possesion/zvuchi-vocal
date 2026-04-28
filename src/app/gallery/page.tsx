@@ -37,10 +37,15 @@ export default async function GalleryPage() {
                     <section className='container text-white'>
                         <header className="flex flex-col items-center">
                             <div className="w-full mb-8 flex flex-col justify-center items-center bg-dark px-6 py-4 rounded-sm opacity-85 md:mb-12">
-                                <h1 className="text-4xl font-bold tracking-tight text-shadow-lg md:text-5xl xl:text-7xl">
-                                    Жизнь<br />
-                                    <span className="ml-5">студии</span>
+                                <h1 className="mb-4 text-4xl font-bold tracking-tight text-shadow-lg md:text-5xl xl:text-7xl">
+                                    Наша<br />
+                                    <span className="ml-5">Галерея</span>
                                 </h1>
+                                <article className="max-w-2xl text-center font-bold md:text-lg">
+                                    <p className="mb-2">
+                                        Погрузитесь в атмосферу нашего учебного процесса и отчетных концертов
+                                    </p>
+                                </article>
                             </div>
                         </header>
                         <Gallery isAuthorized={isAuthorized} />
