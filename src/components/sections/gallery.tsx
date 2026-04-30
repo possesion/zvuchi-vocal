@@ -129,7 +129,7 @@ export const Gallery = ({ isAuthorized = false }: { isAuthorized?: boolean }) =>
                     </div>
                 </div>
                 <div
-                    className="gallery-scroll flex space-x-4 overflow-x-auto py-4 whitespace-nowrap scrollbar-hide no-scrollbar select-none cursor-grab"
+                    className="gallery-scroll flex space-x-4 overflow-x-auto pb-4 whitespace-nowrap scrollbar-hide no-scrollbar select-none cursor-grab"
                     role="region"
                     aria-label="Галерея фотографий концертов"
                     onMouseDown={handleMouseDown}

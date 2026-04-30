@@ -9,7 +9,7 @@ import remarkGfm from 'remark-gfm';
 
 interface NewsCardProps {
     post: NewsRow;
-    onOpen: (post: NewsRow) => void;
+    onOpen: (id: number) => void;
     isAuthorized: boolean;
     onDelete: (id: number) => void;
 }
@@ -28,9 +28,7 @@ export function NewsCard({ post, onOpen, isAuthorized, onDelete }: NewsCardProps
                     </button>
                 </div>
             )}
-            <div
-                className="relative h-70 bg-white/5"
-            >
+            <div onClick={() => onOpen(post.id)} className="relative h-70 cursor-pointer bg-white/5">
                 {post.cover_url
                     ? <Image
                         src={post.cover_url}
@@ -48,13 +46,13 @@ export function NewsCard({ post, onOpen, isAuthorized, onDelete }: NewsCardProps
                     {formatNewsDate(post.published_at)}
                 </div>
                 <h3 className="mb-2 text-base font-bold text-white leading-snug">{post.title}</h3>
-                <p className="mb-4 flex-1 text-sm text-white/70 line-clamp-2">
+                <div className="mb-4 flex-1 text-sm text-white/70 line-clamp-2">
                     <ReactMarkdown remarkPlugins={[remarkGfm]}>{post.summary}</ReactMarkdown>
-                </p>
+                </div>
                 <section className='flex items-center justify-between'>
                     <button
-                        onClick={() => onOpen(post)}
-                        className="inline-flex items-center gap-1.5 text-sm font-medium text-brand transition-colors hover:text-brand/80"
+                        onClick={() => onOpen(post.id)}
+                        className="inline-flex items-center gap-1.5 cursor-pointer text-sm font-medium text-brand transition-colors hover:text-brand/80"
                     >
                         Читать дальше <ArrowRight className="h-4 w-4" />
                     </button>

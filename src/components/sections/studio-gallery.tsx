@@ -99,7 +99,7 @@ export function StudioGallery() {
                                     src={photo.src}
                                     alt={photo.alt}
                                     fill
-                                    className="object-cover"
+                                    className="object-scale-down object-top"
                                     sizes="100vw"
                                 />
                             </div>
