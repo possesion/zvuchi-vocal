@@ -8,7 +8,6 @@ import { Navigation } from 'swiper/modules';
 import 'swiper/css/navigation';
 import type { NewsRow } from '@/lib/db';
 import { NewsCard } from './news-card';
-import { NewsModal } from './news-modal';
 
 interface NewsFeedProps {
     posts: NewsRow[];
@@ -17,10 +16,13 @@ interface NewsFeedProps {
 
 export function NewsFeed({ posts, isAuthorized = false }: NewsFeedProps) {
     const router = useRouter();
-    const [activePost, setActivePost] = useState<NewsRow | null>(null);
+    // const [activePost, setActivePost] = useState<NewsRow | null>(null);
     const [deleteTarget, setDeleteTarget] = useState<number | null>(null);
     const [deleting, setDeleting] = useState(false);
 
+    const handleOpenArticle = (id: number) => {
+        router.push(`/news/${id}`)
+    }
     const confirmDelete = async () => {
         if (!deleteTarget) return;
         setDeleting(true);
@@ -59,7 +61,7 @@ export function NewsFeed({ posts, isAuthorized = false }: NewsFeedProps) {
                         <SwiperSlide className="relative flex-shrink-0 w-full aspect-[4/4] rounded-sm overflow-auto" key={post.id}>
                             <NewsCard
                                 post={post}
-                                onOpen={setActivePost}
+                                onOpen={handleOpenArticle}
                                 isAuthorized={isAuthorized}
                                 onDelete={setDeleteTarget}
                             />
@@ -68,13 +70,13 @@ export function NewsFeed({ posts, isAuthorized = false }: NewsFeedProps) {
                 </Swiper>
             </div>
 
-            {activePost && (
+            {/* {activePost && (
                 <NewsModal
                     post={activePost}
                     onClose={() => setActivePost(null)}
                     isAuthorized={isAuthorized}
                 />
-            )}
+            )} */}
 
             {deleteTarget !== null && createPortal(
                 <div className="fixed inset-0 z-[200] flex items-center justify-center bg-black/70">
