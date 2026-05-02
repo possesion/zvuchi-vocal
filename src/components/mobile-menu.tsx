@@ -50,11 +50,11 @@ export default function MobileMenu() {
                     <div className='h-5/6 flex flex-col justify-between'>
                         <nav className="flex flex-col space-y-4 px-2 py-2 text-2xl font-exo2">
                             <Link
-                                href="/about"
+                                href="/"
                                 className="flex items-center hover:text-red-400"
                                 onClick={handleLinkClick}
                             >
-                                О студии
+                                Главная
                             </Link>
                             <Link
                                 href="/instructors"

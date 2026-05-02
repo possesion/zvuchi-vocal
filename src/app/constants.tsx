@@ -249,7 +249,7 @@ export const events = [
 export const navigationList = [
     {
         id: 1,
-        text: 'О студии',
+        text: 'Главная',
         sectionId: '/about',
     },
     {
