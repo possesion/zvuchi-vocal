@@ -1,20 +1,20 @@
 
 
 import Image from 'next/image';
-import Link from 'next/link';
 import { Metadata } from 'next';
 import '@radix-ui/themes/styles.css';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 import { Socials } from '@/components/common/socials';
 import { SOCIAL_ICON_SIZE } from '@/components/common/constants';
-import { EnrollmentSection } from '@/components';
+import { EnrollmentSection, FeatureList } from '@/components';
 import { contacts } from './constants';
 import { getLatestNews } from '@/lib/db';
 import { NewsFeed } from '@/components/sections/news/news-feed';
 import { NewsAddForm } from './news-add-form';
 import { checkAuth } from '@/lib/auth';
 import { headers } from 'next/headers';
+import { Faq } from '@/components/sections/faq';
 
 export const metadata: Metadata = {
     title: 'ЗВУЧИ - Вокальная студия | Уроки вокала в Москве',
@@ -86,46 +86,22 @@ export default async function Home() {
                     </section>
                 </div>
 
-                {/* Quick Links Section */}
                 <section className="main-bg min-h-screen py-12 text-white">
                     <div className="container">
-                        <div className="grid gap-8 md:grid-cols-3">
-                            <Link
-                                href="/about"
-                                className="group rounded-sm bg-white/10 p-8 backdrop-blur-md transition-all hover:bg-white/20 hover:scale-105"
-                            >
-                                <h3 className="mb-4 text-2xl font-bold">Больше информации</h3>
-                                <p className="text-white/80">
-                                    О студии и ответы на частые вопросы
-                                </p>
-                            </Link>
-                            <Link
-                                href="/programs"
-                                className="group rounded-sm bg-white/10 p-8 backdrop-blur-md transition-all hover:bg-white/20 hover:scale-105"
-                            >
-                                <h3 className="mb-4 text-2xl font-bold">Абонементы</h3>
-                                <p className="text-white/80">
-                                    Выберите подходящую программу обучения
-                                </p>
-                            </Link>
-
-                            <Link
-                                href="/gallery"
-                                className="group rounded-sm bg-white/10 p-8 backdrop-blur-md transition-all hover:bg-white/20 hover:scale-105"
-                            >
-                                <h3 className="mb-4 text-2xl font-bold">Галерея</h3>
-                                <p className="text-white/80">
-                                    Посмотрите фото и видео из жизни студии
-                                </p>
-                            </Link>
+                        <div className='mb-8 md:mb-12'>
+                            <h2 className="text-center text-4xl font-bold tracking-tight text-shadow-lg md:text-3xl xl:text-6xl">
+                                Звучи! – это...
+                            </h2>                         
                         </div>
+                        <FeatureList />
                     </div>
-                {isAuthorized && (
-                    <div className="container pt-8">
-                        <NewsAddForm />
-                    </div>
-                )}
-                <NewsFeed posts={news} isAuthorized={isAuthorized} />
+                    {isAuthorized && (
+                        <div className="container pt-8">
+                            <NewsAddForm />
+                        </div>
+                    )}
+                    <Faq />
+                    <NewsFeed posts={news} isAuthorized={isAuthorized} />
                 </section>
             </main>
             <Footer />
