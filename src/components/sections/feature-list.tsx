@@ -1,9 +1,11 @@
 'use client';
 
 import Link from "next/link";
-import { Navigation } from 'swiper/modules';
+import { Pagination } from 'swiper/modules';
 import { FeatureListElement } from "./feature-list-element";
 import { Swiper, SwiperSlide } from "swiper/react";
+import 'swiper/css/pagination';
+import './style.css';
 
 const features = [
   {
@@ -66,7 +68,7 @@ export const FeatureList = () => {
   return (
     <section className="bg-muted/50">
       <Swiper
-        modules={[Navigation]}
+        modules={[Pagination]}
         spaceBetween={50}
         slidesPerView={1}
         navigation

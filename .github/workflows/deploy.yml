@@ -6,21 +6,13 @@ on:
   pull_request:
     branches: [main]
 
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
-
 jobs:
   prepare:
     name: Prepare
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
-      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: "23.11.0"  
+      - uses: actions/checkout@v4
+
       - name: Install dependencies
         run: npm i
       - name: Create data directory
@@ -41,7 +33,7 @@ jobs:
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     steps:
       - name: Deploy via SSH
-        uses: appleboy/ssh-action@v1.0.3
+        uses: appleboy/ssh-action@v1
         with:
           host: ${{ secrets.HOST }}
           port: ${{ secrets.PORT }}
