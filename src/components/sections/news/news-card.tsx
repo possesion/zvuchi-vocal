@@ -52,7 +52,7 @@ export function NewsCard({ post, onOpen, isAuthorized, onDelete }: NewsCardProps
                 <section className='flex items-center justify-between'>
                     <button
                         onClick={() => onOpen(post.id)}
-                        className="inline-flex items-center gap-1.5 cursor-pointer text-sm font-medium text-brand transition-colors hover:text-brand/80"
+                        className="inline-flex items-center gap-1.5 cursor-pointer text-sm font-medium text-white transition-colors hover:text-white/80"
                     >
                         Читать дальше <ArrowRight className="h-4 w-4" />
                     </button>
