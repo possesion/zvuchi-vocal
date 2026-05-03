@@ -13,15 +13,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'  # ← фиксируем версию
-          cache: 'npm'
-
       - name: Install dependencies
-        run: npm ci  # ← используем ci вместо i для надежности
-
+        run: npm i
       - name: Create data directory
         run: mkdir -p data
 
