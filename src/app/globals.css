@@ -245,9 +245,10 @@ body {
 
 .main-bg {
   background-image: url("./main-image.jpg");
-  background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
   opacity: 150%;
 }
 
@@ -259,12 +260,6 @@ body {
 .bg-image::before {
   content: '';
   filter: brightness(.7);
-}
-/* 1024px */
-@media (min-width: 1280px) {
-  .main-bg {
-    background-attachment: fixed;
-  }
 }
 
 /* Marquee animation */
@@ -444,8 +439,15 @@ body {
 }
 
 @keyframes halo {
-    0%, 100% { box-shadow: 0 0 8px 2px #ed3a3a33, 0 0 20px 6px #f7555520; }
-    50%       { box-shadow: 0 0 16px 6px #ed3a3a55, 0 0 36px 12px #f7555838; }
+
+  0%,
+  100% {
+    box-shadow: 0 0 8px 2px #ed3a3a33, 0 0 20px 6px #f7555520;
+  }
+
+  50% {
+    box-shadow: 0 0 16px 6px #ed3a3a55, 0 0 36px 12px #f7555838;
+  }
 }
 
 li::marker {
@@ -453,6 +455,11 @@ li::marker {
 }
 
 @keyframes shrink {
-  from { width: 100%; }
-  to { width: 0%; }
+  from {
+    width: 100%;
+  }
+
+  to {
+    width: 0%;
+  }
 }

@@ -2,19 +2,16 @@ name: CI/CD
 
 on:
   push:
-    branches: ['**']
+    branches: [main]  # ← только main, не все ветки
   pull_request:
     branches: [main]
 
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
-
 jobs:
-  prepare:
-    name: Prepare
+  test-and-build:
+    name: Test & Build
     runs-on: ubuntu-latest
     steps:
+<<<<<<< HEAD
       - uses: actions/checkout@v6
       - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
       - name: Setup Node
@@ -24,6 +21,15 @@ jobs:
           cache: npm
       - name: Install dependencies
         run: npm i
+=======
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: npm i
+      - name: Create data directory
+        run: mkdir -p data
+
+>>>>>>> bbf775bc219bc5d247bd0a10b860dde5a28f74af
       - name: Lint
         run: npm run lint
       - name: Type check
@@ -31,11 +37,29 @@ jobs:
       - name: Test
         run: npm run test
 
+<<<<<<< HEAD
+=======
+      - name: Build
+        run: npm run build
+
+      - name: Upload build artifacts (опционально)
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-output
+          path: |
+            .next
+            public
+            package.json
+            package-lock.json
+            node_modules/
+
+>>>>>>> bbf775bc219bc5d247bd0a10b860dde5a28f74af
   deploy:
-    name: Deploy
-    needs: prepare
+    name: Deploy to VPS
+    needs: test-and-build
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    
     steps:
       - uses: actions/checkout@v6
       
@@ -47,6 +71,7 @@ jobs:
           username: ${{ secrets.VPS_USER }}
           password: ${{ secrets.VPS_PASSWORD }}
           script: |
+<<<<<<< HEAD
             set -e
             cd /root/web/zvuchi-vocal/
             
@@ -90,3 +115,35 @@ jobs:
               docker logs zvuchi-vocal
               exit 1
             fi
+=======
+            set -e  # ← останавливаем скрипт при любой ошибке
+            
+            echo "🚀 Starting deployment..."
+            
+            # Переход в директорию проекта
+            cd /root/web/zvuchi-vocal/  # ← полный путь
+            
+            # Проверка наличия изменений
+            echo "📦 Pulling latest changes..."
+            git pull origin main
+            
+            # Установка зависимостей (только production)
+            echo "📦 Installing dependencies..."
+            npm i
+            
+            # Сборка приложения
+            echo "🔨 Building application..."
+            npm run build
+            
+            # Проверка успешности сборки
+            if [ ! -f ".next/prerender-manifest.json" ]; then
+              echo "❌ Build failed: prerender-manifest.json not found"
+              exit 1
+            fi
+            
+            # Перезапуск приложения по имени, а не по ID
+            echo "🔄 Restarting PM2 process..."
+            pm2 restart zvuchi
+    
+            echo "✅ Deployment completed successfully!"
+>>>>>>> bbf775bc219bc5d247bd0a10b860dde5a28f74af

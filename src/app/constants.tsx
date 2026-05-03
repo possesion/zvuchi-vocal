@@ -250,7 +250,7 @@ export const navigationList = [
     {
         id: 1,
         text: 'Главная',
-        sectionId: '/about',
+        sectionId: '/',
     },
     {
         id: 2,
