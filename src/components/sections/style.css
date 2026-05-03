@@ -19,8 +19,8 @@ swiper-container {
 }
 
 .swiper-pagination-bullet {
-    width: 14;
-    height: 14;
+    width: 14px;
+    height: 14px;
     background-color: white;
     border: black 1px solid;
 }

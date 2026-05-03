@@ -2,21 +2,29 @@ name: CI/CD
 
 on:
   push:
-    branches: ['**']
+    branches: [main]  # ← только main, не все ветки
   pull_request:
     branches: [main]
 
 jobs:
-  prepare:
-    name: Prepare
+  test-and-build:
+    name: Test & Build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'  # ← фиксируем версию
+          cache: 'npm'
+
       - name: Install dependencies
-        run: npm i
+        run: npm ci  # ← используем ci вместо i для надежности
+
       - name: Create data directory
         run: mkdir -p data
+
       - name: Lint
         run: npm run lint
 
@@ -26,22 +34,59 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Upload build artifacts (опционально)
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-output
+          path: |
+            .next
+            public
+            package.json
+            package-lock.json
+            node_modules/
+
   deploy:
-    name: Deploy
-    needs: prepare
+    name: Deploy to VPS
+    needs: test-and-build
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    
     steps:
       - name: Deploy via SSH
-        uses: appleboy/ssh-action@v1
+        uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.HOST }}
           port: ${{ secrets.PORT }}
           username: ${{ secrets.VPS_USER }}
           password: ${{ secrets.VPS_PASSWORD }}
           script: |
-            cd web/zvuchi-vocal/
+            set -e  # ← останавливаем скрипт при любой ошибке
+            
+            echo "🚀 Starting deployment..."
+            
+            # Переход в директорию проекта
+            cd /root/web/zvuchi-vocal/  # ← полный путь
+            
+            # Проверка наличия изменений
+            echo "📦 Pulling latest changes..."
             git pull origin main
+            
+            # Установка зависимостей (только production)
+            echo "📦 Installing dependencies..."
             npm i
+            
+            # Сборка приложения
+            echo "🔨 Building application..."
             npm run build
-            pm2 restart 0
+            
+            # Проверка успешности сборки
+            if [ ! -f ".next/prerender-manifest.json" ]; then
+              echo "❌ Build failed: prerender-manifest.json not found"
+              exit 1
+            fi
+            
+            # Перезапуск приложения по имени, а не по ID
+            echo "🔄 Restarting PM2 process..."
+            pm2 restart zvuchi
+    
+            echo "✅ Deployment completed successfully!"
