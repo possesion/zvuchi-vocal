@@ -7,7 +7,7 @@ import { OGRNIP, INN } from '../constants';
 export const Footer = () => {
     return (
         <footer className="border-t bg-foreground py-2 supports-backdrop-filter:bg-foreground/90 md:py-4">
-            <div className="container relative flex w-full flex-col justify-between sm:items-center lg:flex-row">
+            <div className="container relative flex w-full flex-col justify-between sm:items-center md:flex-row">
                 <div className="flex items-center justify-center gap-2 text-white">
                     <Image
                         src="/zvuchi-cropped.png"

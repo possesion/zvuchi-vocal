@@ -27,10 +27,10 @@ export default function MobileMenu() {
     }
 
     return (
-        <div className="z-50 pr-3 md:hidden">
+        <div className="z-50 pr-3 lg:hidden">
             <Sheet open={open} onOpenChange={setOpen}>
                 <SheetTrigger asChild>
-                    <Button variant="ghost" className="md:hidden">
+                    <Button variant="ghost" className="lg:hidden">
                         <BurgerMenu color="#291313" className="h-6 w-12" />
                         <span className="sr-only">Открыть меню</span>
                     </Button>

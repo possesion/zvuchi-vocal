@@ -9,12 +9,12 @@ import cn from 'classnames'
 
 export const NavMenu = () => {
     return (
-        <nav className="hidden gap-4 md:flex lg:gap-8">
+        <nav className="hidden gap-4 pr-4 lg:flex lg:gap-8">
             {navigationList.map(({ hiddenOnMobile, id, text, sectionId }) => (
                 <Link
                     key={id}
                     href={sectionId}
-                    className={cn({ 'hidden lg:block': hiddenOnMobile }, 'group relative cursor-pointer text-lg font-bold text-white transition-colors duration-200 hover:text-brand')}
+                    className={cn({ 'hidden xl:block': hiddenOnMobile }, 'group relative cursor-pointer text-lg font-bold text-white transition-colors duration-200 hover:text-brand')}
                 >
                     {text}
                 </Link>

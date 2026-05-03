@@ -66,7 +66,10 @@ jobs:
             
             # Установка зависимостей (только production)
             echo "📦 Installing dependencies..."
+            nvm use 20
+            echo "Current Node version is: $(node -v)"
             npm i
+            npm rebuild better-sqlite3
             
             # Сборка приложения
             echo "🔨 Building application..."

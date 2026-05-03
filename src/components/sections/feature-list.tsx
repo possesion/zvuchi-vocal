@@ -74,7 +74,8 @@ export const FeatureList = () => {
         navigation
         breakpoints={{
           320: { slidesPerView: 1 },
-          640: { slidesPerView: 3 },
+          640: { slidesPerView: 2 },
+          1280: { slidesPerView: 3 },
         }}
         pagination={{ clickable: true }}
         scrollbar={{ draggable: true }}
