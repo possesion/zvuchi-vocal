@@ -38,7 +38,7 @@ export function Faq() {
             <h2 className="mb-10 text-center text-3xl font-bold tracking-tight text-white md:text-4xl xl:text-5xl">
                 Частые вопросы
             </h2>
-            <div className="mx-auto max-w-3xl bg-black/65 rounded-sm shadow-md brightness-96 px-6">
+            <div className="mx-auto max-w-sm bg-black/65 rounded-sm shadow-md brightness-96 px-6 md:max-w-3xl ">
                 {FAQ_ITEMS.map((item) => (
                     <FaqItem key={item.question} {...item} />
                 ))}

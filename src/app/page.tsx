@@ -86,7 +86,7 @@ export default async function Home() {
                     </section>
                 </div>
 
-                <section className="main-bg min-h-screen py-12 text-white">
+                    <section className="main-bg min-h-screen py-12 text-white">
                     <div className="container">
                         <div className='mb-8 md:mb-12'>
                             <h2 className="text-center text-4xl font-bold tracking-tight text-shadow-lg md:text-3xl xl:text-6xl">

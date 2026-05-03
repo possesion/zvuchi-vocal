@@ -58,7 +58,7 @@ export function NewsFeed({ posts, isAuthorized = false }: NewsFeedProps) {
                     }}
                 >
                     {posts.map((post) => (
-                        <SwiperSlide className="relative flex-shrink-0 w-full aspect-[4/4] rounded-sm overflow-auto" key={post.id}>
+                        <SwiperSlide className="relative flex-shrink-0 w-full aspect-[4/6] rounded-sm overflow-auto" key={post.id}>
                             <NewsCard
                                 post={post}
                                 onOpen={handleOpenArticle}
