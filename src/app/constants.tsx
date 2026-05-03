@@ -272,7 +272,6 @@ export const navigationList = [
         id: 5,
         text: 'База знаний',
         sectionId: '/wiki',
-        hiddenOnMobile: true,
     },
     {
         id: 6,

@@ -58,23 +58,23 @@ export default async function Home() {
                         className="container mx-auto hidden justify-end gap-x-1 pt-2 md:flex md:gap-x-2"
                     />
                     <section className="container mx-auto flex h-[100svh] sm:h-min">
-                        <div className="relative z-10 flex flex-col items-center w-full sm:justify-center sm:pt-14 sm:flex-row">
+                        <div className="relative z-10 flex flex-col items-center w-full sm:justify-center sm:pt-14 sm:flex-row md:pt-1 lg:pt-14">
                             <div className="z-51 mb-auto flex flex-col gap-y-6 lg:justify-start xl:gap-y-7">
-                                {/* <h1 className="rotate-z-2 hidden hero-title bg-dark rounded-sm shadow-lg w-min px-5 py-3 text-2xl font-bold text-white sm:w-[210px] sm:text-4xl xl:w-[350px] md:block xl:text-7xl">
+                                {/* <h1 className="absolute -top-3 left-4 rotate-z-2 hidden hero-title bg-dark rounded-sm shadow-lg w-min px-5 py-3 text-2xl font-bold text-white max-lg:portrait:block sm:w-[160px] sm:text-2xl">
                                     ШКОЛА<br />
                                     <span className="ml-4">ВОКАЛА</span>
                                 </h1> */}
-                                <div className="w-full px-2 pt-6 text-xl text-center text-white md:w-[630px] md:text-2xl lg:block lg:text-3xl">
+                                <div className="w-full px-2 pt-6 text-xl lg:text-center text-white md:w-[630px] md:text-2xl lg:block lg:text-3xl">
                                     <p>Красиво петь может каждый! </p>
                                     Ставим правильную технику и достигаем высоких <a href='/gallery' className="after-highlight">результатов</a>
                                 </div>
-                                <div className="absolute bottom-36 sm:static sm:m-0">
+                                <div className="absolute bottom-36 sm:static sm:m-0 md:portrait:pb-10">
                                     <EnrollmentSection />
                                 </div>
                             </div>
                             <Image
                                 src="/valeria/transparent-lera.png"
-                                className="bottom-0 right-[15%] z-50 h-auto w-[252px] object-contain drop-shadow-2xl sm:right-[5%] sm:w-[320px] md:w-[320px] lg:w-[340px] xl:w-[360px] 3xl:w-[500px] [@media(max-height:600px)_and_(orientation:landscape)]:hidden"
+                                className="bottom-0 right-[15%] z-50 h-auto w-[252px] object-contain drop-shadow-2xl sm:right-[5%] sm:w-[320px] md:w-[320px] lg:w-[340px] xl:w-[360px] 3xl:w-[500px] md:portrait:hidden"
                                 width={252}
                                 height={760}
                                 sizes="(max-width: 640px) 252px, (max-width: 768px) 320px, (max-width: 1024px) 340px, 360px"
@@ -86,7 +86,7 @@ export default async function Home() {
                     </section>
                 </div>
 
-                    <section className="main-bg min-h-screen py-12 text-white">
+                    <section className="min-h-screen py-12 text-white">
                     <div className="container">
                         <div className='mb-8 md:mb-12'>
                             <h2 className="text-center text-4xl font-bold tracking-tight text-shadow-lg md:text-3xl xl:text-6xl">
