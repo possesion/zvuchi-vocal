@@ -243,14 +243,13 @@ body {
   background-image: radial-gradient(at 74.15785688953235% 92.98463873433356%, hsla(356.9491525423729, 83.09859154929576%, 13.92156862745098%, 0.5) 0%, hsla(356.9491525423729, 83.09859154929576%, 13.92156862745098%, 0) 100%), radial-gradient(at 83.98733231778878% 44.719428135426384%, hsla(0, 0%, 0%, 0.4) 0%, hsla(0, 0%, 0%, 0) 100%), radial-gradient(at 98.5772136764523% 74.45289691181303%, hsla(356.9491525423729, 83.09859154929576%, 13.92156862745098%, 0.5) 0%, hsla(356.9491525423729, 83.09859154929576%, 13.92156862745098%, 0) 100%), radial-gradient(at 79.89477464223008% 18.962199239050804%, hsla(0, 0%, 0%, 0.4) 0%, hsla(0, 0%, 0%, 0) 100%), radial-gradient(at 29.16977017261244% 80.90882206521633%, hsla(356.9491525423729, 83.09859154929576%, 13.92156862745098%, 0.5) 0%, hsla(356.9491525423729, 83.09859154929576%, 13.92156862745098%, 0) 100%), radial-gradient(at 2.089039827951533% 86.77708693515405%, hsla(0, 0%, 0%, 0.4) 0%, hsla(0, 0%, 0%, 0) 100%), radial-gradient(at 94.46847461159541% 80.83933681548787%, hsla(356.9491525423729, 83.09859154929576%, 13.92156862745098%, 0.5) 0%, hsla(356.9491525423729, 83.09859154929576%, 13.92156862745098%, 0) 100%), radial-gradient(at 97.30903904831611% 48.91781614393459%, hsla(0, 0%, 0%, 0.4) 0%, hsla(0, 0%, 0%, 0) 100%), radial-gradient(at 9.953307558615565% 18.9202858646038%, hsla(356.9491525423729, 83.09859154929576%, 13.92156862745098%, 0.5) 0%, hsla(356.9491525423729, 83.09859154929576%, 13.92156862745098%, 0) 100%), radial-gradient(at 47.45006047506841% 29.40430447304816%, hsla(0, 0%, 0%, 0.4) 0%, hsla(0, 0%, 0%, 0) 100%), radial-gradient(at 94.78753455925973% 37.03794609602866%, hsla(356.9491525423729, 83.09859154929576%, 13.92156862745098%, 0.5) 0%, hsla(356.9491525423729, 83.09859154929576%, 13.92156862745098%, 0) 100%);
 }
 
-.main-bg {
+/* .main-bg {
   background-image: url("./main-image.jpg");
   background-position: center;
   background-repeat: no-repeat;
-  background-attachment: fixed;
   background-size: cover;
   opacity: 150%;
-}
+} */
 
 .main-bg::before {
   content: '';
@@ -380,6 +379,17 @@ body {
 
 .enrollment-button:hover {
   background: linear-gradient(135deg, #450509 0%, #760a12 50%, #250305 90%);
+}
+
+@media screen and (min-width: 1280px) {
+  .main-bg {
+    background-image: url("./main-image.jpg");
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    opacity: 150%;
+  }
 }
 
 @keyframes gradient-shift {
