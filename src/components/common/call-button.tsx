@@ -34,7 +34,7 @@ export const CircleButton = ({ onClick }: { onClick: () => void }) => (
             </defs>
             <text className="fill-white/70 text-[8px] font-bold tracking-[0.15em] uppercase">
                 <textPath href="#circle-path" startOffset="30%" textAnchor="middle">
-                    связаться с нами
+                    Записаться
                 </textPath>
             </text>
         </svg>

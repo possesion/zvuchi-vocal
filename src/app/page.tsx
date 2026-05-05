@@ -6,6 +6,7 @@ import '@radix-ui/themes/styles.css';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 import { Socials } from '@/components/common/socials';
+import { SoundWave } from '@/components/common/sound-wave';
 import { SOCIAL_ICON_SIZE } from '@/components/common/constants';
 import { EnrollmentSection, FeatureList } from '@/components';
 import { contacts } from './constants';
@@ -15,6 +16,7 @@ import { NewsAddForm } from './news-add-form';
 import { checkAuth } from '@/lib/auth';
 import { headers } from 'next/headers';
 import { Faq } from '@/components/sections/faq';
+import EnrollmentForm from '@/components/forms/enrollment-form';
 
 export const metadata: Metadata = {
     title: 'ЗВУЧИ - Вокальная студия | Уроки вокала в Москве',
@@ -91,7 +93,12 @@ export default async function Home() {
                         <div className='mb-8 md:mb-12'>
                             <h2 className="text-center text-4xl font-bold tracking-tight text-shadow-lg md:text-3xl xl:text-6xl">
                                 Звучи! – это...
-                            </h2>                         
+                            </h2>
+                            <SoundWave
+                                bars={48}
+                                className="mt-5 h-18"
+                                color="bg-gradient-to-t from-brand via-red-400 to-white"
+                            />
                         </div>
                         <FeatureList />
                     </div>
@@ -100,6 +107,9 @@ export default async function Home() {
                             <NewsAddForm />
                         </div>
                     )}
+                    <div className="container mx-auto mt-16 flex justify-center">
+                        <EnrollmentForm />
+                    </div>
                     <Faq />
                     <NewsFeed posts={news} isAuthorized={isAuthorized} />
                 </section>

@@ -46,7 +46,7 @@ jobs:
     
     steps:
       - name: Deploy via SSH
-        uses: appleboy/ssh-action@v1.0.3
+        uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
           port: ${{ secrets.PORT }}
@@ -66,7 +66,6 @@ jobs:
             
             # Установка зависимостей (только production)
             echo "📦 Installing dependencies..."
-            nvm use 20
             echo "Current Node version is: $(node -v)"
             npm i
             npm rebuild better-sqlite3
