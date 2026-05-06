@@ -3,8 +3,8 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import { ImagePlus } from 'lucide-react';
-import type { NewsRow } from '@/lib/db';
 import { newsInputCls } from './news.utils';
+import { NewsRow } from '@/lib/types';
 
 interface NewsEditFormProps {
     post: NewsRow;

@@ -5,7 +5,7 @@ import remarkGfm from 'remark-gfm';
 import cn from 'classnames';
 import { useState } from 'react';
 import { instructors } from '@/app/constants';
-import type { WikiCategoryRow } from '@/lib/db';
+import { WikiCategoryRow } from '@/lib/types';
 
 enum DescTab { edit = 'edit', preview = 'preview' }
 
