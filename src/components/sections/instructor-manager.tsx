@@ -4,7 +4,7 @@ import { useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { Pencil, Trash2, ImagePlus, Check } from 'lucide-react';
-import type { InstructorRow } from '@/lib/db';
+import { InstructorRow } from '@/lib/types';
 
 const inputCls = 'w-full rounded-sm bg-zinc-800 px-3 py-2 text-sm text-white outline-none ring-1 ring-white/10 focus:ring-purple-500';
 
@@ -13,6 +13,7 @@ type FormData = Omit<InstructorRow, 'id'>;
 const emptyForm = (): FormData => ({
     name: '', specialty: '', feature: '', experience: '',
     bio: '', image: '', video: '', sort_order: 0,
+    slug: '', presentation_video: '', performance_videos: [], techniques: [],
 });
 
 // ─── Photo uploader ───────────────────────────────────────────────────────────
@@ -183,13 +184,26 @@ export function InstructorManager({ instructors }: InstructorManagerProps) {
             <div className="space-y-3">
                 {instructors.map((inst) =>
                     editingId === inst.id ? (
-                <InstructorForm
-                    key={inst.id}
-                    title={`Редактирование: ${inst.name}`}
-                    initial={{ name: inst.name, specialty: inst.specialty, feature: inst.feature, experience: inst.experience, bio: inst.bio, image: inst.image, video: inst.video, sort_order: inst.sort_order }}
-                    onSave={(data) => handleEdit(inst.id, data)}
-                    onCancel={() => setEditingId(null)}
-                />
+                        <InstructorForm
+                            key={inst.id}
+                            title={`Редактирование: ${inst.name}`}
+                            initial={{
+                                name: inst.name,
+                                specialty: inst.specialty,
+                                feature: inst.feature,
+                                experience: inst.experience,
+                                bio: inst.bio,
+                                image: inst.image,
+                                video: inst.video,
+                                sort_order: inst.sort_order,
+                                slug: inst.slug,
+                                presentation_video: inst.presentation_video,
+                                performance_videos: inst.performance_videos,
+                                techniques: inst.techniques
+                            }}
+                            onSave={(data) => handleEdit(inst.id, data)}
+                            onCancel={() => setEditingId(null)}
+                        />
                     ) : (
                         <div key={inst.id} className="flex items-center gap-4 rounded-sm bg-white/5 px-4 py-3">
                             <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-full bg-white/10">

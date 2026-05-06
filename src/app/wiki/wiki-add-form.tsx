@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { ImagePlus } from 'lucide-react';
 import { WikiTermForm, type WikiTermFormData } from '@/components/wiki/wiki-term-form';
-import type { WikiCategoryRow } from '@/lib/db';
+import type { WikiCategoryRow } from '@/lib/types';
 
 interface WikiAddFormProps {
     categories: WikiCategoryRow[];

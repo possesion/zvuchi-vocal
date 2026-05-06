@@ -6,8 +6,8 @@ import { createPortal } from 'react-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
 import 'swiper/css/navigation';
-import type { NewsRow } from '@/lib/db';
 import { NewsCard } from './news-card';
+import { NewsRow } from '@/lib/types';
 
 interface NewsFeedProps {
     posts: NewsRow[];

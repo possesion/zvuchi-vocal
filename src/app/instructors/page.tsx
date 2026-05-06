@@ -27,6 +27,7 @@ export default async function InstructorsPage() {
 
     // Адаптируем InstructorRow к формату VocalInstructor
     const instructorProps = instructors.map((inst) => ({
+        slug: inst.slug,
         name: inst.name,
         specialty: (inst.specialty ?? '').split(',').map((s) => s.trim()).filter(Boolean),
         feature: inst.feature,
@@ -64,7 +65,13 @@ export default async function InstructorsPage() {
 
                         <div className="container grid grid-cols-1 gap-8 sm:grid-cols-2 lg:gap-y-12 lg:grid-cols-3">
                             {instructorProps.map((instructor) => (
-                                <VocalInstructor key={instructor.name} instructor={instructor} />
+                                <Link
+                                    key={instructor.name}
+                                    href={`/instructors/${instructor.slug}`}
+                                    className="block cursor-pointer"
+                                >
+                                    <VocalInstructor instructor={instructor} />
+                                </Link>
                             ))}
                         </div>
 

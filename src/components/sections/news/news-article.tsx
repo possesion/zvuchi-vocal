@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { Calendar, Eye, Pencil } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import type { NewsRow } from '@/lib/db';
+import type { NewsRow } from '@/lib/types';
 import { formatNewsDate } from './news.utils';
 import { NewsEditForm } from './news-edit-form';
 import ReactMarkdown from 'react-markdown';

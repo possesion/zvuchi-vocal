@@ -2,10 +2,10 @@
 
 import Image from 'next/image';
 import { Calendar, ArrowRight, Trash2, Eye } from 'lucide-react';
-import type { NewsRow } from '@/lib/db';
 import { formatNewsDate } from './news.utils';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import { NewsRow } from '@/lib/types';
 
 interface NewsCardProps {
     post: NewsRow;

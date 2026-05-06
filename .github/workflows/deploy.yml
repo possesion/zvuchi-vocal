@@ -118,6 +118,10 @@ jobs:
 =======
             set -e  # ← останавливаем скрипт при любой ошибке
             
+            # Загружаем nvm чтобы использовать правильную версию Node
+            export NVM_DIR="$HOME/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+            
             echo "🚀 Starting deployment..."
             
             # Переход в директорию проекта
