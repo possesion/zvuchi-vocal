@@ -22,12 +22,16 @@ declare module 'next-auth' {
 }
 
 export const authConfig: NextAuthConfig = {
-    session: { strategy: 'jwt' },
+    session: {
+        strategy: 'jwt',
+        maxAge: 60 * 60 * 24, // 1 день по умолчанию (без "запомнить меня")
+    },
     pages: {
         signIn: '/login',
         error: '/login',
     },
-    providers: [],
+    providers: [], 
+    trustHost: true,
     callbacks: {
         jwt({ token, user }) {
             if (user) {

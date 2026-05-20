@@ -5,10 +5,13 @@ import { useRouter } from 'next/navigation'
 import { signIn } from 'next-auth/react'
 import Link from 'next/link'
 
+const REMEMBER_ME_MAX_AGE = 60 * 60 * 24 * 30 // 30 дней
+
 export default function LoginPage() {
     const router = useRouter()
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [rememberMe, setRememberMe] = useState(false)
     const [error, setError] = useState('')
     const [loading, setLoading] = useState(false)
 
@@ -22,6 +25,7 @@ export default function LoginPage() {
                 email,
                 password,
                 redirect: false,
+                ...(rememberMe && { maxAge: REMEMBER_ME_MAX_AGE }),
             })
 
             if (result?.ok) {
@@ -63,7 +67,7 @@ export default function LoginPage() {
                     />
                 </div>
 
-                <div className="mb-6">
+                <div className="mb-4">
                     <label htmlFor="password" className="mb-1 block text-sm text-white/70">
                         Пароль
                     </label>
@@ -76,6 +80,19 @@ export default function LoginPage() {
                         autoComplete="current-password"
                         className="w-full rounded-md bg-zinc-800 px-3 py-2 text-white outline-none ring-1 ring-white/10 focus:ring-purple-500"
                     />
+                </div>
+
+                <div className="mb-6 flex items-center gap-2">
+                    <input
+                        id="rememberMe"
+                        type="checkbox"
+                        checked={rememberMe}
+                        onChange={(e) => setRememberMe(e.target.checked)}
+                        className="h-4 w-4 rounded border-white/20 bg-zinc-800 accent-purple-500"
+                    />
+                    <label htmlFor="rememberMe" className="text-sm text-white/70 cursor-pointer select-none">
+                        Запомнить меня
+                    </label>
                 </div>
 
                 {error && <p className="mb-4 text-sm text-red-400">{error}</p>}

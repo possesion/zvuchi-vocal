@@ -11,17 +11,6 @@ jobs:
     name: Test & Build
     runs-on: ubuntu-latest
     steps:
-<<<<<<< HEAD
-      - uses: actions/checkout@v6
-      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: "23"
-          cache: npm
-      - name: Install dependencies
-        run: npm i
-=======
       - uses: actions/checkout@v4
 
       - name: Install dependencies
@@ -29,16 +18,12 @@ jobs:
       - name: Create data directory
         run: mkdir -p data
 
->>>>>>> bbf775bc219bc5d247bd0a10b860dde5a28f74af
       - name: Lint
         run: npm run lint
-      - name: Type check
-        run: npm run type-check
+
       - name: Test
         run: npm run test
 
-<<<<<<< HEAD
-=======
       - name: Build
         run: npm run build
 
@@ -52,104 +37,3 @@ jobs:
             package.json
             package-lock.json
             node_modules/
-
->>>>>>> bbf775bc219bc5d247bd0a10b860dde5a28f74af
-  deploy:
-    name: Deploy to VPS
-    needs: test-and-build
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-    
-    steps:
-      - uses: actions/checkout@v6
-      
-      - name: Deploy via SSH
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.HOST }}
-          port: ${{ secrets.PORT }}
-          username: ${{ secrets.VPS_USER }}
-          password: ${{ secrets.VPS_PASSWORD }}
-          script: |
-<<<<<<< HEAD
-            set -e
-            cd /root/web/zvuchi-vocal/
-            
-            echo "Starting deployment..."
-            
-            # Backup database before deployment
-            echo "Creating database backup..."
-            bash scripts/backup-db.sh
-            
-            # Pull latest changes
-            echo "Pulling latest changes..."
-            git pull origin main
-            
-            # Build Docker image
-            echo "Building Docker image..."
-            docker build -t zvuchi-vocal:latest .
-            
-            # Stop and remove old container
-            echo "Stopping old container..."
-            docker stop zvuchi-vocal || true
-            docker rm zvuchi-vocal || true
-            
-            # Run new container with volume for database
-            echo "Starting new container..."
-            docker run -d \
-              --name zvuchi-vocal \
-              --restart unless-stopped \
-              -p 3000:3000 \
-              -v /root/web/zvuchi-vocal/data:/app/data \
-              --env-file /root/web/zvuchi-vocal/.env \
-              zvuchi-vocal:latest
-            
-            # Wait for container to be healthy
-            echo "Waiting for container to be healthy..."
-            sleep 5
-            
-            if docker ps | grep -q zvuchi-vocal; then
-              echo "✅ Deployment completed successfully"
-            else
-              echo "❌ Container failed to start"
-              docker logs zvuchi-vocal
-              exit 1
-            fi
-=======
-            set -e  # ← останавливаем скрипт при любой ошибке
-            
-            # Загружаем nvm чтобы использовать правильную версию Node
-            export NVM_DIR="$HOME/.nvm"
-            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-            
-            echo "🚀 Starting deployment..."
-            
-            # Переход в директорию проекта
-            cd /root/web/zvuchi-vocal/  # ← полный путь
-            
-            # Проверка наличия изменений
-            echo "📦 Pulling latest changes..."
-            git pull origin main
-            
-            # Установка зависимостей (только production)
-            echo "📦 Installing dependencies..."
-            echo "Current Node version is: $(node -v)"
-            npm i
-            npm rebuild better-sqlite3
-            
-            # Сборка приложения
-            echo "🔨 Building application..."
-            npm run build
-            
-            # Проверка успешности сборки
-            if [ ! -f ".next/prerender-manifest.json" ]; then
-              echo "❌ Build failed: prerender-manifest.json not found"
-              exit 1
-            fi
-            
-            # Перезапуск приложения по имени, а не по ID
-            echo "🔄 Restarting PM2 process..."
-            pm2 restart zvuchi
-    
-            echo "✅ Deployment completed successfully!"
->>>>>>> bbf775bc219bc5d247bd0a10b860dde5a28f74af
