@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { signIn } from 'next-auth/react'
 import Link from 'next/link'
+import { validate } from './utils'
 
 const REMEMBER_ME_MAX_AGE = 60 * 60 * 24 * 30 // 30 дней
 
@@ -17,6 +18,13 @@ export default function LoginPage() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
+
+        const validationError = validate(email, password)
+        if (validationError) {
+            setError(validationError)
+            return
+        }
+
         setError('')
         setLoading(true)
 
@@ -32,12 +40,11 @@ export default function LoginPage() {
                 router.push('/')
                 router.refresh()
             } else {
-                const errCode = result?.error
-                if (errCode === 'EmailNotVerified') {
-                    setError(`Подтвердите email. Письмо отправлено на ${email}`)
-                } else {
-                    setError('Неверный email или пароль')
-                }
+                setError(
+                    result?.error === 'EmailNotVerified'
+                        ? `Подтвердите email. Письмо отправлено на ${email}`
+                        : 'Неверный email или пароль'
+                )
             }
         } finally {
             setLoading(false)
@@ -48,6 +55,7 @@ export default function LoginPage() {
         <div className="flex min-h-screen items-center justify-center bg-zinc-950 px-4">
             <form
                 onSubmit={handleSubmit}
+                noValidate
                 className="w-full max-w-sm rounded-lg bg-zinc-900 p-8 shadow-xl"
             >
                 <h1 className="mb-6 text-2xl font-bold text-white">Вход</h1>
@@ -60,8 +68,7 @@ export default function LoginPage() {
                         id="email"
                         type="email"
                         value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
+                        onChange={(e) => { setEmail(e.target.value); setError('') }}
                         autoComplete="email"
                         className="w-full rounded-md bg-zinc-800 px-3 py-2 text-white outline-none ring-1 ring-white/10 focus:ring-purple-500"
                     />
@@ -75,8 +82,7 @@ export default function LoginPage() {
                         id="password"
                         type="password"
                         value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
+                        onChange={(e) => { setPassword(e.target.value); setError('') }}
                         autoComplete="current-password"
                         className="w-full rounded-md bg-zinc-800 px-3 py-2 text-white outline-none ring-1 ring-white/10 focus:ring-purple-500"
                     />
@@ -90,12 +96,16 @@ export default function LoginPage() {
                         onChange={(e) => setRememberMe(e.target.checked)}
                         className="h-4 w-4 rounded border-white/20 bg-zinc-800 accent-purple-500"
                     />
-                    <label htmlFor="rememberMe" className="text-sm text-white/70 cursor-pointer select-none">
+                    <label htmlFor="rememberMe" className="cursor-pointer select-none text-sm text-white/70">
                         Запомнить меня
                     </label>
                 </div>
 
-                {error && <p className="mb-4 text-sm text-red-400">{error}</p>}
+                {error && (
+                    <p role="alert" className="mb-4 rounded-md bg-red-500/10 px-3 py-2 text-sm text-red-400">
+                        {error}
+                    </p>
+                )}
 
                 <button
                     type="submit"

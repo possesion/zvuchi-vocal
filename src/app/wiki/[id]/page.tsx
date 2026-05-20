@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { headers } from 'next/headers';
 import { Header } from '@/components';
 import { Footer } from '@/components/layout/footer';
 import { ChevronLeft } from 'lucide-react';
@@ -10,6 +9,8 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { TermEditor } from './term-editor';
 import { getTermById, getAllTerms, getCategories } from '@/lib/db';
+import { auth } from '@/auth';
+import { canEdit } from '@/lib/roles';
 
 interface WikiTermPageProps {
     params: Promise<{ id: string }>;
@@ -31,8 +32,8 @@ export default async function WikiTermPage({ params }: WikiTermPageProps) {
     const term = getTermById(decodedId);
     if (!term) notFound();
 
-    const headersList = await headers();
-    const isAuthorized = !!headersList.get('Authorization');
+    const session = await auth();
+    const isAuthorized = canEdit(session?.user?.role);
 
     const categories = getCategories();
     const categoryMap = Object.fromEntries(categories.map((c) => [c.id, c.label]));

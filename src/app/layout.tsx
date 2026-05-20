@@ -5,8 +5,9 @@ import Metrika from '@/lib/metrika';
 import './globals.css';
 import { Suspense } from 'react';
 import { organizationSchema, localBusinessSchema, educationalOrganizationSchema } from '@/lib/structured-data';
-import { UIProvider } from '@/components/providers/ui-context';
-import { CallButton } from '@/components/common/call-button';
+import { UIProvider } from '@/components/providers/ui-context'
+import { AuthSessionProvider } from '@/components/providers/session-provider'
+import { CallButton } from '@/components/common/call-button'
 
 export const metadata: Metadata = {
     metadataBase: new URL('https://zvuchi-vocal.ru'),
@@ -119,11 +120,13 @@ export default function RootLayout({
         className={`${geistSans.variable} ${exo2.variable} ${geistMono.variable} ${manrope.variable} ${manrope.className} antialiased`}
       >
         <UIProvider>
-          {children}
-          <Suspense>
-            <Metrika />
-          </Suspense>
-          <CallButton />
+          <AuthSessionProvider>
+            {children}
+            <Suspense>
+              <Metrika />
+            </Suspense>
+            <CallButton />
+          </AuthSessionProvider>
         </UIProvider>
       </body>
     </html>
