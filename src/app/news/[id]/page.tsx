@@ -1,11 +1,12 @@
 import Link from 'next/link';
-import { headers } from 'next/headers';
 import { Header } from '@/components';
 import { Footer } from '@/components/layout/footer';
 import { ChevronLeft } from 'lucide-react';
 import { getNewsById } from '@/lib/db';
 import { NewsArticle } from '@/components/sections/news/news-article';
 import notFound from './not-found';
+import { auth } from '@/auth';
+import { canEdit } from '@/lib/roles';
 
 interface WikiTermPageProps {
     params: Promise<{ id: string }>;
@@ -48,8 +49,8 @@ export default async function NewsArticlePage({ params }: WikiTermPageProps) {
     const news = getNewsById(newsId);
     if (!news) notFound();
 
-    const headersList = await headers();
-    const isAuthorized = !!headersList.get('Authorization');
+    const session = await auth();
+    const isAuthorized = canEdit(session?.user?.role);
 
     return (
         <div className="relative min-h-screen font-exo2">

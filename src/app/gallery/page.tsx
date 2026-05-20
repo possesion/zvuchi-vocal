@@ -1,10 +1,11 @@
 import { Metadata } from 'next';
-import { headers } from 'next/headers';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 import { Gallery } from '@/components/sections/gallery';
 import { generatePageMetadata } from '@/lib/metadata';
 import dynamic from 'next/dynamic';
+import { auth } from '@/auth';
+import { canEdit } from '@/lib/roles';
 
 const EnrollmentForm = dynamic(() => import('@/components/forms/enrollment-form'), {
     loading: () => <div className="animate-pulse bg-white/10 rounded-2xl h-64 w-full" />,
@@ -23,11 +24,9 @@ export const metadata: Metadata = generatePageMetadata({
     ],
 });
 
-import { checkAuth } from '@/lib/auth';
-
 export default async function GalleryPage() {
-    const headersList = await headers();
-    const isAuthorized = checkAuth(headersList);
+    const session = await auth();
+    const isAuthorized = canEdit(session?.user?.role);
 
     return (
         <div className="relative min-h-screen font-exo2">

@@ -2,10 +2,12 @@ import { NextRequest } from 'next/server';
 import { getInstructorById, updateInstructor } from '@/lib/db';
 import { apiOk, apiError } from '@/lib/api-response';
 import { createSlug } from '../../utils';
+import { auth } from '@/auth';
+import { canEdit } from '@/lib/roles';
 
 export async function PATCH(req: NextRequest, props: { params: Promise<{ id: string }> }) {
-    const authHeader = req.headers.get('Authorization');
-    if (!authHeader || authHeader !== process.env.ADMIN_TOKEN) {
+    const session = await auth();
+    if (!session || !canEdit(session.user?.role)) {
         return apiError('Unauthorized', 401);
     }
 

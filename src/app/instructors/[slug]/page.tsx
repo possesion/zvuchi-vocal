@@ -1,11 +1,11 @@
-import { headers } from 'next/headers';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { ChevronLeft } from 'lucide-react';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 import { getInstructorBySlug, getTermById } from '@/lib/db';
-import { checkAuth } from '@/lib/auth';
+import { auth } from '@/auth';
+import { canEdit } from '@/lib/roles';
 import { InstructorProfile } from '@/components/sections/instructor-profile';
 
 interface InstructorPageProps {
@@ -54,8 +54,8 @@ export default async function InstructorPage({ params }: InstructorPageProps) {
         notFound();
     }
 
-    const headersList = await headers();
-    const isAuthorized = checkAuth(headersList);
+    const session = await auth();
+    const isAuthorized = canEdit(session?.user?.role);
 
     const techniqueTerms = instructor.techniques
         .map((id) => getTermById(id))

@@ -1,16 +1,15 @@
 import Link from 'next/link';
-import { headers } from 'next/headers';
 import { Header } from '@/components';
 import { Footer } from '@/components/layout/footer';
 import { getAllTerms, getCategories } from '@/lib/db';
 import { ChevronRight } from 'lucide-react';
 import { WikiAddForm } from './wiki-add-form';
-
-import { checkAuth } from '@/lib/auth';
+import { auth } from '@/auth';
+import { canEdit } from '@/lib/roles';
 
 export default async function WikiPage() {
-    const headersList = await headers();
-    const isAuthorized = checkAuth(headersList);
+    const session = await auth();
+    const isAuthorized = canEdit(session?.user?.role);
     const terms = getAllTerms();
     const categories = getCategories();
     const categoryMap = Object.fromEntries(categories.map((c) => [c.id, c.label]));
