@@ -1,4 +1,4 @@
-// ─── Instructor types & helpers ───────────────────────────────────────────────
+export type UserRole = 'admin' | 'manager' | 'client'
 
 export interface InstructorRow {
     id: number;
@@ -56,3 +56,15 @@ export interface WikiCategoryRow {
     id: string;
     label: string;
 }
+
+export interface UserRow {
+    id: number
+    email: string
+    password_hash: string
+    role: UserRole
+    email_verified: 0 | 1
+    verification_token: string | null
+    token_expires_at: string | null
+    created_at: string
+}
+

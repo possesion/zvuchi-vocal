@@ -1,17 +1,12 @@
 'use client'
 
 import { useEffect } from 'react'
-import { useRouter } from 'next/navigation'
+import { signOut } from 'next-auth/react'
 
 export default function LogoutPage() {
-    const router = useRouter()
-
     useEffect(() => {
-        fetch('/api/auth/logout', { method: 'POST' }).then(() => {
-            router.push('/')
-            router.refresh()
-        })
-    }, [router])
+        signOut({ callbackUrl: '/' })
+    }, [])
 
     return (
         <div className="flex min-h-screen items-center justify-center bg-zinc-950">

@@ -1,45 +1,49 @@
-import { NextRequest, NextResponse } from 'next/server'
+import NextAuth from 'next-auth'
+import { authConfig } from '@/auth.config'
+import { NextResponse } from 'next/server'
+import { canEdit, isAdmin } from '@/lib/roles'
+import { UserRole } from './lib/types'
 
-const PROTECTED_API_PATHS = [
-    '/api/v1/concert-photos',
-    '/api/v1/wiki',
-    '/api/v1/shorts',
-    '/api/v1/instructors',
-    '/api/v1/news',
-]
+const { auth } = NextAuth(authConfig)
 
-function isProtectedMutation(req: NextRequest): boolean {
-    const { pathname } = req.nextUrl
-    const method = req.method
-    if (method === 'GET') return false
-    return PROTECTED_API_PATHS.some((p) => pathname.startsWith(p))
+const ADMIN_ONLY_PATHS = ['/users']
+const PROTECTED_PATHS = ['/users', '/api/v1']
+
+function isProtectedPath(pathname: string): boolean {
+    return PROTECTED_PATHS.some((p) => pathname.startsWith(p))
 }
 
-export function middleware(req: NextRequest) {
-    const token = req.cookies.get('auth_token')?.value
+function isAdminOnlyPath(pathname: string): boolean {
+    return ADMIN_ONLY_PATHS.some((p) => pathname.startsWith(p))
+}
 
-    // Прокидываем токен из куки в заголовок для серверных компонентов
-    if (token) {
-        const headers = new Headers(req.headers)
-        headers.set('Authorization', token)
-        const res = NextResponse.next({ request: { headers } })
+export default auth((req) => {
+    const { pathname } = req.nextUrl
+    const session = req.auth
+    const role = session?.user?.role as UserRole | undefined
 
-        // Защита мутирующих API-запросов
-        if (isProtectedMutation(req) && token !== process.env.ADMIN_TOKEN) {
-            return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-        }
-
-        return res
+    // Редирект неаутентифицированных на /login для защищённых маршрутов
+    if (isProtectedPath(pathname) && !session) {
+        return NextResponse.redirect(new URL('/login', req.url))
     }
 
-    // Нет куки — блокируем защищённые мутации
-    if (isProtectedMutation(req)) {
-        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    // Блокируем API мутации для пользователей без прав редактора
+    if (pathname.startsWith('/api/v1') && req.method !== 'GET' && !canEdit(role)) {
+        return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+    }
+
+    // Редирект не-admin с admin-маршрутов на главную
+    if (isAdminOnlyPath(pathname) && !isAdmin(role)) {
+        return NextResponse.redirect(new URL('/', req.url))
     }
 
     return NextResponse.next()
-}
+})
 
 export const config = {
-    matcher: ['/((?!_next/static|_next/image|favicon.ico).*)'],
+    matcher: [
+        '/wiki/:path*/edit',
+        '/users/:path*',
+        '/api/v1/:path*',
+    ],
 }

@@ -1,10 +1,10 @@
 import { Metadata } from 'next';
 import dynamic from 'next/dynamic';
-import { headers } from 'next/headers';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 import { getAllInstructors } from '@/lib/db';
-import { checkAuth } from '@/lib/auth';
+import { auth } from '@/auth';
+import { canEdit } from '@/lib/roles';
 import { generatePageMetadata } from '@/lib/metadata';
 import { InstructorManager } from '@/components/sections/instructor-manager';
 import Link from 'next/link';
@@ -21,8 +21,8 @@ export const metadata: Metadata = generatePageMetadata({
 });
 
 export default async function InstructorsPage() {
-    const headersList = await headers();
-    const isAuthorized = checkAuth(headersList);
+    const session = await auth();
+    const isAuthorized = canEdit(session?.user?.role);
     const instructors = getAllInstructors();
 
     // Адаптируем InstructorRow к формату VocalInstructor

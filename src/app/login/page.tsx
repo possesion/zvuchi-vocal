@@ -2,10 +2,12 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { signIn } from 'next-auth/react'
+import Link from 'next/link'
 
 export default function LoginPage() {
     const router = useRouter()
-    const [login, setLogin] = useState('')
+    const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [error, setError] = useState('')
     const [loading, setLoading] = useState(false)
@@ -16,18 +18,22 @@ export default function LoginPage() {
         setLoading(true)
 
         try {
-            const res = await fetch('/api/auth/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ login, password }),
+            const result = await signIn('credentials', {
+                email,
+                password,
+                redirect: false,
             })
 
-            if (res.ok) {
-                router.push('/gallery')
+            if (result?.ok) {
+                router.push('/')
                 router.refresh()
             } else {
-                const data = await res.json()
-                setError(data.error ?? 'Ошибка входа')
+                const errCode = result?.error
+                if (errCode === 'EmailNotVerified') {
+                    setError(`Подтвердите email. Письмо отправлено на ${email}`)
+                } else {
+                    setError('Неверный email или пароль')
+                }
             }
         } finally {
             setLoading(false)
@@ -43,16 +49,16 @@ export default function LoginPage() {
                 <h1 className="mb-6 text-2xl font-bold text-white">Вход</h1>
 
                 <div className="mb-4">
-                    <label htmlFor="login" className="mb-1 block text-sm text-white/70">
-                        Логин
+                    <label htmlFor="email" className="mb-1 block text-sm text-white/70">
+                        Email
                     </label>
                     <input
-                        id="login"
-                        type="text"
-                        value={login}
-                        onChange={(e) => setLogin(e.target.value)}
+                        id="email"
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                         required
-                        autoComplete="username"
+                        autoComplete="email"
                         className="w-full rounded-md bg-zinc-800 px-3 py-2 text-white outline-none ring-1 ring-white/10 focus:ring-purple-500"
                     />
                 </div>
@@ -81,6 +87,13 @@ export default function LoginPage() {
                 >
                     {loading ? 'Вход...' : 'Войти'}
                 </button>
+
+                <p className="mt-4 text-center text-sm text-white/50">
+                    Нет аккаунта?{' '}
+                    <Link href="/register" className="text-purple-400 hover:text-purple-300">
+                        Зарегистрироваться
+                    </Link>
+                </p>
             </form>
         </div>
     )

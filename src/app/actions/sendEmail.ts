@@ -22,16 +22,19 @@ const formTypeText = {
     default: 'модальное окно',
 };
 
-const transporter = nodemailer.createTransport({
-    debug: true,
-    logger: true,
-    host: process.env.EMAIL_HOST,
-    port: parseInt(process.env.EMAIL_PORT || '587'),
-    auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASSWORD,
-    },
-});
+function createTransporter() {
+    return nodemailer.createTransport({
+        debug: true,
+        logger: true,
+        host: process.env.EMAIL_HOST,
+        port: parseInt(process.env.EMAIL_PORT || '465'),
+        secure: parseInt(process.env.EMAIL_PORT || '465') === 465,
+        auth: {
+            user: process.env.EMAIL_USER,
+            pass: process.env.EMAIL_PASSWORD,
+        },
+    });
+}
 
 export async function sendEmail({ name, phone, formType, quizAnswers }: SendEmailProps) {
     if (!process.env.EMAIL_HOST || !process.env.EMAIL_USER || !process.env.EMAIL_PASSWORD) {
@@ -39,6 +42,7 @@ export async function sendEmail({ name, phone, formType, quizAnswers }: SendEmai
     }
 
     try {
+        const transporter = createTransporter();
         transporter.verify((error) => {
             if (error) {
                 console.error(error);
@@ -122,4 +126,45 @@ export async function sendEmail({ name, phone, formType, quizAnswers }: SendEmai
             `Ошибка при отправке email: ${error instanceof Error ? error.message : 'Неизвестная ошибка'}`
         );
     }
+}
+
+export async function sendVerificationEmail(email: string, token: string): Promise<void> {
+    if (!process.env.EMAIL_HOST || !process.env.EMAIL_USER || !process.env.EMAIL_PASSWORD) {
+        throw new Error('SMTP настройки не настроены. Проверьте переменные окружения.');
+    }
+
+    const verifyUrl = `${process.env.NEXTAUTH_URL ?? 'https://zvuchi-vocal.ru'}/verify-email?token=${token}`;
+    const transporter = createTransporter();
+    await transporter.sendMail({
+        from: {
+            name: 'Вокальная школа ЗВУЧИ',
+            address: process.env.EMAIL_FROM ?? '',
+        },
+        to: email,
+        subject: 'Подтвердите ваш email — Вокальная школа ЗВУЧИ',
+        text: `Для подтверждения email перейдите по ссылке: ${verifyUrl}\n\nСсылка действительна 24 часа.`,
+        html: `<div style="background: #f8f9fa; padding: 20px; border-radius: 8px; border-left: 4px solid #ab1515;">
+            <h2 style="color: #ab1515; margin-top: 0;">🎵 Вокальная школа ЗВУЧИ</h2>
+            <div style="background: white; padding: 20px; border-radius: 6px; margin: 20px 0;">
+              <h3 style="color: #333; margin-top: 0;">Подтвердите ваш email</h3>
+              <p style="color: #555;">Для завершения регистрации нажмите кнопку ниже:</p>
+              <a href="${verifyUrl}"
+                 style="display: inline-block; background: #ab1515; color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: bold; margin: 10px 0;">
+                Подтвердить email
+              </a>
+              <p style="color: #888; font-size: 13px; margin-top: 16px;">
+                Или скопируйте ссылку в браузер:<br/>
+                <a href="${verifyUrl}" style="color: #ab1515; word-break: break-all;">${verifyUrl}</a>
+              </p>
+              <p style="color: #888; font-size: 13px;">Ссылка действительна 24 часа.</p>
+            </div>
+            <p style="color: #666; font-size: 14px;">
+              Если вы не регистрировались на нашем сайте — просто проигнорируйте это письмо.
+            </p>
+          </div>
+          <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; color: #999; font-size: 12px;">
+            <p>© ${new Date().getFullYear()} Вокальная школа ЗВУЧИ</p>
+            <p>Сайт: <a href="https://zvuchi-vocal.ru" style="color: #ab1515;">zvuchi-vocal.ru</a></p>
+          </div>`,
+    });
 }

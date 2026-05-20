@@ -2,7 +2,7 @@ import Database from 'better-sqlite3';
 import path from 'path';
 import fs from 'fs';
 import { createSlug } from '@/app/api/v1/utils';
-import { WikiCategoryRow, WikiTermRow, NewsRow, InstructorRow, InstructorDbRow } from './types';
+import { WikiCategoryRow, WikiTermRow, NewsRow, InstructorRow, InstructorDbRow, UserRow, UserRole } from './types';
 
 const DB_PATH = path.join(process.cwd(), 'data', 'wiki.db');
 
@@ -120,6 +120,32 @@ function getDb(): Database.Database {
                     updateSlug.run(createSlug(row.name), row.id);
                 }
             })();
+        }
+
+        // Migration: create users table
+        db.exec(`
+            CREATE TABLE IF NOT EXISTS users (
+                id                 INTEGER PRIMARY KEY AUTOINCREMENT,
+                email              TEXT    NOT NULL UNIQUE,
+                password_hash      TEXT    NOT NULL,
+                role               TEXT    NOT NULL DEFAULT 'client',
+                email_verified     INTEGER NOT NULL DEFAULT 0,
+                verification_token TEXT,
+                token_expires_at   TEXT,
+                created_at         TEXT    NOT NULL DEFAULT (datetime('now'))
+            );
+            CREATE INDEX IF NOT EXISTS idx_users_verification_token ON users(verification_token);
+        `);
+
+        // Seed admin user from env if table is empty
+        const userCount = (db.prepare('SELECT COUNT(*) as cnt FROM users').get() as { cnt: number }).cnt;
+        if (userCount === 0 && process.env.ADMIN_EMAIL && process.env.ADMIN_PASSWORD) {
+            // eslint-disable-next-line @typescript-eslint/no-require-imports
+            const bcrypt = require('bcryptjs') as typeof import('bcryptjs');
+            const hash = bcrypt.hashSync(process.env.ADMIN_PASSWORD, 12);
+            db.prepare(
+                "INSERT OR IGNORE INTO users (email, password_hash, role, email_verified) VALUES (?, ?, 'admin', 1)"
+            ).run(process.env.ADMIN_EMAIL, hash);
         }
 
         // Seed terms
@@ -289,4 +315,69 @@ export function updateInstructor(data: InstructorRow): InstructorRow {
 
 export function deleteInstructor(id: number): void {
     getDb().prepare('DELETE FROM instructors WHERE id = ?').run(id);
+}
+
+// ─── Users ───────────────────────────────────────────────────────────────────
+
+
+
+export function getUserByEmail(email: string): UserRow | undefined {
+    return getDb()
+        .prepare('SELECT * FROM users WHERE email = ?')
+        .get(email) as UserRow | undefined
+}
+
+export function getUserById(id: number): UserRow | undefined {
+    return getDb()
+        .prepare('SELECT * FROM users WHERE id = ?')
+        .get(id) as UserRow | undefined
+}
+
+export function createUser(data: {
+    email: string
+    passwordHash: string
+    role?: UserRole
+    verificationToken?: string
+    tokenExpiresAt?: string
+}): UserRow {
+    const result = getDb()
+        .prepare(
+            'INSERT INTO users (email, password_hash, role, email_verified, verification_token, token_expires_at) VALUES (@email, @passwordHash, @role, 0, @verificationToken, @tokenExpiresAt)'
+        )
+        .run({
+            email: data.email,
+            passwordHash: data.passwordHash,
+            role: data.role ?? 'client',
+            verificationToken: data.verificationToken ?? null,
+            tokenExpiresAt: data.tokenExpiresAt ?? null,
+        })
+    return getUserById(result.lastInsertRowid as number)!
+}
+
+export function updateUser(
+    id: number,
+    data: Partial<Pick<UserRow, 'email_verified' | 'verification_token' | 'token_expires_at' | 'role' | 'password_hash'>>
+): void {
+    const fields = Object.keys(data) as (keyof typeof data)[]
+    if (fields.length === 0) return
+    const setClause = fields.map((f) => `${f} = @${f}`).join(', ')
+    getDb()
+        .prepare(`UPDATE users SET ${setClause} WHERE id = @id`)
+        .run({ ...data, id })
+}
+
+export function deleteUser(id: number): void {
+    getDb().prepare('DELETE FROM users WHERE id = ?').run(id)
+}
+
+export function getAllUsers(): UserRow[] {
+    return getDb()
+        .prepare('SELECT * FROM users ORDER BY created_at DESC')
+        .all() as UserRow[]
+}
+
+export function getUserByVerificationToken(token: string): UserRow | undefined {
+    return getDb()
+        .prepare('SELECT * FROM users WHERE verification_token = ?')
+        .get(token) as UserRow | undefined
 }

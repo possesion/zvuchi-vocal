@@ -13,8 +13,8 @@ import { contacts } from './constants';
 import { getLatestNews } from '@/lib/db';
 import { NewsFeed } from '@/components/sections/news/news-feed';
 import { NewsAddForm } from './news-add-form';
-import { checkAuth } from '@/lib/auth';
-import { headers } from 'next/headers';
+import { auth } from '@/auth';
+import { canEdit } from '@/lib/roles';
 import { Faq } from '@/components/sections/faq';
 import EnrollmentForm from '@/components/forms/enrollment-form';
 
@@ -46,8 +46,8 @@ export const metadata: Metadata = {
 
 export default async function Home() {
     const news = getLatestNews(5);
-    const headersList = await headers();
-    const isAuthorized = checkAuth(headersList);
+    const session = await auth();
+    const isAuthorized = canEdit(session?.user?.role);
     return (
         <div className="relative min-h-screen font-exo2">
             <Header />
