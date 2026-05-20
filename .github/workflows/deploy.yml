@@ -38,54 +38,54 @@ jobs:
             package-lock.json
             node_modules/
 
-  deploy:
-    name: Deploy to VPS
-    needs: test-and-build
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+  # deploy:
+  #   name: Deploy to VPS
+  #   needs: test-and-build
+  #   runs-on: ubuntu-latest
+  #   if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     
-    steps:
-      - name: Deploy via SSH
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.HOST }}
-          port: ${{ secrets.PORT }}
-          username: ${{ secrets.VPS_USER }}
-          password: ${{ secrets.VPS_PASSWORD }}
-          script: |
-            set -e  # ← останавливаем скрипт при любой ошибке
+  #   steps:
+  #     - name: Deploy via SSH
+  #       uses: appleboy/ssh-action@master
+  #       with:
+  #         host: ${{ secrets.HOST }}
+  #         port: ${{ secrets.PORT }}
+  #         username: ${{ secrets.VPS_USER }}
+  #         password: ${{ secrets.VPS_PASSWORD }}
+  #         script: |
+  #           set -e  # ← останавливаем скрипт при любой ошибке
             
-            # Загружаем nvm чтобы использовать правильную версию Node
-            export NVM_DIR="$HOME/.nvm"
-            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+  #           # Загружаем nvm чтобы использовать правильную версию Node
+  #           export NVM_DIR="$HOME/.nvm"
+  #           [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
             
-            echo "🚀 Starting deployment..."
+  #           echo "🚀 Starting deployment..."
             
-            # Переход в директорию проекта
-            cd /root/web/zvuchi-vocal/  # ← полный путь
+  #           # Переход в директорию проекта
+  #           cd /root/web/zvuchi-vocal/  # ← полный путь
             
-            # Проверка наличия изменений
-            echo "📦 Pulling latest changes..."
-            git pull origin main
+  #           # Проверка наличия изменений
+  #           echo "📦 Pulling latest changes..."
+  #           git pull origin main
             
-            # Установка зависимостей (только production)
-            echo "📦 Installing dependencies..."
-            echo "Current Node version is: $(node -v)"
-            npm i
-            npm rebuild better-sqlite3
+  #           # Установка зависимостей (только production)
+  #           echo "📦 Installing dependencies..."
+  #           echo "Current Node version is: $(node -v)"
+  #           npm i
+  #           npm rebuild better-sqlite3
             
-            # Сборка приложения
-            echo "🔨 Building application..."
-            npm run build
+  #           # Сборка приложения
+  #           echo "🔨 Building application..."
+  #           npm run build
             
-            # Проверка успешности сборки
-            if [ ! -f ".next/prerender-manifest.json" ]; then
-              echo "❌ Build failed: prerender-manifest.json not found"
-              exit 1
-            fi
+  #           # Проверка успешности сборки
+  #           if [ ! -f ".next/prerender-manifest.json" ]; then
+  #             echo "❌ Build failed: prerender-manifest.json not found"
+  #             exit 1
+  #           fi
             
-            # Перезапуск приложения по имени, а не по ID
-            echo "🔄 Restarting PM2 process..."
-            pm2 restart zvuchi
+  #           # Перезапуск приложения по имени, а не по ID
+  #           echo "🔄 Restarting PM2 process..."
+  #           pm2 restart zvuchi
     
-            echo "✅ Deployment completed successfully!"
+  #           echo "✅ Deployment completed successfully!"
