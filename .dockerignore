@@ -1,14 +1,44 @@
+# Dependencies
 node_modules
-npm-debug.log
+npm-debug.log*
+
+# Next.js build output
+.next
+out
+
+# Environment files — never bake secrets into the image
+.env
+.env.local
+.env.production
+.env.*.local
+
+# Database — mounted via volume at runtime
+data/
+
+# Version control
 .git
 .gitignore
-README.md
-.env.local
-.next
-.vscode
+
+# IDE and OS
 .idea
+.vscode
 .DS_Store
-*.log
-.husky
-data/wiki.db-shm
-data/wiki.db-wal
+*.swp
+*.swo
+
+# Tests
+coverage
+.nyc_output
+
+# Docker files (not needed inside the image)
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Misc
+README.md
+ARCHITECTURE.md
+ANALYTICS.md
+PAGES_STRUCTURE.md
+*.md
+

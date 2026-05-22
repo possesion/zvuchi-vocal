@@ -1,6 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Enable standalone output for Docker
+  output: 'standalone',
+  
   // Development settings
   ...(process.env.NODE_ENV === 'development' && {
     typescript: {
@@ -8,6 +11,10 @@ const nextConfig: NextConfig = {
     },
     eslint: {
       ignoreDuringBuilds: false,
+    },
+    generateBuildId: async () => {
+    // This could be anything, using the latest git hash
+      return 'build'
     },
   }),
 

@@ -1,53 +1,56 @@
-# Build stage
+# ─── Build stage ──────────────────────────────────────────────────────────────
 FROM node:23-alpine AS builder
 
 WORKDIR /app
 
-# Install build dependencies for better-sqlite3
+# Build dependencies for better-sqlite3 (native module)
 RUN apk add --no-cache python3 make g++ cairo-dev jpeg-dev pango-dev giflib-dev
 
-# Copy package files
+# Copy package files first for layer caching
 COPY package*.json ./
 
-# Install dependencies
+# Install all dependencies
 RUN npm ci
 
 # Copy source code
 COPY . .
 
-# Clean Next.js cache to avoid Server Action mismatch
-RUN rm -rf .next
+# Rebuild better-sqlite3 for Alpine Linux
+RUN npm rebuild better-sqlite3
 
 # Build the application
 RUN npm run build
 
-# Production stage
-FROM node:23-alpine
+# ─── Production stage ─────────────────────────────────────────────────────────
+FROM node:23-alpine AS runner
 
 WORKDIR /app
 
-# Install runtime dependencies for better-sqlite3
-# RUN apk add --no-cache cairo jpeg pango giflib
+# Runtime dependencies only (no build tools)
+RUN apk add --no-cache cairo jpeg pango giflib
 
-# Copy package files
-COPY package*.json ./
+# Copy standalone server from builder
+COPY --from=builder /app/.next/standalone ./standalone
 
-# Install only production dependencies
-RUN npm ci
+# Fix: static assets must be inside standalone/ for Next.js standalone mode
+COPY --from=builder /app/.next/static ./standalone/.next/static
+COPY --from=builder /app/public ./standalone/public
 
-# Copy built application from builder
-COPY --from=builder /app/.next ./.next
-COPY --from=builder /app/public ./public
+# Copy compiled node_modules from builder (includes native better-sqlite3)
+COPY --from=builder /app/node_modules ./standalone/node_modules
 
-# Create data directory for SQLite database
-RUN mkdir -p /app/data
+# Create data directory for SQLite with correct permissions
+RUN mkdir -p /app/data && chown -R node:node /app/data && chown -R node:node /app/standalone
 
-# Copy .env file (will be overridden by mounted volume or env vars)
-COPY .env .env
+# Run as non-root user
+USER node
 
-# Expose port
+# Port configuration
+ENV PORT=3000
+ENV HOSTNAME=0.0.0.0
+ENV NODE_ENV=production
+
 EXPOSE 3000
 
+CMD ["node", "standalone/server.js"]
 
-# Start the application
-CMD ["npm", "start"]
