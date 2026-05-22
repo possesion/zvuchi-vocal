@@ -38,7 +38,6 @@ export default function LoginPage() {
 
             if (result?.ok) {
                 router.push('/')
-                router.refresh()
             } else {
                 setError(
                     result?.error === 'EmailNotVerified'

@@ -2,19 +2,34 @@ name: CI/CD
 
 on:
   push:
-    branches: [main]  # ← только main, не все ветки
+    branches: [main]
   pull_request:
     branches: [main]
 
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ghcr.io/possesion/zvuchi-vocal
+
 jobs:
   test-and-build:
-    name: Test & Build
+    name: Test, Build & Push Docker Image
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
     steps:
       - uses: actions/checkout@v4
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '23'
+          cache: 'npm'
+
       - name: Install dependencies
-        run: npm i
+        run: npm ci
+
       - name: Create data directory
         run: mkdir -p data
 
@@ -24,68 +39,49 @@ jobs:
       - name: Test
         run: npm run test
 
-      - name: Build
-        run: npm run build
-
-      - name: Upload build artifacts (опционально)
-        uses: actions/upload-artifact@v4
+      - name: Log in to GitHub Container Registry
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: docker/login-action@v3
         with:
-          name: build-output
-          path: |
-            .next
-            public
-            package.json
-            package-lock.json
-            node_modules/
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
-  # deploy:
-  #   name: Deploy to VPS
-  #   needs: test-and-build
-  #   runs-on: ubuntu-latest
-  #   if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-    
-  #   steps:
-  #     - name: Deploy via SSH
-  #       uses: appleboy/ssh-action@master
-  #       with:
-  #         host: ${{ secrets.HOST }}
-  #         port: ${{ secrets.PORT }}
-  #         username: ${{ secrets.VPS_USER }}
-  #         password: ${{ secrets.VPS_PASSWORD }}
-  #         script: |
-  #           set -e  # ← останавливаем скрипт при любой ошибке
-            
-  #           # Загружаем nvm чтобы использовать правильную версию Node
-  #           export NVM_DIR="$HOME/.nvm"
-  #           [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-            
-  #           echo "🚀 Starting deployment..."
-            
-  #           # Переход в директорию проекта
-  #           cd /root/web/zvuchi-vocal/  # ← полный путь
-            
-  #           # Проверка наличия изменений
-  #           echo "📦 Pulling latest changes..."
-  #           git pull origin main
-            
-  #           # Установка зависимостей (только production)
-  #           echo "📦 Installing dependencies..."
-  #           echo "Current Node version is: $(node -v)"
-  #           npm i
-  #           npm rebuild better-sqlite3
-            
-  #           # Сборка приложения
-  #           echo "🔨 Building application..."
-  #           npm run build
-            
-  #           # Проверка успешности сборки
-  #           if [ ! -f ".next/prerender-manifest.json" ]; then
-  #             echo "❌ Build failed: prerender-manifest.json not found"
-  #             exit 1
-  #           fi
-            
-  #           # Перезапуск приложения по имени, а не по ID
-  #           echo "🔄 Restarting PM2 process..."
-  #           pm2 restart zvuchi
-    
-  #           echo "✅ Deployment completed successfully!"
+      - name: Build and push Docker image
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ${{ env.IMAGE_NAME }}:latest
+
+  deploy:
+    name: Deploy to VPS
+    needs: test-and-build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          port: ${{ secrets.PORT }}
+          username: ${{ secrets.VPS_USER }}
+          password: ${{ secrets.VPS_PASSWORD }}
+          script: |
+            set -e
+
+            echo "🚀 Starting deployment..."
+            cd /root/web/zvuchi-vocal/
+
+            echo "📦 Pulling latest Docker image..."
+            docker compose pull
+
+            echo "🔄 Restarting container..."
+            docker compose up -d
+
+            echo "🧹 Removing unused Docker images..."
+            docker image prune -f
+
+            echo "✅ Deployment completed successfully!"
