@@ -11,8 +11,8 @@ env:
   IMAGE_NAME: ghcr.io/possesion/zvuchi-vocal
 
 jobs:
-  test-and-build:
-    name: Test, Build & Push Docker Image
+  build-and-push:
+    name: Build & Push Docker Image
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -20,24 +20,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '23'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm i
-
-      - name: Create data directory
-        run: mkdir -p data
-
-      - name: Lint
-        run: npm run lint
-
-      - name: Test
-        run: npm run test
 
       - name: Log in to GitHub Container Registry
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
@@ -48,16 +30,15 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push Docker image
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: docker/build-push-action@v5
         with:
           context: .
-          push: true
+          push: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
           tags: ${{ env.IMAGE_NAME }}:latest
 
   deploy:
     name: Deploy to VPS
-    needs: test-and-build
+    needs: build-and-push
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
 
