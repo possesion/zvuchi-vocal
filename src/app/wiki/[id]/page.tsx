@@ -8,7 +8,7 @@ import { WikiCta } from '@/components/wiki/wiki-cta';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { TermEditor } from './term-editor';
-import { getTermById, getAllTerms, getCategories } from '@/lib/db';
+import { getTermById, getAllTerms, getCategories } from '@/lib/db-prisma';
 import { auth } from '@/auth';
 import { canEdit } from '@/lib/roles';
 
@@ -18,7 +18,7 @@ interface WikiTermPageProps {
 
 export async function generateMetadata({ params }: WikiTermPageProps) {
     const { id } = await params;
-    const term = getTermById(id);
+    const term = await getTermById(id);
     if (!term) return { title: 'Термин не найден' };
     return {
         title: `${term.title} | Звучи`,
@@ -29,15 +29,15 @@ export async function generateMetadata({ params }: WikiTermPageProps) {
 export default async function WikiTermPage({ params }: WikiTermPageProps) {
     const { id } = await params;
     const decodedId = decodeURIComponent(id);
-    const term = getTermById(decodedId);
+    const term = await getTermById(decodedId);
     if (!term) notFound();
 
     const session = await auth();
     const isAuthorized = canEdit(session?.user?.role);
 
-    const categories = getCategories();
+    const categories = await getCategories();
     const categoryMap = Object.fromEntries(categories.map((c) => [c.id, c.label]));
-    const otherTerms = getAllTerms()
+    const otherTerms = (await getAllTerms())
         .filter((t) => t.id !== decodedId)
         .slice(0, 4);
 

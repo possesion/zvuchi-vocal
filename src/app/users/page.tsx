@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation'
 import { auth } from '@/auth'
-import { getAllUsers } from '@/lib/db'
+import { getAllUsers } from '@/lib/db-prisma'
 import { isAdmin } from '@/lib/roles'
 import { UsersTable } from '@/components/sections/users-table'
 
@@ -11,7 +11,7 @@ export default async function UsersPage() {
         redirect('/')
     }
 
-    const users = getAllUsers()
+    const users = await getAllUsers()
 
     return (
         <div className="min-h-screen bg-zinc-950 px-4 py-10">

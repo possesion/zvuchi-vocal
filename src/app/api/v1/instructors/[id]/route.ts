@@ -1,5 +1,5 @@
 import { NextRequest } from 'next/server';
-import { getInstructorById, updateInstructor } from '@/lib/db';
+import { getInstructorById, updateInstructor } from '@/lib/db-prisma';
 import { apiOk, apiError } from '@/lib/api-response';
 import { createSlug } from '../../utils';
 import { auth } from '@/auth';
@@ -12,7 +12,7 @@ export async function PATCH(req: NextRequest, props: { params: Promise<{ id: str
     }
 
     const { id } = await props.params;
-    const existing = getInstructorById(Number(id));
+    const existing = await getInstructorById(Number(id));
     if (!existing) return apiError('Not found', 404);
 
     const body = await req.json();
@@ -29,7 +29,7 @@ export async function PATCH(req: NextRequest, props: { params: Promise<{ id: str
     const name: string = body.name ?? existing.name;
     const slug = body.name ? createSlug(name) : existing.slug;
 
-    const updated = updateInstructor({
+    const updated = await updateInstructor({
         ...existing,
         name,
         slug,

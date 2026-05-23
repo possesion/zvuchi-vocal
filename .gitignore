@@ -38,8 +38,11 @@ yarn-error.log*
 # vercel
 .vercel
 
+.kiro
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
 data/
 wiki.db*
+/src/generated/prisma

@@ -6,7 +6,7 @@
 import NextAuth from 'next-auth'
 import Credentials from 'next-auth/providers/credentials'
 import bcrypt from 'bcryptjs'
-import { getUserByEmail } from '@/lib/db'
+import { getUserByEmail } from '@/lib/db-prisma'
 import { authConfig } from '@/auth.config'
 import { UserRole } from './lib/types'
 
@@ -28,7 +28,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
                     return null
                 }
 
-                const user = getUserByEmail(email)
+                const user = await getUserByEmail(email)
                 if (!user) {
                     console.error('[auth] User not found:', email)
                     return null

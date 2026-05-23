@@ -1,13 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { uploadImage, deleteImage, S3Prefix } from '@/lib/s3';
-import { getNewsById, updateNews } from '@/lib/db';
+import { getNewsById, updateNews } from '@/lib/db-prisma';
 
 const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
 const MAX_SIZE = 5 * 1024 * 1024;
 
 export async function POST(req: NextRequest, props: { params: Promise<{ id: string }> }) {
     const { id } = await props.params;
-    const post = getNewsById(Number(id));
+    const post = await getNewsById(Number(id));
     if (!post) return NextResponse.json({ error: 'Not found' }, { status: 404 });
 
     const formData = await req.formData();
@@ -25,13 +25,13 @@ export async function POST(req: NextRequest, props: { params: Promise<{ id: stri
     const fileName = `news-${id}-${Date.now()}.${ext}`;
     const url = await uploadImage(Buffer.from(await file.arrayBuffer()), fileName, file.type, S3Prefix.newsCovers);
 
-    updateNews({ ...post, cover_url: url });
+    await updateNews({ ...post, cover_url: url });
     return NextResponse.json({ url });
 }
 
 export async function DELETE(_req: NextRequest, props: { params: Promise<{ id: string }> }) {
     const { id } = await props.params;
-    const post = getNewsById(Number(id));
+    const post = await getNewsById(Number(id));
     if (!post) return NextResponse.json({ error: 'Not found' }, { status: 404 });
 
     if (post.cover_url) {
@@ -39,6 +39,6 @@ export async function DELETE(_req: NextRequest, props: { params: Promise<{ id: s
         if (fileName) await deleteImage(fileName, S3Prefix.newsCovers).catch(() => {});
     }
 
-    updateNews({ ...post, cover_url: '' });
+    await updateNews({ ...post, cover_url: '' });
     return NextResponse.json({ success: true });
 }

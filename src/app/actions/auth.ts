@@ -1,7 +1,7 @@
 'use server'
 
 import bcrypt from 'bcryptjs'
-import { getUserByEmail, createUser, updateUser, getUserByVerificationToken } from '@/lib/db'
+import { getUserByEmail, createUser, updateUser, getUserByVerificationToken } from '@/lib/db-prisma'
 import { generateVerificationToken } from './utils'
 
 
@@ -42,7 +42,7 @@ export async function registerUser(data: {
     }
 
     // Check uniqueness
-    const existing = getUserByEmail(email)
+    const existing = await getUserByEmail(email)
     if (existing) {
         return { success: false, error: 'Этот email уже зарегистрирован' }
     }
@@ -51,7 +51,7 @@ export async function registerUser(data: {
     const verificationToken = generateVerificationToken()
     const tokenExpiresAt = getTokenExpiresAt()
 
-    createUser({
+    await createUser({
         email,
         passwordHash,
         role: 'client',
@@ -77,7 +77,7 @@ export async function verifyEmail(
         return { success: false, error: 'Ссылка недействительна или устарела' }
     }
 
-    const user = getUserByVerificationToken(token)
+    const user = await getUserByVerificationToken(token)
     if (!user) {
         return { success: false, error: 'Ссылка недействительна или устарела' }
     }
@@ -90,7 +90,7 @@ export async function verifyEmail(
         }
     }
 
-    updateUser(user.id, {
+    await updateUser(user.id, {
         email_verified: 1,
         verification_token: null,
         token_expires_at: null,
@@ -106,7 +106,7 @@ export async function resendVerification(
         return { success: false, error: 'Введите email' }
     }
 
-    const user = getUserByEmail(email)
+    const user = await getUserByEmail(email)
     if (!user) {
         // Don't reveal whether email exists
         return { success: true }
@@ -119,7 +119,7 @@ export async function resendVerification(
     const verificationToken = generateVerificationToken()
     const tokenExpiresAt = getTokenExpiresAt()
 
-    updateUser(user.id, {
+    await updateUser(user.id, {
         verification_token: verificationToken,
         token_expires_at: tokenExpiresAt,
     })

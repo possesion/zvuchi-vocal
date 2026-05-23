@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getTermById, upsertTerm, deleteTermById } from '@/lib/db';
+import { getTermById, upsertTerm, deleteTermById } from '@/lib/db-prisma';
 
 export async function GET(_req: NextRequest, props: { params: Promise<{ id: string }> }) {
     const { id } = await props.params;
-    const term = getTermById(decodeURIComponent(id));
+    const term = await getTermById(decodeURIComponent(id));
     if (!term) return NextResponse.json({ error: 'Not found' }, { status: 404 });
     return NextResponse.json(term);
 }
@@ -11,11 +11,11 @@ export async function GET(_req: NextRequest, props: { params: Promise<{ id: stri
 export async function PATCH(req: NextRequest, props: { params: Promise<{ id: string }> }) {
     const { id } = await props.params;
     const decodedId = decodeURIComponent(id);
-    const existing = getTermById(decodedId);
+    const existing = await getTermById(decodedId);
     if (!existing) return NextResponse.json({ error: 'Not found' }, { status: 404 });
 
     const body = await req.json();
-    const updated = upsertTerm({
+    const updated = await upsertTerm({
         ...existing,
         id: decodedId,
         title: body.title ?? existing.title,
@@ -28,6 +28,6 @@ export async function PATCH(req: NextRequest, props: { params: Promise<{ id: str
 
 export async function DELETE(_req: NextRequest, props: { params: Promise<{ id: string }> }) {
     const { id } = await props.params;
-    deleteTermById(decodeURIComponent(id));
+    await deleteTermById(decodeURIComponent(id));
     return NextResponse.json({ success: true });
 }

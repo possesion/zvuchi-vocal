@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { Header } from '@/components';
 import { Footer } from '@/components/layout/footer';
 import { ChevronLeft } from 'lucide-react';
-import { getNewsById } from '@/lib/db';
+import { getNewsById } from '@/lib/db-prisma';
 import { NewsArticle } from '@/components/sections/news/news-article';
 import notFound from './not-found';
 import { auth } from '@/auth';
@@ -15,7 +15,7 @@ interface WikiTermPageProps {
 export async function generateMetadata({ params }: WikiTermPageProps) {
     const { id } = await params;
     const newsId = Number(decodeURIComponent(id));
-    const news = getNewsById(newsId);
+    const news = await getNewsById(newsId);
     
     if (!news) {
         return {
@@ -46,7 +46,7 @@ export async function generateMetadata({ params }: WikiTermPageProps) {
 export default async function NewsArticlePage({ params }: WikiTermPageProps) {
     const { id } = await params;
     const newsId = Number(decodeURIComponent(id));
-    const news = getNewsById(newsId);
+    const news = await getNewsById(newsId);
     if (!news) notFound();
 
     const session = await auth();

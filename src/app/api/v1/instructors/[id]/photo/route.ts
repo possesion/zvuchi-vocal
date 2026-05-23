@@ -1,13 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { uploadImage, deleteImage, S3Prefix } from '@/lib/s3';
-import { getInstructorById, updateInstructor } from '@/lib/db';
+import { getInstructorById, updateInstructor } from '@/lib/db-prisma';
 
 const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
 const MAX_SIZE = 5 * 1024 * 1024;
 
 export async function POST(req: NextRequest, props: { params: Promise<{ id: string }> }) {
     const { id } = await props.params;
-    const instructor = getInstructorById(Number(id));
+    const instructor = await getInstructorById(Number(id));
     if (!instructor) return NextResponse.json({ error: 'Not found' }, { status: 404 });
 
     const formData = await req.formData();
@@ -25,6 +25,6 @@ export async function POST(req: NextRequest, props: { params: Promise<{ id: stri
     const fileName = `instructor-${id}-${Date.now()}.${ext}`;
     const url = await uploadImage(Buffer.from(await file.arrayBuffer()), fileName, file.type, S3Prefix.instructorPhotos);
 
-    updateInstructor({ ...instructor, image: url });
+    await updateInstructor({ ...instructor, image: url });
     return NextResponse.json({ url });
 }

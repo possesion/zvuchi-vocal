@@ -1,5 +1,5 @@
 import { NextRequest } from 'next/server'
-import { getUserById, updateUser, deleteUser } from '@/lib/db'
+import { getUserById, updateUser, deleteUser } from '@/lib/db-prisma'
 import { apiOk, apiError } from '@/lib/api-response'
 import { auth } from '@/auth'
 import { isAdmin } from '@/lib/roles'
@@ -15,7 +15,7 @@ export async function PATCH(req: NextRequest, props: { params: Promise<{ id: str
 
     const { id } = await props.params
     const userId = Number(id)
-    const existing = getUserById(userId)
+    const existing = await getUserById(userId)
     if (!existing) return apiError('Not found', 404)
 
     // Нельзя менять роль самому себе
@@ -30,7 +30,7 @@ export async function PATCH(req: NextRequest, props: { params: Promise<{ id: str
         return apiError('Invalid role', 400)
     }
 
-    updateUser(userId, { role })
+    await updateUser(userId, { role })
     return apiOk({ success: true })
 }
 
@@ -47,9 +47,9 @@ export async function DELETE(_req: NextRequest, props: { params: Promise<{ id: s
         return apiError('Cannot delete own account', 400)
     }
 
-    const existing = getUserById(userId)
+    const existing = await getUserById(userId)
     if (!existing) return apiError('Not found', 404)
 
-    deleteUser(userId)
+    await deleteUser(userId)
     return apiOk({ success: true })
 }

@@ -1,0 +1,101 @@
+// Prisma schema for vocal-school application
+// Database: SQLite (data/wiki.db)
+// This schema defines all models for the vocal school platform
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ─── Wiki Categories ─────────────────────────────────────────────────────────
+// Represents categories for organizing wiki terms (e.g., Technique, Method, Concept)
+
+model WikiCategory {
+  id    String @id
+  label String
+
+  // Relationship to wiki terms in this category
+  terms WikiTerm[]
+}
+
+// ─── Wiki Terms ───────────────────────────────────────────────────────────────
+// Represents individual wiki entries with descriptions and metadata
+
+model WikiTerm {
+  id          String   @id
+  title       String
+  description String
+  category    String
+  author      String   @default("")
+  coverUrl    String   @default("")
+  updatedAt   DateTime @default(now()) @updatedAt
+
+  // Foreign key relationship to WikiCategory
+  categoryRel WikiCategory @relation(fields: [category], references: [id])
+
+  @@index([category])
+}
+
+// ─── News ─────────────────────────────────────────────────────────────────────
+// Represents news articles with view tracking
+
+model News {
+  id          Int      @id @default(autoincrement())
+  title       String
+  summary     String
+  content     String
+  coverUrl    String   @default("")
+  views       Int      @default(0)
+  publishedAt DateTime @default(now())
+}
+
+// ─── Shorts ───────────────────────────────────────────────────────────────────
+// Represents shortened URLs for video content
+
+model Short {
+  id        Int      @id @default(autoincrement())
+  url       String   @unique
+  createdAt DateTime @default(now())
+}
+
+// ─── Instructors ──────────────────────────────────────────────────────────────
+// Represents instructor profiles with videos and techniques
+
+model Instructor {
+  id                  Int      @id @default(autoincrement())
+  name                String
+  specialty           String   @default("")
+  feature             String   @default("")
+  experience          String   @default("")
+  bio                 String   @default("")
+  image               String   @default("")
+  video               String   @default("")
+  slug                String   @unique
+  presentationVideo   String   @default("")
+  performanceVideos   String   @default("[]") // JSON array of video URLs
+  techniques          String   @default("[]") // JSON array of technique IDs
+  sortOrder           Int      @default(0)
+
+  @@index([slug])
+  @@index([sortOrder])
+}
+
+// ─── Users ────────────────────────────────────────────────────────────────────
+// Represents system users with authentication and email verification
+
+model User {
+  id                Int      @id @default(autoincrement())
+  email             String   @unique
+  passwordHash      String
+  role              String   @default("client") // "admin" or "client"
+  emailVerified     Boolean  @default(false)
+  verificationToken String?  @unique
+  tokenExpiresAt    DateTime?
+  createdAt         DateTime @default(now())
+
+  @@index([verificationToken])
+}

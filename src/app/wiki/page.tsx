@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { Header } from '@/components';
 import { Footer } from '@/components/layout/footer';
-import { getAllTerms, getCategories } from '@/lib/db';
+import { getAllTerms, getCategories } from '@/lib/db-prisma';
 import { ChevronRight } from 'lucide-react';
 import { WikiAddForm } from './wiki-add-form';
 import { auth } from '@/auth';
@@ -10,8 +10,8 @@ import { canEdit } from '@/lib/roles';
 export default async function WikiPage() {
     const session = await auth();
     const isAuthorized = canEdit(session?.user?.role);
-    const terms = getAllTerms();
-    const categories = getCategories();
+    const terms = await getAllTerms();
+    const categories = await getCategories();
     const categoryMap = Object.fromEntries(categories.map((c) => [c.id, c.label]));
 
     return (

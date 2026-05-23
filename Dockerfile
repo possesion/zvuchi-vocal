@@ -3,7 +3,7 @@ FROM node:23-alpine AS builder
 
 WORKDIR /app
 
-# Build dependencies for better-sqlite3 (native module)
+# Build dependencies for canvas/image processing
 RUN apk add --no-cache python3 make g++ cairo-dev jpeg-dev pango-dev giflib-dev
 
 # Copy package files first for layer caching
@@ -15,8 +15,14 @@ RUN npm ci
 # Copy source code
 COPY . .
 
-# Rebuild better-sqlite3 for Alpine Linux
-RUN npm rebuild better-sqlite3
+# Copy Prisma schema and migrations
+COPY prisma ./prisma
+
+# Set DATABASE_URL for Prisma Client generation
+ENV DATABASE_URL="file:./data/wiki.db"
+
+# Generate Prisma Client
+RUN npx prisma generate
 
 # Build the application
 RUN npm run build
@@ -26,7 +32,7 @@ FROM node:23-alpine AS runner
 
 WORKDIR /app
 
-# Runtime dependencies only (no build tools)
+# Runtime dependencies only (no build tools, no better-sqlite3 dependencies)
 RUN apk add --no-cache cairo jpeg pango giflib
 
 # Copy standalone server from builder
@@ -36,10 +42,13 @@ COPY --from=builder /app/.next/standalone ./standalone
 COPY --from=builder /app/.next/static ./standalone/.next/static
 COPY --from=builder /app/public ./standalone/public
 
-# Copy compiled node_modules from builder (includes native better-sqlite3)
+# Copy compiled node_modules from builder (includes Prisma Client)
 COPY --from=builder /app/node_modules ./standalone/node_modules
 
-# Create data directory for SQLite with correct permissions
+# Copy Prisma schema and migrations for runtime
+COPY --from=builder /app/prisma ./standalone/prisma
+
+# Create data directory for SQLite database with correct permissions
 RUN mkdir -p /app/data && chown -R node:node /app/data && chown -R node:node /app/standalone
 
 # Run as non-root user
@@ -49,6 +58,7 @@ USER node
 ENV PORT=3000
 ENV HOSTNAME=0.0.0.0
 ENV NODE_ENV=production
+ENV DATABASE_URL="file:./data/wiki.db"
 
 EXPOSE 3000
 

@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { ChevronLeft } from 'lucide-react';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
-import { getInstructorBySlug, getTermById } from '@/lib/db';
+import { getInstructorBySlug, getTermById } from '@/lib/db-prisma';
 import { auth } from '@/auth';
 import { canEdit } from '@/lib/roles';
 import { InstructorProfile } from '@/components/sections/instructor-profile';
@@ -14,7 +14,7 @@ interface InstructorPageProps {
 
 export async function generateMetadata({ params }: InstructorPageProps) {
     const { slug } = await params;
-    const instructor = getInstructorBySlug(decodeURIComponent(slug));
+    const instructor = await getInstructorBySlug(decodeURIComponent(slug));
 
     if (!instructor) {
         return {
@@ -48,7 +48,7 @@ export async function generateMetadata({ params }: InstructorPageProps) {
 
 export default async function InstructorPage({ params }: InstructorPageProps) {
     const { slug } = await params;
-    const instructor = getInstructorBySlug(decodeURIComponent(slug));
+    const instructor = await getInstructorBySlug(decodeURIComponent(slug));
 
     if (!instructor) {
         notFound();
@@ -57,9 +57,9 @@ export default async function InstructorPage({ params }: InstructorPageProps) {
     const session = await auth();
     const isAuthorized = canEdit(session?.user?.role);
 
-    const techniqueTerms = instructor.techniques
-        .map((id) => getTermById(id))
-        .filter((t): t is NonNullable<typeof t> => t !== undefined);
+    const techniqueTerms = (await Promise.all(
+        instructor.techniques.map((id) => getTermById(id))
+    )).filter((t): t is NonNullable<typeof t> => t !== undefined);
 
     return (
         <div className="relative min-h-screen font-exo2">

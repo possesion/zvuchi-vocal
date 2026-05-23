@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getLatestNews, createNews, deleteNews, getNewsById, updateNews } from '@/lib/db';
+import { getLatestNews, createNews, deleteNews, getNewsById, updateNews } from '@/lib/db-prisma';
 import { apiOk, apiError } from '@/lib/api-response';
 
 export async function GET() {
-    return apiOk({ news: getLatestNews(5) });
+    return apiOk({ news: await getLatestNews(5) });
 }
 
 export async function POST(req: NextRequest) {
@@ -11,7 +11,7 @@ export async function POST(req: NextRequest) {
     if (!title || !summary || !content) {
         return apiError('title, summary, content required', 400);
     }
-    const post = createNews({
+    const post = await createNews({
         title,
         summary,
         content,
@@ -24,10 +24,10 @@ export async function POST(req: NextRequest) {
 export async function PATCH(req: NextRequest) {
     const { id, title, summary, content, cover_url, published_at } = await req.json();
     if (!id) return apiError('id required', 400);
-    const existing = getNewsById(Number(id));
+    const existing = await getNewsById(Number(id));
     if (!existing) return apiError('Not found', 404);
 
-    const updated = updateNews({
+    const updated = await updateNews({
         ...existing,
         title: title ?? existing.title,
         summary: summary ?? existing.summary,
@@ -41,6 +41,6 @@ export async function PATCH(req: NextRequest) {
 export async function DELETE(req: NextRequest) {
     const { id } = await req.json();
     if (!id) return apiError('id required', 400);
-    deleteNews(Number(id));
+    await deleteNews(Number(id));
     return apiOk({ success: true });
 }

@@ -1,9 +1,9 @@
 import { NextRequest } from 'next/server';
-import { getAllInstructors, createInstructor, deleteInstructor } from '@/lib/db';
+import { getAllInstructors, createInstructor, deleteInstructor } from '@/lib/db-prisma';
 import { apiOk, apiError } from '@/lib/api-response';
 
 export async function GET() {
-    return apiOk({ instructors: getAllInstructors() });
+    return apiOk({ instructors: await getAllInstructors() });
 }
 
 export async function POST(req: NextRequest) {
@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
         techniques
     } = await req.json();
     if (!name) return apiError('name required', 400);
-    const instructor = createInstructor({
+    const instructor = await createInstructor({
         name, specialty: specialty ?? '', feature: feature ?? '',
         experience: experience ?? '', bio: bio ?? '',
         image: image ?? '', video: video ?? '',
@@ -37,6 +37,6 @@ export async function POST(req: NextRequest) {
 export async function DELETE(req: NextRequest) {
     const { id } = await req.json();
     if (!id) return apiError('id required', 400);
-    deleteInstructor(Number(id));
+    await deleteInstructor(Number(id));
     return apiOk({ success: true });
 }

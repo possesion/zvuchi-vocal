@@ -10,24 +10,26 @@
     "type-check": "tsc --noEmit",
     "test": "vitest --run",
     "test:watch": "vitest",
-    "prepare": "husky"
+    "prepare": "husky",
+    "prisma:seed": "prisma db seed"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1021.0",
     "@aws-sdk/s3-request-presigner": "^3.1021.0",
     "@midudev/tailwind-animations": "^0.2.0",
+    "@prisma/client": "^6.19.3",
     "@radix-ui/react-dialog": "^1.1.13",
     "@radix-ui/react-separator": "^1.1.8",
     "@radix-ui/themes": "^3.2.1",
     "@tailwindcss/typography": "^0.5.19",
     "bcryptjs": "^3.0.3",
-    "better-sqlite3": "^12.8.0",
     "classnames": "^2.5.1",
     "lucide-react": "^0.511.0",
     "mammoth": "^1.11.0",
     "next": "15.3.8",
     "next-auth": "^5.0.0-beta.31",
     "nodemailer": "^7.0.5",
+    "prisma": "^6.19.3",
     "react": "19.0.1",
     "react-dom": "19.0.1",
     "react-hook-form": "^7.62.0",
@@ -46,7 +48,6 @@
     "@testing-library/react": "^16.3.2",
     "@testing-library/user-event": "^14.6.1",
     "@types/bcryptjs": "^2.4.6",
-    "@types/better-sqlite3": "^7.6.13",
     "@types/node": "^20",
     "@types/nodemailer": "^6.4.17",
     "@types/react": "^19",
@@ -65,5 +66,8 @@
   },
   "optionalDependencies": {
     "@rolldown/binding-darwin-arm64": "^1.0.0-rc.16"
+  },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
   }
 }

@@ -10,7 +10,7 @@ import { SoundWave } from '@/components/common/sound-wave';
 import { SOCIAL_ICON_SIZE } from '@/components/common/constants';
 import { EnrollmentSection, FeatureList } from '@/components';
 import { contacts } from './constants';
-import { getLatestNews } from '@/lib/db';
+import { getLatestNews } from '@/lib/db-prisma';
 import { NewsFeed } from '@/components/sections/news/news-feed';
 import { NewsAddForm } from './news-add-form';
 import { auth } from '@/auth';
@@ -45,7 +45,7 @@ export const metadata: Metadata = {
 };
 
 export default async function Home() {
-    const news = getLatestNews(5);
+    const news = await getLatestNews(5);
     const session = await auth();
     const isAuthorized = canEdit(session?.user?.role);
     return (
