@@ -48,8 +48,8 @@ COPY --from=builder /app/node_modules ./standalone/node_modules
 # Copy Prisma schema and migrations for runtime
 COPY --from=builder /app/prisma ./standalone/prisma
 
-# Create data directory for SQLite database with correct permissions
-RUN mkdir -p /app/data && chown -R node:node /app/data && chown -R node:node /app/standalone
+# Create data directory inside standalone for SQLite database
+RUN mkdir -p /app/standalone/data && chown -R node:node /app/standalone
 
 # Run as non-root user
 USER node
@@ -60,7 +60,9 @@ ENV HOSTNAME=0.0.0.0
 ENV NODE_ENV=production
 ENV DATABASE_URL="file:./data/wiki.db"
 
+WORKDIR /app/standalone
+
 EXPOSE 3000
 
-CMD ["node", "standalone/server.js"]
+CMD ["node", "server.js"]
 
