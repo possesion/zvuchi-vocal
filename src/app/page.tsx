@@ -1,5 +1,3 @@
-
-
 import Image from 'next/image';
 import { Metadata } from 'next';
 import '@radix-ui/themes/styles.css';
@@ -17,6 +15,8 @@ import { auth } from '@/auth';
 import { canEdit } from '@/lib/roles';
 import { Faq } from '@/components/sections/faq';
 import EnrollmentForm from '@/components/forms/enrollment-form';
+
+export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
     title: 'ЗВУЧИ - Вокальная студия | Уроки вокала в Москве',
