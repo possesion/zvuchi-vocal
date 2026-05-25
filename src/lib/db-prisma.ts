@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import { createSlug } from '@/app/api/v1/utils';
+import path from 'path';
 import {
   WikiCategoryRow,
   WikiTermRow,
@@ -15,7 +16,16 @@ let prisma: PrismaClient;
 
 function getPrisma(): PrismaClient {
   if (!prisma) {
-    prisma = new PrismaClient();
+    // Use absolute path to avoid issues with relative paths in different environments
+    const dbUrl = process.env.DATABASE_URL?.startsWith('file:./')
+      ? `file:${path.resolve(process.env.DATABASE_URL.replace('file:', ''))}`
+      : process.env.DATABASE_URL;
+
+    prisma = new PrismaClient({
+      datasources: {
+        db: { url: dbUrl },
+      },
+    });
   }
   return prisma;
 }

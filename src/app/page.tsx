@@ -15,6 +15,7 @@ import { auth } from '@/auth';
 import { canEdit } from '@/lib/roles';
 import { Faq } from '@/components/sections/faq';
 import EnrollmentForm from '@/components/forms/enrollment-form';
+import { NewsRow } from '@/lib/types';
 
 export const dynamic = 'force-dynamic';
 
@@ -45,7 +46,12 @@ export const metadata: Metadata = {
 };
 
 export default async function Home() {
-    const news = await getLatestNews(5);
+    let news = [] as unknown as NewsRow[];
+    try {
+        news = await getLatestNews(5);
+    } catch (error) {
+        console.error('Failed to fetch news:', error);
+    }
     const session = await auth();
     const isAuthorized = canEdit(session?.user?.role);
     return (
