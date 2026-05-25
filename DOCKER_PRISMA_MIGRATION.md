@@ -161,7 +161,6 @@ Required environment variables:
 ```bash
 DATABASE_URL="file:./data/wiki.db"  # Set automatically in Dockerfile
 PORT=3000                            # Set automatically in Dockerfile
-HOSTNAME=0.0.0.0                     # Set automatically in Dockerfile
 NODE_ENV=production                  # Set automatically in Dockerfile
 ```
 

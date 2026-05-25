@@ -1,5 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import { createSlug } from '@/app/api/v1/utils';
+import path from 'path';
+
 import {
   WikiCategoryRow,
   WikiTermRow,
@@ -11,21 +13,27 @@ import {
 
 // ─── Singleton Prisma Client ──────────────────────────────────────────────────
 
-let prisma: PrismaClient;
+let prismaInstance: PrismaClient | null = null;
 
 function getPrisma(): PrismaClient {
-  if (!prisma) {
-    // Use DATABASE_URL as-is from environment
-    // Prisma handles relative paths correctly in both local and Docker contexts
-    const dbUrl = process.env.DATABASE_URL || 'file:./data/wiki.db';
+  if (!prismaInstance) {
+    let dbUrl = process.env.DATABASE_URL || 'file:./data/wiki.db';
 
-    prisma = new PrismaClient({
+    // Convert relative paths to absolute paths for SQLite
+    // This ensures the database works in all environments (local, Docker, production)
+    if (dbUrl.startsWith('file:./')) {
+      const relativePath = dbUrl.replace('file:', '');
+      const absolutePath = path.resolve(process.cwd(), relativePath);
+      dbUrl = `file:${absolutePath}`;
+    }
+
+    prismaInstance = new PrismaClient({
       datasources: {
         db: { url: dbUrl },
       },
     });
   }
-  return prisma;
+  return prismaInstance;
 }
 
 // ─── Type Conversion Helpers ──────────────────────────────────────────────────
@@ -161,7 +169,8 @@ function convertPrismaShortToUrl(short: { url: string }): string {
 // ─── Wiki Categories ──────────────────────────────────────────────────────────
 
 export async function getCategories(): Promise<WikiCategoryRow[]> {
-  const categories = await getPrisma().wikiCategory.findMany({
+  const prisma = getPrisma();
+  const categories = await prisma.wikiCategory.findMany({
     orderBy: { id: 'asc' },
   });
 
@@ -172,7 +181,8 @@ export async function getCategories(): Promise<WikiCategoryRow[]> {
 }
 
 export async function getCategoryLabel(id: string): Promise<string> {
-  const category = await getPrisma().wikiCategory.findUnique({
+  const prisma = getPrisma();
+  const category = await prisma.wikiCategory.findUnique({
     where: { id },
   });
 
@@ -182,7 +192,8 @@ export async function getCategoryLabel(id: string): Promise<string> {
 // ─── Wiki Terms ────────────────────────────────────────────────────────────────
 
 export async function getAllTerms(): Promise<WikiTermRow[]> {
-  const terms = await getPrisma().wikiTerm.findMany({
+  const prisma = getPrisma();
+  const terms = await prisma.wikiTerm.findMany({
     orderBy: { updatedAt: 'desc' },
   });
 
@@ -190,7 +201,8 @@ export async function getAllTerms(): Promise<WikiTermRow[]> {
 }
 
 export async function getTermById(id: string): Promise<WikiTermRow | undefined> {
-  const term = await getPrisma().wikiTerm.findUnique({
+  const prisma = getPrisma();
+  const term = await prisma.wikiTerm.findUnique({
     where: { id },
   });
 
@@ -200,7 +212,8 @@ export async function getTermById(id: string): Promise<WikiTermRow | undefined> 
 export async function upsertTerm(
   term: Omit<WikiTermRow, 'updated_at'>
 ): Promise<WikiTermRow> {
-  const upserted = await getPrisma().wikiTerm.upsert({
+  const prisma = getPrisma();
+  const upserted = await prisma.wikiTerm.upsert({
     where: { id: term.id },
     update: {
       title: term.title,
@@ -225,7 +238,8 @@ export async function upsertTerm(
 }
 
 export async function deleteTermById(id: string): Promise<void> {
-  await getPrisma().wikiTerm.delete({
+  const prisma = getPrisma();
+  await prisma.wikiTerm.delete({
     where: { id },
   });
 }
@@ -233,7 +247,8 @@ export async function deleteTermById(id: string): Promise<void> {
 // ─── Shorts ────────────────────────────────────────────────────────────────────
 
 export async function getShortsFromDb(): Promise<string[]> {
-  const shorts = await getPrisma().short.findMany({
+  const prisma = getPrisma();
+  const shorts = await prisma.short.findMany({
     orderBy: { createdAt: 'desc' },
     select: { url: true },
   });
@@ -242,13 +257,15 @@ export async function getShortsFromDb(): Promise<string[]> {
 }
 
 export async function addShortToDb(url: string): Promise<void> {
-  await getPrisma().short.create({
+  const prisma = getPrisma();
+  await prisma.short.create({
     data: { url },
   });
 }
 
 export async function deleteShortFromDb(url: string): Promise<void> {
-  await getPrisma().short.delete({
+  const prisma = getPrisma();
+  await prisma.short.delete({
     where: { url },
   });
 }
@@ -256,7 +273,8 @@ export async function deleteShortFromDb(url: string): Promise<void> {
 // ─── News ──────────────────────────────────────────────────────────────────────
 
 export async function getLatestNews(limit = 5): Promise<NewsRow[]> {
-  const news = await getPrisma().news.findMany({
+  const prisma = getPrisma();
+  const news = await prisma.news.findMany({
     orderBy: { publishedAt: 'desc' },
     take: limit,
   });
@@ -265,7 +283,8 @@ export async function getLatestNews(limit = 5): Promise<NewsRow[]> {
 }
 
 export async function getNewsById(id: number): Promise<NewsRow | undefined> {
-  const news = await getPrisma().news.findUnique({
+  const prisma = getPrisma();
+  const news = await prisma.news.findUnique({
     where: { id },
   });
 
@@ -275,7 +294,8 @@ export async function getNewsById(id: number): Promise<NewsRow | undefined> {
 export async function createNews(
   news: Omit<NewsRow, 'id' | 'views'>
 ): Promise<NewsRow> {
-  const created = await getPrisma().news.create({
+  const prisma = getPrisma();
+  const created = await prisma.news.create({
     data: {
       title: news.title,
       summary: news.summary,
@@ -290,7 +310,8 @@ export async function createNews(
 }
 
 export async function updateNews(news: NewsRow): Promise<NewsRow> {
-  const updated = await getPrisma().news.update({
+  const prisma = getPrisma();
+  const updated = await prisma.news.update({
     where: { id: news.id },
     data: {
       title: news.title,
@@ -305,13 +326,15 @@ export async function updateNews(news: NewsRow): Promise<NewsRow> {
 }
 
 export async function deleteNews(id: number): Promise<void> {
-  await getPrisma().news.delete({
+  const prisma = getPrisma();
+  await prisma.news.delete({
     where: { id },
   });
 }
 
 export async function incrementNewsViews(id: number): Promise<void> {
-  await getPrisma().news.update({
+  const prisma = getPrisma();
+  await prisma.news.update({
     where: { id },
     data: { views: { increment: 1 } },
   });
@@ -320,7 +343,8 @@ export async function incrementNewsViews(id: number): Promise<void> {
 // ─── Instructors ──────────────────────────────────────────────────────────────
 
 export async function getAllInstructors(): Promise<InstructorRow[]> {
-  const instructors = await getPrisma().instructor.findMany({
+  const prisma = getPrisma();
+  const instructors = await prisma.instructor.findMany({
     orderBy: [{ sortOrder: 'asc' }, { id: 'asc' }],
   });
 
@@ -328,7 +352,8 @@ export async function getAllInstructors(): Promise<InstructorRow[]> {
 }
 
 export async function getInstructorById(id: number): Promise<InstructorRow | undefined> {
-  const instructor = await getPrisma().instructor.findUnique({
+  const prisma = getPrisma();
+  const instructor = await prisma.instructor.findUnique({
     where: { id },
   });
 
@@ -336,7 +361,8 @@ export async function getInstructorById(id: number): Promise<InstructorRow | und
 }
 
 export async function getInstructorBySlug(slug: string): Promise<InstructorRow | undefined> {
-  const instructor = await getPrisma().instructor.findUnique({
+  const prisma = getPrisma();
+  const instructor = await prisma.instructor.findUnique({
     where: { slug },
   });
 
@@ -346,9 +372,10 @@ export async function getInstructorBySlug(slug: string): Promise<InstructorRow |
 export async function createInstructor(
   data: Omit<InstructorRow, 'id'>
 ): Promise<InstructorRow> {
+  const prisma = getPrisma();
   const slug = data.slug || createSlug(data.name);
 
-  const created = await getPrisma().instructor.create({
+  const created = await prisma.instructor.create({
     data: {
       name: data.name,
       specialty: data.specialty,
@@ -369,7 +396,8 @@ export async function createInstructor(
 }
 
 export async function updateInstructor(data: InstructorRow): Promise<InstructorRow> {
-  const updated = await getPrisma().instructor.update({
+  const prisma = getPrisma();
+  const updated = await prisma.instructor.update({
     where: { id: data.id },
     data: {
       name: data.name,
@@ -391,7 +419,8 @@ export async function updateInstructor(data: InstructorRow): Promise<InstructorR
 }
 
 export async function deleteInstructor(id: number): Promise<void> {
-  await getPrisma().instructor.delete({
+  const prisma = getPrisma();
+  await prisma.instructor.delete({
     where: { id },
   });
 }
@@ -399,7 +428,8 @@ export async function deleteInstructor(id: number): Promise<void> {
 // ─── Users ────────────────────────────────────────────────────────────────────
 
 export async function getUserByEmail(email: string): Promise<UserRow | undefined> {
-  const user = await getPrisma().user.findUnique({
+  const prisma = getPrisma();
+  const user = await prisma.user.findUnique({
     where: { email },
   });
 
@@ -407,7 +437,8 @@ export async function getUserByEmail(email: string): Promise<UserRow | undefined
 }
 
 export async function getUserById(id: number): Promise<UserRow | undefined> {
-  const user = await getPrisma().user.findUnique({
+  const prisma = getPrisma();
+  const user = await prisma.user.findUnique({
     where: { id },
   });
 
@@ -421,7 +452,8 @@ export async function createUser(data: {
   verificationToken?: string;
   tokenExpiresAt?: string;
 }): Promise<UserRow> {
-  const created = await getPrisma().user.create({
+  const prisma = getPrisma();
+  const created = await prisma.user.create({
     data: {
       email: data.email,
       passwordHash: data.passwordHash,
@@ -444,6 +476,7 @@ export async function updateUser(
     >
   >
 ): Promise<void> {
+  const prisma = getPrisma();
   const updateData: Record<string, unknown> = {};
 
   if (data.email_verified !== undefined) {
@@ -464,20 +497,22 @@ export async function updateUser(
 
   if (Object.keys(updateData).length === 0) return;
 
-  await getPrisma().user.update({
+  await prisma.user.update({
     where: { id },
     data: updateData,
   });
 }
 
 export async function deleteUser(id: number): Promise<void> {
-  await getPrisma().user.delete({
+  const prisma = getPrisma();
+  await prisma.user.delete({
     where: { id },
   });
 }
 
 export async function getAllUsers(): Promise<UserRow[]> {
-  const users = await getPrisma().user.findMany({
+  const prisma = getPrisma();
+  const users = await prisma.user.findMany({
     orderBy: { createdAt: 'desc' },
   });
 
@@ -485,7 +520,8 @@ export async function getAllUsers(): Promise<UserRow[]> {
 }
 
 export async function getUserByVerificationToken(token: string): Promise<UserRow | undefined> {
-  const user = await getPrisma().user.findUnique({
+  const prisma = getPrisma();
+  const user = await prisma.user.findUnique({
     where: { verificationToken: token },
   });
 
@@ -495,7 +531,8 @@ export async function getUserByVerificationToken(token: string): Promise<UserRow
 // ─── Cleanup ───────────────────────────────────────────────────────────────────
 
 export async function closePrisma(): Promise<void> {
-  if (prisma) {
-    await prisma.$disconnect();
+  if (prismaInstance) {
+    await prismaInstance.$disconnect();
+    prismaInstance = null;
   }
 }
