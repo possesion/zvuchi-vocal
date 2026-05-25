@@ -50,6 +50,7 @@ COPY --from=builder /app/prisma ./standalone/prisma
 
 # Create data directory inside standalone for SQLite database
 RUN mkdir -p /app/standalone/data && chown -R node:node /app/standalone
+COPY --from=builder /app/data ./standalone/data
 
 # Run as non-root user
 USER node

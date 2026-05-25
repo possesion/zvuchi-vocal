@@ -8,7 +8,7 @@ services:
       - /root/web/zvuchi-vocal/.env
       # - /Users/gennadykazantsev/Documents/coding/vocal-school/.env
     volumes:
-      - zvuchi_data:/app/data
+      - zvuchi_data:/app/standalone/data
 
 volumes:
   zvuchi_data:

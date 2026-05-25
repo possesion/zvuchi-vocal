@@ -26,7 +26,7 @@ function getPrisma(): PrismaClient {
       const absolutePath = path.resolve(process.cwd(), relativePath);
       dbUrl = `file:${absolutePath}`;
     }
-
+    console.log('!!!!!!!! ', dbUrl);
     prismaInstance = new PrismaClient({
       datasources: {
         db: { url: dbUrl },
