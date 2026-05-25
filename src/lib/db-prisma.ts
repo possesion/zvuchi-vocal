@@ -1,6 +1,5 @@
 import { PrismaClient } from '@prisma/client';
 import { createSlug } from '@/app/api/v1/utils';
-import path from 'path';
 import {
   WikiCategoryRow,
   WikiTermRow,
@@ -16,10 +15,9 @@ let prisma: PrismaClient;
 
 function getPrisma(): PrismaClient {
   if (!prisma) {
-    // Use absolute path to avoid issues with relative paths in different environments
-    const dbUrl = process.env.DATABASE_URL?.startsWith('file:./')
-      ? `file:${path.resolve(process.env.DATABASE_URL.replace('file:', ''))}`
-      : process.env.DATABASE_URL;
+    // Use DATABASE_URL as-is from environment
+    // Prisma handles relative paths correctly in both local and Docker contexts
+    const dbUrl = process.env.DATABASE_URL || 'file:./data/wiki.db';
 
     prisma = new PrismaClient({
       datasources: {
