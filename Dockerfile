@@ -37,7 +37,6 @@ RUN apk add --no-cache cairo jpeg pango giflib
 
 # Copy standalone server from builder
 COPY --from=builder /app/.next/standalone ./standalone
-COPY --from=builder /app/data ./standalone
 
 # Fix: static assets must be inside standalone/ for Next.js standalone mode
 COPY --from=builder /app/.next/static ./standalone/.next/static
