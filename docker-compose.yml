@@ -8,4 +8,7 @@ services:
       - /root/web/zvuchi-vocal/.env
     volumes:
       - /root/web/zvuchi-vocal/data:/app/standalone/data
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
 
