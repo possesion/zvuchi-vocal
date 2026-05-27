@@ -1,10 +1,12 @@
 # ─── Build stage ──────────────────────────────────────────────────────────────
-FROM node:23-alpine AS builder
+FROM node:24-alpine AS builder
 
 WORKDIR /app
 
-# Build dependencies for canvas/image processing
-RUN apk add --no-cache python3 make g++ cairo-dev jpeg-dev pango-dev giflib-dev
+# Build dependencies for:
+# - canvas/image processing (cairo, jpeg, pango, giflib)
+# - better-sqlite3 native module (python3, make, g++, sqlite-dev)
+RUN apk add --no-cache python3 make g++ cairo-dev jpeg-dev pango-dev giflib-dev sqlite-dev
 
 # Copy package files first for layer caching
 COPY package*.json ./
@@ -28,12 +30,14 @@ RUN npx prisma generate
 RUN npm run build
 
 # ─── Production stage ─────────────────────────────────────────────────────────
-FROM node:23-alpine AS runner
+FROM node:24-alpine AS runner
 
 WORKDIR /app
 
-# Runtime dependencies only (no build tools, no better-sqlite3 dependencies)
-RUN apk add --no-cache cairo jpeg pango giflib
+# Runtime dependencies only:
+# - canvas/image processing (cairo, jpeg, pango, giflib)
+# - better-sqlite3 (sqlite-libs)
+RUN apk add --no-cache cairo jpeg pango giflib sqlite-libs
 
 # Copy standalone server from builder
 COPY --from=builder /app/.next/standalone ./standalone
@@ -42,11 +46,14 @@ COPY --from=builder /app/.next/standalone ./standalone
 COPY --from=builder /app/.next/static ./standalone/.next/static
 COPY --from=builder /app/public ./standalone/public
 
-# Copy compiled node_modules from builder (includes Prisma Client)
+# Copy compiled node_modules from builder (includes Prisma Client and better-sqlite3)
 COPY --from=builder /app/node_modules ./standalone/node_modules
 
 # Copy Prisma schema and migrations for runtime
 COPY --from=builder /app/prisma ./standalone/prisma
+
+# Copy prisma.config.ts for Prisma v7
+COPY --from=builder /app/prisma.config.ts ./standalone/prisma.config.ts
 
 # Create data directory inside standalone for SQLite database
 RUN chown -R node:node /app/standalone
