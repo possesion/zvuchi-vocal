@@ -3,12 +3,12 @@
 // This schema defines all models for the vocal school platform
 
 generator client {
-  provider = "prisma-client-js"
+  provider = "prisma-client"
+  output   = "./generated"
 }
 
 datasource db {
   provider = "sqlite"
-  url      = env("DATABASE_URL")
 }
 
 // ─── Wiki Categories ─────────────────────────────────────────────────────────

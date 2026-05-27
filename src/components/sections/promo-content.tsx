@@ -21,7 +21,7 @@ export const PromoContent = () => {
     return (
         <div className="relative">
             {/* Контейнер для видео - адаптивный */}
-            <div className="relative z-10 max-w-sm sm:max-w-md md:max-w-none md:px-0">
+            <div className="m-auto relative z-10 max-w-sm sm:max-w-md md:max-w-none md:px-0">
                 <div className="w-[380px] mx-auto shadow-lg h-[600px] xl:w-[400px]">
                     <video  
                         ref={videoRef}

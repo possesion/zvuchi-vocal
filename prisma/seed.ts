@@ -1,7 +1,13 @@
-import { PrismaClient } from '@prisma/client';
+import "dotenv/config";
+import { PrismaClient } from '../prisma/generated/client';
+import { PrismaBetterSqlite3 } from '@prisma/adapter-better-sqlite3';
 import bcrypt from 'bcryptjs';
 
-const prisma = new PrismaClient();
+const adapter = new PrismaBetterSqlite3({
+  url: process.env.DATABASE_URL || 'file:./data/wiki.db',
+});
+
+const prisma = new PrismaClient({ adapter });
 
 const SEED_CATEGORIES = [
   { id: 'technique', label: 'Техника' },

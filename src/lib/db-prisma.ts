@@ -1,4 +1,5 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from '../../prisma/generated/client';
+import { PrismaBetterSqlite3 } from '@prisma/adapter-better-sqlite3';
 import { createSlug } from '@/app/api/v1/utils';
 import path from 'path';
 
@@ -25,13 +26,12 @@ function getPrisma(): PrismaClient {
       const relativePath = dbUrl.replace('file:', '');
       const absolutePath = path.resolve(process.cwd(), relativePath);
       dbUrl = `file:${absolutePath}`;
-    }
-    console.log('!!!!!!!! ', dbUrl);
-    prismaInstance = new PrismaClient({
-      datasources: {
-        db: { url: dbUrl },
-      },
+    }    
+    const adapter = new PrismaBetterSqlite3({
+      url: dbUrl,
     });
+    
+    prismaInstance = new PrismaClient({ adapter });
   }
   return prismaInstance;
 }
