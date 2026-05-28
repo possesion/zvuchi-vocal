@@ -88,14 +88,17 @@ model Instructor {
 // Represents system users with authentication and email verification
 
 model User {
-  id                Int      @id @default(autoincrement())
-  email             String   @unique
+  id                Int       @id @default(autoincrement())
+  email             String    @unique
   passwordHash      String
-  role              String   @default("client") // "admin" or "client"
-  emailVerified     Boolean  @default(false)
-  verificationToken String?  @unique
+  role              String    @default("client") // "admin" or "client"
+  emailVerified     Boolean   @default(false)
+  verificationToken String?   @unique
   tokenExpiresAt    DateTime?
-  createdAt         DateTime @default(now())
+  resetToken        String?   @unique
+  resetTokenExpires DateTime?
+  createdAt         DateTime  @default(now())
 
   @@index([verificationToken])
+  @@index([resetToken])
 }

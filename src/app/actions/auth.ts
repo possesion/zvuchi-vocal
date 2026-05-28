@@ -133,3 +133,66 @@ export async function resendVerification(
 
     return { success: true }
 }
+
+export async function requestPasswordReset(
+    email: string
+): Promise<{ success: boolean; error?: string }> {
+    if (!email) {
+        return { success: false, error: 'Введите email' }
+    }
+
+    const user = await getUserByEmail(email)
+    if (!user) {
+        // Don't reveal whether email exists
+        return { success: true }
+    }
+
+    const resetToken = generateVerificationToken()
+    const expires = new Date()
+    expires.setHours(expires.getHours() + 1) // 1 hour
+
+    const { setPasswordResetToken } = await import('@/lib/db-prisma')
+    await setPasswordResetToken(user.id, resetToken, expires.toISOString())
+
+    try {
+        const { sendPasswordResetEmail } = await import('./sendEmail')
+        await sendPasswordResetEmail(email, resetToken)
+    } catch (err) {
+        console.error('Failed to send password reset email:', err)
+        return { success: false, error: 'Ошибка при отправке письма. Попробуйте позже.' }
+    }
+
+    return { success: true }
+}
+
+export async function resetPassword(
+    token: string,
+    password: string
+): Promise<{ success: boolean; error?: string }> {
+    if (!token) {
+        return { success: false, error: 'Ссылка недействительна или устарела' }
+    }
+
+    if (!password || password.length < 8) {
+        return { success: false, error: 'Пароль должен содержать не менее 8 символов' }
+    }
+
+    const { getUserByResetToken, updateUserPassword } = await import('@/lib/db-prisma')
+    const user = await getUserByResetToken(token)
+    if (!user) {
+        return { success: false, error: 'Ссылка недействительна или устарела' }
+    }
+
+    // Check expiry
+    if (user.reset_token_expires) {
+        const expires = new Date(user.reset_token_expires)
+        if (expires < new Date()) {
+            return { success: false, error: 'Ссылка недействительна или устарела' }
+        }
+    }
+
+    const passwordHash = await bcrypt.hash(password, 12)
+    await updateUserPassword(user.id, passwordHash)
+
+    return { success: true }
+}

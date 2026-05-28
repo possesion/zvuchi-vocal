@@ -65,31 +65,6 @@ async function main() {
     }
   }
 
-  // Seed admin user if ADMIN_EMAIL and ADMIN_PASSWORD are set
-  if (process.env.ADMIN_EMAIL && process.env.ADMIN_PASSWORD) {
-    console.log('👤 Seeding admin user...');
-    const existingAdmin = await prisma.user.findUnique({
-      where: { email: process.env.ADMIN_EMAIL },
-    });
-
-    if (!existingAdmin) {
-      const passwordHash = bcrypt.hashSync(process.env.ADMIN_PASSWORD, 12);
-      await prisma.user.create({
-        data: {
-          email: process.env.ADMIN_EMAIL,
-          passwordHash,
-          role: 'admin',
-          emailVerified: true,
-        },
-      });
-      console.log(`✅ Admin user created: ${process.env.ADMIN_EMAIL}`);
-    } else {
-      console.log(`⏭️  Admin user already exists: ${process.env.ADMIN_EMAIL}`);
-    }
-  } else {
-    console.log('⏭️  Skipping admin user seeding (ADMIN_EMAIL or ADMIN_PASSWORD not set)');
-  }
-
   console.log('✨ Database seeding completed!');
 }
 

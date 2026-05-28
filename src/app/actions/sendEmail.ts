@@ -168,3 +168,44 @@ export async function sendVerificationEmail(email: string, token: string): Promi
           </div>`,
     });
 }
+
+export async function sendPasswordResetEmail(email: string, token: string): Promise<void> {
+    if (!process.env.EMAIL_HOST || !process.env.EMAIL_USER || !process.env.EMAIL_PASSWORD) {
+        throw new Error('SMTP настройки не настроены. Проверьте переменные окружения.');
+    }
+
+    const resetUrl = `${process.env.NEXTAUTH_URL ?? 'https://zvuchi-vocal.ru'}/reset-password?token=${token}`;
+    const transporter = createTransporter();
+    await transporter.sendMail({
+        from: {
+            name: 'Вокальная школа ЗВУЧИ',
+            address: process.env.EMAIL_FROM ?? '',
+        },
+        to: email,
+        subject: 'Восстановление пароля — Вокальная школа ЗВУЧИ',
+        text: `Для восстановления пароля перейдите по ссылке: ${resetUrl}\n\nСсылка действительна 1 час.\n\nЕсли вы не запрашивали восстановление пароля — просто проигнорируйте это письмо.`,
+        html: `<div style="background: #f8f9fa; padding: 20px; border-radius: 8px; border-left: 4px solid #ab1515;">
+            <h2 style="color: #ab1515; margin-top: 0;">🎵 Вокальная школа ЗВУЧИ</h2>
+            <div style="background: white; padding: 20px; border-radius: 6px; margin: 20px 0;">
+              <h3 style="color: #333; margin-top: 0;">Восстановление пароля</h3>
+              <p style="color: #555;">Мы получили запрос на изменение вашего пароля. Нажмите кнопку ниже, чтобы установить новый пароль:</p>
+              <a href="${resetUrl}"
+                 style="display: inline-block; background: #ab1515; color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: bold; margin: 10px 0;">
+                Сбросить пароль
+              </a>
+              <p style="color: #888; font-size: 13px; margin-top: 16px;">
+                Или скопируйте ссылку в браузер:<br/>
+                <a href="${resetUrl}" style="color: #ab1515; word-break: break-all;">${resetUrl}</a>
+              </p>
+              <p style="color: #888; font-size: 13px;">Ссылка действительна 1 час.</p>
+            </div>
+            <p style="color: #666; font-size: 14px;">
+              Если вы не запрашивали восстановление пароля — просто проигнорируйте это письмо. Ваш пароль останется без изменений.
+            </p>
+          </div>
+          <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; color: #999; font-size: 12px;">
+            <p>© ${new Date().getFullYear()} Вокальная школа ЗВУЧИ</p>
+            <p>Сайт: <a href="https://zvuchi-vocal.ru" style="color: #ab1515;">zvuchi-vocal.ru</a></p>
+          </div>`,
+    });
+}

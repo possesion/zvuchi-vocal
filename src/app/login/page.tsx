@@ -1,59 +1,61 @@
 'use client'
 
-import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { signIn } from 'next-auth/react'
 import Link from 'next/link'
-import { validate } from './utils'
-
-const REMEMBER_ME_MAX_AGE = 60 * 60 * 24 * 30 // 30 дней
+import { useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { LoginSchema, REMEMBER_ME_MAX_AGE, LoginForm } from '@/lib/definitions'
 
 export default function LoginPage() {
     const router = useRouter()
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
-    const [rememberMe, setRememberMe] = useState(false)
-    const [error, setError] = useState('')
-    const [loading, setLoading] = useState(false)
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault()
+    const {
+        register,
+        handleSubmit,
+        setValue,
+        watch,
+        formState: { errors, isSubmitting },
+        setError: setFormError,
+    } = useForm<LoginForm>({
+        resolver: yupResolver(LoginSchema),
+        defaultValues: {
+            email: '',
+            password: '',
+            rememberMe: false,
+        },
+    })
 
-        const validationError = validate(email, password)
-        if (validationError) {
-            setError(validationError)
-            return
-        }
+    const rememberMe = watch('rememberMe')
 
-        setError('')
-        setLoading(true)
-
+    const onSubmit = async (data: LoginForm) => {
         try {
-            const result = await signIn('credentials', {
-                email,
-                password,
+            const authResult = await signIn('credentials', {
+                email: data.email,
+                password: data.password,
                 redirect: false,
-                ...(rememberMe && { maxAge: REMEMBER_ME_MAX_AGE }),
+                ...(data.rememberMe && { maxAge: REMEMBER_ME_MAX_AGE }),
             })
 
-            if (result?.ok) {
+            if (authResult?.error) {
+                setFormError('root', {
+                    message:
+                        authResult.error === 'EmailNotVerified'
+                            ? `Подтвердите email. Письмо отправлено на ${data.email}`
+                            : 'Неверный email или пароль',
+                })
+            } else if (authResult?.ok) {
                 router.push('/')
-            } else {
-                setError(
-                    result?.error === 'EmailNotVerified'
-                        ? `Подтвердите email. Письмо отправлено на ${email}`
-                        : 'Неверный email или пароль'
-                )
             }
-        } finally {
-            setLoading(false)
+        } catch {
+            setFormError('root', { message: 'Произошла ошибка. Попробуйте позже.' })
         }
     }
 
     return (
         <div className="flex min-h-screen items-center justify-center bg-zinc-950 px-4">
             <form
-                onSubmit={handleSubmit}
+                onSubmit={handleSubmit(onSubmit)}
                 noValidate
                 className="w-full max-w-sm rounded-lg bg-zinc-900 p-8 shadow-xl"
             >
@@ -66,11 +68,19 @@ export default function LoginPage() {
                     <input
                         id="email"
                         type="email"
-                        value={email}
-                        onChange={(e) => { setEmail(e.target.value); setError('') }}
                         autoComplete="email"
-                        className="w-full rounded-md bg-zinc-800 px-3 py-2 text-white outline-none ring-1 ring-white/10 focus:ring-purple-500"
+                        aria-invalid={!!errors.email}
+                        aria-describedby={errors.email ? 'email-error' : undefined}
+                        className={`w-full rounded-md bg-zinc-800 px-3 py-2 text-white outline-none ring-1 ${
+                            errors.email ? 'ring-red-500' : 'ring-white/10 focus:ring-purple-500'
+                        }`}
+                        {...register('email')}
                     />
+                    {errors.email && (
+                        <p id="email-error" className="mt-1 text-sm text-red-400">
+                            {errors.email.message}
+                        </p>
+                    )}
                 </div>
 
                 <div className="mb-4">
@@ -80,11 +90,19 @@ export default function LoginPage() {
                     <input
                         id="password"
                         type="password"
-                        value={password}
-                        onChange={(e) => { setPassword(e.target.value); setError('') }}
                         autoComplete="current-password"
-                        className="w-full rounded-md bg-zinc-800 px-3 py-2 text-white outline-none ring-1 ring-white/10 focus:ring-purple-500"
+                        aria-invalid={!!errors.password}
+                        aria-describedby={errors.password ? 'password-error' : undefined}
+                        className={`w-full rounded-md bg-zinc-800 px-3 py-2 text-white outline-none ring-1 ${
+                            errors.password ? 'ring-red-500' : 'ring-white/10 focus:ring-purple-500'
+                        }`}
+                        {...register('password')}
                     />
+                    {errors.password && (
+                        <p id="password-error" className="mt-1 text-sm text-red-400">
+                            {errors.password.message}
+                        </p>
+                    )}
                 </div>
 
                 <div className="mb-6 flex items-center gap-2">
@@ -92,7 +110,9 @@ export default function LoginPage() {
                         id="rememberMe"
                         type="checkbox"
                         checked={rememberMe}
-                        onChange={(e) => setRememberMe(e.target.checked)}
+                        onChange={(e) => {
+                            setValue('rememberMe', e.target.checked)
+                        }}
                         className="h-4 w-4 rounded border-white/20 bg-zinc-800 accent-purple-500"
                     />
                     <label htmlFor="rememberMe" className="cursor-pointer select-none text-sm text-white/70">
@@ -100,21 +120,27 @@ export default function LoginPage() {
                     </label>
                 </div>
 
-                {error && (
+                {errors.root && (
                     <p role="alert" className="mb-4 rounded-md bg-red-500/10 px-3 py-2 text-sm text-red-400">
-                        {error}
+                        {errors.root.message}
                     </p>
                 )}
 
                 <button
                     type="submit"
-                    disabled={loading}
+                    disabled={isSubmitting}
                     className="w-full rounded-md bg-purple-600 py-2 font-medium text-white transition-colors hover:bg-purple-700 disabled:opacity-50"
                 >
-                    {loading ? 'Вход...' : 'Войти'}
+                    {isSubmitting ? 'Вход...' : 'Войти'}
                 </button>
 
                 <p className="mt-4 text-center text-sm text-white/50">
+                    <Link href="/forgot-password" className="text-purple-400 hover:text-purple-300">
+                        Забыли пароль?
+                    </Link>
+                </p>
+
+                <p className="mt-2 text-center text-sm text-white/50">
                     Нет аккаунта?{' '}
                     <Link href="/register" className="text-purple-400 hover:text-purple-300">
                         Зарегистрироваться

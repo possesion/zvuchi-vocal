@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
 
         const allowed = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
         if (!allowed.includes(file.type)) return NextResponse.json({ error: 'Invalid file type' }, { status: 400 });
-        if (file.size > 10 * 1024 * 1024) return NextResponse.json({ error: 'File too large (max 10MB)' }, { status: 400 });
+        if (file.size > 2 * 1024 * 1024) return NextResponse.json({ error: 'File too large (max 2MB)' }, { status: 400 });
 
         const ext = file.name.split('.').pop() ?? 'jpg';
         const fileName = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;

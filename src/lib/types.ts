@@ -65,6 +65,8 @@ export interface UserRow {
     email_verified: 0 | 1
     verification_token: string | null
     token_expires_at: string | null
+    reset_token: string | null
+    reset_token_expires: string | null
     created_at: string
 }
 

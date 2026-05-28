@@ -145,6 +145,8 @@ function convertPrismaUserToRow(user: {
   emailVerified: boolean;
   verificationToken: string | null;
   tokenExpiresAt: Date | null;
+  resetToken: string | null;
+  resetTokenExpires: Date | null;
   createdAt: Date;
 }): UserRow {
   return {
@@ -155,6 +157,8 @@ function convertPrismaUserToRow(user: {
     email_verified: user.emailVerified ? 1 : 0,
     verification_token: user.verificationToken,
     token_expires_at: user.tokenExpiresAt ? user.tokenExpiresAt.toISOString() : null,
+    reset_token: user.resetToken,
+    reset_token_expires: user.resetTokenExpires ? user.resetTokenExpires.toISOString() : null,
     created_at: user.createdAt.toISOString(),
   };
 }
@@ -526,6 +530,53 @@ export async function getUserByVerificationToken(token: string): Promise<UserRow
   });
 
   return user ? convertPrismaUserToRow(user) : undefined;
+}
+
+export async function getUserByResetToken(token: string): Promise<UserRow | undefined> {
+  const prisma = getPrisma();
+  const user = await prisma.user.findUnique({
+    where: { resetToken: token },
+  });
+
+  return user ? convertPrismaUserToRow(user) : undefined;
+}
+
+export async function setPasswordResetToken(
+  userId: number,
+  token: string,
+  expiresAt: string
+): Promise<void> {
+  const prisma = getPrisma();
+  await prisma.user.update({
+    where: { id: userId },
+    data: {
+      resetToken: token,
+      resetTokenExpires: new Date(expiresAt),
+    },
+  });
+}
+
+export async function clearPasswordResetToken(userId: number): Promise<void> {
+  const prisma = getPrisma();
+  await prisma.user.update({
+    where: { id: userId },
+    data: {
+      resetToken: null,
+      resetTokenExpires: null,
+    },
+  });
+}
+
+export async function updateUserPassword(userId: number, passwordHash: string): Promise<void> {
+  const prisma = getPrisma();
+  await prisma.user.update({
+    where: { id: userId },
+    data: {
+      passwordHash,
+      resetToken: null,
+      resetTokenExpires: null,
+    },
+  });
 }
 
 // ─── Cleanup ───────────────────────────────────────────────────────────────────

@@ -29,6 +29,9 @@ RUN npx prisma generate
 # Build the application
 RUN npm run build
 
+# Note: Database migrations should be run at runtime, not build time
+# For production, run: npx prisma migrate deploy
+
 # ─── Production stage ─────────────────────────────────────────────────────────
 FROM node:24-alpine AS runner
 
@@ -55,6 +58,10 @@ COPY --from=builder /app/prisma ./standalone/prisma
 # Copy prisma.config.ts for Prisma v7
 COPY --from=builder /app/prisma.config.ts ./standalone/prisma.config.ts
 
+# Copy entrypoint script
+COPY docker-entrypoint.sh ./standalone/docker-entrypoint.sh
+RUN chmod +x ./standalone/docker-entrypoint.sh
+
 # Create data directory inside standalone for SQLite database
 RUN chown -R node:node /app/standalone
 
@@ -70,5 +77,5 @@ WORKDIR /app/standalone
 
 EXPOSE 3000
 
-CMD ["node", "server.js"]
+CMD ["./docker-entrypoint.sh"]
 

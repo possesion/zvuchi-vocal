@@ -5,7 +5,6 @@ import Image from 'next/image'
 import { Dialog } from 'radix-ui'
 import 'react-image-gallery/styles/css/image-gallery.css'
 import { Shorts } from '../common/shorts'
-import { BUCKET_URL } from '../constants'
 import { GalleryUploader } from './gallery-uploader'
 import { StudioGallery } from './studio-gallery'
 
@@ -65,18 +64,8 @@ export const Gallery = ({ isAuthorized = false }: { isAuthorized?: boolean }) =>
     const prevImage = () => setSelectedIndex((prev) => (prev - 1 + images.length) % images.length)
 
     useEffect(() => {
-        const pictures: { alt: string; src: string; fileName: string }[] = []
-        for (let i = 1; i <= 42; i++) {
-            pictures.push({
-                alt: `photo-${i}`,
-                fileName: `${i}.jpg`,
-                src: `${BUCKET_URL}/dd3d1966-zvuchi-media/concert-29-11/${i}.jpg`,
-            })
-        }
-        setImages(pictures)
-
         fetch('/api/v1/concert-photos')
-            .then((r) => r.json())
+            .then((result) => result.json())
             .then(({ urls }) => {
                 if (!urls?.length) return
                 const newPhotos = (urls as string[]).map((src, i) => ({
@@ -84,9 +73,9 @@ export const Gallery = ({ isAuthorized = false }: { isAuthorized?: boolean }) =>
                     alt: `concert-new-${i + 1}`,
                     fileName: src.split('/').pop() ?? `new-${i}`,
                 }))
-                setImages([...newPhotos, ...pictures])
+                setImages([...newPhotos])
             })
-            .catch(() => console.error('Ошибка загрузки фотографий'))
+            .catch((error) => console.error('Ошибка загрузки фотографий', error.message))
     }, [])
 
     const handleUploaded = (url: string) => {
