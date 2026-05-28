@@ -63,7 +63,7 @@ export default async function WikiTermPage({ params }: WikiTermPageProps) {
                                 </div>
                             )}
 
-                            <article className="rounded-sm bg-white/10 backdrop-blur-sm p-4 md:p-10">
+                            <article className="rounded-sm bg-black/60 backdrop-blur-md p-4 md:p-10">
                                 <div className="mb-6 flex items-center gap-3 md:mb-2">
                                     <span className="rounded-full bg-brand/70 px-4 py-2 text-sm font-semibold uppercase tracking-wide">
                                         {categoryMap[term.category] ?? term.category}

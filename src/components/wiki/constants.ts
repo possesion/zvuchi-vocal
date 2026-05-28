@@ -6,7 +6,7 @@ export const CTA_BY_CATEGORY: Record<string, { text: string; button: string; tit
     },
     method: {
         text: 'Хочешь заниматься по этой методике?',
-        button: 'Попробовать бесплатно',
+        button: 'Хочу научиться',
         title: 'Запишись на пробное занятие',
     },
     concept: {
