@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation'
 import { signIn } from 'next-auth/react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { LoginSchema, REMEMBER_ME_MAX_AGE, LoginForm } from '@/lib/definitions'
@@ -42,6 +43,8 @@ export default function LoginPage() {
                     message:
                         authResult.error === 'EmailNotVerified'
                             ? `Подтвердите email. Письмо отправлено на ${data.email}`
+                            : authResult.error === 'UseGoogle'
+                            ? 'Этот аккаунт зарегистрирован через Google. Войдите через Google.'
                             : 'Неверный email или пароль',
                 })
             } else if (authResult?.ok) {
@@ -50,6 +53,10 @@ export default function LoginPage() {
         } catch {
             setFormError('root', { message: 'Произошла ошибка. Попробуйте позже.' })
         }
+    }
+
+    const handleGoogleSignIn = () => {
+        signIn('google', { callbackUrl: '/' })
     }
 
     return (
@@ -110,9 +117,7 @@ export default function LoginPage() {
                         id="rememberMe"
                         type="checkbox"
                         checked={rememberMe}
-                        onChange={(e) => {
-                            setValue('rememberMe', e.target.checked)
-                        }}
+                        onChange={(e) => setValue('rememberMe', e.target.checked)}
                         className="h-4 w-4 rounded border-white/20 bg-zinc-800 accent-purple-500"
                     />
                     <label htmlFor="rememberMe" className="cursor-pointer select-none text-sm text-white/70">
@@ -132,6 +137,30 @@ export default function LoginPage() {
                     className="w-full rounded-md bg-purple-600 py-2 font-medium text-white transition-colors hover:bg-purple-700 disabled:opacity-50"
                 >
                     {isSubmitting ? 'Вход...' : 'Войти'}
+                </button>
+
+                <div className="relative my-6">
+                    <div className="absolute inset-0 flex items-center">
+                        <div className="w-full border-t border-white/10" />
+                    </div>
+                    <div className="relative flex justify-center text-xs">
+                        <span className="bg-zinc-900 px-2 text-white/40">или</span>
+                    </div>
+                </div>
+
+                <button
+                    type="button"
+                    onClick={handleGoogleSignIn}
+                    className="flex w-full items-center justify-center gap-3 rounded-md bg-white px-4 py-2 font-medium text-zinc-900 transition-colors hover:bg-zinc-100"
+                >
+                    <Image
+                        src="/socials/google.svg"
+                        alt=""
+                        aria-hidden="true"
+                        width={18}
+                        height={18}
+                    />
+                    Войти через Google
                 </button>
 
                 <p className="mt-4 text-center text-sm text-white/50">

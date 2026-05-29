@@ -30,16 +30,10 @@ export const authConfig: NextAuthConfig = {
         signIn: '/login',
         error: '/login',
     },
-    providers: [], 
+    providers: [],
     trustHost: true,
     callbacks: {
-        jwt({ token, user }) {
-            if (user) {
-                token.id = user.id as string
-                token.role = user.role as UserRole
-            }
-            return token
-        },
+        // jwt намеренно не определён здесь — вся логика в src/auth.ts
         session({ session, token }) {
             if (token) {
                 session.user.id = token.id as string

@@ -1,8 +1,17 @@
 'use server'
 
 import bcrypt from 'bcryptjs'
-import { getUserByEmail, createUser, updateUser, getUserByVerificationToken } from '@/lib/db-prisma'
+import {
+    getUserByEmail,
+    createUser,
+    updateUser,
+    getUserByVerificationToken,
+    getUserByResetToken,
+    setPasswordResetToken,
+    updateUserPassword,
+} from '@/lib/db-prisma'
 import { generateVerificationToken } from './utils'
+import { sendPasswordResetEmail } from './sendEmail'
 
 
 function getTokenExpiresAt(): string {
@@ -151,11 +160,9 @@ export async function requestPasswordReset(
     const expires = new Date()
     expires.setHours(expires.getHours() + 1) // 1 hour
 
-    const { setPasswordResetToken } = await import('@/lib/db-prisma')
     await setPasswordResetToken(user.id, resetToken, expires.toISOString())
 
     try {
-        const { sendPasswordResetEmail } = await import('./sendEmail')
         await sendPasswordResetEmail(email, resetToken)
     } catch (err) {
         console.error('Failed to send password reset email:', err)
@@ -177,7 +184,6 @@ export async function resetPassword(
         return { success: false, error: 'Пароль должен содержать не менее 8 символов' }
     }
 
-    const { getUserByResetToken, updateUserPassword } = await import('@/lib/db-prisma')
     const user = await getUserByResetToken(token)
     if (!user) {
         return { success: false, error: 'Ссылка недействительна или устарела' }
