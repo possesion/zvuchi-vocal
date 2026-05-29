@@ -109,7 +109,7 @@ export const Gallery = ({ isAuthorized = false }: { isAuthorized?: boolean }) =>
                 {isAuthorized && <GalleryUploader onUploaded={handleUploaded} />}
             </div>
             <div className="relative">
-                <div className="absolute -top-2 right-4 z-10 flex items-center gap-2 rounded-sm bg-white/10 px-4 py-2 backdrop-blur-sm">
+                <div className="absolute -top-2 right-4 z-10 flex items-center gap-2 rounded-sm bg-white/10 px-4 py-2 backdrop-blur-md">
                     <span className="text-sm font-medium text-white/90">Прокрути</span>
                     <div className="flex gap-1">
                         <svg className="h-5 w-5 animate-[swipe_2s_ease-in-out_infinite] text-white/80" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">

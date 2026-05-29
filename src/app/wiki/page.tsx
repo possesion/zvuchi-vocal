@@ -19,7 +19,7 @@ export default async function WikiPage() {
             <Header />
             <main className="w-full flex-1 primary-bg overflow-x-hidden">
                 <section className="relative min-h-screen main-bg py-12 text-white">
-                    <div className="absolute inset-0 bg-black/50" />
+                    <div className="absolute inset-0 bg-black/70" />
                     <div className="relative z-10">
                         <header className="container mb-12 flex flex-col items-center">
                             <div className="w-full flex flex-col justify-center items-center bg-dark px-6 py-4 rounded-sm opacity-85">
@@ -39,7 +39,7 @@ export default async function WikiPage() {
                                         <Link
                                             key={term.id}
                                             href={`/wiki/${term.id}`}
-                                            className="group rounded-sm bg-black/60 backdrop-blur-md p-6 transition-all hover:bg-white/15 hover:shadow-lg hover:scale-[1.02]"
+                                            className="group rounded-sm bg-white/10 backdrop-blur-md p-6 transition-all hover:bg-white/15 hover:shadow-lg hover:scale-[1.02]"
                                         >
                                             <div className="mb-3 flex items-center justify-between">
                                                 <span className="rounded-full bg-brand px-3 py-1 text-xs font-semibold uppercase tracking-wide">

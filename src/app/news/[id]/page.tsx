@@ -57,7 +57,7 @@ export default async function NewsArticlePage({ params }: WikiTermPageProps) {
             <Header />
             <main className="w-full flex-1 primary-bg overflow-x-hidden">
                 <section className="relative main-bg min-h-screen py-12 text-white">
-                    <div className="absolute inset-0 bg-black/50" />
+                    <div className="absolute inset-0 bg-black/70" />
                     <div className="relative z-10 container mx-auto px-4">
                         <Link
                             href="/"

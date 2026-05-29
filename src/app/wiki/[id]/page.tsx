@@ -46,7 +46,7 @@ export default async function WikiTermPage({ params }: WikiTermPageProps) {
             <Header />
             <main className="w-full flex-1 primary-bg overflow-x-hidden">
                 <section className="relative main-bg min-h-screen py-12 text-white">
-                    <div className="absolute inset-0 bg-black/50" />
+                    <div className="absolute inset-0 bg-black/70" />
                     <div className="relative z-10 container mx-auto px-4">
                         <Link
                             href="/wiki"
@@ -63,7 +63,7 @@ export default async function WikiTermPage({ params }: WikiTermPageProps) {
                                 </div>
                             )}
 
-                            <article className="rounded-sm bg-black/60 backdrop-blur-md p-4 md:p-10">
+                            <article className="rounded-sm bg-white/10 backdrop-blur-md p-4 md:p-10">
                                 <div className="mb-6 flex items-center gap-3 md:mb-2">
                                     <span className="rounded-full bg-brand/70 px-4 py-2 text-sm font-semibold uppercase tracking-wide">
                                         {categoryMap[term.category] ?? term.category}
@@ -100,7 +100,7 @@ export default async function WikiTermPage({ params }: WikiTermPageProps) {
                                         <Link
                                             key={t.id}
                                             href={`/wiki/${t.id}`}
-                                            className="group rounded-sm bg-white/10 backdrop-blur-sm p-4 transition-all hover:bg-white/15 hover:shadow-lg"
+                                            className="group rounded-sm bg-white/10 backdrop-blur-md p-4 transition-all hover:bg-white/15 hover:shadow-lg"
                                         >
                                             <span className="mb-2 inline-block rounded-full bg-brand/70 px-3 py-1 text-xs font-semibold uppercase tracking-wide">
                                                 {categoryMap[t.category] ?? t.category}

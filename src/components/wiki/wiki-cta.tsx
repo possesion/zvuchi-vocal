@@ -15,7 +15,7 @@ export function WikiCta({ category }: WikiCtaProps) {
 
     return (
         <>
-            <div className="my-8 flex flex-col gap-3 rounded-sm bg-white/5 px-5 py-4 backdrop-blur-sm sm:flex-row sm:items-center sm:justify-between">
+            <div className="my-8 flex flex-col gap-3 rounded-sm bg-white/5 px-5 py-4 backdrop-blur-md sm:flex-row sm:items-center sm:justify-between">
                 <p className="text-md font-semibold text-white/80 sm:text-base">{cta.text}</p>
                 <button
                     onClick={() => setOpen(true)}
