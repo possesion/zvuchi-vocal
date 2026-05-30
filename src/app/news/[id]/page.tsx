@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { Header } from '@/components';
 import { Footer } from '@/components/layout/footer';
 import { ChevronLeft } from 'lucide-react';
-import { getNewsById } from '@/lib/db-prisma';
+import { getNewsById, incrementNewsViews } from '@/lib/db-prisma';
 import { NewsArticle } from '@/components/sections/news/news-article';
 import notFound from './not-found';
 import { auth } from '@/auth';
@@ -48,6 +48,7 @@ export default async function NewsArticlePage({ params }: WikiTermPageProps) {
     const newsId = Number(decodeURIComponent(id));
     const news = await getNewsById(newsId);
     if (!news) notFound();
+    await incrementNewsViews(newsId);
 
     const session = await auth();
     const isAuthorized = canEdit(session?.user?.role);

@@ -7,7 +7,7 @@ import { UserRole } from './lib/types'
 const { auth } = NextAuth(authConfig)
 
 const ADMIN_ONLY_PATHS = ['/users']
-const PROTECTED_PATHS = ['/users', '/api/v1']
+const PROTECTED_PATHS = ['/users']
 
 function isProtectedPath(pathname: string): boolean {
     return PROTECTED_PATHS.some((p) => pathname.startsWith(p))
