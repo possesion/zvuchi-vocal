@@ -30,7 +30,7 @@ export const Program: FC<ProgramProps> = ({ description, title, number, price, o
     return (
         <article
             key={title}
-            className={cn(animationClass, 'h-40 group relative flex w-full shrink-0 flex-col rounded-sm bg-black/85 p-6 shadow-md brightness-96 md:flex-row')}
+            className={cn(animationClass, 'h-[190px] group relative flex w-full shrink-0 flex-col rounded-sm bg-black/85 p-6 shadow-md brightness-96 md:h-40 md:flex-row')}
             ref={ref}
         >
             <div className="flex w-20">

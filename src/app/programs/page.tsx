@@ -32,28 +32,30 @@ export default async function ProgramsPage() {
     return (
         <div className="relative min-h-screen font-exo2">
             <Header />
-            <main className="w-full flex-1 primary-bg overflow-x-hidden">
-                <section className="main-bg py-12 text-white">
-                    <header className="container mb-12 flex flex-col items-center">
-                        <div className="w-full flex flex-col justify-center items-center bg-dark px-6 py-4 rounded-sm opacity-85">
-                            <h1 className="mb-4 text-4xl font-bold tracking-tight text-shadow-lg md:text-5xl xl:text-7xl">
-                                Наши<br />
-                                <span className="ml-5">абонементы</span>
-                            </h1>
-                            <article className="max-w-2xl text-center font-bold md:text-lg">
-                                <p className="mb-2">
-                                    От джаза до рока — учим петь в любом жанре!
-                                </p>
-                            </article>
-                        </div>
-                    </header>
-                    {isAuthorized && (
-                        <div className="container">
-                            <ProgramAddForm />
-                        </div>
-                    )}
-                    <Programs programs={programs} isAuthorized={isAuthorized} />
-                    <div className="container grid gap-8 md:grid-cols-3 mt-16 backdrop-blur-md">
+            <main className="w-full flex-1 overflow-x-hidden">
+                <section className="relative main-bg py-12 text-white">
+                    <div className="absolute inset-0 bg-black/70" />
+                    <div className="relative z-10">
+                        <header className="container mb-12 flex flex-col items-center">
+                            <div className="w-full flex flex-col justify-center items-center bg-dark px-6 py-4 rounded-sm opacity-85">
+                                <h1 className="mb-4 text-4xl font-bold tracking-tight text-shadow-lg md:text-5xl xl:text-7xl">
+                                    Наши<br />
+                                    <span className="ml-5">абонементы</span>
+                                </h1>
+                                <article className="max-w-2xl text-center font-bold md:text-lg">
+                                    <p className="mb-2">
+                                        От джаза до рока — учим петь в любом жанре!
+                                    </p>
+                                </article>
+                            </div>
+                        </header>
+                        {isAuthorized && (
+                            <div className="container">
+                                <ProgramAddForm />
+                            </div>
+                        )}
+                        <Programs programs={programs} isAuthorized={isAuthorized} />
+                        <div className="container grid gap-8 md:grid-cols-3 mt-16 backdrop-blur-md">
                             <Link
                                 href="/gallery"
                                 className="group rounded-sm bg-white/10 p-8 backdrop-blur-md transition-all hover:bg-white/20 hover:scale-105"
@@ -83,6 +85,7 @@ export default async function ProgramsPage() {
                             </Link>
 
                         </div>
+                    </div>
                 </section>
             </main>
             <Footer />

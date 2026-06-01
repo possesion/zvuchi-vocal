@@ -49,7 +49,7 @@ export function ProgramPricingTabs({ packages }: ProgramPricingTabsProps) {
                 <Tabs.Content key={index} value={String(index)} className="space-y-4">
                     <div className="space-y-2">
                         <div className="flex items-baseline gap-3">
-                            <span className="text-4xl font-bold text-white">
+                            <span className="animate-[fade-in_1s_ease-in] text-4xl font-bold text-white">
                                 {formatPrice(pkg.price)}
                             </span>
                         </div>

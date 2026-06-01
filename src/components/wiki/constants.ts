@@ -16,7 +16,7 @@ export const CTA_BY_CATEGORY: Record<string, { text: string; button: string; tit
     },
     program: {
         text: 'Хочешь на пробное занятие?',
-        button: 'Да, хочу',
+        button: 'Да, хочу!',
         title: 'Запишись на первое занятие',
     },
 };

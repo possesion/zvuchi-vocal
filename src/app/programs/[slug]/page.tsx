@@ -47,9 +47,10 @@ export default async function ProgramDetailPage({ params }: ProgramPageProps) {
     return (
         <div className="relative min-h-screen font-exo2">
             <Header />
-            <main className="w-full flex-1 primary-bg overflow-x-hidden">
-                <section className="main-bg py-12 text-white">
-                    <div className="container mx-auto px-4">
+            <main className="w-full flex-1 overflow-x-hidden">
+                <section className="relative main-bg py-12 text-white">
+                    <div className="absolute inset-0 bg-black/70" />
+                    <div className="relative z-10 container mx-auto px-4">
                         <Link
                             href="/programs"
                             className="inline-flex items-center gap-2 mb-8 text-white/70 hover:text-white transition-colors"
