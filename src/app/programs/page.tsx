@@ -9,6 +9,8 @@ import { canEdit } from '@/lib/roles';
 import { ProgramAddForm } from './program-add-form';
 import Link from 'next/link';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = generatePageMetadata({
     title: 'Абонементы и цены',
     description: 'Абонементы на уроки вокала в студии ЗВУЧИ. Гибкие программы обучения, индивидуальный подход. От джаза до рока - учим петь в любом жанре!',
