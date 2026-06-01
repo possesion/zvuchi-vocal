@@ -70,3 +70,22 @@ export interface UserRow {
     created_at: string
 }
 
+export interface ProgramRow {
+    id: number
+    slug: string
+    title: string
+    short_description: string
+    full_description: string
+    packages: Array<{
+        lessons_count: number
+        price: number
+    }>
+    lesson_duration: number
+    program_duration: number
+    features: string[]
+    is_popular: boolean
+    sort_order: number
+    created_at: string
+    updated_at: string
+}
+

@@ -108,15 +108,15 @@ export default async function Home() {
                         </div>
                         <FeatureList />
                     </div>
+                    <div className="container mx-auto mt-16 flex justify-center">
+                        <EnrollmentForm />
+                    </div>
+                    <Faq />
                     {isAuthorized && (
                         <div className="container pt-8">
                             <NewsAddForm />
                         </div>
                     )}
-                    <div className="container mx-auto mt-16 flex justify-center">
-                        <EnrollmentForm />
-                    </div>
-                    <Faq />
                     <NewsFeed posts={news} isAuthorized={isAuthorized} />
                 </section>
             </main>

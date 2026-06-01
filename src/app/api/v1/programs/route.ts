@@ -1,28 +1,46 @@
-import { programs } from '@/app/constants'
-import { ProgramResponse } from '@/types/program'
-import { apiOk, apiError } from '@/lib/api-response'
+import { NextResponse } from 'next/server'
+import { getAllPrograms } from '@/lib/db-prisma'
+
+interface ApiProgram {
+    id: string
+    slug: string
+    title: string
+    description: string
+    features: string[]
+    packages: Array<{
+        lessons_count: number
+        price: number
+        original_price?: number
+    }>
+    lessonDuration: number
+    programDuration: number
+    popular: boolean
+}
+
+interface ProgramResponse {
+    programs: ApiProgram[]
+    total: number
+}
 
 export async function GET() {
     try {
-        const programsData = programs.map((program, index) => ({
-            id: `program-${index + 1}`,
+        const programs = await getAllPrograms()
+        
+        const programsData: ApiProgram[] = programs.map((program) => ({
+            id: String(program.id),
+            slug: program.slug,
             title: program.title,
-            description: program.description,
+            description: program.short_description,
             features: program.features,
-            price: program.price,
-            duration: '1 месяц',
-            level: program.title === 'Базовый' ? 'beginner' as const :
-                program.title === 'Продвинутый' ? 'intermediate' as const : 'advanced' as const,
-            icon: program.icon,
-            category: 'individual' as const,
-            lessonsCount: program.title === 'Базовый' ? 4 : program.title === 'Продвинутый' ? 6 : 8,
-            lessonDuration: 55,
-            popular: program.title === 'Продвинутый',
-            new: false,
+            packages: program.packages,
+            lessonDuration: program.lesson_duration,
+            programDuration: program.program_duration,
+            popular: program.is_popular,
         }))
+        
         const response: ProgramResponse = { programs: programsData, total: programsData.length }
-        return apiOk(response)
+        return NextResponse.json(response)
     } catch {
-        return apiError('Failed to fetch programs')
+        return NextResponse.json({ error: 'Failed to fetch programs' }, { status: 500 })
     }
 }

@@ -3,6 +3,10 @@ import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 import { Programs } from '@/components/sections/programs';
 import { generatePageMetadata } from '@/lib/metadata';
+import { getAllPrograms } from '@/lib/db-prisma';
+import { auth } from '@/auth';
+import { canEdit } from '@/lib/roles';
+import { ProgramAddForm } from './program-add-form';
 import Link from 'next/link';
 
 export const metadata: Metadata = generatePageMetadata({
@@ -18,7 +22,11 @@ export const metadata: Metadata = generatePageMetadata({
     ],
 });
 
-export default function ProgramsPage() {
+export default async function ProgramsPage() {
+    const programs = await getAllPrograms();
+    const session = await auth();
+    const isAuthorized = canEdit(session?.user?.role);
+
     return (
         <div className="relative min-h-screen font-exo2">
             <Header />
@@ -37,7 +45,12 @@ export default function ProgramsPage() {
                             </article>
                         </div>
                     </header>
-                    <Programs />
+                    {isAuthorized && (
+                        <div className="container">
+                            <ProgramAddForm />
+                        </div>
+                    )}
+                    <Programs programs={programs} isAuthorized={isAuthorized} />
                     <div className="container grid gap-8 md:grid-cols-3 mt-16 backdrop-blur-md">
                             <Link
                                 href="/gallery"
@@ -49,7 +62,7 @@ export default function ProgramsPage() {
                                 </p>
                             </Link>
                             <Link
-                                href="/programs"
+                                href="/wiki"
                                 className="hidden group rounded-sm bg-white/10 p-8 backdrop-blur-md transition-all hover:bg-white/20 hover:scale-105 sm:block"
                             >
                                 <h3 className="mb-4 text-2xl font-bold">Знания</h3>

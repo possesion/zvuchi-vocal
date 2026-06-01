@@ -45,4 +45,6 @@ yarn-error.log*
 next-env.d.ts
 data/
 wiki.db*
-/src/generated/prisma
+
+# ORM generated code
+prisma/generated/

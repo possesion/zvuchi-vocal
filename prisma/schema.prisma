@@ -102,3 +102,25 @@ model User {
   @@index([verificationToken])
   @@index([resetToken])
 }
+
+// ─── Programs ──────────────────────────────────────────────────────────────────
+// Represents subscription programs for vocal training
+
+model Program {
+  id              Int      @id @default(autoincrement())
+  slug            String   @unique
+  title           String
+  shortDescription String
+  fullDescription String
+  packages        String   @default("[]") // JSON array of {lessons_count, price}
+  lessonDuration  Int      @default(55)
+  programDuration Int      // Duration in days
+  features        String   @default("[]") // JSON array of features
+  isPopular       Boolean  @default(false)
+  sortOrder       Int      @default(0)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([slug])
+  @@index([sortOrder])
+}

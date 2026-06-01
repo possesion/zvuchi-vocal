@@ -14,6 +14,11 @@ export const CTA_BY_CATEGORY: Record<string, { text: string; button: string; tit
         button: 'Записаться на занятие',
         title: 'Запишись на первое занятие',
     },
+    program: {
+        text: 'Хочешь на пробное занятие?',
+        button: 'Да, хочу',
+        title: 'Запишись на первое занятие',
+    },
 };
 
 export const DEFAULT_CTA = {

@@ -10,6 +10,7 @@ import {
   InstructorRow,
   UserRow,
   UserRole,
+  ProgramRow,
 } from './types';
 
 // ─── Singleton Prisma Client ──────────────────────────────────────────────────
@@ -160,6 +161,59 @@ function convertPrismaUserToRow(user: {
     reset_token: user.resetToken,
     reset_token_expires: user.resetTokenExpires ? user.resetTokenExpires.toISOString() : null,
     created_at: user.createdAt.toISOString(),
+  };
+}
+
+/**
+ * Convert Prisma Program (camelCase) to ProgramRow (snake_case)
+ */
+function convertPrismaProgramToRow(program: {
+  id: number;
+  slug: string;
+  title: string;
+  shortDescription: string;
+  fullDescription: string;
+  packages: string;
+  lessonDuration: number;
+  programDuration: number;
+  features: string;
+  isPopular: boolean;
+  sortOrder: number;
+  createdAt: Date;
+  updatedAt: Date;
+}): ProgramRow {
+  let packages: Array<{
+    lessons_count: number
+    price: number
+  }> = [];
+  let features: string[] = [];
+
+  try {
+    packages = JSON.parse(program.packages);
+  } catch {
+    packages = [];
+  }
+
+  try {
+    features = JSON.parse(program.features);
+  } catch {
+    features = [];
+  }
+
+  return {
+    id: program.id,
+    slug: program.slug,
+    title: program.title,
+    short_description: program.shortDescription,
+    full_description: program.fullDescription,
+    packages,
+    lesson_duration: program.lessonDuration,
+    program_duration: program.programDuration,
+    features,
+    is_popular: program.isPopular,
+    sort_order: program.sortOrder,
+    created_at: program.createdAt.toISOString(),
+    updated_at: program.updatedAt.toISOString(),
   };
 }
 
@@ -576,6 +630,85 @@ export async function updateUserPassword(userId: number, passwordHash: string): 
       resetToken: null,
       resetTokenExpires: null,
     },
+  });
+}
+
+// ─── Programs ──────────────────────────────────────────────────────────────────
+
+export async function getAllPrograms(): Promise<ProgramRow[]> {
+  const prisma = getPrisma();
+  const programs = await prisma.program.findMany({
+    orderBy: [{ sortOrder: 'asc' }, { id: 'asc' }],
+  });
+
+  return programs.map(convertPrismaProgramToRow);
+}
+
+export async function getProgramBySlug(slug: string): Promise<ProgramRow | undefined> {
+  const prisma = getPrisma();
+  const program = await prisma.program.findUnique({
+    where: { slug },
+  });
+
+  return program ? convertPrismaProgramToRow(program) : undefined;
+}
+
+export async function getProgramById(id: number): Promise<ProgramRow | undefined> {
+  const prisma = getPrisma();
+  const program = await prisma.program.findUnique({
+    where: { id },
+  });
+
+  return program ? convertPrismaProgramToRow(program) : undefined;
+}
+
+export async function createProgram(
+  data: Omit<ProgramRow, 'id' | 'created_at' | 'updated_at'>
+): Promise<ProgramRow> {
+  const prisma = getPrisma();
+  const created = await prisma.program.create({
+    data: {
+      slug: data.slug,
+      title: data.title,
+      shortDescription: data.short_description,
+      fullDescription: data.full_description,
+      packages: JSON.stringify(data.packages ?? []),
+      lessonDuration: data.lesson_duration,
+      programDuration: data.program_duration,
+      features: JSON.stringify(data.features ?? []),
+      isPopular: data.is_popular,
+      sortOrder: data.sort_order,
+    },
+  });
+
+  return convertPrismaProgramToRow(created);
+}
+
+export async function updateProgram(data: ProgramRow): Promise<ProgramRow> {
+  const prisma = getPrisma();
+  const updated = await prisma.program.update({
+    where: { id: data.id },
+    data: {
+      slug: data.slug,
+      title: data.title,
+      shortDescription: data.short_description,
+      fullDescription: data.full_description,
+      packages: JSON.stringify(data.packages ?? []),
+      lessonDuration: data.lesson_duration,
+      programDuration: data.program_duration,
+      features: JSON.stringify(data.features ?? []),
+      isPopular: data.is_popular,
+      sortOrder: data.sort_order,
+    },
+  });
+
+  return convertPrismaProgramToRow(updated);
+}
+
+export async function deleteProgram(id: number): Promise<void> {
+  const prisma = getPrisma();
+  await prisma.program.delete({
+    where: { id },
   });
 }
 

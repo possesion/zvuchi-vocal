@@ -49,3 +49,35 @@ export const ResetPasswordSchema = yup.object({
 });
 
 export type ResetPasswordForm = yup.InferType<typeof ResetPasswordSchema>;
+
+export const ProgramSchema = yup.object({
+    title: yup.string().required('Введите название').trim(),
+    short_description: yup.string().required('Введите краткое описание').trim(),
+    full_description: yup.string().required('Введите полное описание').trim(),
+    packages: yup.array().of(
+        yup.object({
+            lessons_count: yup.number().positive('Количество занятий должно быть положительным').required(),
+            price: yup.number().positive('Цена должна быть положительной').required(),
+        })
+    ).min(1, 'Добавьте хотя бы один пакет').required(),
+    lesson_duration: yup.number().positive('Длительность урока должна быть положительной').default(55),
+    program_duration: yup.number().positive('Срок действия должен быть положительным').required('Введите срок действия'),
+    features: yup.string().default(''),
+    is_popular: yup.boolean().default(false),
+    sort_order: yup.number().default(0),
+});
+
+export type ProgramForm = {
+    title: string
+    short_description: string
+    full_description: string
+    packages: Array<{
+        lessons_count: number
+        price: number
+    }>
+    lesson_duration: number
+    program_duration: number
+    features: string
+    is_popular: boolean
+    sort_order: number
+}
