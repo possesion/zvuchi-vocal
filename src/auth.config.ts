@@ -11,12 +11,17 @@ declare module 'next-auth' {
         user: {
             id: string
             email: string
+            name?: string | null
+            phone?: string | null
             role: UserRole
         }
     }
     interface User {
         id?: string
         email?: string | null
+        name?: string | null
+        phone?: string | null
+        emailVerified?: boolean
         role: UserRole
     }
 }
@@ -37,6 +42,8 @@ export const authConfig: NextAuthConfig = {
         session({ session, token }) {
             if (token) {
                 session.user.id = token.id as string
+                session.user.name = token.name as string | null
+                session.user.phone = token.phone as string | null
                 session.user.role = token.role as UserRole
             }
             return session

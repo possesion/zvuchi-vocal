@@ -42,6 +42,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
                     await updateUser(dbUser.id, { email_verified: 1 })
                 }
                 token.id = String(dbUser.id)
+                token.name = dbUser.name
+                token.phone = dbUser.phone
+                token.emailVerified = dbUser.email_verified === 1
                 token.role = dbUser.role as UserRole
                 return token
             }
@@ -49,6 +52,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             // Вход через credentials: user заполнен только при первом входе
             if (user) {
                 token.id = user.id as string
+                token.name = user.name
+                token.phone = user.phone
+                token.emailVerified = user.emailVerified
                 token.role = user.role as UserRole
             }
 
@@ -93,6 +99,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
                 return {
                     id: String(user.id),
                     email: user.email,
+                    name: user.name,
+                    phone: user.phone,
+                    emailVerified: user.email_verified === 1,
                     role: user.role as UserRole,
                 }
             },

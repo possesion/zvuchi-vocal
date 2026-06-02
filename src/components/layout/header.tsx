@@ -2,7 +2,6 @@ import Link from 'next/link'
 import Image from 'next/image'
 import MobileMenu from '@/components/mobile-menu'
 import { NavMenu } from './nav-menu'
-import { UserAvatar } from './user-avatar'
 
 export const Header = () => {
     return (
@@ -20,9 +19,6 @@ export const Header = () => {
                 </Link>
                 <div className="flex items-center gap-2">
                     <NavMenu />
-                    <div className='absolute right-6'>
-                        <UserAvatar />
-                    </div>
                 </div>
                 <MobileMenu />
             </div>

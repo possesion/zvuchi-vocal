@@ -17,10 +17,14 @@ import { SOCIAL_ICON_SIZE } from './common/constants'
 import { Socials } from './common/socials'
 import { Phone } from './common/phone'
 import { contacts } from '@/app/constants'
+import { useSession } from 'next-auth/react'
+import { UserAvatar } from './layout/user-avatar'
 // import { SubscriptionsPaymentWidget } from './common/subscription-payment-widget'
 
 export default function MobileMenu() {
-    const [open, setOpen] = useState(false)
+    const [open, setOpen] = useState(false);
+    const { status } = useSession();
+    const isAuthorized = status === 'authenticated';
 
     const handleLinkClick = () => {
         setOpen(false)
@@ -49,6 +53,16 @@ export default function MobileMenu() {
                     </SheetHeader>
                     <div className='h-5/6 flex flex-col justify-between'>
                         <nav className="flex flex-col space-y-4 px-2 py-2 text-2xl font-exo2">
+                            <div className='flex justify-between'>
+                                 <Link
+                                href="/profile"
+                                className="flex items-center hover:text-red-400"
+                                onClick={handleLinkClick}
+                            >
+                                Профиль
+                            </Link>
+                            <UserAvatar className='flex items-center md:hidden' />
+                            </div>
                             <Link
                                 href="/"
                                 className="flex items-center hover:text-red-400"
@@ -91,6 +105,12 @@ export default function MobileMenu() {
                             >
                                 Контакты
                             </Link>
+                            {isAuthorized && <Link
+                                href="/logout"
+                                className="flex items-center hover:text-red-400"
+                            >
+                                Выйти
+                            </Link>}
                         </nav>
                         <section className='space-y-4'>
                             <Phone className='block font-exo2 text-2xl font-semibold' />

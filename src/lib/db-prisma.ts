@@ -9,6 +9,7 @@ import {
   NewsRow,
   InstructorRow,
   UserRow,
+  UserUpdateData,
   UserRole,
   ProgramRow,
 } from './types';
@@ -142,6 +143,8 @@ function convertPrismaUserToRow(user: {
   id: number;
   email: string;
   passwordHash: string;
+  name: string | null;
+  phone: string | null;
   role: string;
   emailVerified: boolean;
   verificationToken: string | null;
@@ -154,6 +157,8 @@ function convertPrismaUserToRow(user: {
     id: user.id,
     email: user.email,
     password_hash: user.passwordHash,
+    name: user.name,
+    phone: user.phone,
     role: user.role as UserRole,
     email_verified: user.emailVerified ? 1 : 0,
     verification_token: user.verificationToken,
@@ -527,31 +532,31 @@ export async function createUser(data: {
 
 export async function updateUser(
   id: number,
-  data: Partial<
-    Pick<
-      UserRow,
-      'email_verified' | 'verification_token' | 'token_expires_at' | 'role' | 'password_hash'
-    >
-  >
+  data: UserUpdateData
 ): Promise<void> {
   const prisma = getPrisma();
+  
+  // Маппинг полей: snake_case -> camelCase с преобразованиями
+  const fieldMapping: Record<string, (value: unknown) => unknown> = {
+    email_verified: (val) => val === 1,
+    verification_token: (val) => val,
+    token_expires_at: (val) => val ? new Date(val as string) : null,
+    role: (val) => val,
+    password_hash: (val) => val,
+    name: (val) => val,
+    phone: (val) => val,
+  };
+
   const updateData: Record<string, unknown> = {};
 
-  if (data.email_verified !== undefined) {
-    updateData.emailVerified = data.email_verified === 1;
-  }
-  if (data.verification_token !== undefined) {
-    updateData.verificationToken = data.verification_token;
-  }
-  if (data.token_expires_at !== undefined) {
-    updateData.tokenExpiresAt = data.token_expires_at ? new Date(data.token_expires_at) : null;
-  }
-  if (data.role !== undefined) {
-    updateData.role = data.role;
-  }
-  if (data.password_hash !== undefined) {
-    updateData.passwordHash = data.password_hash;
-  }
+  // Автоматическая конвертация полей
+  (Object.keys(data) as Array<keyof UserUpdateData>).forEach((snakeKey) => {
+    if (data[snakeKey] !== undefined && fieldMapping[snakeKey]) {
+      // Преобразуем snake_case в camelCase
+      const camelKey = snakeKey.replace(/_([a-z])/g, (_, letter) => letter.toUpperCase());
+      updateData[camelKey] = fieldMapping[snakeKey](data[snakeKey]);
+    }
+  });
 
   if (Object.keys(updateData).length === 0) return;
 

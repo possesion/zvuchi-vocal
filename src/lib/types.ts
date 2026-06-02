@@ -61,6 +61,8 @@ export interface UserRow {
     id: number
     email: string
     password_hash: string
+    name: string | null
+    phone: string | null
     role: UserRole
     email_verified: 0 | 1
     verification_token: string | null
@@ -69,6 +71,11 @@ export interface UserRow {
     reset_token_expires: string | null
     created_at: string
 }
+
+export type UserUpdateData = Partial<Pick<
+    UserRow,
+    'email_verified' | 'verification_token' | 'token_expires_at' | 'role' | 'password_hash' | 'name' | 'phone'
+>>
 
 export interface ProgramRow {
     id: number

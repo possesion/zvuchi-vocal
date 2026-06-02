@@ -5,7 +5,11 @@ import Link from 'next/link'
 import { useSession } from 'next-auth/react'
 import { LogOut } from 'lucide-react'
 
-export function UserAvatar() {
+interface UserAvatarProps {
+    className?: string;
+}
+
+export function UserAvatar({ className }: UserAvatarProps) {
     const { data: session } = useSession()
     const [open, setOpen] = useState(false)
     const ref = useRef<HTMLDivElement>(null)
@@ -26,12 +30,12 @@ export function UserAvatar() {
     const initials = session.user.email?.[0]?.toUpperCase() ?? '?'
 
     return (
-        <div ref={ref} className="relative hidden lg:flex items-center">
+        <div ref={ref} className={className}>
             <button
                 onClick={() => setOpen((value) => !value)}
                 aria-label="Меню пользователя"
                 aria-expanded={open}
-                className="flex h-8 w-8 items-center justify-center rounded-full bg-brand text-sm font-bold text-white ring-2 ring-white/20 transition-opacity hover:opacity-80"
+                className="flex h-10 w-10 items-center justify-center rounded-full bg-brand text-sm font-bold text-white ring-2 ring-white/20 transition-opacity hover:opacity-80"
             >
                 {initials}
             </button>
@@ -41,6 +45,13 @@ export function UserAvatar() {
                     <div className="border-b border-white/10 px-3 py-2">
                         <p className="truncate text-xs text-white/50">{session.user.email}</p>
                     </div>
+                    <Link
+                        href="/profile"
+                        onClick={() => setOpen(false)}
+                        className="flex items-center gap-2 px-3 py-2 text-sm text-white/80 transition-colors hover:bg-white/5 hover:text-white"
+                    >
+                        Профиль
+                    </Link>
                     <Link
                         href="/logout"
                         onClick={() => setOpen(false)}

@@ -3,13 +3,14 @@
 import Link from 'next/link';
 import { navigationList } from '@/app/constants';
 import cn from 'classnames'
+import { UserAvatar } from './user-avatar';
 // import { PlatformDialog } from '../modals/platform-dialog';
 // import * as Dialog from '@radix-ui/react-dialog';
 // import { SubscriptionsPaymentWidget } from '../common/subscription-payment-widget';
 
 export const NavMenu = () => {
     return (
-        <nav className="hidden gap-4 pr-4 lg:flex lg:gap-8">
+        <nav className="hidden gap-4 lg:flex lg:gap-8">
             {navigationList.map(({ hiddenOnMobile, id, text, sectionId }) => (
                 <Link
                     key={id}
@@ -33,6 +34,7 @@ export const NavMenu = () => {
                     <SubscriptionsPaymentWidget />
                 </div>
             </PlatformDialog> */}
+            <UserAvatar className='-translate-y-[3px] relative hidden lg:flex items-center' />
         </nav>
     );
 };

@@ -49,7 +49,7 @@ export default async function ProgramDetailPage({ params }: ProgramPageProps) {
             <Header />
             <main className="w-full flex-1 overflow-x-hidden">
                 <section className="relative main-bg py-12 text-white">
-                    <div className="absolute inset-0 bg-black/70" />
+                    <div className="absolute inset-0 bg-black/40" />
                     <div className="relative z-10 container mx-auto px-4">
                         <Link
                             href="/programs"
@@ -90,12 +90,12 @@ export default async function ProgramDetailPage({ params }: ProgramPageProps) {
                                 <div className="rounded-sm bg-white/10 p-6 backdrop-blur-md">
                                     <h2 className="text-2xl font-bold mb-4">Включено</h2>
                                     <ul className="space-y-3">
-                                        {program.packages.length > 0 && (
+                                        {/* {program.packages.length > 0 && (
                                             <li className="flex items-start gap-2">
                                                 <Check className="h-5 w-5 text-brand mt-0.5 shrink-0" />
                                                 <span>От {program.packages[0].lessons_count} до {program.packages[program.packages.length - 1].lessons_count} индивидуальных занятий</span>
                                             </li>
-                                        )}
+                                        )} */}
                                         {program.features.map((feature, index) => (
                                             <li key={index} className="flex items-start gap-2">
                                                 <Check className="h-5 w-5 text-brand mt-0.5 shrink-0" />
@@ -114,15 +114,6 @@ export default async function ProgramDetailPage({ params }: ProgramPageProps) {
                                     </div>
                                 </div>
                             )}
-
-                            {/* <div className="flex justify-center">
-                                <Link
-                                    href="/programs"
-                                    className="rounded-sm border px-8 py-3 text-xl font-bold hover:animate-rotational-wave transition-all"
-                                >
-                                    Записаться
-                                </Link>
-                            </div> */}
                             <WikiCta category='program' />
                         </article>
                     </div>

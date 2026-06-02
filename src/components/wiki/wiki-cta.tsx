@@ -15,11 +15,11 @@ export function WikiCta({ category }: WikiCtaProps) {
 
     return (
         <>
-            <div className="my-8 flex flex-col gap-3 rounded-sm bg-white/5 px-5 py-4 backdrop-blur-md sm:flex-row sm:items-center sm:justify-between">
+            <div className="my-8 flex flex-col gap-3 rounded-sm bg-white/5 px-6 py-4 backdrop-blur-md sm:flex-row sm:items-center sm:justify-between">
                 <p className="text-md font-semibold text-white/80 sm:text-base">{cta.text}</p>
                 <button
                     onClick={() => setOpen(true)}
-                    className="transition-all duration-200 inline-flex shrink-0 items-center gap-2 rounded-sm bg-brand px-4 py-2 text-sm font-semibold text-white active:scale-95 hover:scale-110"
+                    className="transition-all duration-200 inline-flex justify-center shrink-0 items-center gap-2 rounded-sm bg-brand px-4 py-2 text-sm font-semibold text-white active:scale-95 hover:scale-110"
                 >
                     {cta.button}
                     <CornerDownLeft className="h-4 w-4" />

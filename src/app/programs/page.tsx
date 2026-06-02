@@ -34,7 +34,7 @@ export default async function ProgramsPage() {
             <Header />
             <main className="w-full flex-1 overflow-x-hidden">
                 <section className="relative main-bg py-12 text-white">
-                    <div className="absolute inset-0 bg-black/70" />
+                    <div className="absolute inset-0 bg-black/10" />
                     <div className="relative z-10">
                         <header className="container mb-12 flex flex-col items-center">
                             <div className="w-full flex flex-col justify-center items-center bg-dark px-6 py-4 rounded-sm opacity-85">
