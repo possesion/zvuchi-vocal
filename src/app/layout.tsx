@@ -1,6 +1,8 @@
 import Script from 'next/script';
 import { Metadata } from 'next';
 import { Geist, Geist_Mono, Manrope, Exo_2 } from 'next/font/google';
+import { Theme } from '@radix-ui/themes';
+import '@radix-ui/themes/styles.css';
 import Metrika from '@/lib/metrika';
 import './globals.css';
 import { Suspense } from 'react';
@@ -84,7 +86,7 @@ export default function RootLayout({
   return (
     <html lang="ru">
       <head>
-        <link rel="preload" href="/valeria/transparent-lera.png" as="image" />
+        <link rel="preload" href="/valeria/bg-lera.png" as="image" />
         <link rel="preload" href="/micro.png" as="image" />
         <link rel="preload" href="/main-image.jpg" as="image" />
         <link rel="dns-prefetch" href="https://s3.twcstorage.ru" />
@@ -119,15 +121,22 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${exo2.variable} ${geistMono.variable} ${manrope.variable} ${manrope.className} antialiased`}
       >
-        <UIProvider>
-          <AuthSessionProvider>
-            {children}
-            <Suspense>
-              <Metrika />
-            </Suspense>
-            <CallButton />
-          </AuthSessionProvider>
-        </UIProvider>
+        <Theme
+          appearance="dark"
+          accentColor="purple"
+          grayColor="slate"
+          radius="small"
+        >
+          <UIProvider>
+            <AuthSessionProvider>
+              {children}
+              <Suspense>
+                <Metrika />
+              </Suspense>
+              <CallButton />
+            </AuthSessionProvider>
+          </UIProvider>
+        </Theme>
       </body>
     </html>
   );

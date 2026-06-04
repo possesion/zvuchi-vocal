@@ -4,9 +4,13 @@ import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 import { auth } from '@/auth';
 import { generatePageMetadata } from '@/lib/metadata';
-import { User, Mail, Shield, CheckCircle, XCircle } from 'lucide-react';
-import { NameEditForm } from './name-edit-form';
+import { User, ShieldCheck, CheckCircle, XCircle, HandCoins } from 'lucide-react';
+import { ProfileEditForm } from '../../components/forms/profile-edit-form';
 import { getUserById } from '@/lib/db-prisma';
+import { CustomAlert } from '@/components/common/alert';
+import { UserProfileElement } from '@/components/common/user-profile-element';
+
+import { VerifyPhoneNumber } from '@/components/forms/verify-phone-number';
 
 export const metadata: Metadata = generatePageMetadata({
     title: 'Профиль',
@@ -22,7 +26,7 @@ export default async function ProfilePage() {
     }
 
     const { user } = session;
-    
+
     // Получаем полные данные пользователя из БД
     const userId = parseInt(user.id);
     const dbUser = await getUserById(userId);
@@ -37,7 +41,8 @@ export default async function ProfilePage() {
         <div className="relative min-h-screen font-exo2">
             <Header />
             <main className="w-full flex-1 primary-bg overflow-x-hidden">
-                <section className="py-12 text-white min-h-[calc(100vh-80px)]">
+                <div className="absolute inset-0 bg-black/20" />
+                <section className="relative z-10 py-12 text-white min-h-[calc(100vh-80px)]">
                     <div className="container mx-auto px-4">
                         <div className="mx-auto max-w-3xl">
                             <header className="mb-8">
@@ -50,40 +55,15 @@ export default async function ProfilePage() {
                             </header>
 
                             <div className="space-y-6">
-                                {/* Основная информация */}
                                 <div className="rounded-sm bg-white/10 p-6 backdrop-blur-md">
                                     <h2 className="mb-4 flex items-center gap-2 text-2xl font-bold">
-                                        <User className="h-6 w-6 text-brand" />
+                                        <User className="h-6 w-6 text-white" />
                                         Основная информация
                                     </h2>
                                     <div className="space-y-4">
-                                        {user.id && (
-                                            <div className="flex items-start justify-between">
-                                                <span className="pl-1 text-white/70">ID:</span>
-                                                <span className="font-mono text-sm text-white/50">{user.id}</span>
-                                            </div>
-                                        )}
-                                        <div className="flex items-start justify-between border-b border-white/10 pb-3">
-                                            <div className="flex items-center gap-2">
-                                                <User className="h-5 w-5 text-white/50" />
-                                                <span className="text-white/70">Имя:</span>
-                                            </div>
-                                            <NameEditForm currentName={dbUser?.name} />
-                                        </div>
-                                        <div className="flex items-start justify-between border-b border-white/10 pb-3">
-                                            <div className="flex items-center gap-2">
-                                                <Mail className="h-5 w-5 text-white/50" />
-                                                <span className="text-white/70">Email:</span>
-                                            </div>
-                                            <span className="font-medium">{user.email}</span>
-                                        </div>
-
-                                        
-
                                         {user.role && user.role !== 'client' && (
-                                            <div className="flex items-start justify-between border-b border-white/10 pb-3">
+                                            <div className="flex items-start justify-between border-b border-white/10 pb-7 mb-4">
                                                 <div className="flex items-center gap-2">
-                                                    <Shield className="h-5 w-5 text-white/50" />
                                                     <span className="text-white/70">Роль:</span>
                                                 </div>
                                                 <span className="rounded-full bg-brand px-3 py-1 text-xs font-semibold uppercase">
@@ -91,14 +71,37 @@ export default async function ProfilePage() {
                                                 </span>
                                             </div>
                                         )}
+                                    </div>
+                                    <ProfileEditForm
+                                        currentName={dbUser?.name}
+                                        currentPhone={dbUser?.phone}
+                                        email={user.email}
+                                    />
+                                </div>
 
-                                        
+                                <div className="rounded-sm bg-white/10 p-6 backdrop-blur-md">
+                                    <h2 className="mb-4 flex items-center gap-2 text-2xl font-bold">
+                                        <HandCoins className="h-6 w-6 text-white" />
+                                        Баланс
+                                    </h2>
+                                    <div className="space-y-4">
+                                        {[].map(({ title, value }) => (<UserProfileElement
+                                            key={title}
+                                            title={title}
+                                            value={value}
+                                        />))}
+                                        {!dbUser?.phone_verified && (
+                                            <CustomAlert alertText='Для получения данных об абонементе заполните номер телефона' color='violet' />
+                                        )}
                                     </div>
                                 </div>
 
                                 {/* Статус верификации */}
                                 <div className="rounded-sm bg-white/10 p-6 backdrop-blur-md">
-                                    <h2 className="mb-4 text-2xl font-bold">Статус аккаунта</h2>
+                                    <h2 className="mb-4 flex items-center gap-2 text-2xl font-bold">
+                                        <ShieldCheck className="h-6 w-6 text-white" />
+                                        Статус аккаунта
+                                    </h2>
                                     <div className="space-y-4">
                                         <div className="flex items-center justify-between">
                                             <span className="text-white/70">Email подтверждён:</span>
@@ -114,6 +117,21 @@ export default async function ProfilePage() {
                                                 </div>
                                             )}
                                         </div>
+                                        {dbUser?.phone && dbUser.phone !== null && (
+                                            <div className="flex items-center justify-between">
+                                                <span className="text-white/70">Телефон подтверждён:</span>
+                                                {dbUser.phone_verified === 1 ? (
+                                                    <div className="flex items-center gap-2 text-green-400">
+                                                        <CheckCircle className="h-5 w-5" />
+                                                        <span className="font-medium">Да</span>
+                                                    </div>
+                                                ) : (
+                                                    <div className="flex items-center gap-2 text-yellow-400">
+                                                        <VerifyPhoneNumber phone={dbUser.phone} />
+                                                    </div>
+                                                )}
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
 

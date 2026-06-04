@@ -66,7 +66,7 @@ export default async function Home() {
                         className="container mx-auto hidden justify-end gap-x-1 pt-2 md:flex md:gap-x-2"
                     />
                     <section className="container mx-auto flex h-[100svh] sm:h-min">
-                        <div className="relative z-10 flex flex-col items-center w-full sm:justify-center sm:pt-14 sm:flex-row md:pt-1 lg:pt-14">
+                        <div className="relative z-10 flex flex-col items-center w-full sm:justify-center sm:items-end sm:pt-14 sm:flex-row md:pt-1 lg:pt-14">
                             <div className="z-51 mb-auto flex flex-col gap-y-6 lg:justify-start xl:gap-y-7">
                                 {/* <h1 className="absolute -top-3 left-4 rotate-z-2 hidden hero-title bg-dark rounded-sm shadow-lg w-min px-5 py-3 text-2xl font-bold text-white max-lg:portrait:block sm:w-[160px] sm:text-2xl">
                                     ШКОЛА<br />
@@ -76,14 +76,14 @@ export default async function Home() {
                                     <p>Красиво петь может каждый! </p>
                                     Ставим правильную технику и достигаем высоких <a href='/gallery' className="after-highlight">результатов</a>
                                 </div>
-                                <div className="absolute bottom-36 sm:static sm:m-0 md:portrait:pb-10">
+                                <div className="absolute bottom-36 left-[5%] sm:static sm:m-0 md:portrait:pb-10">
                                     <EnrollmentSection />
                                 </div>
                             </div>
                             <Image
-                                src="/valeria/transparent-lera.png"
-                                className="bottom-0 right-[15%] z-50 h-auto w-[252px] object-contain drop-shadow-2xl sm:right-[5%] sm:w-[320px] md:w-[320px] lg:w-[340px] xl:w-[360px] 3xl:w-[500px] md:portrait:hidden"
-                                width={252}
+                                src="/valeria/bg-lera.png"
+                                className="bottom-0 right-[15%] z-50 h-auto w-[370px] h-auto object-contain drop-shadow-2xl sm:right-[5%] sm:w-[320px] md:w-[320px] lg:w-[340px] xl:w-[460px] 3xl:w-[500px] md:portrait:hidden"
+                                width={352}
                                 height={760}
                                 sizes="(max-width: 640px) 252px, (max-width: 768px) 320px, (max-width: 1024px) 340px, 360px"
                                 quality={90}

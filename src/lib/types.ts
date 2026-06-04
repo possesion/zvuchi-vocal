@@ -1,3 +1,5 @@
+import { Package } from "@/app/programs/types";
+
 export type UserRole = 'admin' | 'manager' | 'client'
 
 export interface InstructorRow {
@@ -63,6 +65,9 @@ export interface UserRow {
     password_hash: string
     name: string | null
     phone: string | null
+    phone_verified: 0 | 1
+    phone_verify_code: string | null
+    phone_code_expires: string | null
     role: UserRole
     email_verified: 0 | 1
     verification_token: string | null
@@ -74,7 +79,7 @@ export interface UserRow {
 
 export type UserUpdateData = Partial<Pick<
     UserRow,
-    'email_verified' | 'verification_token' | 'token_expires_at' | 'role' | 'password_hash' | 'name' | 'phone'
+    'email_verified' | 'verification_token' | 'token_expires_at' | 'role' | 'password_hash' | 'name' | 'phone' | 'phone_verified' | 'phone_verify_code' | 'phone_code_expires'
 >>
 
 export interface ProgramRow {
@@ -83,10 +88,7 @@ export interface ProgramRow {
     title: string
     short_description: string
     full_description: string
-    packages: Array<{
-        lessons_count: number
-        price: number
-    }>
+    packages: Array<Package>
     lesson_duration: number
     program_duration: number
     features: string[]

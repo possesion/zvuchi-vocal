@@ -1,0 +1,1 @@
+export type VerifyPhoneCodeResult = { success: boolean; error?: string };

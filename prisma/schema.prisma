@@ -93,6 +93,9 @@ model User {
   passwordHash      String
   name              String?
   phone             String?
+  phoneVerified     Boolean   @default(false)
+  phoneVerifyCode   String?
+  phoneCodeExpires  DateTime?
   role              String    @default("client") // "admin" or "client"
   emailVerified     Boolean   @default(false)
   verificationToken String?   @unique

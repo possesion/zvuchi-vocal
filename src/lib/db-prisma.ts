@@ -145,6 +145,9 @@ function convertPrismaUserToRow(user: {
   passwordHash: string;
   name: string | null;
   phone: string | null;
+  phoneVerified: boolean;
+  phoneVerifyCode: string | null;
+  phoneCodeExpires: Date | null;
   role: string;
   emailVerified: boolean;
   verificationToken: string | null;
@@ -159,6 +162,9 @@ function convertPrismaUserToRow(user: {
     password_hash: user.passwordHash,
     name: user.name,
     phone: user.phone,
+    phone_verified: user.phoneVerified ? 1 : 0,
+    phone_verify_code: user.phoneVerifyCode,
+    phone_code_expires: user.phoneCodeExpires ? user.phoneCodeExpires.toISOString() : null,
     role: user.role as UserRole,
     email_verified: user.emailVerified ? 1 : 0,
     verification_token: user.verificationToken,
@@ -432,6 +438,15 @@ export async function getInstructorBySlug(slug: string): Promise<InstructorRow |
   return instructor ? convertPrismaInstructorToRow(instructor) : undefined;
 }
 
+export async function getInstructorByName(name: string): Promise<InstructorRow | undefined> {
+  const prisma = getPrisma();
+  const instructor = await prisma.instructor.findFirst({
+    where: { name },
+  });
+
+  return instructor ? convertPrismaInstructorToRow(instructor) : undefined;
+}
+
 export async function createInstructor(
   data: Omit<InstructorRow, 'id'>
 ): Promise<InstructorRow> {
@@ -545,6 +560,9 @@ export async function updateUser(
     password_hash: (val) => val,
     name: (val) => val,
     phone: (val) => val,
+    phone_verified: (val) => val === 1,
+    phone_verify_code: (val) => val,
+    phone_code_expires: (val) => val ? new Date(val as string) : null,
   };
 
   const updateData: Record<string, unknown> = {};

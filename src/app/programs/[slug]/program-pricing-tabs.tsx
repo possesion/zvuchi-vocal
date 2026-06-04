@@ -2,15 +2,7 @@
 
 import { useState } from 'react';
 import * as Tabs from '@radix-ui/react-tabs';
-
-interface Package {
-    lessons_count: number;
-    price: number;
-}
-
-interface ProgramPricingTabsProps {
-    packages: Package[];
-}
+import { ProgramPricingTabsProps, Package } from '../types';
 
 export function ProgramPricingTabs({ packages }: ProgramPricingTabsProps) {
     const [activeTab, setActiveTab] = useState('0');

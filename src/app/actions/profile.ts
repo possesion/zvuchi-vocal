@@ -30,3 +30,57 @@ export async function updateUserName(name: string): Promise<{ success: boolean; 
         return { success: false, error: 'Ошибка при обновлении имени' }
     }
 }
+
+export async function updateUserProfile(data: {
+    name: string | null;
+    phone: string | null;
+}): Promise<{ success: boolean; error?: string }> {
+    try {
+        const session = await auth()
+        if (!session?.user?.id) {
+            return { success: false, error: 'Не авторизован' }
+        }
+
+        const userId = parseInt(session.user.id)
+        const user = await getUserById(userId)
+        
+        if (!user) {
+            return { success: false, error: 'Пользователь не найден' }
+        }
+
+        // Валидация телефона
+        if (data.phone) {
+            const phoneRegex = /^\+7\d{10}$/
+            if (!phoneRegex.test(data.phone)) {
+                return { success: false, error: 'Неверный формат номера телефона' }
+            }
+        }
+
+        // Если телефон изменился, сбрасываем верификацию
+        const updateData: {
+            name: string | null;
+            phone: string | null;
+            phone_verified?: 0;
+            phone_verify_code?: null;
+            phone_code_expires?: null;
+        } = {
+            name: data.name,
+            phone: data.phone,
+        };
+
+        if (data.phone !== user.phone) {
+            updateData.phone_verified = 0;
+            updateData.phone_verify_code = null;
+            updateData.phone_code_expires = null;
+        }
+
+        await updateUser(userId, updateData)
+
+        revalidatePath('/profile')
+        
+        return { success: true }
+    } catch (error) {
+        console.error('Failed to update user profile:', error)
+        return { success: false, error: 'Ошибка при обновлении профиля' }
+    }
+}

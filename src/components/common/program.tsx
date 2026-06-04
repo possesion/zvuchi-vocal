@@ -17,7 +17,7 @@ interface ProgramProps {
     className?: string;
 }
 
-export const Program: FC<ProgramProps> = ({ description, title, number, price, originalPrice, slug }) => {
+export const Program: FC<ProgramProps> = ({ description, title, price, originalPrice, slug }) => {
     const { ref, animationClass } = useSlideUpAnimation();
 
     const handleClick = () => {
@@ -34,9 +34,9 @@ export const Program: FC<ProgramProps> = ({ description, title, number, price, o
             ref={ref}
         >
             <div className="flex w-20">
-                <div className="hidden font-bold text-white/50 md:text-8xl md:block" aria-hidden="true">
+                {/* <div className="hidden font-bold text-white/50 md:text-8xl md:block" aria-hidden="true">
                     {number}
-                </div>
+                </div> */}
             </div>
             <div className="">
                 <h3 className="mb-4 block text-2xl font-bold xl:text-4xl">{title}</h3>
