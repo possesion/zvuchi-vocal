@@ -4,13 +4,11 @@ import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 import { auth } from '@/auth';
 import { generatePageMetadata } from '@/lib/metadata';
-import { User, ShieldCheck, CheckCircle, XCircle, HandCoins } from 'lucide-react';
+import { User, ShieldCheck, CheckCircle, XCircle, BookOpenText } from 'lucide-react';
 import { ProfileEditForm } from '../../components/forms/profile-edit-form';
 import { getUserById } from '@/lib/db-prisma';
-import { CustomAlert } from '@/components/common/alert';
-import { UserProfileElement } from '@/components/common/user-profile-element';
-
 import { VerifyPhoneNumber } from '@/components/forms/verify-phone-number';
+import { ClientBalance } from '@/components/sections/client-balance';
 
 export const metadata: Metadata = generatePageMetadata({
     title: 'Профиль',
@@ -81,19 +79,10 @@ export default async function ProfilePage() {
 
                                 <div className="rounded-sm bg-white/10 p-6 backdrop-blur-md">
                                     <h2 className="mb-4 flex items-center gap-2 text-2xl font-bold">
-                                        <HandCoins className="h-6 w-6 text-white" />
-                                        Баланс
+                                        <BookOpenText className="h-6 w-6 text-white" />
+                                        Моё обучение
                                     </h2>
-                                    <div className="space-y-4">
-                                        {[].map(({ title, value }) => (<UserProfileElement
-                                            key={title}
-                                            title={title}
-                                            value={value}
-                                        />))}
-                                        {!dbUser?.phone_verified && (
-                                            <CustomAlert alertText='Для получения данных об абонементе заполните номер телефона' color='violet' />
-                                        )}
-                                    </div>
+                                    <ClientBalance phoneVerified={dbUser?.phone_verified === 1} />
                                 </div>
 
                                 {/* Статус верификации */}
