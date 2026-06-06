@@ -73,6 +73,7 @@ export function ProfileEditForm({ currentName, currentPhone, email }: ProfileEdi
                     <div className='w-68'>
                         <TextField.Root
                             id="name"
+                            className='w-40 ml-auto'
                             {...register('name')}
                             placeholder="Введите ваше имя"
                             disabled={isSubmitting}
@@ -89,6 +90,7 @@ export function ProfileEditForm({ currentName, currentPhone, email }: ProfileEdi
                     <div className='w-68'>
                         <TextField.Root
                             id="phone"
+                            className='w-40 ml-auto'
                             {...register('phone')}
                             placeholder="Введите номер телефона"
                             disabled={isSubmitting}
