@@ -73,7 +73,7 @@ export default async function ProgramDetailPage({ params }: ProgramPageProps) {
 
                             <div className="grid gap-8 md:grid-cols-2 mb-8">
                                 <div className="rounded-sm bg-white/10 p-6 backdrop-blur-md">
-                                    <h2 className="text-2xl font-bold mb-6">Пакет и Стоимость</h2>
+                                    <h2 className="text-2xl font-bold mb-6">Стоимость</h2>
                                     <ProgramPricingTabs packages={program.packages} />
                                     <div className="mt-6 space-y-2 text-sm text-white/70">
                                         <div className="flex items-center gap-2">

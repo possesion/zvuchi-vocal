@@ -92,7 +92,7 @@ export function ProfileEditForm({ currentName, currentPhone, email }: ProfileEdi
                             id="phone"
                             className='w-40 ml-auto'
                             {...register('phone')}
-                            placeholder="Введите номер телефона"
+                            placeholder="Введите номер"
                             disabled={isSubmitting}
                             size="2"
                             maxLength={16}

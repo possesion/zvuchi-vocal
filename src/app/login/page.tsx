@@ -48,7 +48,7 @@ export default function LoginPage() {
                             : 'Неверный email или пароль',
                 })
             } else if (authResult?.ok) {
-                router.push('/')
+                router.push('/profile')
             }
         } catch {
             setFormError('root', { message: 'Произошла ошибка. Попробуйте позже.' })
@@ -56,7 +56,7 @@ export default function LoginPage() {
     }
 
     const handleGoogleSignIn = () => {
-        signIn('google', { callbackUrl: '/' })
+        signIn('google', { callbackUrl: '/profile' })
     }
 
     return (
@@ -134,7 +134,7 @@ export default function LoginPage() {
                 <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full rounded-md bg-purple-600 py-2 font-medium text-white transition-colors hover:bg-purple-700 disabled:opacity-50"
+                    className="cursor-pointer w-full rounded-md bg-purple-600 py-2 font-medium text-white transition-colors hover:bg-purple-700 disabled:opacity-50"
                 >
                     {isSubmitting ? 'Вход...' : 'Войти'}
                 </button>
@@ -151,7 +151,7 @@ export default function LoginPage() {
                 <button
                     type="button"
                     onClick={handleGoogleSignIn}
-                    className="flex w-full items-center justify-center gap-3 rounded-md bg-white px-4 py-2 font-medium text-zinc-900 transition-colors hover:bg-zinc-100"
+                    className="cursor-pointer flex w-full items-center justify-center gap-3 rounded-md bg-white px-4 py-2 font-medium text-zinc-900 transition-colors hover:bg-zinc-300"
                 >
                     <Image
                         src="/socials/google.svg"
