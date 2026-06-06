@@ -159,7 +159,7 @@ export function ClientBalance({ phoneVerified }: ClientBalanceProps) {
 
             {needsRefill && (
                 <CustomAlert
-                    alertText="У вас закончились уроки. Пополните баланс или приобретите новый абонемент."
+                    alertText="У вас закончились уроки."
                     color="yellow"
                 />
             )}

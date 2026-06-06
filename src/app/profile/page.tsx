@@ -7,8 +7,8 @@ import { generatePageMetadata } from '@/lib/metadata';
 import { User, ShieldCheck, CheckCircle, XCircle, BookOpenText } from 'lucide-react';
 import { ProfileEditForm } from '../../components/forms/profile-edit-form';
 import { getUserById } from '@/lib/db-prisma';
-import { VerifyPhoneNumber } from '@/components/forms/verify-phone-number';
 import { ClientBalance } from '@/components/sections/client-balance';
+import { PhoneVerification } from '@/components/sections/profile/phone-verification';
 
 export const metadata: Metadata = generatePageMetadata({
     title: 'Профиль',
@@ -107,19 +107,7 @@ export default async function ProfilePage() {
                                             )}
                                         </div>
                                         {dbUser?.phone && dbUser.phone !== null && (
-                                            <div className="flex items-center justify-between">
-                                                <span className="text-white/70">Телефон подтверждён:</span>
-                                                {dbUser.phone_verified === 1 ? (
-                                                    <div className="flex items-center gap-2 text-green-400">
-                                                        <CheckCircle className="h-5 w-5" />
-                                                        <span className="font-medium">Да</span>
-                                                    </div>
-                                                ) : (
-                                                    <div className="flex items-center gap-2 text-yellow-400">
-                                                        <VerifyPhoneNumber phone={dbUser.phone} />
-                                                    </div>
-                                                )}
-                                            </div>
+                                           <PhoneVerification phone={dbUser.phone} phoneVerified={dbUser.phone_verified} />
                                         )}
                                     </div>
                                 </div>
