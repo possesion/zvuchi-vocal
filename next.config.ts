@@ -4,6 +4,16 @@ const nextConfig: NextConfig = {
   // Enable standalone output for Docker
   output: 'standalone',
   
+  // Generate unique build ID to prevent Server Action cache issues
+  generateBuildId: async () => {
+    // Use timestamp for production builds to ensure unique IDs
+    // This helps prevent "Failed to find Server Action" errors
+    if (process.env.NODE_ENV === 'production') {
+      return `${Date.now()}`;
+    }
+    return 'dev';
+  },
+
   // Development settings
   ...(process.env.NODE_ENV === 'development' && {
     typescript: {
@@ -11,10 +21,6 @@ const nextConfig: NextConfig = {
     },
     eslint: {
       ignoreDuringBuilds: false,
-    },
-    generateBuildId: async () => {
-    // This could be anything, using the latest git hash
-      return 'build'
     },
   }),
 
@@ -113,13 +119,24 @@ const nextConfig: NextConfig = {
           },
         ],
       },
+      // HTML страницы - короткое кеширование для предотвращения проблем с Server Actions
+      {
+        source: '/(.*)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=0, must-revalidate',
+          },
+        ],
+      },
     ];
   },
 
   // Experimental features
   experimental: {
     serverActions: {
-      allowedOrigins: ["zvuchi-vocal.ru", "localhost:3000"],
+      allowedOrigins: ["zvuchi-vocal.ru", "www.zvuchi-vocal.ru", "localhost:3000"],
+      bodySizeLimit: '2mb',
     },
     optimizePackageImports: ['lucide-react', '@radix-ui/react-dialog'],
   },

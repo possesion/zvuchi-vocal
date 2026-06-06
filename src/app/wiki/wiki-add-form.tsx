@@ -5,13 +5,14 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { ImagePlus } from 'lucide-react';
 import { WikiTermForm, type WikiTermFormData } from '@/components/wiki/wiki-term-form';
-import type { WikiCategoryRow } from '@/lib/types';
+import type { WikiCategoryRow, InstructorRow } from '@/lib/types';
 
 interface WikiAddFormProps {
     categories: WikiCategoryRow[];
+    instructors: InstructorRow[];
 }
 
-export const WikiAddForm = ({ categories }: WikiAddFormProps) => {
+export const WikiAddForm = ({ categories, instructors }: WikiAddFormProps) => {
     const router = useRouter();
     const [open, setOpen] = useState(false);
     const [saving, setSaving] = useState(false);
@@ -77,6 +78,7 @@ export const WikiAddForm = ({ categories }: WikiAddFormProps) => {
                 value={form}
                 onChange={setForm}
                 categories={categories}
+                instructors={instructors}
                 inputClassName="w-full rounded-md bg-zinc-800 px-3 py-2 text-white outline-none ring-1 ring-white/10 focus:ring-purple-500"
             />
 

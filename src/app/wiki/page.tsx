@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { Header } from '@/components';
 import { Footer } from '@/components/layout/footer';
-import { getAllTerms, getCategories } from '@/lib/db-prisma';
+import { getAllTerms, getCategories, getAllInstructors } from '@/lib/db-prisma';
 import { ChevronRight } from 'lucide-react';
 import { WikiAddForm } from './wiki-add-form';
 import { auth } from '@/auth';
@@ -12,6 +12,7 @@ export default async function WikiPage() {
     const isAuthorized = canEdit(session?.user?.role);
     const terms = await getAllTerms();
     const categories = await getCategories();
+    const instructors = await getAllInstructors();
     const categoryMap = Object.fromEntries(categories.map((c) => [c.id, c.label]));
 
     return (
@@ -32,7 +33,7 @@ export default async function WikiPage() {
 
                         <div className="container mx-auto mt-8 px-4">
                             <div className="mx-auto max-w-4xl">
-                                {isAuthorized && <WikiAddForm categories={categories} />}
+                                {isAuthorized && <WikiAddForm categories={categories} instructors={instructors} />}
 
                                 <div className="grid gap-4 md:grid-cols-2">
                                     {terms.map((term) => (

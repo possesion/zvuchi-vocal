@@ -10,7 +10,7 @@ import { EnrollmentSection, FeatureList } from '@/components';
 import { contacts } from './constants';
 import { getLatestNews } from '@/lib/db-prisma';
 import { NewsFeed } from '@/components/sections/news/news-feed';
-import { NewsAddForm } from './news-add-form';
+import { NewsAddForm } from '../components/forms/news-add-form';
 import { auth } from '@/auth';
 import { canEdit } from '@/lib/roles';
 import { Faq } from '@/components/sections/faq';

@@ -8,7 +8,7 @@ import { WikiCta } from '@/components/wiki/wiki-cta';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { TermEditor } from './term-editor';
-import { getTermById, getAllTerms, getCategories, getInstructorByName } from '@/lib/db-prisma';
+import { getTermById, getAllTerms, getCategories, getAllInstructors, getInstructorByName } from '@/lib/db-prisma';
 import { auth } from '@/auth';
 import { canEdit } from '@/lib/roles';
 
@@ -36,6 +36,7 @@ export default async function WikiTermPage({ params }: WikiTermPageProps) {
     const isAuthorized = canEdit(session?.user?.role);
 
     const categories = await getCategories();
+    const instructors = await getAllInstructors();
     const author = await getInstructorByName(term.author);
     const categoryMap = Object.fromEntries(categories.map((c) => [c.id, c.label]));
     const otherTerms = (await getAllTerms())
@@ -60,7 +61,7 @@ export default async function WikiTermPage({ params }: WikiTermPageProps) {
                         <div className="mx-auto max-w-4xl">
                             {isAuthorized && (
                                 <div className="mb-6">
-                                    <TermEditor term={term} categories={categories} />
+                                    <TermEditor term={term} categories={categories} instructors={instructors} />
                                 </div>
                             )}
 

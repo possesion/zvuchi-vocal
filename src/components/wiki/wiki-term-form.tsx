@@ -4,8 +4,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import cn from 'classnames';
 import { useState } from 'react';
-import { instructors } from '@/app/constants';
-import { WikiCategoryRow } from '@/lib/types';
+import { WikiCategoryRow, InstructorRow } from '@/lib/types';
 
 enum DescTab { edit = 'edit', preview = 'preview' }
 
@@ -20,10 +19,11 @@ interface WikiTermFormProps {
     value: WikiTermFormData;
     onChange: (data: WikiTermFormData) => void;
     categories: WikiCategoryRow[];
+    instructors: InstructorRow[];
     inputClassName?: string;
 }
 
-export function WikiTermForm({ value, onChange, categories, inputClassName }: WikiTermFormProps) {
+export function WikiTermForm({ value, onChange, categories, instructors, inputClassName }: WikiTermFormProps) {
     const [descTab, setDescTab] = useState<DescTab>(DescTab.edit);
 
     const set = (field: keyof WikiTermFormData) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
@@ -52,7 +52,7 @@ export function WikiTermForm({ value, onChange, categories, inputClassName }: Wi
                 <select value={value.author} onChange={set('author')} className={base}>
                     <option value="" className="bg-gray-900">— не указан —</option>
                     {instructors.map((inst) => (
-                        <option key={inst.name} value={inst.name} className="bg-gray-900">{inst.name}</option>
+                        <option key={inst.id} value={inst.name} className="bg-gray-900">{inst.name}</option>
                     ))}
                 </select>
             </div>
