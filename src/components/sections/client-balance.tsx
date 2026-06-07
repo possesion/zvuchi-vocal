@@ -32,6 +32,25 @@ const formatters = {
         }
     },
 
+    dateTime: (dateString: string | null): string => {
+        if (!dateString) return 'Не указано';
+        try {
+            const date = new Date(dateString);
+            const dateStr = date.toLocaleDateString('ru-RU', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+            });
+            const timeStr = date.toLocaleTimeString('ru-RU', {
+                hour: '2-digit',
+                minute: '2-digit',
+            });
+            return `${dateStr} в ${timeStr}`;
+        } catch {
+            return dateString;
+        }
+    },
+
     balance: (balance: number | null): string => {
         if (balance === null || balance === undefined) return 'Не указано';
         return `${balance.toLocaleString('ru-RU')} ₽`;
@@ -104,12 +123,12 @@ export function ClientBalance({ phoneVerified }: ClientBalanceProps) {
             },
             {
                 title: 'Дата последнего урока',
-                value: formatters.date(data.lastAttendDate),
+                value: formatters.dateTime(data.lastAttendDate),
                 visible: !!data.lastAttendDate,
             },
             {
                 title: 'Следующий урок',
-                value: formatters.date(data.nextLessonDate),
+                value: formatters.dateTime(data.nextLessonDate),
                 visible: !!data.nextLessonDate,
             },
         ].filter((field) => field.visible);

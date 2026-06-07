@@ -50,7 +50,6 @@ const REQUEST_TIMEOUT_MS = 10000; // 10 секунд
 let authToken: string | null = null;
 let tokenExpiry: number | null = null;
 
-// Кэш данных клиентов: Map<phone, { data, timestamp }>
 const clientCache = new Map<string, { data: CustomerData | null; timestamp: number }>();
 
 // ─── Вспомогательные функции ──────────────────────────────────────────────────
