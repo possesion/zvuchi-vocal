@@ -66,7 +66,7 @@ export const Programs = ({ programs = [], isAuthorized = false }: ProgramsProps)
             <p className="mb-2 font-bold">Открой для себя новое хобби</p>
             <ul className="mb-2 space-y-2 font-bold">
               <li className="flex items-center">
-                <span className="text-base">Длительность урока - 55 минут</span>
+                <span className="text-base">Длительность урока - 50 минут</span>
               </li>
             </ul>
           </div>

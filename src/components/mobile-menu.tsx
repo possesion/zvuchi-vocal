@@ -53,7 +53,7 @@ export default function MobileMenu() {
                     </SheetHeader>
                     <div className='h-5/6 flex flex-col justify-between'>
                         <nav className="flex flex-col space-y-4 px-2 py-2 text-2xl font-exo2">
-                            <div className='flex justify-between'>
+                            <div className='pb-3 flex justify-between border-b-2 border-white/90'>
                                  <Link
                                 href="/profile"
                                 className="flex items-center hover:text-red-400"

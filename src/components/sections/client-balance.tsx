@@ -44,6 +44,7 @@ const formatters = {
             const timeStr = date.toLocaleTimeString('ru-RU', {
                 hour: '2-digit',
                 minute: '2-digit',
+                hour12: false, // Явно указываем 24-часовой формат
             });
             return `${dateStr} в ${timeStr}`;
         } catch {
@@ -123,7 +124,7 @@ export function ClientBalance({ phoneVerified }: ClientBalanceProps) {
             },
             {
                 title: 'Дата последнего урока',
-                value: formatters.dateTime(data.lastAttendDate),
+                value: data.lastAttendDate ?? 'Не указано',
                 visible: !!data.lastAttendDate,
             },
             {

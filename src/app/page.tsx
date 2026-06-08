@@ -72,7 +72,7 @@ export default async function Home() {
                                     ШКОЛА<br />
                                     <span className="ml-4">ВОКАЛА</span>
                                 </h1> */}
-                                <div className="w-full px-2 pt-6 text-xl lg:text-center text-white md:w-[630px] md:text-2xl lg:block lg:text-3xl">
+                                <div className="w-full px-2 pt-6 text-xl text-center text-white md:w-[630px] md:text-2xl lg:block lg:text-3xl">
                                     <p>Красиво петь может каждый! </p>
                                     Ставим правильную технику и достигаем высоких <a href='/gallery' className="after-highlight">результатов</a>
                                 </div>

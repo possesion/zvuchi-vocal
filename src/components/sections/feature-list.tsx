@@ -34,33 +34,33 @@ const features = [
     description: <div />,
     image: ""
   },
-  {
-    id: 3,
-    title: "Лучшие эксперты",
-    description: (
-      <>
-        Учитесь у профессионалов – наши педагоги сертифицированы по методике{' '}
-        <Link
-          href="/wiki/evt"
-          className="cursor-help underline font-bold touch-manipulation"
-        >
-          EVT
-        </Link>
-        {' '}и имеют многолетний опыт выступлений и преподавания.
-      </>
-    ),
-    image: "/about/about-2.jpg"
-  },
   // {
   //   id: 3,
-  //   title: "Сообщество близких по духу людей",
+  //   title: "Лучшие эксперты",
   //   description: (
   //     <>
-  //       Присоединяйтесь к нашему творческому <a className="underline text-white font-bold animate-tilt" target="_blank" href="https://t.me/zvuchivocal">сообществу</a> — где вдохновляют и поддерживают!
+  //       Учитесь у профессионалов – наши педагоги сертифицированы по методике{' '}
+  //       <Link
+  //         href="/wiki/evt"
+  //         className="cursor-help underline font-bold touch-manipulation"
+  //       >
+  //         EVT
+  //       </Link>
+  //       {' '}и имеют многолетний опыт выступлений и преподавания.
   //     </>
   //   ),
-  //   image: "/about/about-4.jpg"
-  // }
+  //   image: "/about/about-2.jpg"
+  // },
+  {
+    id: 3,
+    title: "Сообщество близких по духу людей",
+    description: (
+      <>
+        Присоединяйтесь к нашему творческому <a className="underline text-white font-bold animate-tilt" target="_blank" href="https://t.me/zvuchivocal">сообществу</a> — где вдохновляют и поддерживают!
+      </>
+    ),
+    image: "/about/about-4.jpg"
+  }
 ];
 
 export const FeatureList = () => {

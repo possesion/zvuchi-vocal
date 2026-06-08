@@ -27,18 +27,19 @@ export const PhoneVerification: FC<PhoneVerificationProps> = ({ phone, phoneVeri
                     </div>
                 )}
             </div>
-            <div className="flex justify-end items-center gap-2">
-                <input
-                    id="rememberMe"
-                    type="checkbox"
-                    checked={isApproved}
-                    onChange={() => setIsApproved((prev) => !prev)}
-                    className="h-4 w-4 rounded border-white/20 bg-zinc-800 accent-purple-500"
-                />
-                <label htmlFor="rememberMe" className="cursor-pointer select-none text-sm text-white/70">
-                    Согласие на получение СМС-уведомлений
-                </label>
-            </div>
+            {phoneVerified !== 1
+                ? (<div className="flex justify-end items-center gap-2">
+                    <input
+                        id="rememberMe"
+                        type="checkbox"
+                        checked={isApproved}
+                        onChange={() => setIsApproved((prev) => !prev)}
+                        className="h-4 w-4 rounded border-white/20 bg-zinc-800 accent-purple-500"
+                    />
+                    <label htmlFor="rememberMe" className="cursor-pointer select-none text-sm text-white/70">
+                        Согласие на получение СМС-уведомлений
+                    </label>
+                </div>) : null}
         </>
     )
 }
