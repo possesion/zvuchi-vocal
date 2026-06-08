@@ -35,7 +35,7 @@ export function UserAvatar({ className }: UserAvatarProps) {
                 onClick={() => setOpen((value) => !value)}
                 aria-label="Меню пользователя"
                 aria-expanded={open}
-                className="flex h-10 w-10 items-center justify-center rounded-full bg-brand text-sm font-bold text-white ring-2 ring-white/20 transition-opacity hover:opacity-80"
+                className="flex h-10 w-10 items-center justify-center rounded-full bg-brand text-sm font-bold text-white transition-opacity hover:opacity-80"
             >
                 {initials}
             </button>
