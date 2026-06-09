@@ -24,7 +24,7 @@ export const Shorts = ({ isAuthorized = false }: { isAuthorized?: boolean }) => 
     useEffect(() => {
         fetch('/api/v1/shorts')
             .then((r) => r.json())
-            .then(({ urls: fetched }) => { if (fetched?.length) setUrls(fetched); })
+            .then(({ data }) => { if (data?.urls?.length) setUrls(data.urls); })
             .catch(() => {});
     }, []);
 

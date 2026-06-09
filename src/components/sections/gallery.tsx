@@ -66,9 +66,9 @@ export const Gallery = ({ isAuthorized = false }: { isAuthorized?: boolean }) =>
     useEffect(() => {
         fetch('/api/v1/concert-photos')
             .then((result) => result.json())
-            .then(({ urls }) => {
-                if (!urls?.length) return
-                const newPhotos = (urls as string[]).map((src, i) => ({
+            .then(({ data }) => {
+                if (!data?.urls?.length) return
+                const newPhotos = (data.urls as string[]).map((src, i) => ({
                     src,
                     alt: `concert-new-${i + 1}`,
                     fileName: src.split('/').pop() ?? `new-${i}`,

@@ -87,7 +87,6 @@ export default function RootLayout({
     <html lang="ru">
       <head>
         <link rel="preload" href="/valeria/bg-lera.png" as="image" />
-        <link rel="preload" href="/micro.png" as="image" />
         <link rel="preload" href="/main-image.jpg" as="image" />
         <link rel="dns-prefetch" href="https://s3.twcstorage.ru" />
 
