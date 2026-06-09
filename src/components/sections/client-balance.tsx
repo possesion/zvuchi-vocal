@@ -5,6 +5,7 @@ import { getClientBalance, ClientBalanceData } from '@/app/actions/crm';
 import { UserProfileElement } from '@/components/common/user-profile-element';
 import { CustomAlert } from '@/components/common/alert';
 import { Loader2 } from 'lucide-react';
+import { formatDateTime, formatBalance, formatLessonCount } from '@/lib/format';
 
 interface ClientBalanceProps {
     phoneVerified: boolean;
@@ -16,63 +17,6 @@ interface BalanceField {
     visible: boolean;
 }
 
-// Утилиты форматирования
-const formatters = {
-    date: (dateString: string | null): string => {
-        if (!dateString) return 'Не указано';
-        try {
-            const date = new Date(dateString);
-            return date.toLocaleDateString('ru-RU', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-            });
-        } catch {
-            return dateString;
-        }
-    },
-
-    dateTime: (dateString: string | null): string => {
-        if (!dateString) return 'Не указано';
-        try {
-            const date = new Date(dateString);
-            const dateStr = date.toLocaleDateString('ru-RU', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-            });
-            const timeStr = date.toLocaleTimeString('ru-RU', {
-                hour: '2-digit',
-                minute: '2-digit',
-                hour12: false, // Явно указываем 24-часовой формат
-            });
-            return `${dateStr} в ${timeStr}`;
-        } catch {
-            return dateString;
-        }
-    },
-
-    balance: (balance: number | null): string => {
-        if (balance === null || balance === undefined) return 'Не указано';
-        return `${balance.toLocaleString('ru-RU')} ₽`;
-    },
-
-    lessonCount: (count: number | null): string => {
-        if (count === null || count === undefined) return 'Не указано';
-        if (count === 0) return 'Нет доступных уроков';
-        
-        const lastDigit = count % 10;
-        const lastTwoDigits = count % 100;
-        
-        if (lastTwoDigits >= 11 && lastTwoDigits <= 14) {
-            return `${count} уроков`;
-        }
-        if (lastDigit === 1) return `${count} урок`;
-        if (lastDigit >= 2 && lastDigit <= 4) return `${count} урока`;
-        
-        return `${count} уроков`;
-    },
-};
 
 export function ClientBalance({ phoneVerified }: ClientBalanceProps) {
     const [loading, setLoading] = useState(true);
@@ -91,10 +35,10 @@ export function ClientBalance({ phoneVerified }: ClientBalanceProps) {
 
             const result = await getClientBalance();
 
-            if (result.success && result.data) {
+            if (result.success) {
                 setData(result.data);
             } else {
-                setError(result.error || 'Неизвестная ошибка');
+                setError(result.error ?? 'Неизвестная ошибка');
             }
 
             setLoading(false);
@@ -109,12 +53,12 @@ export function ClientBalance({ phoneVerified }: ClientBalanceProps) {
         return [
             {
                 title: 'Баланс счёта',
-                value: formatters.balance(data.balance),
+                value: formatBalance(data.balance),
                 visible: true,
             },
             {
                 title: 'Осталось уроков',
-                value: formatters.lessonCount(data.lessonCount),
+                value: formatLessonCount(data.lessonCount),
                 visible: true,
             },
             {
@@ -129,7 +73,7 @@ export function ClientBalance({ phoneVerified }: ClientBalanceProps) {
             },
             {
                 title: 'Следующий урок',
-                value: formatters.dateTime(data.nextLessonDate),
+                value: formatDateTime(data.nextLessonDate),
                 visible: !!data.nextLessonDate,
             },
         ].filter((field) => field.visible);

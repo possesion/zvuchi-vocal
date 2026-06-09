@@ -2,6 +2,7 @@
 
 import { createProgram, deleteProgram, updateProgram, getProgramById } from '@/lib/db-prisma'
 import { createSlug } from '@/app/api/v1/utils'
+import { ActionResult } from '@/app/actions/types'
 
 interface Package {
     lessons_count: number
@@ -23,7 +24,7 @@ interface ProgramFormData {
 
 export async function createProgramAction(
     data: ProgramFormData
-): Promise<{ success: boolean; error?: string; id?: number }> {
+): Promise<ActionResult<{ id: number }>> {
     try {
         const features = data.features
             ? data.features
@@ -34,20 +35,20 @@ export async function createProgramAction(
 
         const slug = createSlug(data.title)
 
-        const program = await createProgram({
+        const created = await createProgram({
             slug,
             title: data.title,
-            short_description: data.short_description,
-            full_description: data.full_description,
+            shortDescription: data.short_description,
+            fullDescription: data.full_description,
             packages: data.packages,
-            lesson_duration: data.lesson_duration,
-            program_duration: data.program_duration,
+            lessonDuration: data.lesson_duration,
+            programDuration: data.program_duration,
             features,
-            is_popular: data.is_popular,
-            sort_order: data.sort_order,
+            isPopular: data.is_popular,
+            sortOrder: data.sort_order,
         })
 
-        return { success: true, id: program.id }
+        return { success: true, data: { id: created.id } }
     } catch (error) {
         console.error('Failed to create program:', error)
         return { success: false, error: 'Ошибка при создании абонемента' }
@@ -57,7 +58,7 @@ export async function createProgramAction(
 export async function updateProgramAction(
     id: number,
     data: ProgramFormData
-): Promise<{ success: boolean; error?: string }> {
+): Promise<ActionResult<void>> {
     try {
         const existingProgram = await getProgramById(id)
         if (!existingProgram) {
@@ -75,19 +76,19 @@ export async function updateProgramAction(
             id,
             slug: existingProgram.slug,
             title: data.title,
-            short_description: data.short_description,
-            full_description: data.full_description,
+            shortDescription: data.short_description,
+            fullDescription: data.full_description,
             packages: data.packages,
-            lesson_duration: data.lesson_duration,
-            program_duration: data.program_duration,
+            lessonDuration: data.lesson_duration,
+            programDuration: data.program_duration,
             features,
-            is_popular: data.is_popular,
-            sort_order: data.sort_order,
-            created_at: existingProgram.created_at,
-            updated_at: new Date().toISOString(),
+            isPopular: data.is_popular,
+            sortOrder: data.sort_order,
+            createdAt: existingProgram.createdAt,
+            updatedAt: new Date().toISOString(),
         })
 
-        return { success: true }
+        return { success: true, data: undefined }
     } catch (error) {
         console.error('Failed to update program:', error)
         return { success: false, error: 'Ошибка при обновлении абонемента' }
@@ -96,10 +97,10 @@ export async function updateProgramAction(
 
 export async function deleteProgramAction(
     id: number
-): Promise<{ success: boolean; error?: string }> {
+): Promise<ActionResult<void>> {
     try {
         await deleteProgram(id)
-        return { success: true }
+        return { success: true, data: undefined }
     } catch (error) {
         console.error('Failed to delete program:', error)
         return { success: false, error: 'Ошибка при удалении абонемента' }

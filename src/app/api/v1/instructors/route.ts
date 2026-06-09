@@ -1,12 +1,14 @@
-import { NextRequest } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { getAllInstructors, createInstructor, deleteInstructor } from '@/lib/db-prisma';
 import { apiOk, apiError } from '@/lib/api-response';
+import type { ApiResponse } from '@/types/api';
+import type { Instructor } from '@/lib/types';
 
-export async function GET() {
+export async function GET(): Promise<NextResponse<ApiResponse<{ instructors: Instructor[] }>>> {
     return apiOk({ instructors: await getAllInstructors() });
 }
 
-export async function POST(req: NextRequest) {
+export async function POST(req: NextRequest): Promise<NextResponse<ApiResponse<Instructor>>> {
     const { 
         name,
         specialty,
@@ -25,16 +27,16 @@ export async function POST(req: NextRequest) {
         name, specialty: specialty ?? '', feature: feature ?? '',
         experience: experience ?? '', bio: bio ?? '',
         image: image ?? '', video: video ?? '',
-        sort_order: sort_order ?? 0,
+        sortOrder: sort_order ?? 0,
         slug: '',
-        presentation_video: presentation_video ?? '',
-        performance_videos: Array.isArray(performance_videos) ? performance_videos : [],
+        presentationVideo: presentation_video ?? '',
+        performanceVideos: Array.isArray(performance_videos) ? performance_videos : [],
         techniques: Array.isArray(techniques) ? techniques : [],
     });
     return apiOk(instructor);
 }
 
-export async function DELETE(req: NextRequest) {
+export async function DELETE(req: NextRequest): Promise<NextResponse<ApiResponse<{ success: boolean }>>> {
     const { id } = await req.json();
     if (!id) return apiError('id required', 400);
     await deleteInstructor(Number(id));

@@ -4,17 +4,17 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Trash2 } from 'lucide-react'
 import { ROLE_LABELS, ROLE_COLORS } from '@/lib/roles'
-import { UserRole, UserRow } from '@/lib/types'
+import { UserRole, AppUser } from '@/lib/types'
 
 interface UsersTableProps {
-    users: UserRow[]
+    users: AppUser[]
     currentUserId: string
 }
 
 export function UsersTable({ users, currentUserId }: UsersTableProps) {
     const router = useRouter()
     const [loadingId, setLoadingId] = useState<number | null>(null)
-    const [deleteTarget, setDeleteTarget] = useState<UserRow | null>(null)
+    const [deleteTarget, setDeleteTarget] = useState<AppUser | null>(null)
     const [deleting, setDeleting] = useState(false)
 
     const handleRoleChange = async (userId: number, role: UserRole) => {
@@ -92,14 +92,14 @@ export function UsersTable({ users, currentUserId }: UsersTableProps) {
                                         )}
                                     </td>
                                     <td className="px-4 py-3">
-                                        {user.email_verified === 1 ? (
+                                        {user.emailVerified ? (
                                             <span className="text-green-400">✓ Подтверждён</span>
                                         ) : (
                                             <span className="text-yellow-400">⏳ Ожидает</span>
                                         )}
                                     </td>
                                     <td className="px-4 py-3 text-white/50">
-                                        {new Date(user.created_at).toLocaleDateString('ru-RU')}
+                                        {new Date(user.createdAt).toLocaleDateString('ru-RU')}
                                     </td>
                                     <td className="px-4 py-3">
                                         <button

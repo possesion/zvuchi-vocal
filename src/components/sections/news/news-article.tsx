@@ -4,14 +4,14 @@ import Image from 'next/image';
 import { Calendar, Eye, Pencil } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import type { NewsRow } from '@/lib/types';
+import type { NewsArticle } from '@/lib/types';
 import { formatNewsDate } from './news.utils';
 import { NewsEditForm } from './news-edit-form';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
 interface NewsModalProps {
-    post: NewsRow;
+    post: NewsArticle;
     isAuthorized?: boolean;
 }
 
@@ -54,10 +54,10 @@ export function NewsArticle({ post, isAuthorized = false }: NewsModalProps) {
                 </div>
             ) : (
                 <>
-                    {post.cover_url && (
+                    {post.coverUrl && (
                         <div className="relative h-60 sm:h-[50lvh] w-full">
                             <Image
-                                src={post.cover_url}
+                                src={post.coverUrl}
                                 alt={post.title}
                                 fill
                                 className="px-3 object-cover object-top rounded-t-sm"
@@ -67,7 +67,7 @@ export function NewsArticle({ post, isAuthorized = false }: NewsModalProps) {
                     <div className="p-6 md:p-8">
                         <div className="mb-3 flex justify-end items-center gap-1.5 text-xs text-white/50">
                             <Calendar className="h-3.5 w-3.5" />
-                            {formatNewsDate(post.published_at)}
+                            {formatNewsDate(post.publishedAt)}
 
                             <span className="ml-4 inline-flex items-center gap-1 text-xs text-white/40">
                                 <Eye className="h-3.5 w-3.5" />

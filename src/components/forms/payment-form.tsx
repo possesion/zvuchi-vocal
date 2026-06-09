@@ -3,7 +3,9 @@
 import { useEffect, useState } from 'react'
 import { Form } from 'radix-ui'
 import { Button } from '@radix-ui/themes'
-import { SubmitHandler, useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { PaymentSchema, type PaymentForm } from '@/lib/definitions'
 
 // interface PaymentData {
 //     amount: string
@@ -17,37 +19,6 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 
 // 'amount', 'purpose', 'client-name', 'email', 'items-name',
 
-// "Data": {
-//     "customerCode": {{customerCode}},
-//     "amount": "",
-//       "purpose": "",
-//       "paymentMode": [],
-//       "taxSystemCode": "usn_income",
-//       "Client": {
-//         "name": "",
-//           "email": "",
-//     },
-//     "Items": [
-//         {
-//             "name": "",
-//             "amount": "",
-//             "quantity": 1,
-//             "paymentObject": "service",
-//         }
-//     ],
-//       "preAuthorization": false,
-//       "ttl": 60
-// }
-
-type Inputs = {
-    amount: number
-    purpose: string
-    Client: {
-        name: string
-        email: string
-    }
-}
-
 export default function PaymentForm() {
     const [isProcessing, setIsProcessing] = useState(false)
 
@@ -55,8 +26,8 @@ export default function PaymentForm() {
         register,
         handleSubmit,
         formState: { errors },
-    } = useForm<Inputs>()
-    const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    } = useForm<PaymentForm>({ resolver: yupResolver(PaymentSchema) })
+    const onSubmit = async (data: PaymentForm) => {
         setIsProcessing(true)
 
         try {
@@ -135,11 +106,11 @@ export default function PaymentForm() {
                         className="Input"
                         placeholder="12800"
                         type="number"
-                        {...register('amount', { required: true })}
+                        {...register('amount')}
                     />
                 </Form.Control>
                 <div className="h-4 text-red-600" role="alert">
-                    {errors.amount && 'Обязательное поле'}
+                    {errors.amount?.message ?? ''}
                 </div>
             </Form.Field>
 
@@ -150,11 +121,11 @@ export default function PaymentForm() {
                         className="Input"
                         defaultValue=""
                         placeholder="Оплата за абонемент на 4 занятия"
-                        {...register('purpose', { required: true })}
+                        {...register('purpose')}
                     />
                 </Form.Control>
                 <div className="h-4 text-red-600" role="alert">
-                    {errors.purpose && 'Обязательное поле'}
+                    {errors.purpose?.message ?? ''}
                 </div>
             </Form.Field>
 
@@ -165,11 +136,11 @@ export default function PaymentForm() {
                         className="Input"
                         defaultValue=""
                         placeholder="Иванов Иван Иванович"
-                        {...register('Client.name', { required: true })}
+                        {...register('Client.name')}
                     />
                 </Form.Control>
                 <div className="h-4 text-red-600" role="alert">
-                    {errors.Client?.name && 'Обязательное поле'}
+                    {errors.Client?.name?.message ?? ''}
                 </div>
             </Form.Field>
 
@@ -181,15 +152,11 @@ export default function PaymentForm() {
                         defaultValue=""
                         type="email"
                         placeholder="example@email.com"
-                        {...register('Client.email', {
-                            required: true,
-                            pattern:
-                                /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-                        })}
+                        {...register('Client.email')}
                     />
                 </Form.Control>
                 <div className="h-4 text-red-600" role="alert">
-                    {errors.Client?.email && 'Обязательное поле'}
+                    {errors.Client?.email?.message ?? ''}
                 </div>
             </Form.Field>
 

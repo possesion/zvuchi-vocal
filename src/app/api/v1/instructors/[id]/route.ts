@@ -1,11 +1,13 @@
-import { NextRequest } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { getInstructorById, updateInstructor } from '@/lib/db-prisma';
 import { apiOk, apiError } from '@/lib/api-response';
 import { createSlug } from '../../utils';
 import { auth } from '@/auth';
 import { canEdit } from '@/lib/roles';
+import type { ApiResponse } from '@/types/api';
+import type { Instructor } from '@/lib/types';
 
-export async function PATCH(req: NextRequest, props: { params: Promise<{ id: string }> }) {
+export async function PATCH(req: NextRequest, props: { params: Promise<{ id: string }> }): Promise<NextResponse<ApiResponse<Instructor>>> {
     const session = await auth();
     if (!session || !canEdit(session.user?.role)) {
         return apiError('Unauthorized', 401);
@@ -17,10 +19,10 @@ export async function PATCH(req: NextRequest, props: { params: Promise<{ id: str
 
     const body = await req.json();
 
-    // performance_videos and techniques come as arrays from client
+    // performanceVideos and techniques come as arrays from client
     const performance_videos: string[] = Array.isArray(body.performance_videos)
         ? body.performance_videos
-        : existing.performance_videos;
+        : existing.performanceVideos;
 
     const techniques: string[] = Array.isArray(body.techniques)
         ? body.techniques
@@ -39,9 +41,9 @@ export async function PATCH(req: NextRequest, props: { params: Promise<{ id: str
         bio: body.bio ?? existing.bio,
         image: body.image ?? existing.image,
         video: body.video ?? existing.video,
-        sort_order: body.sort_order ?? existing.sort_order,
-        presentation_video: body.presentation_video ?? existing.presentation_video,
-        performance_videos,
+        sortOrder: body.sort_order ?? existing.sortOrder,
+        presentationVideo: body.presentation_video ?? existing.presentationVideo,
+        performanceVideos: performance_videos,
         techniques,
     });
     return apiOk(updated);

@@ -5,7 +5,7 @@ import { CheckCircle } from "lucide-react"
 import { FC, useState } from "react"
 
 interface PhoneVerificationProps {
-    phoneVerified: number;
+    phoneVerified: boolean;
     phone: string;
 }
 
@@ -16,7 +16,7 @@ export const PhoneVerification: FC<PhoneVerificationProps> = ({ phone, phoneVeri
         <>
             <div className="flex items-center justify-between">
                 <span className="text-white/70">Телефон подтверждён:</span>
-                {phoneVerified === 1 ? (
+                {phoneVerified ? (
                     <div className="flex items-center gap-2 text-green-400">
                         <CheckCircle className="h-5 w-5" />
                         <span className="font-medium">Да</span>
@@ -27,7 +27,7 @@ export const PhoneVerification: FC<PhoneVerificationProps> = ({ phone, phoneVeri
                     </div>
                 )}
             </div>
-            {phoneVerified !== 1
+            {!phoneVerified
                 ? (<div className="flex justify-end items-center gap-2">
                     <input
                         id="rememberMe"

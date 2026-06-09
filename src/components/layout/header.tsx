@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import MobileMenu from '@/components/mobile-menu'
+import MobileMenu from '@/components/layout/mobile-menu'
 import { NavMenu } from './nav-menu'
 
 export const Header = () => {

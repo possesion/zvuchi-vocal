@@ -4,7 +4,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import cn from 'classnames';
 import { useState } from 'react';
-import { WikiCategoryRow, InstructorRow } from '@/lib/types';
+import { WikiCategoryRow, Instructor } from '@/lib/types';
 
 enum DescTab { edit = 'edit', preview = 'preview' }
 
@@ -19,7 +19,7 @@ interface WikiTermFormProps {
     value: WikiTermFormData;
     onChange: (data: WikiTermFormData) => void;
     categories: WikiCategoryRow[];
-    instructors: InstructorRow[];
+    instructors: Instructor[];
     inputClassName?: string;
 }
 

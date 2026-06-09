@@ -4,36 +4,38 @@ import { useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { Pencil, Trash2, ImagePlus, Check } from 'lucide-react';
-import { InstructorRow } from '@/lib/types';
+import { useForm, useWatch } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { Instructor } from '@/lib/types';
+import { formInputCls } from '@/lib/ui-constants';
+import { InstructorSchema, InstructorForm } from '@/lib/definitions';
+import { createInstructorAction, updateInstructorAction, deleteInstructorAction } from '@/app/actions/instructors';
+import { AlertDialog } from '@/components/common/alert-dialog/alert-dialog';
 
-const inputCls = 'w-full rounded-sm bg-zinc-800 px-3 py-2 text-sm text-white outline-none ring-1 ring-white/10 focus:ring-purple-500';
-
-type FormData = Omit<InstructorRow, 'id'>;
+type FormData = Omit<Instructor, 'id'>;
 
 const emptyForm = (): FormData => ({
     name: '', specialty: '', feature: '', experience: '',
-    bio: '', image: '', video: '', sort_order: 0,
-    slug: '', presentation_video: '', performance_videos: [], techniques: [],
+    bio: '', image: '', video: '', sortOrder: 0,
+    slug: '', presentationVideo: '', performanceVideos: [], techniques: [],
 });
 
 // ─── Photo uploader ───────────────────────────────────────────────────────────
 
 function PhotoPicker({ currentUrl, onUploaded }: { currentUrl: string; onUploaded: (url: string) => void }) {
-    const [preview, setPreview] = useState(currentUrl);
     const inputRef = useRef<HTMLInputElement>(null);
 
     const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (!file) return;
         const localUrl = URL.createObjectURL(file);
-        setPreview(localUrl);
         onUploaded(localUrl); // передаём blob: URL, handleAdd/handleEdit загрузят в S3
     };
 
     return (
         <label className="relative flex h-28 w-28 shrink-0 cursor-pointer items-center justify-center overflow-hidden rounded-full border-2 border-dashed border-white/20 hover:border-white/40">
-            {preview
-                ? <Image src={preview} alt="photo" fill className="object-cover rounded-full" />
+            {currentUrl
+                ? <Image src={currentUrl} alt="photo" fill className="object-cover rounded-full" />
                 : <div className="text-center text-white/40"><ImagePlus className="mx-auto h-5 w-5" /><p className="text-xs mt-1">Фото</p></div>
             }
             <input ref={inputRef} type="file" accept="image/jpeg,image/png,image/webp" onChange={handleChange} className="hidden" />
@@ -50,39 +52,77 @@ interface InstructorFormProps {
     title: string;
 }
 
-function InstructorForm({ initial, onSave, onCancel, title }: InstructorFormProps) {
-    const [form, setForm] = useState<FormData>(initial);
-    const [saving, setSaving] = useState(false);
+function InstructorFormComponent({ initial, onSave, onCancel, title }: InstructorFormProps) {
+    const {
+        register,
+        handleSubmit,
+        setValue,
+        control,
+        formState: { errors, isSubmitting },
+    } = useForm<InstructorForm>({
+        resolver: yupResolver(InstructorSchema),
+        defaultValues: {
+            name: initial.name,
+            specialty: initial.specialty,
+            feature: initial.feature,
+            experience: initial.experience,
+            bio: initial.bio,
+            image: initial.image,
+            video: initial.video,
+            sortOrder: initial.sortOrder,
+            slug: initial.slug,
+            presentationVideo: initial.presentationVideo,
+            performanceVideos: initial.performanceVideos.join('\n'),
+            techniques: initial.techniques,
+        },
+    });
 
-    const set = (field: keyof FormData) =>
-        (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
-            setForm((f) => ({ ...f, [field]: field === 'sort_order' ? Number(e.target.value) : e.target.value }));
+    const imageUrl = useWatch({ control, name: 'image' });
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        setSaving(true);
-        try { await onSave(form); } finally { setSaving(false); }
+    const onSubmit = async (values: InstructorForm) => {
+        const data: FormData = {
+            name: values.name,
+            specialty: values.specialty ?? '',
+            feature: values.feature ?? '',
+            experience: values.experience ?? '',
+            bio: values.bio ?? '',
+            image: values.image ?? '',
+            video: values.video ?? '',
+            sortOrder: values.sortOrder ?? 0,
+            slug: values.slug ?? '',
+            presentationVideo: values.presentationVideo ?? '',
+            performanceVideos: (values.performanceVideos ?? '')
+                .split('\n')
+                .map((s) => s.trim())
+                .filter(Boolean),
+            techniques: values.techniques ?? [],
+        };
+        await onSave(data);
     };
 
     return (
-        <form onSubmit={handleSubmit} className="rounded-sm bg-zinc-900 p-5 space-y-3">
+        <form onSubmit={handleSubmit(onSubmit)} className="rounded-sm bg-zinc-900 p-5 space-y-3">
             <div className="flex items-start gap-4">
-                <PhotoPicker currentUrl={form.image} onUploaded={(url) => setForm((f) => ({ ...f, image: url }))} />
+                <PhotoPicker currentUrl={imageUrl ?? ''} onUploaded={(url) => setValue('image', url)} />
                 <div className="flex-1 space-y-3">
                     <h3 className="text-sm font-semibold text-white">{title}</h3>
-                    <div><label className="mb-1 block text-xs text-white/60">Имя *</label><input value={form.name} onChange={set('name')} required className={inputCls} /></div>
-                    <div><label className="mb-1 block text-xs text-white/60">Предмет (через запятую)</label><input value={form.specialty} onChange={set('specialty')} className={inputCls} /></div>
-                    <div><label className="mb-1 block text-xs text-white/60">Опыт</label><input value={form.experience} onChange={set('experience')} className={inputCls} /></div>
+                    <div>
+                        <label className="mb-1 block text-xs text-white/60">Имя *</label>
+                        <input {...register('name')} className={formInputCls} />
+                        {errors.name && <p className="text-xs text-red-400 mt-1">{errors.name.message}</p>}
+                    </div>
+                    <div><label className="mb-1 block text-xs text-white/60">Предмет (через запятую)</label><input {...register('specialty')} className={formInputCls} /></div>
+                    <div><label className="mb-1 block text-xs text-white/60">Опыт</label><input {...register('experience')} className={formInputCls} /></div>
                 </div>
             </div>
-            <div><label className="mb-1 block text-xs text-white/60">Сверхсила</label><input value={form.feature} onChange={set('feature')} className={inputCls} /></div>
-            <div><label className="mb-1 block text-xs text-white/60">Биография</label><textarea value={form.bio} onChange={set('bio')} rows={4} className={`${inputCls} resize-y`} /></div>
-            <div><label className="mb-1 block text-xs text-white/60">Ссылка на видео</label><input value={form.video} onChange={set('video')} className={inputCls} /></div>
-            <div><label className="mb-1 block text-xs text-white/60">Порядок отображения</label><input type="number" value={form.sort_order} onChange={set('sort_order')} className={inputCls} /></div>
+            <div><label className="mb-1 block text-xs text-white/60">Сверхсила</label><input {...register('feature')} className={formInputCls} /></div>
+            <div><label className="mb-1 block text-xs text-white/60">Биография</label><textarea {...register('bio')} rows={4} className={`${formInputCls} resize-y`} /></div>
+            <div><label className="mb-1 block text-xs text-white/60">Ссылка на видео</label><input {...register('video')} className={formInputCls} /></div>
+            <div><label className="mb-1 block text-xs text-white/60">Порядок отображения</label><input type="number" {...register('sortOrder')} className={formInputCls} /></div>
             <div className="flex justify-end gap-2 pt-1">
                 <button type="button" onClick={onCancel} className="rounded-sm px-3 py-1.5 text-sm text-white/60 hover:text-white">Отмена</button>
-                <button type="submit" disabled={saving} className="inline-flex items-center gap-1.5 rounded-sm bg-purple-600 px-4 py-1.5 text-sm font-medium text-white hover:bg-purple-700 disabled:opacity-50">
-                    <Check className="h-4 w-4" />{saving ? 'Сохранение...' : 'Сохранить'}
+                <button type="submit" disabled={isSubmitting} className="inline-flex items-center gap-1.5 rounded-sm bg-purple-600 px-4 py-1.5 text-sm font-medium text-white hover:bg-purple-700 disabled:opacity-50">
+                    <Check className="h-4 w-4" />{isSubmitting ? 'Сохранение...' : 'Сохранить'}
                 </button>
             </div>
         </form>
@@ -92,7 +132,7 @@ function InstructorForm({ initial, onSave, onCancel, title }: InstructorFormProp
 // ─── Manager ──────────────────────────────────────────────────────────────────
 
 interface InstructorManagerProps {
-    instructors: InstructorRow[];
+    instructors: Instructor[];
 }
 
 export function InstructorManager({ instructors }: InstructorManagerProps) {
@@ -104,20 +144,20 @@ export function InstructorManager({ instructors }: InstructorManagerProps) {
 
     const handleAdd = async (data: FormData) => {
         try {
-            const res = await fetch('/api/v1/instructors', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ ...data, image: '' }),
+            const result = await createInstructorAction({
+                ...data,
+                image: '',
             });
-            if (!res.ok) return;
-            const created = await res.json();
+            if (!result.success) return;
 
-            if (data.image.startsWith('blob:') && created.id) {
+            const createdId = result.data.id;
+
+            if (data.image.startsWith('blob:') && createdId) {
                 const blob = await fetch(data.image).then((r) => r.blob());
                 const file = new File([blob], 'photo.jpg', { type: blob.type });
                 const fd = new FormData();
                 fd.append('file', file);
-                await fetch(`/api/v1/instructors/${created.id}/photo`, { method: 'POST', body: fd });
+                await fetch(`/api/v1/instructors/${createdId}/photo`, { method: 'POST', body: fd });
                 URL.revokeObjectURL(data.image);
             }
         } catch { /* silent — router.refresh покажет актуальное состояние */ }
@@ -138,11 +178,7 @@ export function InstructorManager({ instructors }: InstructorManagerProps) {
                 if (photoRes.ok) data = { ...data, image: photoData.url };
             }
 
-            await fetch(`/api/v1/instructors/${id}`, {
-                method: 'PATCH',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data),
-            });
+            await updateInstructorAction({ id, ...data });
         } catch { /* silent */ }
         setEditingId(null);
         router.refresh();
@@ -152,11 +188,7 @@ export function InstructorManager({ instructors }: InstructorManagerProps) {
         if (!deleteTarget) return;
         setDeleting(true);
         try {
-            await fetch('/api/v1/instructors', {
-                method: 'DELETE',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ id: deleteTarget }),
-            });
+            await deleteInstructorAction(deleteTarget);
             router.refresh();
         } finally {
             setDeleting(false);
@@ -173,7 +205,7 @@ export function InstructorManager({ instructors }: InstructorManagerProps) {
                     </button>
                 </div>
             ) : (
-                <InstructorForm
+            <InstructorFormComponent
                     title="Новый педагог"
                     initial={emptyForm()}
                     onSave={handleAdd}
@@ -184,7 +216,7 @@ export function InstructorManager({ instructors }: InstructorManagerProps) {
             <div className="space-y-3">
                 {instructors.map((inst) =>
                     editingId === inst.id ? (
-                        <InstructorForm
+                        <InstructorFormComponent
                             key={inst.id}
                             title={`Редактирование: ${inst.name}`}
                             initial={{
@@ -195,10 +227,10 @@ export function InstructorManager({ instructors }: InstructorManagerProps) {
                                 bio: inst.bio,
                                 image: inst.image,
                                 video: inst.video,
-                                sort_order: inst.sort_order,
+                                sortOrder: inst.sortOrder,
                                 slug: inst.slug,
-                                presentation_video: inst.presentation_video,
-                                performance_videos: inst.performance_videos,
+                                presentationVideo: inst.presentationVideo,
+                                performanceVideos: inst.performanceVideos,
                                 techniques: inst.techniques
                             }}
                             onSave={(data) => handleEdit(inst.id, data)}
@@ -226,20 +258,16 @@ export function InstructorManager({ instructors }: InstructorManagerProps) {
                 )}
             </div>
 
-            {deleteTarget !== null && (
-                <div className="fixed inset-0 z-[200] flex items-center justify-center bg-black/70">
-                    <div className="mx-4 w-full max-w-sm rounded-lg bg-zinc-900 p-6 text-white shadow-xl">
-                        <p className="mb-2 text-lg font-semibold">Удалить педагога?</p>
-                        <p className="mb-6 text-sm text-white/60">Это действие нельзя отменить.</p>
-                        <div className="flex justify-end gap-3">
-                            <button onClick={() => setDeleteTarget(null)} disabled={deleting} className="rounded-md px-4 py-2 text-sm text-white/70 hover:text-white">Отмена</button>
-                            <button onClick={confirmDelete} disabled={deleting} className="rounded-md bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700 disabled:opacity-50">
-                                {deleting ? 'Удаление...' : 'Удалить'}
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            )}
+            <AlertDialog
+                open={deleteTarget !== null}
+                onOpenChange={(open) => { if (!open) setDeleteTarget(null) }}
+                title="Удалить педагога?"
+                description="Это действие нельзя отменить."
+                confirmText={deleting ? 'Удаление...' : 'Удалить'}
+                onConfirm={confirmDelete}
+                onCancel={() => setDeleteTarget(null)}
+                disabled={deleting}
+            />
         </div>
     );
 }

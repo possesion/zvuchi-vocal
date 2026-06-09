@@ -7,7 +7,7 @@ import { UserRole } from './lib/types'
 const { auth } = NextAuth(authConfig)
 
 const ADMIN_ONLY_PATHS = ['/users']
-const PROTECTED_PATHS = ['/users']
+const PROTECTED_PATHS = ['/users', '/profile']
 
 function isProtectedPath(pathname: string): boolean {
     return PROTECTED_PATHS.some((p) => pathname.startsWith(p))
@@ -45,5 +45,7 @@ export const config = {
         '/wiki/:path*/edit',
         '/users/:path*',
         '/api/v1/:path*',
+        '/profile/:path*',
+        '/profile',
     ],
 }

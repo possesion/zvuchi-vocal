@@ -3,16 +3,11 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
 import { TextField, Button } from '@radix-ui/themes';
 import { updateUserProfile } from '@/app/actions/profile';
 import { useUI } from '@/components/providers/ui-context';
 import { AlertDialog } from '@/components/common/alert-dialog/alert-dialog';
-
-interface ProfileFormData {
-    name: string;
-    phone: string;
-}
+import { ProfileSchema, ProfileForm } from '@/lib/definitions';
 
 interface ProfileEditFormProps {
     email: string;
@@ -20,30 +15,18 @@ interface ProfileEditFormProps {
     currentPhone: string | null | undefined;
 }
 
-const profileSchema = yup.object({
-    name: yup
-        .string()
-        .min(2, 'Имя не должно быть короче 2 символов')
-        .max(50, 'Имя не должно превышать 50 символов')
-        .default(''),
-    phone: yup
-        .string()
-        .matches(/^(\+7\d{10})?$/, 'Неверный формат номера')
-        .default(''),
-});
-
 export function ProfileEditForm({ currentName, currentPhone, email }: ProfileEditFormProps) {
     const { notify } = useUI();
     const [showConfirmDialog, setShowConfirmDialog] = useState(false);
-    const [pendingData, setPendingData] = useState<ProfileFormData | null>(null);
+    const [pendingData, setPendingData] = useState<ProfileForm | null>(null);
 
     const {
         register,
         handleSubmit,
         formState: { errors, isSubmitting, isDirty, dirtyFields },
         reset,
-    } = useForm<ProfileFormData>({
-        resolver: yupResolver(profileSchema),
+    } = useForm<ProfileForm>({
+        resolver: yupResolver(ProfileSchema),
         defaultValues: {
             name: currentName || '',
             phone: currentPhone || '',
@@ -54,7 +37,7 @@ export function ProfileEditForm({ currentName, currentPhone, email }: ProfileEdi
     const phoneError = errors.phone?.message ?? '';
     const isPhoneChanged = dirtyFields.phone ?? false;
 
-    const executeUpdate = async (data: ProfileFormData) => {
+    const executeUpdate = async (data: ProfileForm) => {
         const result = await updateUserProfile({
             name: data.name.trim() || null,
             phone: data.phone.trim() || null,
@@ -71,7 +54,7 @@ export function ProfileEditForm({ currentName, currentPhone, email }: ProfileEdi
         }
     };
 
-    const onSubmit = async (data: ProfileFormData) => {
+    const onSubmit = async (data: ProfileForm) => {
         // Если телефон изменился, показываем диалог подтверждения
         if (isPhoneChanged) {
             setPendingData(data);

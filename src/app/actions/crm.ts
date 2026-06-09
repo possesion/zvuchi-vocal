@@ -3,6 +3,7 @@
 import { auth } from '@/auth'
 import { getUserById } from '@/lib/db-prisma'
 import { getClientData } from '@/lib/alfa-crm'
+import { ActionResult } from '@/app/actions/types'
 
 export interface ClientBalanceData {
     balance: number | null; // Баланс счёта
@@ -12,11 +13,7 @@ export interface ClientBalanceData {
     paidCount: string | null; // Количество оплаченных занятий
 }
 
-export async function getClientBalance(): Promise<{
-    success: boolean;
-    data?: ClientBalanceData;
-    error?: string;
-}> {
+export async function getClientBalance(): Promise<ActionResult<ClientBalanceData>> {
     try {
         const session = await auth()
         
@@ -32,7 +29,7 @@ export async function getClientBalance(): Promise<{
         }
 
         // Проверяем, что телефон подтверждён
-        if (!user.phone || user.phone_verified !== 1) {
+        if (!user.phone || !user.phoneVerified) {
             return {
                 success: false,
                 error: 'Для получения данных об абонементе необходимо подтвердить номер телефона',

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { sendPhoneVerification, verifyPhoneCode } from "@/app/actions/phone"
 import { Button, Dialog, Flex, TextField, VisuallyHidden } from "@radix-ui/themes";
-import { VerifyPhoneCodeResult } from "@/app/actions/types";
+import { ActionResult } from "@/app/actions/types";
 import { VERIFY_TIMEOUT } from "../common/constants";
 import { RefreshCw, Clock } from "lucide-react";
 import { useCountdown } from "@/hooks/useCountdown";
@@ -12,8 +12,8 @@ export const VerifyPhoneNumber = ({ verificationDisabled, phone }: { phone: stri
     const [verificationCode, setVerificationCode] = useState('');
     
     // Разделенные состояния для отправки и верификации
-    const [sendCodeResult, setSendCodeResult] = useState<VerifyPhoneCodeResult | null>(null);
-    const [verifyCodeResult, setVerifyCodeResult] = useState<VerifyPhoneCodeResult | null>(null);
+    const [sendCodeResult, setSendCodeResult] = useState<{ success: boolean; error?: string } | null>(null);
+    const [verifyCodeResult, setVerifyCodeResult] = useState<ActionResult<void> | null>(null);
     
     const [isSending, setIsSending] = useState(false);
     const [isVerifying, setIsVerifying] = useState(false);

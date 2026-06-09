@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { getAllPrograms } from '@/lib/db-prisma'
+import type { ApiResponse } from '@/types/api'
 
 interface ApiProgram {
     id: string
@@ -22,7 +23,7 @@ interface ProgramResponse {
     total: number
 }
 
-export async function GET() {
+export async function GET(): Promise<NextResponse<ApiResponse<ProgramResponse>>> {
     try {
         const programs = await getAllPrograms()
         
@@ -30,17 +31,17 @@ export async function GET() {
             id: String(program.id),
             slug: program.slug,
             title: program.title,
-            description: program.short_description,
+            description: program.shortDescription,
             features: program.features,
             packages: program.packages,
-            lessonDuration: program.lesson_duration,
-            programDuration: program.program_duration,
-            popular: program.is_popular,
+            lessonDuration: program.lessonDuration,
+            programDuration: program.programDuration,
+            popular: program.isPopular,
         }))
         
         const response: ProgramResponse = { programs: programsData, total: programsData.length }
-        return NextResponse.json(response)
+        return NextResponse.json({ success: true, data: response, timestamp: new Date() })
     } catch {
-        return NextResponse.json({ error: 'Failed to fetch programs' }, { status: 500 })
+        return NextResponse.json({ success: false, error: 'Failed to fetch programs', timestamp: new Date() }, { status: 500 })
     }
 }

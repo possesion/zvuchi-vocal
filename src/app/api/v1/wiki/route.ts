@@ -1,17 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getAllTerms, upsertTerm } from '@/lib/db-prisma';
 import { createSlug } from '../utils';
+import type { ApiResponse } from '@/types/api';
+import type { WikiTermRow } from '@/lib/types';
 
-export async function GET() {
-    return NextResponse.json({ terms: await getAllTerms() });
+export async function GET(): Promise<NextResponse<ApiResponse<{ terms: WikiTermRow[] }>>> {
+    return NextResponse.json({ success: true, data: { terms: await getAllTerms() }, timestamp: new Date() });
 }
 
-export async function POST(req: NextRequest) {
+export async function POST(req: NextRequest): Promise<NextResponse<ApiResponse<WikiTermRow>>> {
     const { title, description, category, author } = await req.json();
     if (!title || !description || !category) {
-        return NextResponse.json({ error: 'title, description, category required' }, { status: 400 });
+        return NextResponse.json({ success: false, error: 'title, description, category required', timestamp: new Date() }, { status: 400 });
     }
     const id = createSlug(title);
     const term = await upsertTerm({ id, title, description, category, author: author ?? '', cover_url: '' });
-    return NextResponse.json(term, { status: 201 });
+    return NextResponse.json({ success: true, data: term, timestamp: new Date() }, { status: 201 });
 }

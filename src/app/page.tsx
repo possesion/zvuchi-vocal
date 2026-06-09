@@ -15,7 +15,7 @@ import { auth } from '@/auth';
 import { canEdit } from '@/lib/roles';
 import { Faq } from '@/components/sections/faq';
 import EnrollmentForm from '@/components/forms/enrollment-form';
-import { NewsRow } from '@/lib/types';
+import { NewsArticle } from '@/lib/types';
 
 export const dynamic = 'force-dynamic';
 
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
 };
 
 export default async function Home() {
-    let news = [] as unknown as NewsRow[];
+    let news = [] as unknown as NewsArticle[];
     try {
         news = await getLatestNews(5);
     } catch (error) {

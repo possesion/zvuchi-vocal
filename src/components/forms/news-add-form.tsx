@@ -4,21 +4,28 @@ import { useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { ImagePlus } from 'lucide-react';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { NewsSchema, NewsForm } from '@/lib/definitions';
 import { newsInputCls } from '@/components/sections/news/news.utils';
 
 export function NewsAddForm() {
     const router = useRouter();
     const [open, setOpen] = useState(false);
-    const [saving, setSaving] = useState(false);
     const [error, setError] = useState('');
     const [coverFile, setCoverFile] = useState<File | null>(null);
     const [coverPreview, setCoverPreview] = useState('');
     const coverInputRef = useRef<HTMLInputElement>(null);
-    const [form, setForm] = useState({ title: '', summary: '', content: '', published_at: '' });
 
-    const setField = (field: keyof typeof form) =>
-        (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
-            setForm((f) => ({ ...f, [field]: e.target.value }));
+    const {
+        register,
+        handleSubmit,
+        reset,
+        formState: { errors, isSubmitting },
+    } = useForm<NewsForm>({
+        resolver: yupResolver(NewsSchema),
+        defaultValues: { title: '', summary: '', content: '', published_at: '' },
+    });
 
     const handleCoverChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
@@ -28,25 +35,23 @@ export function NewsAddForm() {
         setCoverPreview(URL.createObjectURL(file));
     };
 
-    const reset = () => {
-        setForm({ title: '', summary: '', content: '', published_at: '' });
+    const resetAll = () => {
+        reset();
         if (coverPreview) URL.revokeObjectURL(coverPreview);
         setCoverFile(null);
         setCoverPreview('');
         setError('');
     };
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        setSaving(true);
+    const onSubmit = async (data: NewsForm) => {
         setError('');
         try {
             const res = await fetch('/api/v1/news', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    ...form,
-                    published_at: form.published_at || new Date().toISOString(),
+                    ...data,
+                    published_at: data.published_at || new Date().toISOString(),
                 }),
             });
             if (!res.ok) { setError('Ошибка при создании новости'); return; }
@@ -59,13 +64,11 @@ export function NewsAddForm() {
                 if (!coverRes.ok) setError('Новость создана, но обложку загрузить не удалось');
             }
 
-            reset();
+            resetAll();
             setOpen(false);
             router.refresh();
         } catch {
             setError('Произошла ошибка. Попробуйте ещё раз.');
-        } finally {
-            setSaving(false);
         }
     };
 
@@ -80,24 +83,27 @@ export function NewsAddForm() {
     }
 
     return (
-        <form onSubmit={handleSubmit} className="mb-8 rounded-sm bg-white/10 p-6 backdrop-blur-sm space-y-4">
+        <form onSubmit={handleSubmit(onSubmit)} className="mb-8 rounded-sm bg-white/10 p-6 backdrop-blur-sm space-y-4">
             <h2 className="text-lg font-semibold text-white">Новая новость</h2>
 
             <div className="space-y-1">
                 <label className="text-sm text-gray-300">Заголовок</label>
-                <input value={form.title} onChange={setField('title')} required className={newsInputCls} />
+                <input {...register('title')} className={newsInputCls} />
+                {errors.title && <p className="text-xs text-red-400">{errors.title.message}</p>}
             </div>
             <div className="space-y-1">
                 <label className="text-sm text-gray-300">Краткое описание</label>
-                <textarea value={form.summary} onChange={setField('summary')} required rows={2} className={newsInputCls} />
+                <textarea {...register('summary')} rows={2} className={newsInputCls} />
+                {errors.summary && <p className="text-xs text-red-400">{errors.summary.message}</p>}
             </div>
             <div className="space-y-1">
                 <label className="text-sm text-gray-300">Полный текст</label>
-                <textarea value={form.content} onChange={setField('content')} required rows={6} className={`${newsInputCls} resize-y font-mono text-sm`} />
+                <textarea {...register('content')} rows={6} className={`${newsInputCls} resize-y font-mono text-sm`} />
+                {errors.content && <p className="text-xs text-red-400">{errors.content.message}</p>}
             </div>
             <div className="space-y-1">
                 <label className="text-sm text-gray-300">Дата публикации (необязательно)</label>
-                <input type="datetime-local" value={form.published_at} onChange={setField('published_at')} className={newsInputCls} />
+                <input type="datetime-local" {...register('published_at')} className={newsInputCls} />
             </div>
             <div className="space-y-1">
                 <label className="text-sm text-gray-300">Обложка</label>
@@ -116,11 +122,11 @@ export function NewsAddForm() {
             {error && <p className="text-sm text-red-400">{error}</p>}
 
             <div className="flex justify-end gap-3">
-                <button type="button" onClick={() => { reset(); setOpen(false); }} className="rounded-sm px-4 py-2 text-sm text-white/70 transition-colors hover:text-white">
+                <button type="button" onClick={() => { resetAll(); setOpen(false); }} className="rounded-sm px-4 py-2 text-sm text-white/70 transition-colors hover:text-white">
                     Отмена
                 </button>
-                <button type="submit" disabled={saving} className="rounded-sm bg-purple-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-purple-700 disabled:opacity-50">
-                    {saving ? 'Сохранение...' : 'Сохранить'}
+                <button type="submit" disabled={isSubmitting} className="rounded-sm bg-purple-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-purple-700 disabled:opacity-50">
+                    {isSubmitting ? 'Сохранение...' : 'Сохранить'}
                 </button>
             </div>
         </form>

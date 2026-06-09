@@ -5,12 +5,12 @@ import { useRouter } from 'next/navigation';
 import { Pencil, X, Check, Trash2 } from 'lucide-react';
 import { WikiTermForm, type WikiTermFormData } from '@/components/wiki/wiki-term-form';
 import { WikiCoverUploader } from '@/components/wiki/wiki-cover-uploader';
-import type { WikiTermRow, WikiCategoryRow, InstructorRow } from '@/lib/types';
+import type { WikiTermRow, WikiCategoryRow, Instructor } from '@/lib/types';
 
 interface TermEditorProps {
     term: WikiTermRow;
     categories: WikiCategoryRow[];
-    instructors: InstructorRow[];
+    instructors: Instructor[];
 }
 
 export function TermEditor({ term, categories, instructors }: TermEditorProps) {

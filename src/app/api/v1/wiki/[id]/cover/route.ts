@@ -1,21 +1,22 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { uploadImage, deleteImage, S3Prefix } from '@/lib/s3';
 import { getTermById, upsertTerm } from '@/lib/db-prisma';
+import type { ApiResponse } from '@/types/api';
 
 const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
 const MAX_SIZE = 5 * 1024 * 1024;
 
-export async function POST(req: NextRequest, props: { params: Promise<{ id: string }> }) {
+export async function POST(req: NextRequest, props: { params: Promise<{ id: string }> }): Promise<NextResponse<ApiResponse<{ url: string }>>> {
     const { id } = await props.params;
     const decodedId = decodeURIComponent(id);
     const term = await getTermById(decodedId);
-    if (!term) return NextResponse.json({ error: 'Not found' }, { status: 404 });
+    if (!term) return NextResponse.json({ success: false, error: 'Not found', timestamp: new Date() }, { status: 404 });
 
     const formData = await req.formData();
     const file = formData.get('file') as File | null;
-    if (!file) return NextResponse.json({ error: 'No file provided' }, { status: 400 });
-    if (!ALLOWED_TYPES.includes(file.type)) return NextResponse.json({ error: 'Invalid file type' }, { status: 400 });
-    if (file.size > MAX_SIZE) return NextResponse.json({ error: 'File too large (max 5MB)' }, { status: 400 });
+    if (!file) return NextResponse.json({ success: false, error: 'No file provided', timestamp: new Date() }, { status: 400 });
+    if (!ALLOWED_TYPES.includes(file.type)) return NextResponse.json({ success: false, error: 'Invalid file type', timestamp: new Date() }, { status: 400 });
+    if (file.size > MAX_SIZE) return NextResponse.json({ success: false, error: 'File too large (max 5MB)', timestamp: new Date() }, { status: 400 });
 
     if (term.cover_url) {
         const oldFileName = term.cover_url.split('/').pop();
@@ -27,14 +28,14 @@ export async function POST(req: NextRequest, props: { params: Promise<{ id: stri
     const url = await uploadImage(Buffer.from(await file.arrayBuffer()), fileName, file.type, S3Prefix.wikiCovers);
 
     await upsertTerm({ ...term, cover_url: url });
-    return NextResponse.json({ url });
+    return NextResponse.json({ success: true, data: { url }, timestamp: new Date() });
 }
 
-export async function DELETE(_req: NextRequest, props: { params: Promise<{ id: string }> }) {
+export async function DELETE(_req: NextRequest, props: { params: Promise<{ id: string }> }): Promise<NextResponse<ApiResponse<{ success: boolean }>>> {
     const { id } = await props.params;
     const decodedId = decodeURIComponent(id);
     const term = await getTermById(decodedId);
-    if (!term) return NextResponse.json({ error: 'Not found' }, { status: 404 });
+    if (!term) return NextResponse.json({ success: false, error: 'Not found', timestamp: new Date() }, { status: 404 });
 
     if (term.cover_url) {
         const fileName = term.cover_url.split('/').pop();
@@ -42,5 +43,5 @@ export async function DELETE(_req: NextRequest, props: { params: Promise<{ id: s
     }
 
     await upsertTerm({ ...term, cover_url: '' });
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ success: true, data: { success: true }, timestamp: new Date() });
 }

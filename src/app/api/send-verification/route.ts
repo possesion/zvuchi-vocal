@@ -8,14 +8,10 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ error: 'email and token are required' }, { status: 400 });
     }
 
-    try {
-        await sendVerificationEmail(email, token);
-        return NextResponse.json({ success: true });
-    } catch (error) {
-        console.error('Failed to send verification email:', error);
-        return NextResponse.json(
-            { error: error instanceof Error ? error.message : 'Failed to send email' },
-            { status: 500 }
-        );
+    const result = await sendVerificationEmail(email, token);
+    if (!result.success) {
+        console.error('Failed to send verification email:', result.error);
+        return NextResponse.json({ error: result.error }, { status: 500 });
     }
+    return NextResponse.json({ success: true });
 }

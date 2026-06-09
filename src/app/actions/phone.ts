@@ -4,7 +4,7 @@ import { auth } from '@/auth'
 import { getUserById, updateUser } from '@/lib/db-prisma'
 import { sendSms, generateVerificationCode } from '@/lib/sms-aero'
 import { revalidatePath } from 'next/cache'
-import { VerifyPhoneCodeResult } from './types'
+import { ActionResult } from './types'
 
 /**
  * Отправка кода верификации на телефон
@@ -44,9 +44,9 @@ export async function sendPhoneVerification(phone: string): Promise<{ success: b
         // Сохраняем код и телефон в БД
         await updateUser(userId, {
             phone: phone,
-            phone_verified: 0, // Сбрасываем верификацию при смене номера
-            phone_verify_code: code,
-            phone_code_expires: expiresAt,
+            phoneVerified: false, // Сбрасываем верификацию при смене номера
+            phoneVerifyCode: code,
+            phoneCodeExpires: expiresAt,
         })
 
         revalidatePath('/profile')
@@ -61,7 +61,7 @@ export async function sendPhoneVerification(phone: string): Promise<{ success: b
 /**
  * Проверка кода верификации
  */
-export async function verifyPhoneCode(code: string): Promise<VerifyPhoneCodeResult> {
+export async function verifyPhoneCode(code: string): Promise<ActionResult<void>> {
     try {
         const session = await auth()
         if (!session?.user?.id) {
@@ -76,30 +76,30 @@ export async function verifyPhoneCode(code: string): Promise<VerifyPhoneCodeResu
         }
 
         // Проверяем наличие кода
-        if (!user.phone_verify_code) {
+        if (!user.phoneVerifyCode) {
             return { success: false, error: 'Код не был отправлен' }
         }
 
         // Проверяем срок действия
-        if (!user.phone_code_expires || new Date(user.phone_code_expires) < new Date()) {
+        if (!user.phoneCodeExpires || new Date(user.phoneCodeExpires) < new Date()) {
             return { success: false, error: 'Код истёк. Запросите новый код' }
         }
 
         // Проверяем правильность кода
-        if (user.phone_verify_code !== code.trim()) {
+        if (user.phoneVerifyCode !== code.trim()) {
             return { success: false, error: 'Неверный код' }
         }
 
         // Подтверждаем телефон
         await updateUser(userId, {
-            phone_verified: 1,
-            phone_verify_code: null,
-            phone_code_expires: null,
+            phoneVerified: true,
+            phoneVerifyCode: null,
+            phoneCodeExpires: null,
         })
 
         revalidatePath('/profile')
         
-        return { success: true }
+        return { success: true, data: undefined }
     } catch (error) {
         console.error('Failed to verify phone code:', error)
         return { success: false, error: 'Ошибка при проверке кода' }

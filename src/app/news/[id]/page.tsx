@@ -31,14 +31,14 @@ export async function generateMetadata({ params }: WikiTermPageProps) {
             title: news.title,
             description: news.summary || news.content.substring(0, 160),
             type: 'article',
-            publishedTime: news.published_at,
-            images: news.cover_url ? [{ url: news.cover_url }] : [],
+            publishedTime: news.publishedAt,
+            images: news.coverUrl ? [{ url: news.coverUrl }] : [],
         },
         twitter: {
             card: 'summary_large_image',
             title: news.title,
             description: news.summary || news.content.substring(0, 160),
-            images: news.cover_url ? [news.cover_url] : [],
+            images: news.coverUrl ? [news.coverUrl] : [],
         },
     };
 }

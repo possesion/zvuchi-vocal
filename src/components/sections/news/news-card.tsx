@@ -5,10 +5,10 @@ import { Calendar, ArrowRight, Trash2, Eye } from 'lucide-react';
 import { formatNewsDate } from './news.utils';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { NewsRow } from '@/lib/types';
+import { NewsArticle } from '@/lib/types';
 
 interface NewsCardProps {
-    post: NewsRow;
+    post: NewsArticle;
     onOpen: (id: number) => void;
     isAuthorized: boolean;
     onDelete: (id: number) => void;
@@ -29,9 +29,9 @@ export function NewsCard({ post, onOpen, isAuthorized, onDelete }: NewsCardProps
                 </div>
             )}
             <div onClick={() => onOpen(post.id)} className="relative h-70 cursor-pointer bg-white/5">
-                {post.cover_url
+                {post.coverUrl
                     ? <Image
-                        src={post.cover_url}
+                        src={post.coverUrl}
                         alt={post.title}
                         fill
                         className="object-cover object-top"
@@ -43,7 +43,7 @@ export function NewsCard({ post, onOpen, isAuthorized, onDelete }: NewsCardProps
             <div className="flex flex-1 flex-col p-5">
                 <div className="mb-2 flex items-center gap-1.5 text-xs text-white/50">
                     <Calendar className="h-3.5 w-3.5" />
-                    {formatNewsDate(post.published_at)}
+                    {formatNewsDate(post.publishedAt)}
                 </div>
                 <h3 className="mb-2 text-base font-bold text-white leading-snug">{post.title}</h3>
                 <div className="mb-4 flex-1 text-sm text-white/70 line-clamp-2">

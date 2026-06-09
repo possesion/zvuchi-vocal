@@ -8,7 +8,7 @@ import { canEdit } from '@/lib/roles';
 import { generatePageMetadata } from '@/lib/metadata';
 import { InstructorManager } from '@/components/sections/instructor-manager';
 import Link from 'next/link';
-import { InstructorRow } from '@/lib/types';
+import { Instructor } from '@/lib/types';
 
 const VocalInstructor = dynamic(() => import('@/components/sections/vocal-instructor'), {
     loading: () => <div className="animate-pulse bg-white/10 rounded-2xl h-64 w-full" />,
@@ -24,7 +24,7 @@ export const metadata: Metadata = generatePageMetadata({
 export default async function InstructorsPage() {
     const session = await auth();
     const isAuthorized = canEdit(session?.user?.role);
-    let instructors = [] as InstructorRow[];
+    let instructors = [] as Instructor[];
     try {
         instructors = await getAllInstructors();
     } catch (error) {
@@ -35,7 +35,7 @@ export default async function InstructorsPage() {
     const instructorProps = instructors.map((inst) => ({
         slug: inst.slug,
         name: inst.name,
-        specialty: (inst.specialty ?? '').split(',').map((s) => s.trim()).filter(Boolean),
+        specialty: (inst.specialty ?? '').split(',').map((s: string) => s.trim()).filter(Boolean),
         feature: inst.feature,
         experience: inst.experience,
         bio: inst.bio,

@@ -39,12 +39,12 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
                         passwordHash: unusableHash,
                         role: 'client',
                     })
-                    await updateUser(dbUser.id, { email_verified: 1 })
+                    await updateUser(dbUser.id, { emailVerified: true })
                 }
                 token.id = String(dbUser.id)
                 token.name = dbUser.name
                 token.phone = dbUser.phone
-                token.emailVerified = dbUser.email_verified === 1
+                token.emailVerified = dbUser.emailVerified
                 token.role = dbUser.role as UserRole
                 // Устанавливаем долгий срок жизни для Google OAuth (6 месяцев)
                 // JWT токен автоматически обновится при активности
@@ -87,14 +87,14 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
                 if (!user) return null
 
                 // Google-пользователи имеют невалидный хеш с префиксом 'google:'
-                if (!user.password_hash || user.password_hash.startsWith('google:')) {
+                if (!user.passwordHash || user.passwordHash.startsWith('google:')) {
                     throw new Error('UseGoogle')
                 }
 
-                const passwordMatch = await bcrypt.compare(password, user.password_hash)
+                const passwordMatch = await bcrypt.compare(password, user.passwordHash)
                 if (!passwordMatch) return null
 
-                if (user.email_verified !== 1) {
+                if (!user.emailVerified) {
                     throw new Error('EmailNotVerified')
                 }
 
@@ -103,7 +103,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
                     email: user.email,
                     name: user.name,
                     phone: user.phone,
-                    emailVerified: user.email_verified === 1,
+                    emailVerified: user.emailVerified,
                     role: user.role as UserRole,
                 }
             },

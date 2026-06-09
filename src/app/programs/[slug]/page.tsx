@@ -28,7 +28,7 @@ export async function generateMetadata({ params }: ProgramPageProps): Promise<Me
 
     return generatePageMetadata({
         title: program.title,
-        description: program.short_description,
+        description: program.shortDescription,
         path: `/programs/${slug}`,
     });
 }
@@ -67,7 +67,7 @@ export default async function ProgramDetailPage({ params }: ProgramPageProps) {
                                     {program.title}
                                 </h1>
                                 <p className="text-xl text-white/80">
-                                    {program.short_description}
+                                    {program.shortDescription}
                                 </p>
                             </header>
 
@@ -78,11 +78,11 @@ export default async function ProgramDetailPage({ params }: ProgramPageProps) {
                                     <div className="mt-6 space-y-2 text-sm text-white/70">
                                         <div className="flex items-center gap-2">
                                             <Clock className="h-4 w-4 text-brand" />
-                                            <span>Длительность урока: {program.lesson_duration} мин</span>
+                                            <span>Длительность урока: {program.lessonDuration} мин</span>
                                         </div>
                                         <div className="flex items-center gap-2">
                                             <Calendar className="h-4 w-4 text-brand" />
-                                            <span>Срок действия: {program.program_duration} дней</span>
+                                            <span>Срок действия: {program.programDuration} дней</span>
                                         </div>
                                     </div>
                                 </div>
@@ -100,11 +100,11 @@ export default async function ProgramDetailPage({ params }: ProgramPageProps) {
                                 </div>
                             </div>
 
-                            {program.full_description && (
+                            {program.fullDescription && (
                                 <div className="rounded-sm bg-white/10 p-6 backdrop-blur-md mb-8">
                                     <h2 className="text-2xl font-bold mb-4">Описание</h2>
                                     <div className="prose prose-invert max-w-none text-white/80">
-                                        <p className="whitespace-pre-line">{program.full_description}</p>
+                                        <p className="whitespace-pre-line">{program.fullDescription}</p>
                                     </div>
                                 </div>
                             )}

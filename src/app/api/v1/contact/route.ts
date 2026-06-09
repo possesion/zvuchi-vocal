@@ -1,7 +1,8 @@
-import { NextRequest } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { apiOk, apiError } from '@/lib/api-response'
+import type { ApiResponse } from '@/types/api'
 
-export async function POST(request: NextRequest) {
+export async function POST(request: NextRequest): Promise<NextResponse<ApiResponse<{ message: string }>>> {
     try {
         const body = await request.json()
         const { type, name, email, phone, message, program } = body

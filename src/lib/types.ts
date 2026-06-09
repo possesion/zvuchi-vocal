@@ -2,46 +2,30 @@ import { Package } from "@/app/programs/types";
 
 export type UserRole = 'admin' | 'manager' | 'client'
 
-export interface InstructorRow {
-    id: number;
-    name: string;
-    specialty: string;
-    feature: string;
-    experience: string;
-    bio: string;
-    image: string;
-    video: string;
-    sort_order: number;
-    slug: string;
-    presentation_video: string;
-    performance_videos: string[];
-    techniques: string[];
+export interface Instructor {
+  id: number
+  name: string
+  specialty: string
+  feature: string
+  experience: string
+  bio: string
+  image: string
+  video: string
+  sortOrder: number
+  slug: string
+  presentationVideo: string
+  performanceVideos: string[]
+  techniques: string[]
 }
 
-export interface InstructorDbRow {
-    id: number;
-    name: string;
-    specialty: string;
-    feature: string;
-    experience: string;
-    bio: string;
-    image: string;
-    video: string;
-    sort_order: number;
-    slug: string;
-    presentation_video: string;
-    performance_videos: string;
-    techniques: string;
-}
-
-export interface NewsRow {
-    id: number;
-    title: string;
-    summary: string;
-    content: string;
-    cover_url: string;
-    views: number;
-    published_at: string;
+export interface NewsArticle {
+  id: number
+  title: string
+  summary: string
+  content: string
+  coverUrl: string
+  views: number
+  publishedAt: string
 }
 
 export interface WikiTermRow {
@@ -59,42 +43,42 @@ export interface WikiCategoryRow {
     label: string;
 }
 
-export interface UserRow {
-    id: number
-    email: string
-    password_hash: string
-    name: string | null
-    phone: string | null
-    phone_verified: 0 | 1
-    phone_verify_code: string | null
-    phone_code_expires: string | null
-    role: UserRole
-    email_verified: 0 | 1
-    verification_token: string | null
-    token_expires_at: string | null
-    reset_token: string | null
-    reset_token_expires: string | null
-    created_at: string
+export interface AppUser {
+  id: number
+  email: string
+  passwordHash: string
+  name: string | null
+  phone: string | null
+  phoneVerified: boolean
+  phoneVerifyCode: string | null
+  phoneCodeExpires: string | null
+  role: UserRole
+  emailVerified: boolean
+  verificationToken: string | null
+  tokenExpiresAt: string | null
+  resetToken: string | null
+  resetTokenExpires: string | null
+  createdAt: string
 }
 
 export type UserUpdateData = Partial<Pick<
-    UserRow,
-    'email_verified' | 'verification_token' | 'token_expires_at' | 'role' | 'password_hash' | 'name' | 'phone' | 'phone_verified' | 'phone_verify_code' | 'phone_code_expires'
+    AppUser,
+    'emailVerified' | 'verificationToken' | 'tokenExpiresAt' | 'role' | 'passwordHash' | 'name' | 'phone' | 'phoneVerified' | 'phoneVerifyCode' | 'phoneCodeExpires'
 >>
 
-export interface ProgramRow {
-    id: number
-    slug: string
-    title: string
-    short_description: string
-    full_description: string
-    packages: Array<Package>
-    lesson_duration: number
-    program_duration: number
-    features: string[]
-    is_popular: boolean
-    sort_order: number
-    created_at: string
-    updated_at: string
+export interface Program {
+  id: number
+  slug: string
+  title: string
+  shortDescription: string
+  fullDescription: string
+  packages: Array<Package>
+  lessonDuration: number
+  programDuration: number
+  features: string[]
+  isPopular: boolean
+  sortOrder: number
+  createdAt: string
+  updatedAt: string
 }
 

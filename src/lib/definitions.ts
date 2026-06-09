@@ -81,3 +81,72 @@ export type ProgramForm = {
     is_popular: boolean
     sort_order: number
 }
+
+// ─── Profile ──────────────────────────────────────────────────────────────────
+
+export const ProfileSchema = yup.object({
+    name: yup.string().min(2, 'Имя не должно быть короче 2 символов').max(50, 'Имя не должно превышать 50 символов').default(''),
+    phone: yup.string().matches(/^(\+7\d{10})?$/, 'Неверный формат номера').default(''),
+});
+
+export type ProfileForm = yup.InferType<typeof ProfileSchema>;
+
+// ─── Enrollment / Contact ─────────────────────────────────────────────────────
+
+export const ContactSchema = yup.object({
+    name: yup.string().min(2, 'Введите имя').required('Введите имя').trim(),
+    phone: yup
+        .string()
+        .matches(/^\+7 \(\d{3}\) \d{3}-\d{2}-\d{2}$/, 'Введите номер в формате +7 (999) 000-00-00')
+        .required('Введите номер телефона'),
+    isAgreed: yup.boolean().oneOf([true], 'Необходимо согласие').required(),
+});
+
+export type ContactForm = yup.InferType<typeof ContactSchema>;
+
+// ─── News ─────────────────────────────────────────────────────────────────────
+
+export const NewsSchema = yup.object({
+    title: yup.string().required('Введите заголовок').trim(),
+    summary: yup.string().required('Введите краткое описание').trim(),
+    content: yup.string().required('Введите текст новости').trim(),
+    published_at: yup.string().default(''),
+});
+
+export type NewsForm = yup.InferType<typeof NewsSchema>;
+
+// ─── Instructor ───────────────────────────────────────────────────────────────
+
+export const InstructorSchema = yup.object({
+    name: yup.string().required('Введите имя педагога').min(2, 'Имя слишком короткое').trim(),
+    specialty: yup.string().default('').trim(),
+    feature: yup.string().default('').trim(),
+    experience: yup.string().default('').trim(),
+    bio: yup.string().default('').trim(),
+    image: yup.string().default('').trim(),
+    video: yup.string().default('').trim(),
+    sortOrder: yup.number().integer().min(0).default(0),
+    slug: yup.string().default(''),
+    presentationVideo: yup.string().default('').trim(),
+    performanceVideos: yup.string().default('').trim(),
+    techniques: yup.array().of(yup.string().required()).default([]),
+});
+
+export type InstructorForm = yup.InferType<typeof InstructorSchema>;
+
+// ─── Payment ──────────────────────────────────────────────────────────────────
+
+export const PaymentSchema = yup.object({
+    amount: yup.number().positive('Сумма должна быть положительной').required('Введите сумму'),
+    purpose: yup.string().required('Введите назначение платежа').trim(),
+    Client: yup.object({
+        name: yup.string().required('Введите ФИО').trim(),
+        email: yup
+            .string()
+            .email('Некорректный формат email')
+            .required('Введите email')
+            .trim(),
+    }).required(),
+});
+
+export type PaymentForm = yup.InferType<typeof PaymentSchema>;

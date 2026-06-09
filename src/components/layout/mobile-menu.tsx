@@ -12,13 +12,13 @@ import {
     SheetTitle,
     SheetTrigger,
 } from '@/components/modals/sheet-enhanced'
-import BurgerMenu from '@/app/burger-menu';
-import { SOCIAL_ICON_SIZE } from './common/constants'
-import { Socials } from './common/socials'
-import { Phone } from './common/phone'
+import BurgerMenu from '@/components/layout/burger-menu';
+import { SOCIAL_ICON_SIZE } from '../common/constants'
+import { Socials } from '../common/socials'
+import { Phone } from '../common/phone'
 import { contacts } from '@/app/constants'
 import { useSession } from 'next-auth/react'
-import { UserAvatar } from './layout/user-avatar'
+import { UserAvatar } from './user-avatar'
 // import { SubscriptionsPaymentWidget } from './common/subscription-payment-widget'
 
 export default function MobileMenu() {

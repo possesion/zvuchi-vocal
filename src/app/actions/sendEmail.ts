@@ -1,19 +1,7 @@
 'use server';
 
 import nodemailer from 'nodemailer';
-
-interface QuizAnswers {
-    experience: string;
-    genre: string;
-    motivation: string;
-}
-
-interface SendEmailProps {
-    name: string;
-    phone: string;
-    formType?: 'enrollment-form' | 'promo' | 'quiz';
-    quizAnswers?: QuizAnswers;
-}
+import { ActionResult, SendEmailProps } from './types';
 
 const formTypeText = {
     'enrollment-form': 'форма записи',
@@ -36,9 +24,10 @@ function createTransporter() {
     });
 }
 
-export async function sendEmail({ name, phone, formType, quizAnswers }: SendEmailProps) {
+export async function sendEmail({ name, phone, formType, quizAnswers }: SendEmailProps): Promise<ActionResult<void>> {
     if (!process.env.EMAIL_HOST || !process.env.EMAIL_USER || !process.env.EMAIL_PASSWORD) {
-        throw new Error('SMTP настройки не настроены. Проверьте переменные окружения.');
+        console.error('SMTP настройки не настроены. Проверьте переменные окружения.');
+        return { success: false, error: 'Ошибка при отправке email. Попробуйте позже.' };
     }
 
     try {
@@ -88,7 +77,7 @@ export async function sendEmail({ name, phone, formType, quizAnswers }: SendEmai
             `;
         }
 
-        const info = await transporter.sendMail({
+        await transporter.sendMail({
             from: {
                 name: 'Вокальная школа ЗВУЧИ',
                 address: process.env.EMAIL_FROM ?? '',
@@ -119,31 +108,31 @@ export async function sendEmail({ name, phone, formType, quizAnswers }: SendEmai
         });
 
         console.log('Письмо отправлено успешно');
-        return info;
+        return { success: true, data: undefined };
     } catch (error) {
-        console.error('Ошибка при отправке:', error);
-        throw new Error(
-            `Ошибка при отправке email: ${error instanceof Error ? error.message : 'Неизвестная ошибка'}`
-        );
+        console.error('Ошибка при отправке email:', error);
+        return { success: false, error: 'Ошибка при отправке email. Попробуйте позже.' };
     }
 }
 
-export async function sendVerificationEmail(email: string, token: string): Promise<void> {
+export async function sendVerificationEmail(email: string, token: string): Promise<ActionResult<void>> {
     if (!process.env.EMAIL_HOST || !process.env.EMAIL_USER || !process.env.EMAIL_PASSWORD) {
-        throw new Error('SMTP настройки не настроены. Проверьте переменные окружения.');
+        console.error('SMTP настройки не настроены. Проверьте переменные окружения.');
+        return { success: false, error: 'Ошибка при отправке email. Попробуйте позже.' };
     }
 
-    const verifyUrl = `${process.env.NEXTAUTH_URL ?? 'https://zvuchi-vocal.ru'}/verify-email?token=${token}`;
-    const transporter = createTransporter();
-    await transporter.sendMail({
-        from: {
-            name: 'Вокальная школа ЗВУЧИ',
-            address: process.env.EMAIL_FROM ?? '',
-        },
-        to: email,
-        subject: 'Подтвердите ваш email — Вокальная школа ЗВУЧИ',
-        text: `Для подтверждения email перейдите по ссылке: ${verifyUrl}\n\nСсылка действительна 24 часа.`,
-        html: `<div style="background: #f8f9fa; padding: 20px; border-radius: 8px; border-left: 4px solid #ab1515;">
+    try {
+        const verifyUrl = `${process.env.NEXTAUTH_URL ?? 'https://zvuchi-vocal.ru'}/verify-email?token=${token}`;
+        const transporter = createTransporter();
+        await transporter.sendMail({
+            from: {
+                name: 'Вокальная школа ЗВУЧИ',
+                address: process.env.EMAIL_FROM ?? '',
+            },
+            to: email,
+            subject: 'Подтвердите ваш email — Вокальная школа ЗВУЧИ',
+            text: `Для подтверждения email перейдите по ссылке: ${verifyUrl}\n\nСсылка действительна 24 часа.`,
+            html: `<div style="background: #f8f9fa; padding: 20px; border-radius: 8px; border-left: 4px solid #ab1515;">
             <h2 style="color: #ab1515; margin-top: 0;">🎵 Вокальная школа ЗВУЧИ</h2>
             <div style="background: white; padding: 20px; border-radius: 6px; margin: 20px 0;">
               <h3 style="color: #333; margin-top: 0;">Подтвердите ваш email</h3>
@@ -166,25 +155,32 @@ export async function sendVerificationEmail(email: string, token: string): Promi
             <p>© ${new Date().getFullYear()} Вокальная школа ЗВУЧИ</p>
             <p>Сайт: <a href="https://zvuchi-vocal.ru" style="color: #ab1515;">zvuchi-vocal.ru</a></p>
           </div>`,
-    });
+        });
+        return { success: true, data: undefined };
+    } catch (error) {
+        console.error('Ошибка при отправке письма с подтверждением email:', error);
+        return { success: false, error: 'Ошибка при отправке email. Попробуйте позже.' };
+    }
 }
 
-export async function sendPasswordResetEmail(email: string, token: string): Promise<void> {
+export async function sendPasswordResetEmail(email: string, token: string): Promise<ActionResult<void>> {
     if (!process.env.EMAIL_HOST || !process.env.EMAIL_USER || !process.env.EMAIL_PASSWORD) {
-        throw new Error('SMTP настройки не настроены. Проверьте переменные окружения.');
+        console.error('SMTP настройки не настроены. Проверьте переменные окружения.');
+        return { success: false, error: 'Ошибка при отправке email. Попробуйте позже.' };
     }
 
-    const resetUrl = `${process.env.NEXTAUTH_URL ?? 'https://zvuchi-vocal.ru'}/reset-password?token=${token}`;
-    const transporter = createTransporter();
-    await transporter.sendMail({
-        from: {
-            name: 'Вокальная школа ЗВУЧИ',
-            address: process.env.EMAIL_FROM ?? '',
-        },
-        to: email,
-        subject: 'Восстановление пароля — Вокальная школа ЗВУЧИ',
-        text: `Для восстановления пароля перейдите по ссылке: ${resetUrl}\n\nСсылка действительна 1 час.\n\nЕсли вы не запрашивали восстановление пароля — просто проигнорируйте это письмо.`,
-        html: `<div style="background: #f8f9fa; padding: 20px; border-radius: 8px; border-left: 4px solid #ab1515;">
+    try {
+        const resetUrl = `${process.env.NEXTAUTH_URL ?? 'https://zvuchi-vocal.ru'}/reset-password?token=${token}`;
+        const transporter = createTransporter();
+        await transporter.sendMail({
+            from: {
+                name: 'Вокальная школа ЗВУЧИ',
+                address: process.env.EMAIL_FROM ?? '',
+            },
+            to: email,
+            subject: 'Восстановление пароля — Вокальная школа ЗВУЧИ',
+            text: `Для восстановления пароля перейдите по ссылке: ${resetUrl}\n\nСсылка действительна 1 час.\n\nЕсли вы не запрашивали восстановление пароля — просто проигнорируйте это письмо.`,
+            html: `<div style="background: #f8f9fa; padding: 20px; border-radius: 8px; border-left: 4px solid #ab1515;">
             <h2 style="color: #ab1515; margin-top: 0;">🎵 Вокальная школа ЗВУЧИ</h2>
             <div style="background: white; padding: 20px; border-radius: 6px; margin: 20px 0;">
               <h3 style="color: #333; margin-top: 0;">Восстановление пароля</h3>
@@ -207,5 +203,10 @@ export async function sendPasswordResetEmail(email: string, token: string): Prom
             <p>© ${new Date().getFullYear()} Вокальная школа ЗВУЧИ</p>
             <p>Сайт: <a href="https://zvuchi-vocal.ru" style="color: #ab1515;">zvuchi-vocal.ru</a></p>
           </div>`,
-    });
+        });
+        return { success: true, data: undefined };
+    } catch (error) {
+        console.error('Ошибка при отправке письма для сброса пароля:', error);
+        return { success: false, error: 'Ошибка при отправке email. Попробуйте позже.' };
+    }
 }

@@ -92,17 +92,17 @@ export async function verifyEmail(
     }
 
     // Check expiry
-    if (user.token_expires_at) {
-        const expires = new Date(user.token_expires_at)
+    if (user.tokenExpiresAt) {
+        const expires = new Date(user.tokenExpiresAt)
         if (expires < new Date()) {
             return { success: false, error: 'Ссылка недействительна или устарела' }
         }
     }
 
     await updateUser(user.id, {
-        email_verified: 1,
-        verification_token: null,
-        token_expires_at: null,
+        emailVerified: true,
+        verificationToken: null,
+        tokenExpiresAt: null,
     })
 
     return { success: true }
@@ -121,7 +121,7 @@ export async function resendVerification(
         return { success: true }
     }
 
-    if (user.email_verified === 1) {
+    if (user.emailVerified) {
         return { success: false, error: 'Email уже подтверждён' }
     }
 
@@ -129,8 +129,8 @@ export async function resendVerification(
     const tokenExpiresAt = getTokenExpiresAt()
 
     await updateUser(user.id, {
-        verification_token: verificationToken,
-        token_expires_at: tokenExpiresAt,
+        verificationToken: verificationToken,
+        tokenExpiresAt: tokenExpiresAt,
     })
 
     try {
@@ -162,11 +162,10 @@ export async function requestPasswordReset(
 
     await setPasswordResetToken(user.id, resetToken, expires.toISOString())
 
-    try {
-        await sendPasswordResetEmail(email, resetToken)
-    } catch (err) {
-        console.error('Failed to send password reset email:', err)
-        return { success: false, error: 'Ошибка при отправке письма. Попробуйте позже.' }
+    const result = await sendPasswordResetEmail(email, resetToken);
+    if (!result.success) {
+        console.error('Failed to send password reset email:', result.error);
+        return { success: false, error: 'Ошибка при отправке письма. Попробуйте позже.' };
     }
 
     return { success: true }
@@ -190,8 +189,8 @@ export async function resetPassword(
     }
 
     // Check expiry
-    if (user.reset_token_expires) {
-        const expires = new Date(user.reset_token_expires)
+    if (user.resetTokenExpires) {
+        const expires = new Date(user.resetTokenExpires)
         if (expires < new Date()) {
             return { success: false, error: 'Ссылка недействительна или устарела' }
         }

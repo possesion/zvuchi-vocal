@@ -4,10 +4,10 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { ImagePlus } from 'lucide-react';
 import { newsInputCls } from './news.utils';
-import { NewsRow } from '@/lib/types';
+import { NewsArticle } from '@/lib/types';
 
 interface NewsEditFormProps {
-    post: NewsRow;
+    post: NewsArticle;
     onSaved: () => void;
     onCancel: () => void;
 }
@@ -17,10 +17,10 @@ export function NewsEditForm({ post, onSaved, onCancel }: NewsEditFormProps) {
         title: post.title,
         summary: post.summary,
         content: post.content,
-        published_at: post.published_at.slice(0, 16),
+        published_at: post.publishedAt.slice(0, 16),
     });
     const [coverFile, setCoverFile] = useState<File | null>(null);
-    const [coverPreview, setCoverPreview] = useState(post.cover_url);
+    const [coverPreview, setCoverPreview] = useState(post.coverUrl);
     const [saving, setSaving] = useState(false);
     const [error, setError] = useState('');
 

@@ -28,7 +28,6 @@ export const AlertDialog: FC<AlertDialogProps> = ({
     onCancel,
     disabled = false,
 }) => {
-    // Управляемый режим (с open prop)
     if (open !== undefined && onOpenChange) {
         return (
             <AlertDialogBase.Root open={open} onOpenChange={onOpenChange}>

@@ -7,10 +7,10 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
 import 'swiper/css/navigation';
 import { NewsCard } from './news-card';
-import { NewsRow } from '@/lib/types';
+import { NewsArticle } from '@/lib/types';
 
 interface NewsFeedProps {
-    posts: NewsRow[];
+    posts: NewsArticle[];
     isAuthorized?: boolean;
 }
 

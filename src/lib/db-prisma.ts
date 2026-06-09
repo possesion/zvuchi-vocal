@@ -6,12 +6,12 @@ import path from 'path';
 import {
   WikiCategoryRow,
   WikiTermRow,
-  NewsRow,
-  InstructorRow,
-  UserRow,
+  NewsArticle,
+  Instructor,
+  AppUser,
   UserUpdateData,
   UserRole,
-  ProgramRow,
+  Program,
 } from './types';
 
 // ─── Singleton Prisma Client ──────────────────────────────────────────────────
@@ -60,171 +60,6 @@ function convertPrismaWikiTermToRow(term: {
     author: term.author,
     cover_url: term.coverUrl,
     updated_at: term.updatedAt.toISOString(),
-  };
-}
-
-/**
- * Convert Prisma News (camelCase) to NewsRow (snake_case)
- */
-function convertPrismaNewsToRow(news: {
-  id: number;
-  title: string;
-  summary: string;
-  content: string;
-  coverUrl: string;
-  views: number;
-  publishedAt: Date;
-}): NewsRow {
-  return {
-    id: news.id,
-    title: news.title,
-    summary: news.summary,
-    content: news.content,
-    cover_url: news.coverUrl,
-    views: news.views,
-    published_at: news.publishedAt.toISOString(),
-  };
-}
-
-/**
- * Convert Prisma Instructor (camelCase) to InstructorRow (snake_case)
- */
-function convertPrismaInstructorToRow(instructor: {
-  id: number;
-  name: string;
-  specialty: string;
-  feature: string;
-  experience: string;
-  bio: string;
-  image: string;
-  video: string;
-  sortOrder: number;
-  slug: string;
-  presentationVideo: string;
-  performanceVideos: string;
-  techniques: string;
-}): InstructorRow {
-  let performance_videos: string[] = [];
-  let techniques: string[] = [];
-
-  try {
-    performance_videos = JSON.parse(instructor.performanceVideos);
-  } catch {
-    performance_videos = [];
-  }
-
-  try {
-    techniques = JSON.parse(instructor.techniques);
-  } catch {
-    techniques = [];
-  }
-
-  return {
-    id: instructor.id,
-    name: instructor.name,
-    specialty: instructor.specialty,
-    feature: instructor.feature,
-    experience: instructor.experience,
-    bio: instructor.bio,
-    image: instructor.image,
-    video: instructor.video,
-    sort_order: instructor.sortOrder,
-    slug: instructor.slug,
-    presentation_video: instructor.presentationVideo,
-    performance_videos,
-    techniques,
-  };
-}
-
-/**
- * Convert Prisma User (camelCase) to UserRow (snake_case)
- */
-function convertPrismaUserToRow(user: {
-  id: number;
-  email: string;
-  passwordHash: string;
-  name: string | null;
-  phone: string | null;
-  phoneVerified: boolean;
-  phoneVerifyCode: string | null;
-  phoneCodeExpires: Date | null;
-  role: string;
-  emailVerified: boolean;
-  verificationToken: string | null;
-  tokenExpiresAt: Date | null;
-  resetToken: string | null;
-  resetTokenExpires: Date | null;
-  createdAt: Date;
-}): UserRow {
-  return {
-    id: user.id,
-    email: user.email,
-    password_hash: user.passwordHash,
-    name: user.name,
-    phone: user.phone,
-    phone_verified: user.phoneVerified ? 1 : 0,
-    phone_verify_code: user.phoneVerifyCode,
-    phone_code_expires: user.phoneCodeExpires ? user.phoneCodeExpires.toISOString() : null,
-    role: user.role as UserRole,
-    email_verified: user.emailVerified ? 1 : 0,
-    verification_token: user.verificationToken,
-    token_expires_at: user.tokenExpiresAt ? user.tokenExpiresAt.toISOString() : null,
-    reset_token: user.resetToken,
-    reset_token_expires: user.resetTokenExpires ? user.resetTokenExpires.toISOString() : null,
-    created_at: user.createdAt.toISOString(),
-  };
-}
-
-/**
- * Convert Prisma Program (camelCase) to ProgramRow (snake_case)
- */
-function convertPrismaProgramToRow(program: {
-  id: number;
-  slug: string;
-  title: string;
-  shortDescription: string;
-  fullDescription: string;
-  packages: string;
-  lessonDuration: number;
-  programDuration: number;
-  features: string;
-  isPopular: boolean;
-  sortOrder: number;
-  createdAt: Date;
-  updatedAt: Date;
-}): ProgramRow {
-  let packages: Array<{
-    lessons_count: number
-    price: number
-  }> = [];
-  let features: string[] = [];
-
-  try {
-    packages = JSON.parse(program.packages);
-  } catch {
-    packages = [];
-  }
-
-  try {
-    features = JSON.parse(program.features);
-  } catch {
-    features = [];
-  }
-
-  return {
-    id: program.id,
-    slug: program.slug,
-    title: program.title,
-    short_description: program.shortDescription,
-    full_description: program.fullDescription,
-    packages,
-    lesson_duration: program.lessonDuration,
-    program_duration: program.programDuration,
-    features,
-    is_popular: program.isPopular,
-    sort_order: program.sortOrder,
-    created_at: program.createdAt.toISOString(),
-    updated_at: program.updatedAt.toISOString(),
   };
 }
 
@@ -341,57 +176,90 @@ export async function deleteShortFromDb(url: string): Promise<void> {
 
 // ─── News ──────────────────────────────────────────────────────────────────────
 
-export async function getLatestNews(limit = 5): Promise<NewsRow[]> {
+export async function getLatestNews(limit = 5): Promise<NewsArticle[]> {
   const prisma = getPrisma();
   const news = await prisma.news.findMany({
     orderBy: { publishedAt: 'desc' },
     take: limit,
   });
 
-  return news.map(convertPrismaNewsToRow);
+  return news.map(({ id, title, summary, content, coverUrl, views, publishedAt }) => ({
+    id,
+    title,
+    summary,
+    content,
+    coverUrl,
+    views,
+    publishedAt: publishedAt.toISOString(),
+  }));
 }
 
-export async function getNewsById(id: number): Promise<NewsRow | undefined> {
+export async function getNewsById(id: number): Promise<NewsArticle | undefined> {
   const prisma = getPrisma();
   const news = await prisma.news.findUnique({
     where: { id },
   });
 
-  return news ? convertPrismaNewsToRow(news) : undefined;
+  if (!news) return undefined;
+  return {
+    id: news.id,
+    title: news.title,
+    summary: news.summary,
+    content: news.content,
+    coverUrl: news.coverUrl,
+    views: news.views,
+    publishedAt: news.publishedAt.toISOString(),
+  };
 }
 
 export async function createNews(
-  news: Omit<NewsRow, 'id' | 'views'>
-): Promise<NewsRow> {
+  { title, summary, content, coverUrl, publishedAt }: Omit<NewsArticle, 'id' | 'views'>
+): Promise<NewsArticle> {
   const prisma = getPrisma();
   const created = await prisma.news.create({
     data: {
-      title: news.title,
-      summary: news.summary,
-      content: news.content,
-      coverUrl: news.cover_url,
+      title,
+      summary,
+      content,
+      coverUrl,
       views: 0,
-      publishedAt: new Date(news.published_at),
+      publishedAt: new Date(publishedAt),
     },
   });
 
-  return convertPrismaNewsToRow(created);
+  return {
+    id: created.id,
+    title: created.title,
+    summary: created.summary,
+    content: created.content,
+    coverUrl: created.coverUrl,
+    views: created.views,
+    publishedAt: created.publishedAt.toISOString(),
+  };
 }
 
-export async function updateNews(news: NewsRow): Promise<NewsRow> {
+export async function updateNews({ id, title, summary, content, coverUrl, publishedAt }: NewsArticle): Promise<NewsArticle> {
   const prisma = getPrisma();
   const updated = await prisma.news.update({
-    where: { id: news.id },
+    where: { id },
     data: {
-      title: news.title,
-      summary: news.summary,
-      content: news.content,
-      coverUrl: news.cover_url,
-      publishedAt: new Date(news.published_at),
+      title,
+      summary,
+      content,
+      coverUrl,
+      publishedAt: new Date(publishedAt),
     },
   });
 
-  return convertPrismaNewsToRow(updated);
+  return {
+    id: updated.id,
+    title: updated.title,
+    summary: updated.summary,
+    content: updated.content,
+    coverUrl: updated.coverUrl,
+    views: updated.views,
+    publishedAt: updated.publishedAt.toISOString(),
+  };
 }
 
 export async function deleteNews(id: number): Promise<void> {
@@ -411,45 +279,169 @@ export async function incrementNewsViews(id: number): Promise<void> {
 
 // ─── Instructors ──────────────────────────────────────────────────────────────
 
-export async function getAllInstructors(): Promise<InstructorRow[]> {
+export async function getAllInstructors(): Promise<Instructor[]> {
   const prisma = getPrisma();
   const instructors = await prisma.instructor.findMany({
     orderBy: [{ sortOrder: 'asc' }, { id: 'asc' }],
   });
 
-  return instructors.map(convertPrismaInstructorToRow);
+  return instructors.map((inst) => {
+    let performanceVideos: string[] = [];
+    let techniques: string[] = [];
+
+    try {
+      performanceVideos = JSON.parse(inst.performanceVideos);
+    } catch {
+      performanceVideos = [];
+    }
+
+    try {
+      techniques = JSON.parse(inst.techniques);
+    } catch {
+      techniques = [];
+    }
+
+    return {
+      id: inst.id,
+      name: inst.name,
+      specialty: inst.specialty,
+      feature: inst.feature,
+      experience: inst.experience,
+      bio: inst.bio,
+      image: inst.image,
+      video: inst.video,
+      sortOrder: inst.sortOrder,
+      slug: inst.slug,
+      presentationVideo: inst.presentationVideo,
+      performanceVideos,
+      techniques,
+    };
+  });
 }
 
-export async function getInstructorById(id: number): Promise<InstructorRow | undefined> {
+export async function getInstructorById(id: number): Promise<Instructor | undefined> {
   const prisma = getPrisma();
-  const instructor = await prisma.instructor.findUnique({
+  const inst = await prisma.instructor.findUnique({
     where: { id },
   });
 
-  return instructor ? convertPrismaInstructorToRow(instructor) : undefined;
+  if (!inst) return undefined;
+
+  let performanceVideos: string[] = [];
+  let techniques: string[] = [];
+
+  try {
+    performanceVideos = JSON.parse(inst.performanceVideos);
+  } catch {
+    performanceVideos = [];
+  }
+
+  try {
+    techniques = JSON.parse(inst.techniques);
+  } catch {
+    techniques = [];
+  }
+
+  return {
+    id: inst.id,
+    name: inst.name,
+    specialty: inst.specialty,
+    feature: inst.feature,
+    experience: inst.experience,
+    bio: inst.bio,
+    image: inst.image,
+    video: inst.video,
+    sortOrder: inst.sortOrder,
+    slug: inst.slug,
+    presentationVideo: inst.presentationVideo,
+    performanceVideos,
+    techniques,
+  };
 }
 
-export async function getInstructorBySlug(slug: string): Promise<InstructorRow | undefined> {
+export async function getInstructorBySlug(slug: string): Promise<Instructor | undefined> {
   const prisma = getPrisma();
-  const instructor = await prisma.instructor.findUnique({
+  const inst = await prisma.instructor.findUnique({
     where: { slug },
   });
 
-  return instructor ? convertPrismaInstructorToRow(instructor) : undefined;
+  if (!inst) return undefined;
+
+  let performanceVideos: string[] = [];
+  let techniques: string[] = [];
+
+  try {
+    performanceVideos = JSON.parse(inst.performanceVideos);
+  } catch {
+    performanceVideos = [];
+  }
+
+  try {
+    techniques = JSON.parse(inst.techniques);
+  } catch {
+    techniques = [];
+  }
+
+  return {
+    id: inst.id,
+    name: inst.name,
+    specialty: inst.specialty,
+    feature: inst.feature,
+    experience: inst.experience,
+    bio: inst.bio,
+    image: inst.image,
+    video: inst.video,
+    sortOrder: inst.sortOrder,
+    slug: inst.slug,
+    presentationVideo: inst.presentationVideo,
+    performanceVideos,
+    techniques,
+  };
 }
 
-export async function getInstructorByName(name: string): Promise<InstructorRow | undefined> {
+export async function getInstructorByName(name: string): Promise<Instructor | undefined> {
   const prisma = getPrisma();
-  const instructor = await prisma.instructor.findFirst({
+  const inst = await prisma.instructor.findFirst({
     where: { name },
   });
 
-  return instructor ? convertPrismaInstructorToRow(instructor) : undefined;
+  if (!inst) return undefined;
+
+  let performanceVideos: string[] = [];
+  let techniques: string[] = [];
+
+  try {
+    performanceVideos = JSON.parse(inst.performanceVideos);
+  } catch {
+    performanceVideos = [];
+  }
+
+  try {
+    techniques = JSON.parse(inst.techniques);
+  } catch {
+    techniques = [];
+  }
+
+  return {
+    id: inst.id,
+    name: inst.name,
+    specialty: inst.specialty,
+    feature: inst.feature,
+    experience: inst.experience,
+    bio: inst.bio,
+    image: inst.image,
+    video: inst.video,
+    sortOrder: inst.sortOrder,
+    slug: inst.slug,
+    presentationVideo: inst.presentationVideo,
+    performanceVideos,
+    techniques,
+  };
 }
 
 export async function createInstructor(
-  data: Omit<InstructorRow, 'id'>
-): Promise<InstructorRow> {
+  data: Omit<Instructor, 'id'>
+): Promise<Instructor> {
   const prisma = getPrisma();
   const slug = data.slug || createSlug(data.name);
 
@@ -462,18 +454,47 @@ export async function createInstructor(
       bio: data.bio,
       image: data.image,
       video: data.video,
-      sortOrder: data.sort_order,
+      sortOrder: data.sortOrder,
       slug,
-      presentationVideo: data.presentation_video ?? '',
-      performanceVideos: JSON.stringify(data.performance_videos ?? []),
+      presentationVideo: data.presentationVideo ?? '',
+      performanceVideos: JSON.stringify(data.performanceVideos ?? []),
       techniques: JSON.stringify(data.techniques ?? []),
     },
   });
 
-  return convertPrismaInstructorToRow(created);
+  let performanceVideos: string[] = [];
+  let techniques: string[] = [];
+
+  try {
+    performanceVideos = JSON.parse(created.performanceVideos);
+  } catch {
+    performanceVideos = [];
+  }
+
+  try {
+    techniques = JSON.parse(created.techniques);
+  } catch {
+    techniques = [];
+  }
+
+  return {
+    id: created.id,
+    name: created.name,
+    specialty: created.specialty,
+    feature: created.feature,
+    experience: created.experience,
+    bio: created.bio,
+    image: created.image,
+    video: created.video,
+    sortOrder: created.sortOrder,
+    slug: created.slug,
+    presentationVideo: created.presentationVideo,
+    performanceVideos,
+    techniques,
+  };
 }
 
-export async function updateInstructor(data: InstructorRow): Promise<InstructorRow> {
+export async function updateInstructor(data: Instructor): Promise<Instructor> {
   const prisma = getPrisma();
   const updated = await prisma.instructor.update({
     where: { id: data.id },
@@ -485,15 +506,44 @@ export async function updateInstructor(data: InstructorRow): Promise<InstructorR
       bio: data.bio,
       image: data.image,
       video: data.video,
-      sortOrder: data.sort_order,
+      sortOrder: data.sortOrder,
       slug: data.slug,
-      presentationVideo: data.presentation_video,
-      performanceVideos: JSON.stringify(data.performance_videos ?? []),
+      presentationVideo: data.presentationVideo,
+      performanceVideos: JSON.stringify(data.performanceVideos ?? []),
       techniques: JSON.stringify(data.techniques ?? []),
     },
   });
 
-  return convertPrismaInstructorToRow(updated);
+  let performanceVideos: string[] = [];
+  let techniques: string[] = [];
+
+  try {
+    performanceVideos = JSON.parse(updated.performanceVideos);
+  } catch {
+    performanceVideos = [];
+  }
+
+  try {
+    techniques = JSON.parse(updated.techniques);
+  } catch {
+    techniques = [];
+  }
+
+  return {
+    id: updated.id,
+    name: updated.name,
+    specialty: updated.specialty,
+    feature: updated.feature,
+    experience: updated.experience,
+    bio: updated.bio,
+    image: updated.image,
+    video: updated.video,
+    sortOrder: updated.sortOrder,
+    slug: updated.slug,
+    presentationVideo: updated.presentationVideo,
+    performanceVideos,
+    techniques,
+  };
 }
 
 export async function deleteInstructor(id: number): Promise<void> {
@@ -505,22 +555,56 @@ export async function deleteInstructor(id: number): Promise<void> {
 
 // ─── Users ────────────────────────────────────────────────────────────────────
 
-export async function getUserByEmail(email: string): Promise<UserRow | undefined> {
+export async function getUserByEmail(email: string): Promise<AppUser | undefined> {
   const prisma = getPrisma();
   const user = await prisma.user.findUnique({
     where: { email },
   });
 
-  return user ? convertPrismaUserToRow(user) : undefined;
+  if (!user) return undefined;
+  return {
+    id: user.id,
+    email: user.email,
+    passwordHash: user.passwordHash,
+    name: user.name,
+    phone: user.phone,
+    phoneVerified: user.phoneVerified,
+    phoneVerifyCode: user.phoneVerifyCode,
+    phoneCodeExpires: user.phoneCodeExpires ? user.phoneCodeExpires.toISOString() : null,
+    role: user.role as UserRole,
+    emailVerified: user.emailVerified,
+    verificationToken: user.verificationToken,
+    tokenExpiresAt: user.tokenExpiresAt ? user.tokenExpiresAt.toISOString() : null,
+    resetToken: user.resetToken,
+    resetTokenExpires: user.resetTokenExpires ? user.resetTokenExpires.toISOString() : null,
+    createdAt: user.createdAt.toISOString(),
+  };
 }
 
-export async function getUserById(id: number): Promise<UserRow | undefined> {
+export async function getUserById(id: number): Promise<AppUser | undefined> {
   const prisma = getPrisma();
   const user = await prisma.user.findUnique({
     where: { id },
   });
 
-  return user ? convertPrismaUserToRow(user) : undefined;
+  if (!user) return undefined;
+  return {
+    id: user.id,
+    email: user.email,
+    passwordHash: user.passwordHash,
+    name: user.name,
+    phone: user.phone,
+    phoneVerified: user.phoneVerified,
+    phoneVerifyCode: user.phoneVerifyCode,
+    phoneCodeExpires: user.phoneCodeExpires ? user.phoneCodeExpires.toISOString() : null,
+    role: user.role as UserRole,
+    emailVerified: user.emailVerified,
+    verificationToken: user.verificationToken,
+    tokenExpiresAt: user.tokenExpiresAt ? user.tokenExpiresAt.toISOString() : null,
+    resetToken: user.resetToken,
+    resetTokenExpires: user.resetTokenExpires ? user.resetTokenExpires.toISOString() : null,
+    createdAt: user.createdAt.toISOString(),
+  };
 }
 
 export async function createUser(data: {
@@ -529,7 +613,7 @@ export async function createUser(data: {
   role?: UserRole;
   verificationToken?: string;
   tokenExpiresAt?: string;
-}): Promise<UserRow> {
+}): Promise<AppUser> {
   const prisma = getPrisma();
   const created = await prisma.user.create({
     data: {
@@ -542,7 +626,23 @@ export async function createUser(data: {
     },
   });
 
-  return convertPrismaUserToRow(created);
+  return {
+    id: created.id,
+    email: created.email,
+    passwordHash: created.passwordHash,
+    name: created.name,
+    phone: created.phone,
+    phoneVerified: created.phoneVerified,
+    phoneVerifyCode: created.phoneVerifyCode,
+    phoneCodeExpires: created.phoneCodeExpires ? created.phoneCodeExpires.toISOString() : null,
+    role: created.role as UserRole,
+    emailVerified: created.emailVerified,
+    verificationToken: created.verificationToken,
+    tokenExpiresAt: created.tokenExpiresAt ? created.tokenExpiresAt.toISOString() : null,
+    resetToken: created.resetToken,
+    resetTokenExpires: created.resetTokenExpires ? created.resetTokenExpires.toISOString() : null,
+    createdAt: created.createdAt.toISOString(),
+  };
 }
 
 export async function updateUser(
@@ -550,37 +650,27 @@ export async function updateUser(
   data: UserUpdateData
 ): Promise<void> {
   const prisma = getPrisma();
-  
-  // Маппинг полей: snake_case -> camelCase с преобразованиями
-  const fieldMapping: Record<string, (value: unknown) => unknown> = {
-    email_verified: (val) => val === 1,
-    verification_token: (val) => val,
-    token_expires_at: (val) => val ? new Date(val as string) : null,
-    role: (val) => val,
-    password_hash: (val) => val,
-    name: (val) => val,
-    phone: (val) => val,
-    phone_verified: (val) => val === 1,
-    phone_verify_code: (val) => val,
-    phone_code_expires: (val) => val ? new Date(val as string) : null,
-  };
 
-  const updateData: Record<string, unknown> = {};
-
-  // Автоматическая конвертация полей
-  (Object.keys(data) as Array<keyof UserUpdateData>).forEach((snakeKey) => {
-    if (data[snakeKey] !== undefined && fieldMapping[snakeKey]) {
-      // Преобразуем snake_case в camelCase
-      const camelKey = snakeKey.replace(/_([a-z])/g, (_, letter) => letter.toUpperCase());
-      updateData[camelKey] = fieldMapping[snakeKey](data[snakeKey]);
-    }
-  });
-
-  if (Object.keys(updateData).length === 0) return;
+  if (Object.keys(data).length === 0) return;
 
   await prisma.user.update({
     where: { id },
-    data: updateData,
+    data: {
+      ...(data.emailVerified !== undefined && { emailVerified: data.emailVerified }),
+      ...(data.verificationToken !== undefined && { verificationToken: data.verificationToken }),
+      ...(data.tokenExpiresAt !== undefined && {
+        tokenExpiresAt: data.tokenExpiresAt ? new Date(data.tokenExpiresAt) : null,
+      }),
+      ...(data.role !== undefined && { role: data.role }),
+      ...(data.passwordHash !== undefined && { passwordHash: data.passwordHash }),
+      ...(data.name !== undefined && { name: data.name }),
+      ...(data.phone !== undefined && { phone: data.phone }),
+      ...(data.phoneVerified !== undefined && { phoneVerified: data.phoneVerified }),
+      ...(data.phoneVerifyCode !== undefined && { phoneVerifyCode: data.phoneVerifyCode }),
+      ...(data.phoneCodeExpires !== undefined && {
+        phoneCodeExpires: data.phoneCodeExpires ? new Date(data.phoneCodeExpires) : null,
+      }),
+    },
   });
 }
 
@@ -591,31 +681,81 @@ export async function deleteUser(id: number): Promise<void> {
   });
 }
 
-export async function getAllUsers(): Promise<UserRow[]> {
+export async function getAllUsers(): Promise<AppUser[]> {
   const prisma = getPrisma();
   const users = await prisma.user.findMany({
     orderBy: { createdAt: 'desc' },
   });
 
-  return users.map(convertPrismaUserToRow);
+  return users.map((user) => ({
+    id: user.id,
+    email: user.email,
+    passwordHash: user.passwordHash,
+    name: user.name,
+    phone: user.phone,
+    phoneVerified: user.phoneVerified,
+    phoneVerifyCode: user.phoneVerifyCode,
+    phoneCodeExpires: user.phoneCodeExpires ? user.phoneCodeExpires.toISOString() : null,
+    role: user.role as UserRole,
+    emailVerified: user.emailVerified,
+    verificationToken: user.verificationToken,
+    tokenExpiresAt: user.tokenExpiresAt ? user.tokenExpiresAt.toISOString() : null,
+    resetToken: user.resetToken,
+    resetTokenExpires: user.resetTokenExpires ? user.resetTokenExpires.toISOString() : null,
+    createdAt: user.createdAt.toISOString(),
+  }));
 }
 
-export async function getUserByVerificationToken(token: string): Promise<UserRow | undefined> {
+export async function getUserByVerificationToken(token: string): Promise<AppUser | undefined> {
   const prisma = getPrisma();
   const user = await prisma.user.findUnique({
     where: { verificationToken: token },
   });
 
-  return user ? convertPrismaUserToRow(user) : undefined;
+  if (!user) return undefined;
+  return {
+    id: user.id,
+    email: user.email,
+    passwordHash: user.passwordHash,
+    name: user.name,
+    phone: user.phone,
+    phoneVerified: user.phoneVerified,
+    phoneVerifyCode: user.phoneVerifyCode,
+    phoneCodeExpires: user.phoneCodeExpires ? user.phoneCodeExpires.toISOString() : null,
+    role: user.role as UserRole,
+    emailVerified: user.emailVerified,
+    verificationToken: user.verificationToken,
+    tokenExpiresAt: user.tokenExpiresAt ? user.tokenExpiresAt.toISOString() : null,
+    resetToken: user.resetToken,
+    resetTokenExpires: user.resetTokenExpires ? user.resetTokenExpires.toISOString() : null,
+    createdAt: user.createdAt.toISOString(),
+  };
 }
 
-export async function getUserByResetToken(token: string): Promise<UserRow | undefined> {
+export async function getUserByResetToken(token: string): Promise<AppUser | undefined> {
   const prisma = getPrisma();
   const user = await prisma.user.findUnique({
     where: { resetToken: token },
   });
 
-  return user ? convertPrismaUserToRow(user) : undefined;
+  if (!user) return undefined;
+  return {
+    id: user.id,
+    email: user.email,
+    passwordHash: user.passwordHash,
+    name: user.name,
+    phone: user.phone,
+    phoneVerified: user.phoneVerified,
+    phoneVerifyCode: user.phoneVerifyCode,
+    phoneCodeExpires: user.phoneCodeExpires ? user.phoneCodeExpires.toISOString() : null,
+    role: user.role as UserRole,
+    emailVerified: user.emailVerified,
+    verificationToken: user.verificationToken,
+    tokenExpiresAt: user.tokenExpiresAt ? user.tokenExpiresAt.toISOString() : null,
+    resetToken: user.resetToken,
+    resetTokenExpires: user.resetTokenExpires ? user.resetTokenExpires.toISOString() : null,
+    createdAt: user.createdAt.toISOString(),
+  };
 }
 
 export async function setPasswordResetToken(
@@ -658,74 +798,225 @@ export async function updateUserPassword(userId: number, passwordHash: string): 
 
 // ─── Programs ──────────────────────────────────────────────────────────────────
 
-export async function getAllPrograms(): Promise<ProgramRow[]> {
+export async function getAllPrograms(): Promise<Program[]> {
   const prisma = getPrisma();
   const programs = await prisma.program.findMany({
     orderBy: [{ sortOrder: 'asc' }, { id: 'asc' }],
   });
 
-  return programs.map(convertPrismaProgramToRow);
+  return programs.map((p) => {
+    let packages: Program['packages'] = [];
+    let features: string[] = [];
+
+    try {
+      packages = JSON.parse(p.packages);
+    } catch {
+      packages = [];
+    }
+
+    try {
+      features = JSON.parse(p.features);
+    } catch {
+      features = [];
+    }
+
+    return {
+      id: p.id,
+      slug: p.slug,
+      title: p.title,
+      shortDescription: p.shortDescription,
+      fullDescription: p.fullDescription,
+      packages,
+      lessonDuration: p.lessonDuration,
+      programDuration: p.programDuration,
+      features,
+      isPopular: p.isPopular,
+      sortOrder: p.sortOrder,
+      createdAt: p.createdAt.toISOString(),
+      updatedAt: p.updatedAt.toISOString(),
+    };
+  });
 }
 
-export async function getProgramBySlug(slug: string): Promise<ProgramRow | undefined> {
+export async function getProgramBySlug(slug: string): Promise<Program | undefined> {
   const prisma = getPrisma();
-  const program = await prisma.program.findUnique({
+  const p = await prisma.program.findUnique({
     where: { slug },
   });
 
-  return program ? convertPrismaProgramToRow(program) : undefined;
+  if (!p) return undefined;
+
+  let packages: Program['packages'] = [];
+  let features: string[] = [];
+
+  try {
+    packages = JSON.parse(p.packages);
+  } catch {
+    packages = [];
+  }
+
+  try {
+    features = JSON.parse(p.features);
+  } catch {
+    features = [];
+  }
+
+  return {
+    id: p.id,
+    slug: p.slug,
+    title: p.title,
+    shortDescription: p.shortDescription,
+    fullDescription: p.fullDescription,
+    packages,
+    lessonDuration: p.lessonDuration,
+    programDuration: p.programDuration,
+    features,
+    isPopular: p.isPopular,
+    sortOrder: p.sortOrder,
+    createdAt: p.createdAt.toISOString(),
+    updatedAt: p.updatedAt.toISOString(),
+  };
 }
 
-export async function getProgramById(id: number): Promise<ProgramRow | undefined> {
+export async function getProgramById(id: number): Promise<Program | undefined> {
   const prisma = getPrisma();
-  const program = await prisma.program.findUnique({
+  const p = await prisma.program.findUnique({
     where: { id },
   });
 
-  return program ? convertPrismaProgramToRow(program) : undefined;
+  if (!p) return undefined;
+
+  let packages: Program['packages'] = [];
+  let features: string[] = [];
+
+  try {
+    packages = JSON.parse(p.packages);
+  } catch {
+    packages = [];
+  }
+
+  try {
+    features = JSON.parse(p.features);
+  } catch {
+    features = [];
+  }
+
+  return {
+    id: p.id,
+    slug: p.slug,
+    title: p.title,
+    shortDescription: p.shortDescription,
+    fullDescription: p.fullDescription,
+    packages,
+    lessonDuration: p.lessonDuration,
+    programDuration: p.programDuration,
+    features,
+    isPopular: p.isPopular,
+    sortOrder: p.sortOrder,
+    createdAt: p.createdAt.toISOString(),
+    updatedAt: p.updatedAt.toISOString(),
+  };
 }
 
 export async function createProgram(
-  data: Omit<ProgramRow, 'id' | 'created_at' | 'updated_at'>
-): Promise<ProgramRow> {
+  data: Omit<Program, 'id' | 'createdAt' | 'updatedAt'>
+): Promise<Program> {
   const prisma = getPrisma();
   const created = await prisma.program.create({
     data: {
       slug: data.slug,
       title: data.title,
-      shortDescription: data.short_description,
-      fullDescription: data.full_description,
+      shortDescription: data.shortDescription,
+      fullDescription: data.fullDescription,
       packages: JSON.stringify(data.packages ?? []),
-      lessonDuration: data.lesson_duration,
-      programDuration: data.program_duration,
+      lessonDuration: data.lessonDuration,
+      programDuration: data.programDuration,
       features: JSON.stringify(data.features ?? []),
-      isPopular: data.is_popular,
-      sortOrder: data.sort_order,
+      isPopular: data.isPopular,
+      sortOrder: data.sortOrder,
     },
   });
 
-  return convertPrismaProgramToRow(created);
+  let packages: Program['packages'] = [];
+  let features: string[] = [];
+
+  try {
+    packages = JSON.parse(created.packages);
+  } catch {
+    packages = [];
+  }
+
+  try {
+    features = JSON.parse(created.features);
+  } catch {
+    features = [];
+  }
+
+  return {
+    id: created.id,
+    slug: created.slug,
+    title: created.title,
+    shortDescription: created.shortDescription,
+    fullDescription: created.fullDescription,
+    packages,
+    lessonDuration: created.lessonDuration,
+    programDuration: created.programDuration,
+    features,
+    isPopular: created.isPopular,
+    sortOrder: created.sortOrder,
+    createdAt: created.createdAt.toISOString(),
+    updatedAt: created.updatedAt.toISOString(),
+  };
 }
 
-export async function updateProgram(data: ProgramRow): Promise<ProgramRow> {
+export async function updateProgram(data: Program): Promise<Program> {
   const prisma = getPrisma();
   const updated = await prisma.program.update({
     where: { id: data.id },
     data: {
       slug: data.slug,
       title: data.title,
-      shortDescription: data.short_description,
-      fullDescription: data.full_description,
+      shortDescription: data.shortDescription,
+      fullDescription: data.fullDescription,
       packages: JSON.stringify(data.packages ?? []),
-      lessonDuration: data.lesson_duration,
-      programDuration: data.program_duration,
+      lessonDuration: data.lessonDuration,
+      programDuration: data.programDuration,
       features: JSON.stringify(data.features ?? []),
-      isPopular: data.is_popular,
-      sortOrder: data.sort_order,
+      isPopular: data.isPopular,
+      sortOrder: data.sortOrder,
     },
   });
 
-  return convertPrismaProgramToRow(updated);
+  let packages: Program['packages'] = [];
+  let features: string[] = [];
+
+  try {
+    packages = JSON.parse(updated.packages);
+  } catch {
+    packages = [];
+  }
+
+  try {
+    features = JSON.parse(updated.features);
+  } catch {
+    features = [];
+  }
+
+  return {
+    id: updated.id,
+    slug: updated.slug,
+    title: updated.title,
+    shortDescription: updated.shortDescription,
+    fullDescription: updated.fullDescription,
+    packages,
+    lessonDuration: updated.lessonDuration,
+    programDuration: updated.programDuration,
+    features,
+    isPopular: updated.isPopular,
+    sortOrder: updated.sortOrder,
+    createdAt: updated.createdAt.toISOString(),
+    updatedAt: updated.updatedAt.toISOString(),
+  };
 }
 
 export async function deleteProgram(id: number): Promise<void> {

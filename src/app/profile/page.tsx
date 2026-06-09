@@ -7,6 +7,7 @@ import { generatePageMetadata } from '@/lib/metadata';
 import { User, ShieldCheck, CheckCircle, XCircle, BookOpenText } from 'lucide-react';
 import { ProfileEditForm } from '../../components/forms/profile-edit-form';
 import { getUserById } from '@/lib/db-prisma';
+import { ROLE_LABELS } from '@/lib/roles';
 import { ClientBalance } from '@/components/sections/client-balance';
 import { PhoneVerification } from '@/components/sections/profile/phone-verification';
 
@@ -28,12 +29,6 @@ export default async function ProfilePage() {
     // Получаем полные данные пользователя из БД
     const userId = parseInt(user.id);
     const dbUser = await getUserById(userId);
-
-    const roleLabels: Record<string, string> = {
-        admin: 'Администратор',
-        manager: 'Менеджер',
-        client: 'Клиент',
-    };
 
     return (
         <div className="relative min-h-screen font-exo2">
@@ -65,7 +60,7 @@ export default async function ProfilePage() {
                                                     <span className="text-white/70">Роль:</span>
                                                 </div>
                                                 <span className="rounded-full bg-brand px-3 py-1 text-xs font-semibold uppercase">
-                                                    {roleLabels[user.role] || user.role}
+                                                    {ROLE_LABELS[user.role as keyof typeof ROLE_LABELS] ?? user.role}
                                                 </span>
                                             </div>
                                         )}
@@ -82,7 +77,7 @@ export default async function ProfilePage() {
                                         <BookOpenText className="h-6 w-6 text-white" />
                                         Моё обучение
                                     </h2>
-                                    <ClientBalance phoneVerified={dbUser?.phone_verified === 1} />
+                                    <ClientBalance phoneVerified={dbUser?.phoneVerified === true} />
                                 </div>
 
                                 {/* Статус верификации */}
@@ -94,7 +89,7 @@ export default async function ProfilePage() {
                                     <div className="space-y-4">
                                         <div className="flex items-center justify-between">
                                             <span className="text-white/70">Email подтверждён:</span>
-                                            {dbUser?.email_verified === 1 ? (
+                                            {dbUser?.emailVerified ? (
                                                 <div className="flex items-center gap-2 text-green-400">
                                                     <CheckCircle className="h-5 w-5" />
                                                     <span className="font-medium">Да</span>
@@ -107,7 +102,7 @@ export default async function ProfilePage() {
                                             )}
                                         </div>
                                         {dbUser?.phone && dbUser.phone !== null && (
-                                           <PhoneVerification phone={dbUser.phone} phoneVerified={dbUser.phone_verified} />
+                                           <PhoneVerification phone={dbUser.phone} phoneVerified={dbUser.phoneVerified} />
                                         )}
                                     </div>
                                 </div>

@@ -3,8 +3,9 @@
 import { auth } from '@/auth'
 import { getUserById, updateUser } from '@/lib/db-prisma'
 import { revalidatePath } from 'next/cache'
+import { ActionResult } from '@/app/actions/types'
 
-export async function updateUserName(name: string): Promise<{ success: boolean; error?: string }> {
+export async function updateUserName(name: string): Promise<ActionResult<void>> {
     try {
         const session = await auth()
         if (!session?.user?.id) {
@@ -24,7 +25,7 @@ export async function updateUserName(name: string): Promise<{ success: boolean; 
 
         revalidatePath('/profile')
         
-        return { success: true }
+        return { success: true, data: undefined }
     } catch (error) {
         console.error('Failed to update user name:', error)
         return { success: false, error: 'Ошибка при обновлении имени' }
@@ -34,7 +35,7 @@ export async function updateUserName(name: string): Promise<{ success: boolean; 
 export async function updateUserProfile(data: {
     name: string | null;
     phone: string | null;
-}): Promise<{ success: boolean; error?: string }> {
+}): Promise<ActionResult<void>> {
     try {
         const session = await auth()
         if (!session?.user?.id) {
@@ -60,25 +61,25 @@ export async function updateUserProfile(data: {
         const updateData: {
             name: string | null;
             phone: string | null;
-            phone_verified?: 0;
-            phone_verify_code?: null;
-            phone_code_expires?: null;
+            phoneVerified?: false;
+            phoneVerifyCode?: null;
+            phoneCodeExpires?: null;
         } = {
             name: data.name,
             phone: data.phone,
         };
 
         if (data.phone !== user.phone) {
-            updateData.phone_verified = 0;
-            updateData.phone_verify_code = null;
-            updateData.phone_code_expires = null;
+            updateData.phoneVerified = false;
+            updateData.phoneVerifyCode = null;
+            updateData.phoneCodeExpires = null;
         }
 
         await updateUser(userId, updateData)
 
         revalidatePath('/profile')
         
-        return { success: true }
+        return { success: true, data: undefined }
     } catch (error) {
         console.error('Failed to update user profile:', error)
         return { success: false, error: 'Ошибка при обновлении профиля' }

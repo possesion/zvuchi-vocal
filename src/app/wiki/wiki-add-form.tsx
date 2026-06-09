@@ -5,11 +5,11 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { ImagePlus } from 'lucide-react';
 import { WikiTermForm, type WikiTermFormData } from '@/components/wiki/wiki-term-form';
-import type { WikiCategoryRow, InstructorRow } from '@/lib/types';
+import type { WikiCategoryRow, Instructor } from '@/lib/types';
 
 interface WikiAddFormProps {
     categories: WikiCategoryRow[];
-    instructors: InstructorRow[];
+    instructors: Instructor[];
 }
 
 export const WikiAddForm = ({ categories, instructors }: WikiAddFormProps) => {

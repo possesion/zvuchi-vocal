@@ -6,14 +6,14 @@ import { useForm, useFieldArray } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { ProgramSchema, ProgramForm } from '@/lib/definitions';
 import { updateProgramAction } from '@/app/actions/programs';
-import { ProgramRow } from '@/lib/types';
+import { Program } from '@/lib/types';
 import { Trash2 } from 'lucide-react';
 
 const inputCls = 'w-full rounded-md bg-zinc-800 px-3 py-2 text-white outline-none ring-1 ring-white/10 focus:ring-purple-500';
 const inputErrorCls = 'w-full rounded-md bg-zinc-800 px-3 py-2 text-white outline-none ring-1 ring-red-500';
 
 interface ProgramEditFormProps {
-    program: ProgramRow;
+    program: Program;
 }
 
 export function ProgramEditForm({ program }: ProgramEditFormProps) {
@@ -32,14 +32,14 @@ export function ProgramEditForm({ program }: ProgramEditFormProps) {
         resolver: yupResolver(ProgramSchema),
         defaultValues: {
             title: program.title,
-            short_description: program.short_description,
-            full_description: program.full_description,
+            short_description: program.shortDescription,
+            full_description: program.fullDescription,
             packages: program.packages,
-            lesson_duration: program.lesson_duration,
-            program_duration: program.program_duration,
+            lesson_duration: program.lessonDuration,
+            program_duration: program.programDuration,
             features: program.features.join('\n'),
-            is_popular: program.is_popular,
-            sort_order: program.sort_order,
+            is_popular: program.isPopular,
+            sort_order: program.sortOrder,
         },
     });
 

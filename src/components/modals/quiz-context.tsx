@@ -1,10 +1,12 @@
 'use client';
 
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { createContext, useContext, useState, ReactNode } from 'react';
 import { trackEvent } from '@/hooks/use-yandex-metrica';
-import { formatPhoneNumber } from '@/lib/format';
 import { EXPERIENCE_OPTIONS, GENRE_OPTIONS, MOTIVATION_OPTIONS } from './constants';
 import { useUI } from '@/components/providers/ui-context';
+import { useQuizAnalytics } from '@/hooks/use-quiz-analytics';
+import { useContactForm } from '@/hooks/useContactForm';
+import { submitQuizAction } from '@/app/actions/quiz';
 
 export type QuizAnswers = {
     experience: string;
@@ -49,45 +51,11 @@ export function QuizProvider({ children, onClose }: { children: ReactNode; onClo
     const [isOpen, setIsOpen] = useState(false);
     const [step, setStep] = useState(1);
     const [quizAnswers, setQuizAnswers] = useState<QuizAnswers>({ experience: '', genre: '', motivation: '' });
-    const [formData, setFormData] = useState({ name: '', phone: '' });
-    const [isAgreed, setIsAgreed] = useState(false);
     const [offeraIsOpen, setOfferaIsOpen] = useState(false);
-    const trackedStepsKey = 'quiz_tracked_steps';
 
-    const getTrackedSteps = (): Set<number> => {
-        try {
-            const raw = sessionStorage.getItem(trackedStepsKey);
-            return raw ? new Set(JSON.parse(raw) as number[]) : new Set();
-        } catch {
-            return new Set();
-        }
-    };
+    const { formData, isAgreed, setIsAgreed, handleChange, handleValidate, reset } = useContactForm();
 
-    const addTrackedStep = (step: number) => {
-        try {
-            const steps = getTrackedSteps();
-            steps.add(step);
-            sessionStorage.setItem(trackedStepsKey, JSON.stringify([...steps]));
-        } catch {
-            console.error('Ошибка при получении данных о прохождении опроса');
-        }
-    };
-
-    useEffect(() => {
-        if (step < 2) return;
-        if (getTrackedSteps().has(step)) return;
-        const eventNames: Record<number, string> = {
-            2: 'quiz_step_2_genre',
-            3: 'quiz_step_3_motivation',
-            4: 'quiz_step_4_contact',
-        };
-        const eventName = eventNames[step];
-        if (eventName) {
-            trackEvent(eventName, quizAnswers);
-            addTrackedStep(step);
-        }
-    }, [step, isOpen]); // eslint-disable-line react-hooks/exhaustive-deps
-
+    useQuizAnalytics(step, isOpen, quizAnswers);
 
     const handleOpen = () => {
         trackEvent('open_quiz_modal');
@@ -109,51 +77,37 @@ export function QuizProvider({ children, onClose }: { children: ReactNode; onClo
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            const emailData = {
-                ...formData,
-                formType: 'quiz',
-                quizAnswers: {
-                    experience: EXPERIENCE_OPTIONS.find((o) => o.value === quizAnswers.experience)?.label || '',
-                    genre: quizAnswers.genre === 'other'
-                        ? quizAnswers.genreOther || 'Другое'
-                        : GENRE_OPTIONS.find((o) => o.value === quizAnswers.genre)?.label || '',
-                    motivation: quizAnswers.motivation === 'other'
-                        ? quizAnswers.motivationOther || 'Другое'
-                        : MOTIVATION_OPTIONS.find((o) => o.value === quizAnswers.motivation)?.label || '',
-                },
+            const resolvedAnswers = {
+                experience: EXPERIENCE_OPTIONS.find((o) => o.value === quizAnswers.experience)?.label || '',
+                genre: quizAnswers.genre === 'other'
+                    ? quizAnswers.genreOther || 'Другое'
+                    : GENRE_OPTIONS.find((o) => o.value === quizAnswers.genre)?.label || '',
+                motivation: quizAnswers.motivation === 'other'
+                    ? quizAnswers.motivationOther || 'Другое'
+                    : MOTIVATION_OPTIONS.find((o) => o.value === quizAnswers.motivation)?.label || '',
             };
 
-            const response = await fetch('/api/send-mail', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(emailData),
+            const result = await submitQuizAction({
+                name: formData.name,
+                phone: formData.phone,
+                formType: 'quiz',
+                quizAnswers: resolvedAnswers,
             });
-            const result = await response.json();
 
-            if (response.ok) {
-                trackEvent('quiz_form')
+            if (result.success) {
+                trackEvent('quiz_form');
                 notify('Спасибо! Мы свяжемся с вами в ближайшее время.', 'success');
-                setFormData({ name: '', phone: '' });
+                reset();
                 setQuizAnswers({ experience: '', genre: '', motivation: '' });
-                setIsAgreed(false);
                 setStep(1);
                 setTimeout(handleClose, 2000);
             } else {
-                notify(result.error || 'Произошла ошибка при отправке заявки. Попробуйте позже.', 'error');
+                notify(result.error, 'error');
             }
         } catch (error) {
             console.error('Ошибка при отправке:', error);
             notify('Произошла ошибка при отправке заявки. Попробуйте позже.', 'error');
         }
-    };
-
-    const handleValidate = (text: string) => (e: React.FormEvent<HTMLInputElement>) => {
-        e.currentTarget.setCustomValidity(text);
-    };
-
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-        setFormData({ ...formData, [name]: name === 'phone' ? formatPhoneNumber(value) : value });
     };
 
     const canProceed = (): boolean => {
