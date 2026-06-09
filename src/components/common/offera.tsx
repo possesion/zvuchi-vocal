@@ -155,7 +155,7 @@ export const Offera: FC<OfferaProps> = ({ children, document }) => {
                             ❌ {error}
                         </div>
                     ) : (
-                        <div className="relative bg-white">
+                        <div className="relative bg-white text-black">
                             {renderContent()}
                             <div
                                 ref={endMarkerRef}
