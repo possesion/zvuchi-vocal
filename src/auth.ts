@@ -46,6 +46,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
                 token.phone = dbUser.phone
                 token.emailVerified = dbUser.email_verified === 1
                 token.role = dbUser.role as UserRole
+                // Устанавливаем долгий срок жизни для Google OAuth (6 месяцев)
+                // JWT токен автоматически обновится при активности
                 return token
             }
 

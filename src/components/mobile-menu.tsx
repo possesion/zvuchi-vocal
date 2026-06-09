@@ -54,14 +54,21 @@ export default function MobileMenu() {
                     <div className='h-5/6 flex flex-col justify-between'>
                         <nav className="flex flex-col space-y-4 px-2 py-2 text-2xl font-exo2">
                             <div className='pb-3 flex justify-between border-b-2 border-white/90'>
-                                 <Link
-                                href="/profile"
-                                className="flex items-center hover:text-red-400"
-                                onClick={handleLinkClick}
-                            >
-                                Профиль
-                            </Link>
-                            <UserAvatar className='flex items-center md:hidden' />
+                                {isAuthorized ? (<>
+                                    <Link
+                                        href="/profile"
+                                        className="flex items-center hover:text-red-400"
+                                        onClick={handleLinkClick}
+                                    >
+                                        Профиль
+                                    </Link>
+                                    <UserAvatar className='flex items-center md:hidden' />
+                                </>) : <Link
+                                    href="/login"
+                                    className="flex items-center hover:text-red-400"
+                                >
+                                    Войти
+                                </Link>}
                             </div>
                             <Link
                                 href="/"

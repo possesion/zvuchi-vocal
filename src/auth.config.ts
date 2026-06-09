@@ -29,7 +29,7 @@ declare module 'next-auth' {
 export const authConfig: NextAuthConfig = {
     session: {
         strategy: 'jwt',
-        maxAge: 60 * 60 * 24, // 1 день по умолчанию (без "запомнить меня")
+        maxAge: 60 * 60 * 24 * 180, // 180 дней (~6 месяцев) для Google OAuth
     },
     pages: {
         signIn: '/login',
