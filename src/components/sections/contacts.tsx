@@ -3,13 +3,6 @@
 import { trackEvent } from '@/hooks/use-yandex-metrica'
 
 export const Contacts = () => {
-    // const handlePhoneClick = () => {
-    //     trackPhoneClick();
-    // };
-
-    // const handleEmailClick = () => {
-    //     trackEvent('email_click');
-    // };
 
     const handleMapClick = () => {
         trackEvent('map_click');
@@ -18,71 +11,6 @@ export const Contacts = () => {
     return (
         <section id="contacts" className="mx-auto bg-muted/30 py-8 text-white lg:py-12">
             <div className="grid grid-cols-1 gap-8 md:gap-12 lg:grid-cols-2">
-                {/* Контактная информация */}
-                {/* <div className="col-span-2 flex flex-col items-center justify-center gap-x-8 sm:flex-row xl:col-span-2">
-                    <address className="flex w-60 flex-col items-center not-italic">
-                        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary/10">
-                            <MapPin
-                                color="white"
-                                className="h-6 w-6 text-primary"
-                            />
-                        </div>
-                        <h3 className="mb-2 text-lg font-semibold">Адрес</h3>
-                        <p className="text-muted-foreground">
-                            Ленинградский проспект, д. &nbsp;34
-                            <br />
-                            Москва, 125040
-                        </p>
-                    </address>
-
-                    <div className="flex w-60 flex-col items-center">
-                        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary/10">
-                            <Phone
-                                color="white"
-                                className="h-6 w-6 text-primary"
-                            />
-                        </div>
-                        <h3 className="mb-2 text-lg font-semibold">Телефон</h3>
-                        <p className="text-muted-foreground">
-                            <a
-                                href="tel:+79779675001"
-                                onClick={handlePhoneClick}
-                                className="transition-colors hover:text-primary"
-                            >
-                                +7 (977) 967-50-01
-                            </a>
-                            <br />
-                            <a
-                                href="tel:+79851266605"
-                                onClick={handlePhoneClick}
-                                className="transition-colors hover:text-primary"
-                            >
-                                +7 (985) 126-66-05
-                            </a>
-                        </p>
-                    </div>
-
-                    <div className="flex w-60 flex-col items-center">
-                        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary/10">
-                            <Mail
-                                color="white"
-                                className="h-6 w-6 text-primary"
-                            />
-                        </div>
-                        <h3 className="mb-2 text-lg font-semibold">
-                            Электронная&nbsp;почта
-                        </h3>
-                        <p className="text-muted-foreground">
-                            <a
-                                href={`mailto:${ORGANIZATION_EMAIL}`}
-                                onClick={handleEmailClick}
-                                className="transition-colors hover:text-primary"
-                            >
-                                {ORGANIZATION_EMAIL}
-                            </a>
-                        </p>
-                    </div>
-                </div> */}
 
                 {/* Схема проезда */}
                 <div className="col-span-2 m-auto h-[500px] w-[335px] space-y-3 rounded-sm border border-brand bg-background p-2 md:w-[450px] md:h-[600px] lg:col-span-1 lg:space-y-6 xl:h-[600px] xl:w-[500px]">

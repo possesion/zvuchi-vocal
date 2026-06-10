@@ -33,7 +33,6 @@ function FaqItem({ question, answer }: { question: string; answer: string }) {
 
 export function Faq() {
     return (
-        // group relative flex w-full shrink-0 flex-col rounded-sm bg-black/85 p-6 shadow-md brightness-96 md:flex-row
         <section className="mt-16">
             <h2 className="mb-10 text-center text-3xl font-bold tracking-tight text-white md:text-4xl xl:text-5xl">
                 Частые вопросы

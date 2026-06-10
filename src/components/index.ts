@@ -22,6 +22,3 @@ export { PlatformDialog } from './modals/platform-dialog'
 export { Snackbar } from './common/snackbar'
 export { Input } from './common/input'
 export { LoadingSpinner } from './common/loading-spinner'
-
-// Mobile menu
-// export { MobileMenu } from './mobile-menu'

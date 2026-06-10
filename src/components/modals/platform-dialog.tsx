@@ -1,7 +1,7 @@
 import { Dialog } from 'radix-ui'
 import { VisuallyHidden } from '@radix-ui/themes';
 import { Dispatch, FC, ReactNode, SetStateAction } from 'react'
-import 'react-image-gallery/styles/css/image-gallery.css'
+// import 'react-image-gallery/styles/css/image-gallery.css'
 
 interface PlatformDialogProps {
     children: ReactNode
