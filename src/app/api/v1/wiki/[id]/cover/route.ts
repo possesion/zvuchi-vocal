@@ -18,8 +18,8 @@ export async function POST(req: NextRequest, props: { params: Promise<{ id: stri
     if (!ALLOWED_TYPES.includes(file.type)) return NextResponse.json({ success: false, error: 'Invalid file type', timestamp: new Date() }, { status: 400 });
     if (file.size > MAX_SIZE) return NextResponse.json({ success: false, error: 'File too large (max 5MB)', timestamp: new Date() }, { status: 400 });
 
-    if (term.cover_url) {
-        const oldFileName = term.cover_url.split('/').pop();
+    if (term.coverUrl) {
+        const oldFileName = term.coverUrl.split('/').pop();
         if (oldFileName) await deleteImage(oldFileName, S3Prefix.wikiCovers).catch(() => {});
     }
 
@@ -27,7 +27,7 @@ export async function POST(req: NextRequest, props: { params: Promise<{ id: stri
     const fileName = `${decodedId}-${Date.now()}.${ext}`;
     const url = await uploadImage(Buffer.from(await file.arrayBuffer()), fileName, file.type, S3Prefix.wikiCovers);
 
-    await upsertTerm({ ...term, cover_url: url });
+    await upsertTerm({ ...term, coverUrl: url });
     return NextResponse.json({ success: true, data: { url }, timestamp: new Date() });
 }
 
@@ -37,11 +37,11 @@ export async function DELETE(_req: NextRequest, props: { params: Promise<{ id: s
     const term = await getTermById(decodedId);
     if (!term) return NextResponse.json({ success: false, error: 'Not found', timestamp: new Date() }, { status: 404 });
 
-    if (term.cover_url) {
-        const fileName = term.cover_url.split('/').pop();
+    if (term.coverUrl) {
+        const fileName = term.coverUrl.split('/').pop();
         if (fileName) await deleteImage(fileName, S3Prefix.wikiCovers).catch(() => {});
     }
 
-    await upsertTerm({ ...term, cover_url: '' });
+    await upsertTerm({ ...term, coverUrl: '' });
     return NextResponse.json({ success: true, data: { success: true }, timestamp: new Date() });
 }

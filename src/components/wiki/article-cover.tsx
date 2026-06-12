@@ -43,10 +43,7 @@ export function ArticleCover({ src, alt }: ArticleCoverProps) {
                     >
                         <X className="h-6 w-6" />
                     </button>
-                    <div
-                        className="relative max-h-[90vh] max-w-[90vw]"
-                        onClick={(e) => e.stopPropagation()}
-                    >
+                    <div className="relative max-h-[90vh] max-w-[90vw]">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                             src={src}

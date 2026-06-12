@@ -5,7 +5,6 @@ import cn from 'classnames'
 import { Program } from "../common/program";
 import { QuizModal } from "../modals/quiz-modal";
 import { useEffect, useState } from "react";
-import { useRouter } from 'next/navigation';
 import { Trash2 } from 'lucide-react';
 import { FirstLessonCard } from "@/components/sections/first-lesson-card";
 import { AlertDialog } from "@/components/common/alert-dialog/alert-dialog";
@@ -17,7 +16,6 @@ interface ProgramsProps {
 }
 
 export const Programs = ({ programs = [], isAuthorized = false }: ProgramsProps) => {
-  const router = useRouter();
   const [open, setOpen] = useState(false);
   const [deleteTarget, setDeleteTarget] = useState<number | null>(null);
   const [deleting, setDeleting] = useState(false);
@@ -33,7 +31,6 @@ export const Programs = ({ programs = [], isAuthorized = false }: ProgramsProps)
     try {
       const { deleteProgramAction } = await import('@/app/actions/programs');
       await deleteProgramAction(deleteTarget);
-      router.refresh();
     } finally {
       setDeleting(false);
       setDeleteTarget(null);
@@ -49,11 +46,11 @@ export const Programs = ({ programs = [], isAuthorized = false }: ProgramsProps)
       />
       <div className="flex flex-col flex-nowrap space-y-4 pt-1">
         <FirstLessonCard onEnroll={() => setOpen(true)} />
-        {programs.map((program, index) => (
-          <div key={program.id} className="relative">
+        {programs.map(({ id, shortDescription, packages, title, slug }) => (
+          <div key={id} className="relative">
             {isAuthorized && (
               <button
-                onClick={() => setDeleteTarget(program.id)}
+                onClick={() => setDeleteTarget(id)}
                 className="absolute right-2 top-2 z-10 rounded-full bg-black/60 p-1.5 text-white transition-colors hover:bg-red-600"
                 aria-label="Удалить абонемент"
               >
@@ -61,12 +58,11 @@ export const Programs = ({ programs = [], isAuthorized = false }: ProgramsProps)
               </button>
             )}
             <Program 
-              description={program.shortDescription}
-              features={program.packages.length > 0 ? [`От ${program.packages[0].lessons_count} занятий`] : []}
-              title={program.title} 
-              number={index + 1} 
-              price={program.packages.length > 0 ? formatPrice(program.packages[0].price) : 'Цена не указана'}
-              slug={program.slug}
+              description={shortDescription}
+              features={packages.length > 0 ? [`От ${packages[0].lessons_count} занятий`] : []}
+              title={title} 
+              price={packages.length > 0 ? formatPrice(packages[0].price) : 'Цена не указана'}
+              slug={slug}
             />
           </div>
         ))}

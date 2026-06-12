@@ -1,11 +1,12 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
 import 'swiper/css/navigation';
 import 'swiper/css';
 import { SHORTS } from '@/app/constants';
+import { LazyIframe } from './lazy-iframe';
 
 const breakpoints = {
     320: { slidesPerView: 1 },
@@ -13,43 +14,6 @@ const breakpoints = {
     1024: { slidesPerView: 4 },
 };
 
-// Рендерит iframe только когда слайд входит в зону видимости
-function LazyIframe({ src, title }: { src: string; title: string }) {
-    const ref = useRef<HTMLDivElement>(null);
-    const [isVisible, setIsVisible] = useState(false);
-
-    useEffect(() => {
-        const el = ref.current;
-        if (!el) return;
-
-        const observer = new IntersectionObserver(
-            ([entry]) => {
-                if (entry.isIntersecting) {
-                    setIsVisible(true);
-                    observer.disconnect();
-                }
-            },
-            { rootMargin: '200px' }
-        );
-
-        observer.observe(el);
-        return () => observer.disconnect();
-    }, []);
-
-    return (
-        <div ref={ref} className="w-full h-full">
-            {isVisible && (
-                <iframe
-                    src={src}
-                    className="w-full h-full rounded-sm border-none"
-                    allow="clipboard-write"
-                    allowFullScreen
-                    title={title}
-                />
-            )}
-        </div>
-    );
-}
 
 export const Shorts = ({ isAuthorized = false }: { isAuthorized?: boolean }) => {
     const [urls, setUrls] = useState<string[]>(SHORTS);

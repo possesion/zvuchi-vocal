@@ -3,6 +3,7 @@
 import { TouchEvent, useEffect, useState } from 'react'
 import Image from 'next/image'
 import { Dialog } from 'radix-ui'
+import { ChevronLeft, ChevronRight, ChevronsRight, Trash2 } from 'lucide-react'
 import 'react-image-gallery/styles/css/image-gallery.css'
 import { Shorts } from '../common/shorts'
 import { GalleryUploader } from './gallery-uploader'
@@ -47,15 +48,10 @@ export const Gallery = ({ isAuthorized = false }: { isAuthorized?: boolean }) =>
         gallery.scrollLeft = scrollStart - (e.clientX - dragStart)
     }
 
-    const handleMouseUp = (e: React.MouseEvent) => {
-        setIsDragging(false);
-        (e.currentTarget as HTMLElement).style.cursor = 'grab'
-    }
 
-    const handleMouseLeave = (e: React.MouseEvent) => {
+    const handleMouseLeave = () => {
         if (isDragging) {
             setIsDragging(false);
-            (e.currentTarget as HTMLElement).style.cursor = 'grab'
         }
     }
 
@@ -71,9 +67,9 @@ export const Gallery = ({ isAuthorized = false }: { isAuthorized?: boolean }) =>
                 const newPhotos = (data.urls as string[]).map((src, i) => ({
                     src,
                     alt: `concert-new-${i + 1}`,
-                    fileName: src.split('/').pop() ?? `new-${i}`,
+                    fileName: src.split('/').pop() ?? 'unknown',
                 }))
-                setImages([...newPhotos])
+                setImages(newPhotos)
             })
             .catch((error) => console.error('Ошибка загрузки фотографий', error.message))
     }, [])
@@ -94,7 +90,7 @@ export const Gallery = ({ isAuthorized = false }: { isAuthorized?: boolean }) =>
                 headers: { 'Content-Type': 'application/json', Authorization: 'authorized' },
                 body: JSON.stringify({ fileName: deleteTarget.fileName }),
             })
-            setImages((prev) => prev.filter((img) => img.fileName !== deleteTarget.fileName))
+            setImages((prev) => prev.filter(({ fileName }) => fileName !== deleteTarget.fileName))
         } finally {
             setIsDeleting(false)
             setDeleteTarget(null)
@@ -112,18 +108,16 @@ export const Gallery = ({ isAuthorized = false }: { isAuthorized?: boolean }) =>
                 <div className="absolute -top-2 right-4 z-10 flex items-center gap-2 rounded-sm bg-white/10 px-4 py-2 backdrop-blur-md">
                     <span className="text-sm font-medium text-white/90">Прокрути</span>
                     <div className="flex gap-1">
-                        <svg className="h-5 w-5 animate-[swipe_2s_ease-in-out_infinite] text-white/80" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 5l7 7-7 7M5 5l7 7-7 7" />
-                        </svg>
+                        <ChevronsRight className="h-5 w-5 animate-[swipe_2s_ease-in-out_infinite] text-white/80" />
                     </div>
                 </div>
                 <div
-                    className="gallery-scroll flex space-x-4 overflow-x-auto pb-4 whitespace-nowrap scrollbar-hide no-scrollbar select-none cursor-grab"
+                    className="gallery-scroll flex space-x-4 overflow-x-auto pb-4 whitespace-nowrap scrollbar-hide no-scrollbar select-none active:cursor-grab"
                     role="region"
                     aria-label="Галерея фотографий концертов"
                     onMouseDown={handleMouseDown}
                     onMouseMove={handleMouseMove}
-                    onMouseUp={handleMouseUp}
+                    onMouseUp={handleMouseLeave}
                     onMouseLeave={handleMouseLeave}
                 >
                     {images?.map((image, index) => (
@@ -176,14 +170,10 @@ export const Gallery = ({ isAuthorized = false }: { isAuthorized?: boolean }) =>
                                             {images.length > 1 && (
                                                 <>
                                                     <button onClick={prevImage} className="absolute left-4 top-1/2 -translate-y-1/2 transform rounded-full bg-black/50 p-3 text-white transition-colors hover:bg-black/70" aria-label="Предыдущее изображение">
-                                                        <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                                                        </svg>
+                                                        <ChevronLeft />
                                                     </button>
                                                     <button onClick={nextImage} className="absolute right-4 top-1/2 -translate-y-1/2 transform rounded-full bg-black/50 p-3 text-white transition-colors hover:bg-black/70" aria-label="Следующее изображение">
-                                                        <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                                                        </svg>
+                                                        <ChevronRight />
                                                     </button>
                                                 </>
                                             )}
@@ -197,12 +187,10 @@ export const Gallery = ({ isAuthorized = false }: { isAuthorized?: boolean }) =>
                             {isAuthorized && (
                                 <button
                                     onClick={(e) => { e.stopPropagation(); setDeleteTarget(image) }}
-                                    className="absolute right-2 top-2 z-20 rounded-full bg-black/60 p-1.5 text-white transition-colors hover:bg-red-600"
+                                    className="absolute right-2 top-2 z-2 rounded-full bg-black/60 p-1.5 text-white transition-colors hover:bg-red-600"
                                     aria-label={`Удалить изображение ${image.alt}`}
                                 >
-                                    <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                                    </svg>
+                                    <Trash2 className="h-4 w-4" />
                                 </button>
                             )}
                         </div>

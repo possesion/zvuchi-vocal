@@ -8,7 +8,6 @@ import { trackEvent } from '@/hooks/use-yandex-metrica';
 
 interface ProgramProps {
     title: string;
-    number: string | number;
     features: string[];
     description: string;
     price: string;
@@ -34,9 +33,6 @@ export const Program: FC<ProgramProps> = ({ description, title, price, originalP
             ref={ref}
         >
             <div className="flex w-20">
-                {/* <div className="hidden font-bold text-white/50 md:text-8xl md:block" aria-hidden="true">
-                    {number}
-                </div> */}
             </div>
             <div className="">
                 <h3 className="mb-4 block text-2xl font-bold xl:text-4xl">{title}</h3>

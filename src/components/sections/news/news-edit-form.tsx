@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import { ImagePlus } from 'lucide-react';
-import { newsInputCls } from './news.utils';
+import { newsInputCls } from './utils';
 import { NewsArticle } from '@/lib/types';
 
 interface NewsEditFormProps {

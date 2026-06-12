@@ -34,8 +34,8 @@ export interface WikiTermRow {
     description: string;
     category: string;
     author: string;
-    cover_url: string;
-    updated_at: string;
+    coverUrl: string;
+    updatedAt: string;
 }
 
 export interface WikiCategoryRow {

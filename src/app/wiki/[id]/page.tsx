@@ -71,8 +71,8 @@ export default async function WikiTermPage({ params }: WikiTermPageProps) {
                                         {categoryMap[term.category] ?? term.category}
                                     </span>
                                 </div>
-                                {term.cover_url && (
-                                    <ArticleCover src={term.cover_url} alt={term.title} />
+                                {term.coverUrl && (
+                                    <ArticleCover src={term.coverUrl} alt={term.title} />
                                 )}
                                 <h1 className="mb-6 text-3xl font-bold text-white md:text-5xl">
                                     {term.title}

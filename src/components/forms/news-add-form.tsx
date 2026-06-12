@@ -7,7 +7,7 @@ import { ImagePlus } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { NewsSchema, NewsForm } from '@/lib/definitions';
-import { newsInputCls } from '@/components/sections/news/news.utils';
+import { newsInputCls } from '@/components/sections/news/utils';
 
 export function NewsAddForm() {
     const router = useRouter();

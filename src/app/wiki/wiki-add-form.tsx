@@ -45,9 +45,9 @@ export const WikiAddForm = ({ categories, instructors }: WikiAddFormProps) => {
             const created = await res.json();
 
             if (coverFile && created.id) {
-                const fd = new FormData();
-                fd.append('file', coverFile);
-                await fetch(`/api/v1/wiki/${encodeURIComponent(created.id)}/cover`, { method: 'POST', body: fd });
+                const form = new FormData();
+                form.append('file', coverFile);
+                await fetch(`/api/v1/wiki/${encodeURIComponent(created.id)}/cover`, { method: 'POST', body: form });
             }
 
             setForm({ title: '', description: '', category: categories[0]?.id ?? '', author: '' });
@@ -90,7 +90,7 @@ export const WikiAddForm = ({ categories, instructors }: WikiAddFormProps) => {
                 >
                     {coverPreview
                         ? <Image src={coverPreview} alt="cover preview" fill className="object-cover" />
-                        : <div className="text-center text-white/40"><ImagePlus className="mx-auto mb-1 h-6 w-6" /><p className="text-xs">JPG, PNG, WebP до 5MB</p></div>
+                        : <div className="text-center text-white/40"><ImagePlus className="mx-auto mb-1 h-6 w-6" /><p className="text-xs">JPG, PNG, WebP до 1MB</p></div>
                     }
                 </div>
                 <input ref={coverInputRef} type="file" accept="image/jpeg,image/png,image/webp" onChange={handleCoverChange} className="hidden" />

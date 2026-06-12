@@ -14,11 +14,6 @@ import { AlertDialog } from '@/components/common/alert-dialog/alert-dialog';
 
 type FormData = Omit<Instructor, 'id'>;
 
-const emptyForm = (): FormData => ({
-    name: '', specialty: '', feature: '', experience: '',
-    bio: '', image: '', video: '', sortOrder: 0,
-    slug: '', presentationVideo: '', performanceVideos: [], techniques: [],
-});
 
 // ─── Photo uploader ───────────────────────────────────────────────────────────
 
@@ -46,7 +41,7 @@ function PhotoPicker({ currentUrl, onUploaded }: { currentUrl: string; onUploade
 // ─── Inline form ──────────────────────────────────────────────────────────────
 
 interface InstructorFormProps {
-    initial: FormData;
+    initial?: Omit<Instructor, 'id'>;
     onSave: (data: FormData) => Promise<void>;
     onCancel: () => void;
     title: string;
@@ -62,18 +57,18 @@ function InstructorFormComponent({ initial, onSave, onCancel, title }: Instructo
     } = useForm<InstructorForm>({
         resolver: yupResolver(InstructorSchema),
         defaultValues: {
-            name: initial.name,
-            specialty: initial.specialty,
-            feature: initial.feature,
-            experience: initial.experience,
-            bio: initial.bio,
-            image: initial.image,
-            video: initial.video,
-            sortOrder: initial.sortOrder,
-            slug: initial.slug,
-            presentationVideo: initial.presentationVideo,
-            performanceVideos: initial.performanceVideos.join('\n'),
-            techniques: initial.techniques,
+            name: initial?.name,
+            specialty: initial?.specialty,
+            feature: initial?.feature,
+            experience: initial?.experience,
+            bio: initial?.bio,
+            image: initial?.image,
+            video: initial?.video,
+            sortOrder: initial?.sortOrder,
+            slug: initial?.slug,
+            presentationVideo: initial?.presentationVideo,
+            performanceVideos: initial?.performanceVideos.join('\n'),
+            techniques: initial?.techniques,
         },
     });
 
@@ -207,7 +202,7 @@ export function InstructorManager({ instructors }: InstructorManagerProps) {
             ) : (
             <InstructorFormComponent
                     title="Новый педагог"
-                    initial={emptyForm()}
+                    // initial={emptyForm()}
                     onSave={handleAdd}
                     onCancel={() => setAdding(false)}
                 />

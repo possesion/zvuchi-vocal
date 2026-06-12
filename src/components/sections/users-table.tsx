@@ -11,10 +11,12 @@ interface UsersTableProps {
     currentUserId: string
 }
 
+const USER_FIELDS = ['Email', 'Роль', 'Статус', 'Дата регистрации', ''];
+
 export function UsersTable({ users, currentUserId }: UsersTableProps) {
     const router = useRouter()
     const [loadingId, setLoadingId] = useState<number | null>(null)
-    const [deleteTarget, setDeleteTarget] = useState<AppUser | null>(null)
+    const [deleteTarget, setDeleteTarget] = useState<{ id: number, email: string } | null>(null)
     const [deleting, setDeleting] = useState(false)
 
     const handleRoleChange = async (userId: number, role: UserRole) => {
@@ -55,34 +57,30 @@ export function UsersTable({ users, currentUserId }: UsersTableProps) {
                 <table className="w-full text-sm text-white">
                     <thead>
                         <tr className="border-b border-white/10 text-white/50">
-                            <th className="px-4 py-3 text-left">Email</th>
-                            <th className="px-4 py-3 text-left">Роль</th>
-                            <th className="px-4 py-3 text-left">Статус</th>
-                            <th className="px-4 py-3 text-left">Дата регистрации</th>
-                            <th className="px-4 py-3 text-left"></th>
+                            {USER_FIELDS.map((field) => <th key={field} className="px-4 py-3 text-left">{field}</th>)}
                         </tr>
                     </thead>
                     <tbody>
-                        {users.map((user) => {
-                            const isSelf = String(user.id) === currentUserId
-                            const isLoading = loadingId === user.id
+                        {users.map(({ id, createdAt, email, emailVerified, role }) => {
+                            const currentUser = String(id) === currentUserId
+                            const isLoading = loadingId === id
 
                             return (
                                 <tr
-                                    key={user.id}
+                                    key={id}
                                     className="border-b border-white/5 hover:bg-white/5 transition-colors"
                                 >
-                                    <td className="px-4 py-3">{user.email}</td>
+                                    <td className="px-4 py-3">{email}</td>
                                     <td className="px-4 py-3">
-                                        {isSelf ? (
-                                            <span className={`rounded px-2 py-0.5 text-xs font-medium ${ROLE_COLORS[user.role]}`}>
-                                                {ROLE_LABELS[user.role]}
+                                        {currentUser ? (
+                                            <span className={`rounded px-2 py-0.5 text-xs font-medium ${ROLE_COLORS[role]}`}>
+                                                {ROLE_LABELS[role]}
                                             </span>
                                         ) : (
                                             <select
-                                                value={user.role}
+                                                value={role}
                                                 disabled={isLoading}
-                                                onChange={(e) => handleRoleChange(user.id, e.target.value as UserRole)}
+                                                onChange={(e) => handleRoleChange(id, e.target.value as UserRole)}
                                                 className="rounded bg-zinc-800 px-2 py-0.5 text-xs text-white ring-1 ring-white/10 focus:outline-none focus:ring-purple-500 disabled:opacity-50"
                                             >
                                                 <option value="client">Клиент</option>
@@ -92,21 +90,21 @@ export function UsersTable({ users, currentUserId }: UsersTableProps) {
                                         )}
                                     </td>
                                     <td className="px-4 py-3">
-                                        {user.emailVerified ? (
+                                        {emailVerified ? (
                                             <span className="text-green-400">✓ Подтверждён</span>
                                         ) : (
                                             <span className="text-yellow-400">⏳ Ожидает</span>
                                         )}
                                     </td>
                                     <td className="px-4 py-3 text-white/50">
-                                        {new Date(user.createdAt).toLocaleDateString('ru-RU')}
+                                        {new Date(createdAt).toLocaleDateString('ru-RU')}
                                     </td>
                                     <td className="px-4 py-3">
                                         <button
-                                            onClick={() => setDeleteTarget(user)}
-                                            disabled={isSelf}
+                                            onClick={() => setDeleteTarget({ id, email })}
+                                            disabled={currentUser}
                                             className="inline-flex items-center gap-1 rounded px-2 py-1 text-xs font-medium text-red-400 hover:bg-red-500/10 disabled:cursor-not-allowed disabled:opacity-30 transition-colors"
-                                            title={isSelf ? 'Нельзя удалить собственный аккаунт' : 'Удалить'}
+                                            title={currentUser ? 'Нельзя удалить собственный аккаунт' : 'Удалить'}
                                         >
                                             <Trash2 className="h-3.5 w-3.5" />
                                             Удалить

@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { getLatestNews, createNews, deleteNews, getNewsById, updateNews } from '@/lib/db-prisma';
 import { apiOk, apiError } from '@/lib/api-response';
 import type { ApiResponse } from '@/types/api';
@@ -37,6 +38,7 @@ export async function PATCH(req: NextRequest): Promise<NextResponse<ApiResponse<
         coverUrl: cover_url ?? existing.coverUrl,
         publishedAt: published_at ?? existing.publishedAt,
     });
+    revalidatePath('/');
     return apiOk(updated);
 }
 

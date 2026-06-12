@@ -14,6 +14,6 @@ export async function POST(req: NextRequest): Promise<NextResponse<ApiResponse<W
         return NextResponse.json({ success: false, error: 'title, description, category required', timestamp: new Date() }, { status: 400 });
     }
     const id = createSlug(title);
-    const term = await upsertTerm({ id, title, description, category, author: author ?? '', cover_url: '' });
+    const term = await upsertTerm({ id, title, description, category, author: author ?? '', coverUrl: '' });
     return NextResponse.json({ success: true, data: term, timestamp: new Date() }, { status: 201 });
 }

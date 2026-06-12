@@ -14,9 +14,9 @@ function createWikiCoverStrategy(termId: string, onChanged: (url: string) => voi
         label: 'Обложка',
         maxSizeMb: 5,
         upload: async (file) => {
-            const fd = new FormData();
-            fd.append('file', file);
-            const res = await fetch(endpoint, { method: 'POST', body: fd });
+            const form = new FormData();
+            form.append('file', file);
+            const res = await fetch(endpoint, { method: 'POST', body: form });
             const data = await res.json();
             if (!res.ok) throw new Error(data.error);
             onChanged(data.url);

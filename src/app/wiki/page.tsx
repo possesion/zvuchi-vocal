@@ -13,7 +13,7 @@ export default async function WikiPage() {
     const terms = await getAllTerms();
     const categories = await getCategories();
     const instructors = await getAllInstructors();
-    const categoryMap = Object.fromEntries(categories.map((c) => [c.id, c.label]));
+    const categoryMap = Object.fromEntries(categories.map(({ id, label }) => [id, label]));
 
     return (
         <div className="relative min-h-screen font-exo2">
@@ -36,23 +36,23 @@ export default async function WikiPage() {
                                 {isAuthorized && <WikiAddForm categories={categories} instructors={instructors} />}
 
                                 <div className="grid gap-4 md:grid-cols-2">
-                                    {terms.map((term) => (
+                                    {terms.map(({ id, category, title, description }) => (
                                         <Link
-                                            key={term.id}
-                                            href={`/wiki/${term.id}`}
+                                            key={id}
+                                            href={`/wiki/${id}`}
                                             className="group rounded-sm bg-white/10 backdrop-blur-md p-6 transition-all hover:bg-white/15 hover:shadow-lg hover:scale-[1.02]"
                                         >
                                             <div className="mb-3 flex items-center justify-between">
                                                 <span className="rounded-full bg-brand px-3 py-1 text-xs font-semibold uppercase tracking-wide">
-                                                    {categoryMap[term.category] ?? term.category}
+                                                    {categoryMap[category] ?? category}
                                                 </span>
                                                 <ChevronRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
                                             </div>
                                             <h2 className="text-xl font-bold text-white md:text-2xl">
-                                                {term.title}
+                                                {title}
                                             </h2>
                                             <p className="mt-2 line-clamp-2 text-sm text-gray-300">
-                                                {term.description}
+                                                {description}
                                             </p>
                                         </Link>
                                     ))}

@@ -14,14 +14,15 @@ interface TermEditorProps {
 }
 
 export function TermEditor({ term, categories, instructors }: TermEditorProps) {
+    const { id, coverUrl, title, description, category, author } = term;
     const router = useRouter();
     const [isEditing, setIsEditing] = useState(false);
     const [confirmDelete, setConfirmDelete] = useState(false);
     const [formData, setFormData] = useState<WikiTermFormData>({
-        title: term.title,
-        description: term.description,
-        category: term.category,
-        author: term.author ?? '',
+        title,
+        description,
+        category,
+        author: author ?? '',
     });
     const [saving, setSaving] = useState(false);
     const [deleting, setDeleting] = useState(false);
@@ -31,7 +32,7 @@ export function TermEditor({ term, categories, instructors }: TermEditorProps) {
         setSaving(true);
         setError('');
         try {
-            const res = await fetch(`/api/v1/wiki/${term.id}`, {
+            const res = await fetch(`/api/v1/wiki/${id}`, {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(formData),
@@ -51,7 +52,7 @@ export function TermEditor({ term, categories, instructors }: TermEditorProps) {
     };
 
     const handleCancel = () => {
-        setFormData({ title: term.title, description: term.description, category: term.category, author: term.author ?? '' });
+        setFormData({ title, description, category, author: author ?? '' });
         setIsEditing(false);
         setError('');
     };
@@ -59,7 +60,7 @@ export function TermEditor({ term, categories, instructors }: TermEditorProps) {
     const handleDelete = async () => {
         setDeleting(true);
         try {
-            await fetch(`/api/v1/wiki/${term.id}`, { method: 'DELETE' });
+            await fetch(`/api/v1/wiki/${id}`, { method: 'DELETE' });
             router.push('/wiki');
             router.refresh();
         } finally {
@@ -106,9 +107,7 @@ export function TermEditor({ term, categories, instructors }: TermEditorProps) {
             </div>
 
             <WikiTermForm value={formData} onChange={setFormData} categories={categories} instructors={instructors} />
-
-            <WikiCoverUploader termId={term.id} currentUrl={term.cover_url ?? ''} onChanged={() => router.refresh()} />
-
+            <WikiCoverUploader termId={id} currentUrl={coverUrl ?? ''} onChanged={() => router.refresh()} />
             {error && <p className="text-sm text-red-400">{error}</p>}
 
             <div className="flex gap-3">

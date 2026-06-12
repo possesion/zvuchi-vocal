@@ -16,6 +16,21 @@ interface ProgramEditFormProps {
     program: Program;
 }
 
+const programPackages = [
+    {
+        title: 'Месяц',
+        value: 30
+    },
+    {
+        title: 'Три месяца',
+        value: 90
+    },
+    {
+        title: 'Пол года',
+        value: 180
+    },
+];
+
 export function ProgramEditForm({ program }: ProgramEditFormProps) {
     const router = useRouter();
     const [editing, setEditing] = useState(false);
@@ -175,9 +190,7 @@ export function ProgramEditForm({ program }: ProgramEditFormProps) {
                         {...register('program_duration')}
                         className={errors.program_duration ? inputErrorCls : inputCls}
                     >
-                        <option value="30">Месяц</option>
-                        <option value="90">Три месяца</option>
-                        <option value="180">Пол года</option>
+                        {programPackages.map((duration) => <option key={duration.value} value="30">{duration.title}</option>)}
                     </select>
                     {errors.program_duration && <p className="text-sm text-red-400">{errors.program_duration.message}</p>}
                 </div>

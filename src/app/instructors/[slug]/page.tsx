@@ -58,8 +58,9 @@ export default async function InstructorPage({ params }: InstructorPageProps) {
     const isAuthorized = canEdit(session?.user?.role);
 
     const techniqueTerms = (await Promise.all(
-        instructor.techniques.map((id) => getTermById(id))
-    )).filter((t): t is NonNullable<typeof t> => t !== undefined);
+        instructor.techniques
+        .map((id) => getTermById(id))))
+        .filter((term): term is NonNullable<typeof term> => term !== undefined);
 
     return (
         <div className="relative min-h-screen font-exo2">

@@ -3,9 +3,8 @@
 import Image from 'next/image';
 import { Calendar, Eye, Pencil } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
 import type { NewsArticle } from '@/lib/types';
-import { formatNewsDate } from './news.utils';
+import { formatNewsDate } from './utils';
 import { NewsEditForm } from './news-edit-form';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
@@ -16,7 +15,6 @@ interface NewsModalProps {
 }
 
 export function NewsArticle({ post, isAuthorized = false }: NewsModalProps) {
-    const router = useRouter();
     const [isEditing, setIsEditing] = useState(false);
 
     useEffect(() => {
@@ -48,7 +46,7 @@ export function NewsArticle({ post, isAuthorized = false }: NewsModalProps) {
                 <div className="p-6">
                     <NewsEditForm
                         post={post}
-                        onSaved={() => { setIsEditing(false); router.refresh(); }}
+                        onSaved={() => setIsEditing(false)}
                         onCancel={() => setIsEditing(false)}
                     />
                 </div>
@@ -68,7 +66,6 @@ export function NewsArticle({ post, isAuthorized = false }: NewsModalProps) {
                         <div className="mb-3 flex justify-end items-center gap-1.5 text-xs text-white/50">
                             <Calendar className="h-3.5 w-3.5" />
                             {formatNewsDate(post.publishedAt)}
-
                             <span className="ml-4 inline-flex items-center gap-1 text-xs text-white/40">
                                 <Eye className="h-3.5 w-3.5" />
                                 {post.views ?? 0}

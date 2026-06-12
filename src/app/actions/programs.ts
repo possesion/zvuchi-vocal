@@ -1,5 +1,6 @@
 'use server'
 
+import { revalidatePath } from 'next/cache'
 import { createProgram, deleteProgram, updateProgram, getProgramById } from '@/lib/db-prisma'
 import { createSlug } from '@/app/api/v1/utils'
 import { ActionResult } from '@/app/actions/types'
@@ -100,6 +101,7 @@ export async function deleteProgramAction(
 ): Promise<ActionResult<void>> {
     try {
         await deleteProgram(id)
+        revalidatePath('/programs')
         return { success: true, data: undefined }
     } catch (error) {
         console.error('Failed to delete program:', error)

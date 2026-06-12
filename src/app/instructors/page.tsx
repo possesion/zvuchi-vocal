@@ -32,15 +32,15 @@ export default async function InstructorsPage() {
     }
 
     // Адаптируем InstructorRow к формату VocalInstructor
-    const instructorProps = instructors.map((inst) => ({
-        slug: inst.slug,
-        name: inst.name,
-        specialty: (inst.specialty ?? '').split(',').map((s: string) => s.trim()).filter(Boolean),
-        feature: inst.feature,
-        experience: inst.experience,
-        bio: inst.bio,
-        image: inst.image || '/placeholder.png',
-        video: inst.video,
+    const instructorProps = instructors.map(({ slug, name, experience, bio, video, image, feature, specialty }) => ({
+        slug,
+        name,
+        specialty: (specialty ?? '').split(',').map((s: string) => s.trim()).filter(Boolean),
+        feature,
+        experience,
+        bio,
+        image: image || '/placeholder.png',
+        video,
     }));
 
     return (

@@ -38,38 +38,6 @@ function getPrisma(): PrismaClient {
   return prismaInstance;
 }
 
-// ─── Type Conversion Helpers ──────────────────────────────────────────────────
-
-/**
- * Convert Prisma WikiTerm (camelCase) to WikiTermRow (snake_case)
- */
-function convertPrismaWikiTermToRow(term: {
-  id: string;
-  title: string;
-  description: string;
-  category: string;
-  author: string;
-  coverUrl: string;
-  updatedAt: Date;
-}): WikiTermRow {
-  return {
-    id: term.id,
-    title: term.title,
-    description: term.description,
-    category: term.category,
-    author: term.author,
-    cover_url: term.coverUrl,
-    updated_at: term.updatedAt.toISOString(),
-  };
-}
-
-/**
- * Convert Prisma Short (camelCase) to short URL string
- */
-function convertPrismaShortToUrl(short: { url: string }): string {
-  return short.url;
-}
-
 // ─── Wiki Categories ──────────────────────────────────────────────────────────
 
 export async function getCategories(): Promise<WikiCategoryRow[]> {
@@ -101,7 +69,15 @@ export async function getAllTerms(): Promise<WikiTermRow[]> {
     orderBy: { updatedAt: 'desc' },
   });
 
-  return terms.map(convertPrismaWikiTermToRow);
+  return terms.map((term) => ({
+    id: term.id,
+    title: term.title,
+    description: term.description,
+    category: term.category,
+    author: term.author,
+    coverUrl: term.coverUrl,
+    updatedAt: term.updatedAt.toISOString(),
+  }));
 }
 
 export async function getTermById(id: string): Promise<WikiTermRow | undefined> {
@@ -110,11 +86,20 @@ export async function getTermById(id: string): Promise<WikiTermRow | undefined> 
     where: { id },
   });
 
-  return term ? convertPrismaWikiTermToRow(term) : undefined;
+  if (!term) return undefined;
+  return {
+    id: term.id,
+    title: term.title,
+    description: term.description,
+    category: term.category,
+    author: term.author,
+    coverUrl: term.coverUrl,
+    updatedAt: term.updatedAt.toISOString(),
+  };
 }
 
 export async function upsertTerm(
-  term: Omit<WikiTermRow, 'updated_at'>
+  term: Omit<WikiTermRow, 'updatedAt'>
 ): Promise<WikiTermRow> {
   const prisma = getPrisma();
   const upserted = await prisma.wikiTerm.upsert({
@@ -124,7 +109,7 @@ export async function upsertTerm(
       description: term.description,
       category: term.category,
       author: term.author,
-      coverUrl: term.cover_url,
+      coverUrl: term.coverUrl,
       updatedAt: new Date(),
     },
     create: {
@@ -133,12 +118,20 @@ export async function upsertTerm(
       description: term.description,
       category: term.category,
       author: term.author,
-      coverUrl: term.cover_url,
+      coverUrl: term.coverUrl,
       updatedAt: new Date(),
     },
   });
 
-  return convertPrismaWikiTermToRow(upserted);
+  return {
+    id: upserted.id,
+    title: upserted.title,
+    description: upserted.description,
+    category: upserted.category,
+    author: upserted.author,
+    coverUrl: upserted.coverUrl,
+    updatedAt: upserted.updatedAt.toISOString(),
+  };
 }
 
 export async function deleteTermById(id: string): Promise<void> {
@@ -157,7 +150,7 @@ export async function getShortsFromDb(): Promise<string[]> {
     select: { url: true },
   });
 
-  return shorts.map(convertPrismaShortToUrl);
+  return shorts.map((s) => s.url);
 }
 
 export async function addShortToDb(url: string): Promise<void> {

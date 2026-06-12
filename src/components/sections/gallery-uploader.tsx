@@ -8,7 +8,7 @@ interface GalleryUploaderProps {
 
 const galleryStrategy: ImageUploadStrategy = {
     label: 'Добавить фото',
-    maxSizeMb: 10,
+    maxSizeMb: 1,
     accept: 'image/jpeg,image/png,image/webp,image/gif',
     upload: async (file) => {
         const formData = new FormData();
