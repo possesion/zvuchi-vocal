@@ -16,7 +16,7 @@ import BurgerMenu from '@/components/layout/burger-menu';
 import { SOCIAL_ICON_SIZE } from '../common/constants'
 import { Socials } from '../common/socials'
 import { Phone } from '../common/phone'
-import { contacts } from '@/app/constants'
+import { contacts, navigationList } from '@/app/constants'
 import { useSession } from 'next-auth/react'
 import { UserAvatar } from './user-avatar'
 // import { SubscriptionsPaymentWidget } from './common/subscription-payment-widget'
@@ -70,48 +70,16 @@ export default function MobileMenu() {
                                     Войти
                                 </Link>}
                             </div>
-                            <Link
-                                href="/"
-                                className="flex items-center hover:text-red-400"
-                                onClick={handleLinkClick}
-                            >
-                                Главная
-                            </Link>
-                            <Link
-                                href="/instructors"
-                                className="flex items-center hover:text-red-400"
-                                onClick={handleLinkClick}
-                            >
-                                Преподаватели
-                            </Link>
-                            <Link
-                                href="/programs"
-                                className="flex items-center hover:text-red-400"
-                                onClick={handleLinkClick}
-                            >
-                                Абонементы
-                            </Link>
-                            <Link
-                                href="/gallery"
-                                className="flex items-center hover:text-red-400"
-                                onClick={handleLinkClick}
-                            >
-                                Галерея
-                            </Link>
-                            <Link
-                                href="/wiki"
-                                className="flex items-center hover:text-red-400"
-                                onClick={handleLinkClick}
-                            >
-                                База знаний
-                            </Link>
-                            <Link
-                                href="/contacts"
-                                className="flex items-center hover:text-red-400"
-                                onClick={handleLinkClick}
-                            >
-                                Контакты
-                            </Link>
+                            {navigationList.map(({ id, text, sectionId }) => (
+                                <Link
+                                    key={id}
+                                    href={sectionId}
+                                    className="flex items-center hover:text-red-400"
+                                    onClick={handleLinkClick}
+                                >
+                                    {text}
+                                </Link>
+                            ))}
                             {isAuthorized && <Link
                                 href="/logout"
                                 className="flex items-center hover:text-red-400"

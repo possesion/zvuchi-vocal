@@ -14,7 +14,7 @@ const SheetClose = SheetPrimitive.Close
 const SheetPortal = SheetPrimitive.Portal
 
 const SheetOverlay = React.forwardRef<
-    React.ElementRef<typeof SheetPrimitive.Overlay>,
+    React.ComponentRef<typeof SheetPrimitive.Overlay>,
     React.ComponentPropsWithoutRef<typeof SheetPrimitive.Overlay>
 >(({ className, ...props }, ref) => (
     <SheetPrimitive.Overlay
@@ -33,7 +33,7 @@ type SheetContentProps = React.ComponentPropsWithoutRef<
 >
 
 const SheetContent = React.forwardRef<
-    React.ElementRef<typeof SheetPrimitive.Content>,
+    React.ComponentRef<typeof SheetPrimitive.Content>,
     SheetContentProps
 >(({ className, children, ...props }, ref) => (
     <SheetPortal>

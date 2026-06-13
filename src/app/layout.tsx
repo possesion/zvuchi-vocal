@@ -10,6 +10,7 @@ import { organizationSchema, localBusinessSchema, educationalOrganizationSchema 
 import { UIProvider } from '@/components/providers/ui-context'
 import { AuthSessionProvider } from '@/components/providers/session-provider'
 import { CallButton } from '@/components/common/call-button'
+import { CookieConsent } from '@/components/common/cookie-consent'
 
 export const metadata: Metadata = {
     metadataBase: new URL('https://zvuchi-vocal.ru'),
@@ -132,6 +133,7 @@ export default function RootLayout({
                 <Metrika />
               </Suspense>
               <CallButton />
+              <CookieConsent />
             </AuthSessionProvider>
           </UIProvider>
         </Theme>
