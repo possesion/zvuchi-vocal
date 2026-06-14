@@ -1019,6 +1019,73 @@ export async function deleteProgram(id: number): Promise<void> {
   });
 }
 
+// ─── SMS Log ───────────────────────────────────────────────────────────────────
+
+const SMS_LIMIT_PER_PHONE = 3;
+const SMS_LIMIT_PER_IP = 10;
+const SMS_LIMIT_PERIOD_HOURS = 24;
+
+/**
+ * Count SMS sent to a phone in the last 24 hours
+ */
+export async function countSmsByPhone(phone: string): Promise<number> {
+  const prisma = getPrisma();
+  const since = new Date(Date.now() - SMS_LIMIT_PERIOD_HOURS * 60 * 60 * 1000);
+  return prisma.smsLog.count({
+    where: {
+      phone,
+      createdAt: { gte: since },
+    },
+  });
+}
+
+/**
+ * Count SMS sent from an IP in the last 24 hours
+ */
+export async function countSmsByIp(ip: string): Promise<number> {
+  const prisma = getPrisma();
+  const since = new Date(Date.now() - SMS_LIMIT_PERIOD_HOURS * 60 * 60 * 1000);
+  return prisma.smsLog.count({
+    where: {
+      ip,
+      createdAt: { gte: since },
+    },
+  });
+}
+
+/**
+ * Log an SMS sent
+ */
+export async function logSmsSent(phone: string, ip: string | null, userId: number | null): Promise<void> {
+  const prisma = getPrisma();
+  await prisma.smsLog.create({
+    data: {
+      phone,
+      ip,
+      userId,
+    },
+  });
+}
+
+/**
+ * Check if SMS can be sent (rate limiting)
+ */
+export async function canSendSms(phone: string, ip: string | null): Promise<{ allowed: boolean; reason?: string }> {
+  const phoneCount = await countSmsByPhone(phone);
+  if (phoneCount >= SMS_LIMIT_PER_PHONE) {
+    return { allowed: false, reason: `Превышен лимит SMS на этот номер (${SMS_LIMIT_PER_PHONE} в сутки)` };
+  }
+
+  if (ip) {
+    const ipCount = await countSmsByIp(ip);
+    if (ipCount >= SMS_LIMIT_PER_IP) {
+      return { allowed: false, reason: `Превышен лимит SMS с вашего IP (${SMS_LIMIT_PER_IP} в сутки)` };
+    }
+  }
+
+  return { allowed: true };
+}
+
 // ─── Cleanup ───────────────────────────────────────────────────────────────────
 
 export async function closePrisma(): Promise<void> {

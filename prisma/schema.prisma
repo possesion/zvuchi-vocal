@@ -108,6 +108,20 @@ model User {
   @@index([resetToken])
 }
 
+// ─── SMS Log ──────────────────────────────────────────────────────────────────
+// Tracks SMS sent for rate limiting (anti SMS-pumping protection)
+
+model SmsLog {
+  id        Int      @id @default(autoincrement())
+  phone     String   // Phone number without +
+  ip        String?  // Client IP address
+  userId    Int?     // User ID if authenticated
+  createdAt DateTime @default(now())
+
+  @@index([phone, createdAt])
+  @@index([ip, createdAt])
+}
+
 // ─── Programs ──────────────────────────────────────────────────────────────────
 // Represents subscription programs for vocal training
 

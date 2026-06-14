@@ -1,10 +1,24 @@
 'use server'
 
 import { auth } from '@/auth'
-import { getUserById, updateUser } from '@/lib/db-prisma'
+import { getUserById, updateUser, canSendSms, logSmsSent } from '@/lib/db-prisma'
 import { sendSms, generateVerificationCode } from '@/lib/sms-aero'
 import { revalidatePath } from 'next/cache'
+import { headers } from 'next/headers'
 import { ActionResult } from './types'
+
+/**
+ * Get client IP address from request headers
+ */
+async function getClientIp(): Promise<string | null> {
+  const headersList = await headers()
+  const realIpHeaders = headersList.get('x-forwarded-for')?.split(',')[0]?.trim() 
+      || headersList.get('x-real-ip') 
+      || null
+  console.log('[SMS Aero] header: ', realIpHeaders);
+
+  return realIpHeaders
+}
 
 /**
  * Отправка кода верификации на телефон
@@ -29,17 +43,30 @@ export async function sendPhoneVerification(phone: string): Promise<{ success: b
             return { success: false, error: 'Пользователь не найден' }
         }
 
+        // Получаем IP адрес
+        const clientIp = await getClientIp()
+        
+        // Проверяем rate limiting
+        const rateCheck = await canSendSms(phone.replace(/\+/g, ''), clientIp)
+        if (!rateCheck.allowed) {
+            return { success: false, error: rateCheck.reason }
+        }
+
         // Генерируем код
         const code = generateVerificationCode()
         
         // Срок действия кода - 2 минуты
         const expiresAt = new Date(Date.now() + 2 * 60 * 1000).toISOString()
+        
         // Отправляем SMS
         const smsResult = await sendSms(phone, `Ваш код подтверждения номера телефона на сайте zvuchi-vocal.ru: ${code}`)
         
         if (!smsResult.success) {
             return { success: false, error: smsResult.message || 'Ошибка при отправке SMS' }
         }
+
+        // Логируем отправку
+        await logSmsSent(phone.replace(/\+/g, ''), clientIp, userId)
 
         // Сохраняем код и телефон в БД
         await updateUser(userId, {
