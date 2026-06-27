@@ -1,7 +1,20 @@
 /**
- * SMS Aero API client
- * Документация: https://smsaero.ru/integration/documentation/api/
+ * SMS Aero API client (DEPRECATED)
+ * 
+ * Этот файл оставлен для справки. 
+ * Новая реализация использует MobileID SDK (smsaero-mobileid-sdk).
+ * 
+ * См. файлы:
+ * - /src/lib/mobileid.ts - API клиент для MobileID
+ * - /src/app/api/mobileid/token/route.ts - endpoint для получения токена
+ * - /src/app/api/mobileid/siteverify/route.ts - endpoint для верификации
+ * - /src/hooks/useMobileID.ts - React хук для работы с SDK
+ * - /src/components/forms/verify-phone-number.tsx - UI компонент
  */
+
+// ============================================
+// СТАРАЯ РЕАЛИЗАЦИЯ (больше не используется)
+// ============================================
 
 const SMS_AERO_EMAIL = process.env.SMS_AERO_EMAIL;
 const SMS_AERO_API_KEY = process.env.SMS_AERO_API_KEY;
@@ -25,9 +38,8 @@ interface SendSmsResponse {
 }
 
 /**
- * Отправка SMS через SMS Aero
- * @param phone - номер телефона в международном формате (например: +79991234567)
- * @param text - текст сообщения
+ * Отправка SMS через SMS Aero (DEPRECATED - используйте MobileID SDK)
+ * @deprecated Используйте useMobileID хук
  */
 export async function sendSms(phone: string, text: string): Promise<SendSmsResponse> {
     if (!SMS_AERO_EMAIL || !SMS_AERO_API_KEY) {
@@ -79,7 +91,8 @@ export async function sendSms(phone: string, text: string): Promise<SendSmsRespo
 }
 
 /**
- * Генерация 6-значного кода
+ * Генерация 6-значного кода (DEPRECATED - MobileID SDK управляет кодами самостоятельно)
+ * @deprecated
  */
 export function generateVerificationCode(): string {
     return Math.floor(100000 + Math.random() * 900000).toString();

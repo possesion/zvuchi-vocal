@@ -46,7 +46,7 @@ export function NewsCard({ post, onOpen, isAuthorized, onDelete }: NewsCardProps
                     {formatNewsDate(post.publishedAt)}
                 </div>
                 <h3 className="mb-2 text-base font-bold text-white leading-snug">{post.title}</h3>
-                <div className="mb-4 flex-1 text-sm text-white/70 line-clamp-2">
+                <div className="mb-5 flex-1 text-sm text-white/70 line-clamp-2">
                     <ReactMarkdown remarkPlugins={[remarkGfm]}>{post.summary}</ReactMarkdown>
                 </div>
                 <section className='flex items-center justify-between'>
