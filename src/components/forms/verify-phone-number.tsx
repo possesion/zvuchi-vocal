@@ -4,6 +4,8 @@ import { useState, useEffect, useCallback } from "react";
 import { Button, Dialog, Flex, TextField, VisuallyHidden } from "@radix-ui/themes";
 import { RefreshCw, CheckCircle, XCircle, AlertCircle } from "lucide-react";
 import { useMobileID } from "@/hooks/useMobileID";
+import { useRouter } from "next/navigation";
+import { masked } from "./utils";
 
 type VerificationStatus = 'idle' | 'entering_phone' | 'entering_otp' | 'verifying' | 'success' | 'error';
 
@@ -13,11 +15,12 @@ interface VerifyPhoneNumberProps {
 }
 
 export const VerifyPhoneNumber = ({ verificationDisabled, phone }: VerifyPhoneNumberProps) => {
+    const router = useRouter();
     const [inputPhone, setInputPhone] = useState(phone);
     const [otpCode, setOtpCode] = useState('');
     const [status, setStatus] = useState<VerificationStatus>('idle');
     const [message, setMessage] = useState<string>('');
-    
+
     const {
         state: mobileIdState,
         sessionId,
@@ -46,10 +49,10 @@ export const VerifyPhoneNumber = ({ verificationDisabled, phone }: VerifyPhoneNu
     useEffect(() => {
         onVerified(async (verifyToken) => {
             if (!sessionId) return;
-            
+
             setStatus('verifying');
             setMessage('Проверка верификации...');
-            
+
             try {
                 const res = await fetch('/api/mobileid/siteverify', {
                     method: 'POST',
@@ -59,9 +62,9 @@ export const VerifyPhoneNumber = ({ verificationDisabled, phone }: VerifyPhoneNu
                         verify_token: verifyToken,
                     }),
                 });
-                
+
                 const result = await res.json();
-                
+
                 if (result.success) {
                     setStatus('success');
                     setMessage('Номер телефона успешно подтверждён!');
@@ -74,22 +77,22 @@ export const VerifyPhoneNumber = ({ verificationDisabled, phone }: VerifyPhoneNu
                 setMessage('Ошибка при проверке верификации');
             }
         });
-        
+
         onRejected(() => {
             setStatus('error');
             setMessage('Верификация отклонена');
         });
-        
+
         onExpired(() => {
             setStatus('error');
             setMessage('Время верификации истекло. Попробуйте снова');
         });
-        
+
         onInvalidCode((msg) => {
             setMessage(msg || 'Неверный код');
             setOtpCode('');
         });
-        
+
         onError((err) => {
             setStatus('error');
             setMessage(err.message || 'Произошла ошибка');
@@ -102,13 +105,13 @@ export const VerifyPhoneNumber = ({ verificationDisabled, phone }: VerifyPhoneNu
             setMessage('Инициализация...');
             await init();
         }
-        
+
         setStatus('entering_phone');
         setMessage('');
-        
+
         // Нормализация номера (убираем всё кроме цифр и +)
         const normalizedPhone = inputPhone.replace(/[^\d+]/g, '');
-        
+
         try {
             await start(normalizedPhone);
         } catch {
@@ -123,7 +126,7 @@ export const VerifyPhoneNumber = ({ verificationDisabled, phone }: VerifyPhoneNu
             setMessage('Введите код полностью');
             return;
         }
-        
+
         setMessage('');
         await submitOTP(otpCode);
     };
@@ -143,6 +146,12 @@ export const VerifyPhoneNumber = ({ verificationDisabled, phone }: VerifyPhoneNu
             setStatus('entering_otp');
         }
     }, [mobileIdState]);
+
+    useEffect(() => {
+        if (status === 'success') {
+            router.refresh();
+        }
+    }, [router, status]);
 
     // Отображение ошибок SDK
     useEffect(() => {
@@ -166,12 +175,12 @@ export const VerifyPhoneNumber = ({ verificationDisabled, phone }: VerifyPhoneNu
             </Dialog.Trigger>
             <VisuallyHidden>
                 <Dialog.Title className="mb-4 text-2xl font-bold">
-                    
+
                 </Dialog.Title>
             </VisuallyHidden>
             <Dialog.Content maxWidth="450px">
                 <Dialog.Title>Подтвердите номер телефона</Dialog.Title>
-                
+
                 <Flex direction="column" gap="4" mt="4">
                     {/* Состояние ввода телефона */}
                     {(status === 'idle' || status === 'entering_phone') && mobileIdState !== 'otp' && (
@@ -179,19 +188,23 @@ export const VerifyPhoneNumber = ({ verificationDisabled, phone }: VerifyPhoneNu
                             <Dialog.Description size="2">
                                 Введите номер телефона для верификации
                             </Dialog.Description>
-                            
+
                             <label>
                                 <p className="mb-1 text-sm">
                                     Номер телефона
                                 </p>
                                 <TextField.Root
-                                    onChange={({ target }) => setInputPhone(target.value)}
-                                    placeholder="+7 999 123-45-67"
-                                    value={inputPhone}
+                                    onChange={({ target }) => {
+                                        masked.resolve(target.value);
+                                        setInputPhone(masked.value as unknown as string)
+                                    }}
                                     disabled={mobileIdState === 'pending'}
+                                    placeholder="+7(999)123-45-67"
+                                    type="tel"
+                                    value={inputPhone}
                                 />
                             </label>
-                            
+
                             <Button
                                 color="blue"
                                 disabled={!inputPhone || mobileIdState === 'pending'}
@@ -208,14 +221,14 @@ export const VerifyPhoneNumber = ({ verificationDisabled, phone }: VerifyPhoneNu
                             </Button>
                         </>
                     )}
-                    
+
                     {/* Состояние ввода OTP */}
                     {status === 'entering_otp' && (
                         <>
                             <Dialog.Description size="2">
                                 На номер <strong>{inputPhone}</strong> отправлен код подтверждения
                             </Dialog.Description>
-                            
+
                             <label>
                                 <p className="mb-1 text-sm">
                                     Код из SMS
@@ -230,7 +243,7 @@ export const VerifyPhoneNumber = ({ verificationDisabled, phone }: VerifyPhoneNu
                                     value={otpCode}
                                 />
                             </label>
-                            
+
                             <Flex gap="3">
                                 <Button
                                     color="green"
@@ -239,7 +252,7 @@ export const VerifyPhoneNumber = ({ verificationDisabled, phone }: VerifyPhoneNu
                                 >
                                     Подтвердить
                                 </Button>
-                                
+
                                 <Button
                                     variant="soft"
                                     onClick={handleRetry}
@@ -249,7 +262,7 @@ export const VerifyPhoneNumber = ({ verificationDisabled, phone }: VerifyPhoneNu
                             </Flex>
                         </>
                     )}
-                    
+
                     {/* Состояние верификации */}
                     {status === 'verifying' && (
                         <Flex direction="column" align="center" gap="3">
@@ -257,18 +270,15 @@ export const VerifyPhoneNumber = ({ verificationDisabled, phone }: VerifyPhoneNu
                             <p className="text-sm">{message}</p>
                         </Flex>
                     )}
-                    
+
                     {/* Состояние успеха */}
                     {status === 'success' && (
                         <Flex direction="column" align="center" gap="3">
                             <CheckCircle className="h-12 w-12 text-green-500" />
                             <p className="text-sm text-green-600">{message}</p>
-                            <Dialog.Close>
-                                <Button color="green">Закрыть</Button>
-                            </Dialog.Close>
                         </Flex>
                     )}
-                    
+
                     {/* Состояние ошибки */}
                     {status === 'error' && (
                         <Flex direction="column" align="center" gap="3">
@@ -279,7 +289,7 @@ export const VerifyPhoneNumber = ({ verificationDisabled, phone }: VerifyPhoneNu
                             </Button>
                         </Flex>
                     )}
-                    
+
                     {/* Сообщения об ошибках */}
                     {message && status !== 'success' && status !== 'error' && status !== 'verifying' && (
                         <div className="flex items-start gap-2 text-sm text-red-500">

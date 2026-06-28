@@ -50,11 +50,8 @@ export async function updateUserProfile(data: {
         }
 
         // Валидация телефона
-        if (data.phone) {
-            const phoneRegex = /^\+7\d{10}$/
-            if (!phoneRegex.test(data.phone)) {
-                return { success: false, error: 'Неверный формат номера телефона' }
-            }
+        if (!data.phone) {
+            return { success: false, error: 'Номер телефона отсутствует' }
         }
 
         // Если телефон изменился, сбрасываем верификацию

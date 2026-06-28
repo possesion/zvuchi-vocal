@@ -8,6 +8,7 @@ import { updateUserProfile } from '@/app/actions/profile';
 import { useUI } from '@/components/providers/ui-context';
 import { AlertDialog } from '@/components/common/alert-dialog/alert-dialog';
 import { ProfileSchema, ProfileForm } from '@/lib/definitions';
+import { masked } from './utils';
 
 interface ProfileEditFormProps {
     email: string;
@@ -24,6 +25,7 @@ export function ProfileEditForm({ currentName, currentPhone, email }: ProfileEdi
         register,
         handleSubmit,
         formState: { errors, isSubmitting, isDirty, dirtyFields },
+        setValue,
         reset,
     } = useForm<ProfileForm>({
         resolver: yupResolver(ProfileSchema),
@@ -32,7 +34,6 @@ export function ProfileEditForm({ currentName, currentPhone, email }: ProfileEdi
             phone: currentPhone || '',
         },
     });
-
     const nameError = errors.name?.message ?? '';
     const phoneError = errors.phone?.message ?? '';
     const isPhoneChanged = dirtyFields.phone ?? false;
@@ -47,8 +48,8 @@ export function ProfileEditForm({ currentName, currentPhone, email }: ProfileEdi
             notify(result?.error || 'Произошла ошибка при редактировании профиля. Попробуйте позже.', 'error');
             reset();
         } else {
-            const message = isPhoneChanged 
-                ? 'Данные успешно обновлены! Необходимо подтвердить новый номер телефона.' 
+            const message = isPhoneChanged
+                ? 'Данные успешно обновлены! Необходимо подтвердить новый номер телефона.'
                 : 'Данные успешно обновлены!';
             notify(message, 'success');
         }
@@ -107,11 +108,16 @@ export function ProfileEditForm({ currentName, currentPhone, email }: ProfileEdi
                             <TextField.Root
                                 id="phone"
                                 className='w-40 ml-auto'
-                                {...register('phone')}
+                                {...register('phone', {
+                                    onChange: ({ target: { value } }) => {
+                                        masked.resolve(value);
+                                        setValue('phone', masked.value)
+                                    }
+                                })}
                                 placeholder="Введите номер"
                                 disabled={isSubmitting}
                                 size="2"
-                                maxLength={16}
+                                type='tel'
                             />
                             <p className="h-5 text-sm text-red-300">{phoneError}</p>
                         </div>

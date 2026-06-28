@@ -86,7 +86,7 @@ export type ProgramForm = {
 
 export const ProfileSchema = yup.object({
     name: yup.string().min(2, 'Имя не должно быть короче 2 символов').max(50, 'Имя не должно превышать 50 символов').default(''),
-    phone: yup.string().matches(/^(\+7\d{10})?$/, 'Неверный формат номера').default(''),
+    phone: yup.string().min(16, 'Некорректный номер телефона').default(''),
 });
 
 export type ProfileForm = yup.InferType<typeof ProfileSchema>;
