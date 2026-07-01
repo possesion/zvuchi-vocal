@@ -47,5 +47,6 @@ export const config = {
         '/api/v1/:path*',
         '/profile/:path*',
         '/profile',
+        '/calculations',
     ],
 }
