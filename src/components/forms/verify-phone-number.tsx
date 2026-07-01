@@ -42,8 +42,7 @@ export const VerifyPhoneNumber = ({ verificationDisabled, phone }: VerifyPhoneNu
         setStatus('entering_phone');
         setMessage('');
         setOtpCode('');
-        await init();
-    }, [init]);
+    }, []);
 
     // Регистрация обработчиков событий
     useEffect(() => {
@@ -102,12 +101,8 @@ export const VerifyPhoneNumber = ({ verificationDisabled, phone }: VerifyPhoneNu
     // Запуск верификации
     const handleStartVerification = async () => {
         if (!isInitialized) {
-            setMessage('Инициализация...');
             await init();
         }
-
-        setStatus('entering_phone');
-        setMessage('');
 
         // Нормализация номера (убираем всё кроме цифр и +)
         const normalizedPhone = inputPhone.replace(/[^\d+]/g, '');

@@ -220,6 +220,10 @@ body {
   color: var(--brand-secondary);
 }
 
+input, select, textarea {
+  font-size: 16px !important; /* Убирает баг с зумом на iOS */
+}
+
 .mic-shadow {
   z-index: -1;
   background-color: #01080f;
