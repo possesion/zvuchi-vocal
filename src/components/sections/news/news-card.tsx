@@ -28,7 +28,7 @@ export function NewsCard({ post, onOpen, isAuthorized, onDelete }: NewsCardProps
                     </button>
                 </div>
             )}
-            <div onClick={() => onOpen(post.id)} className="relative h-70 cursor-pointer bg-white/5">
+            <div onClick={() => onOpen(post.id)} className="relative h-64 cursor-pointer bg-white/5">
                 {post.coverUrl
                     ? <Image
                         src={post.coverUrl}
