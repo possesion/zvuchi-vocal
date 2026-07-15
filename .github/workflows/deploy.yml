@@ -56,10 +56,13 @@ jobs:
             echo "🚀 Starting deployment..."
             cd /root/web/zvuchi-vocal/
 
+            echo "🛑 Stopping existing containers..."
+            docker compose down || true
+
             echo "📦 Pulling latest Docker image..."
             docker compose pull
 
-            echo "🔄 Restarting container..."
+            echo "🔄 Starting container..."
             docker compose up -d
 
             echo "🧹 Removing unused Docker images..."
