@@ -1,25 +1,35 @@
 'use client'
 
 import Image from 'next/image'
-import React, { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 import '../styles.css'
 import classNames from 'classnames'
+import { MousePointerClick } from 'lucide-react'
+import { MentorLevelValue } from '@/app/programs/types'
+import { MentorLevel } from '@/app/programs/constants'
+import { levelStyles } from './constants'
 
 interface VocalInstructor {
     instructor: {
         bio: React.JSX.Element | string
         experience: string
         image: string
+        level: MentorLevelValue
         name: string
         specialty: string[]
         feature: string
         video: string
-    }
+    },
+    showTip: boolean
 }
-const VocalInstructor = ({ instructor }: VocalInstructor) => {
+
+const VocalInstructor = ({ instructor, showTip }: VocalInstructor) => {
     const ref = useRef<HTMLDivElement>(null);
     const [intersection, setIntersection] = useState(false);
+
+    const levelStyle = levelStyles[instructor.level] || levelStyles.expert;
+    const levelTitle = MentorLevel[instructor.level]?.title || 'Эксперт';
 
     useEffect(() => {
         const observer = new IntersectionObserver((entries) => {
@@ -47,10 +57,16 @@ const VocalInstructor = ({ instructor }: VocalInstructor) => {
         <article className="group flex flex-col items-center text-center lg:justify-center cursor-pointer">
             <div
                 ref={ref}
-                className={classNames('mb-2 opacity-0', { 'delay-150 transition duration-500 opacity-100': intersection })}
+                className={classNames('relative mb-2 opacity-0', { 'delay-150 transition duration-500 opacity-100': intersection })}
             >
+                {showTip
+                    ? <div className="absolute top-2 right-2 z-10 flex items-center gap-2 rounded-full bg-black/40 px-2 py-2 backdrop-blur-md">
+                        <span className="text-sm font-medium text-white/90">Нажми</span>
+                        <MousePointerClick className="h-5 w-5 animate-[pop_2s_ease-in-out_infinite] text-white/80" />
+                    </div>
+                    : null}
                 <div
-                    className="relative h-68 w-68 rounded-full inset-ring-4 inset-ring-violet-900"
+                    className="relative h-90 w-80 rounded-sm inset-ring-4 inset-ring-violet-900"
                     key={instructor.image}
                 >
                     <Image
@@ -58,14 +74,16 @@ const VocalInstructor = ({ instructor }: VocalInstructor) => {
                         sizes="300px"
                         alt={`Фото преподавателя ${instructor.name}`}
                         fill
-                        className="group overflow-hidden rounded-full object-cover transition-transform group-hover:scale-105"
+                        className="group overflow-hidden rounded-sm object-cover transition-transform group-hover:scale-105"
                     />
+                    <div className={`absolute bottom-1 right-1 px-3 py-1 rounded-sm ${levelStyle.bg} ${levelStyle.text} shadow-lg`}>
+                        <span className="font-bold text-md tracking-wide">{levelTitle}</span>
+                    </div>
                 </div>
             </div>
-            <h3 className="bg-dark rounded-sm shadow-lg px-4 pb-1 text-lg font-bold md:text-xl">{instructor.name}</h3>
+            <h3 className="px-4 pb-1 text-2xl font-bold md:text-3xl">{instructor.name}</h3>
             <p className="w-70"><b>Предмет: </b>{instructor.specialty?.join(', ')}</p>
             <p className="w-70 hyphens-auto" lang="ru"><b>Сверхсила: </b>{instructor.feature}</p>
-            <p><span className="mr-2" aria-hidden="true">📚</span><b>Опыт преподавания:</b> {instructor.experience}</p>
         </article>
     )
 }

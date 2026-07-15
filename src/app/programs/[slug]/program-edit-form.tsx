@@ -112,8 +112,9 @@ export function ProgramEditForm({ program }: ProgramEditFormProps) {
 
             <div className="space-y-1">
                 <label className="text-sm text-gray-300">Краткое описание *</label>
-                <input
+                <textarea
                     {...register('short_description')}
+                    rows={2}
                     placeholder="Отображается в списке абонементов"
                     className={errors.short_description ? inputErrorCls : inputCls}
                 />

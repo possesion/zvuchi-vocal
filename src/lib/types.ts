@@ -1,4 +1,5 @@
 import { Package } from "@/app/programs/types";
+import { MentorLevel } from "../../prisma/generated/enums";
 
 export type UserRole = 'admin' | 'manager' | 'client'
 
@@ -16,6 +17,7 @@ export interface Instructor {
   presentationVideo: string
   performanceVideos: string[]
   techniques: string[]
+  level: MentorLevel
 }
 
 export interface NewsArticle {
@@ -67,18 +69,18 @@ export type UserUpdateData = Partial<Pick<
 >>
 
 export interface Program {
-  id: number
-  slug: string
-  title: string
-  shortDescription: string
-  fullDescription: string
-  packages: Array<Package>
-  lessonDuration: number
-  programDuration: number
-  features: string[]
-  isPopular: boolean
-  sortOrder: number
   createdAt: string
+  features: string[]
+  fullDescription: string
+  id: number
+  isPopular: boolean
+  lessonDuration: number
+  packages: Package[]
+  programDuration: number
+  shortDescription: string
+  slug: string
+  sortOrder: number
+  title: string
   updatedAt: string
 }
 

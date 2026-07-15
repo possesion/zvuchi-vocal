@@ -1,6 +1,7 @@
 'use client'
 
 import { trackEvent } from '@/hooks/use-yandex-metrica'
+import { Phone } from '../common/phone';
 
 export const Contacts = () => {
 
@@ -9,9 +10,12 @@ export const Contacts = () => {
     };
 
     return (
-        <section id="contacts" className="mx-auto bg-muted/30 py-8 text-white lg:py-12">
+        <section id="contacts" className="mx-auto bg-muted/30 text-white lg:py-12">
+            <div className='pb-8 text-xl flex justify-center gap-x-2 font-bold xl:hidden'>
+                <p>Телефон: </p>
+                <Phone className="text-white transition-colors hover:text-primary" />
+            </div>
             <div className="grid grid-cols-1 gap-8 md:gap-12 lg:grid-cols-2">
-
                 {/* Схема проезда */}
                 <div className="col-span-2 m-auto h-[500px] w-[335px] space-y-3 rounded-sm border border-brand bg-background p-2 md:w-[450px] md:h-[600px] lg:col-span-1 lg:space-y-6 xl:h-[600px] xl:w-[500px]">
 

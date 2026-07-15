@@ -10,6 +10,7 @@ import { Music, Clock, Star, Pencil } from 'lucide-react';
 import type { Instructor, WikiTermRow } from '@/lib/types';
 import { InstructorEditForm } from '@/components/sections/instructor-edit-form';
 import { VideoPlaceholder } from '@/components/sections/video-placeholder';
+import { MentorLevel } from '@/app/programs/constants';
 
 export interface InstructorProfileProps {
     instructor: Instructor;
@@ -23,6 +24,8 @@ export function InstructorProfile({ instructor, techniqueTerms, isAuthorized }: 
 
     return (
         <div className="relative">
+            <div className='flex justify-between'>
+                <p className='text-3xl'>{MentorLevel[instructor.level].title}–педагог</p>
             {/* Edit button */}
             {isAuthorized && !isEditing && (
                 <div className="flex justify-end mb-4">
@@ -36,6 +39,7 @@ export function InstructorProfile({ instructor, techniqueTerms, isAuthorized }: 
                     </button>
                 </div>
             )}
+            </div>
 
             {/* ── Edit form ──────────────────────────────────────────────── */}
             {isEditing && (

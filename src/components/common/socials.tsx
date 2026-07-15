@@ -19,7 +19,7 @@ interface SocialsProps {
 export const Socials: FC<SocialsProps> = ({ className, links = [], size = SOCIAL_ICON_SIZE.md, sendAnalytics = false }) => {
     return (
         <div className={className} role="list" aria-label="Социальные сети">
-            <Phone className="hidden text-white transition-colors hover:text-primary xl:block" />
+            <Phone className="hidden text-white font-bold transition-colors hover:text-primary xl:block" />
             {links.map(({ alt, src, url }) => (
                 <SocialLink key={alt} alt={alt} src={src} url={url} size={size} sendAnalytics={sendAnalytics} />
             ))}

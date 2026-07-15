@@ -130,6 +130,7 @@ export const InstructorSchema = yup.object({
     presentationVideo: yup.string().default('').trim(),
     performanceVideos: yup.string().default('').trim(),
     techniques: yup.array().of(yup.string().required()).default([]),
+    level: yup.string().oneOf(['expert', 'master']).default('expert'),
 });
 
 export type InstructorForm = yup.InferType<typeof InstructorSchema>;

@@ -7,7 +7,7 @@ import { generatePageMetadata } from '@/lib/metadata';
 import { auth } from '@/auth';
 import { canEdit } from '@/lib/roles';
 import { ProgramEditForm } from './program-edit-form';
-import { ProgramPricingTabs } from './program-pricing-tabs';
+import { ProgramPricingClient } from './program-pricing-client';
 import Link from 'next/link';
 import { ArrowLeft, Check, Clock, Calendar } from 'lucide-react';
 import { WikiCta } from '@/components/wiki/wiki-cta';
@@ -73,8 +73,7 @@ export default async function ProgramDetailPage({ params }: ProgramPageProps) {
 
                             <div className="grid gap-8 md:grid-cols-2 mb-8">
                                 <div className="rounded-sm bg-white/10 p-6 backdrop-blur-md">
-                                    <h2 className="text-2xl font-bold mb-6">Стоимость</h2>
-                                    <ProgramPricingTabs packages={program.packages} />
+                                    <ProgramPricingClient packages={program.packages} />
                                     <div className="mt-6 space-y-2 text-sm text-white/70">
                                         <div className="flex items-center gap-2">
                                             <Clock className="h-4 w-4 text-brand" />

@@ -30,18 +30,15 @@ export default async function InstructorsPage() {
     } catch (error) {
         console.error('Failed to fetch instructors:', error);
     }
-
     // Адаптируем InstructorRow к формату VocalInstructor
-    const instructorProps = instructors.map(({ slug, name, experience, bio, video, image, feature, specialty }) => ({
-        slug,
-        name,
-        specialty: (specialty ?? '').split(',').map((s: string) => s.trim()).filter(Boolean),
-        feature,
-        experience,
-        bio,
-        image: image || '/placeholder.png',
-        video,
-    }));
+    const instructorProps = instructors.map((instructor) => {
+        const { image, specialty } = instructor;
+        return ({
+            ...instructor,
+            specialty: (specialty ?? '').split(',').map((s: string) => s.trim()).filter(Boolean),
+            image: image || '/placeholder.png',
+        })
+    })
 
     return (
         <div className="relative min-h-screen font-exo2">
@@ -70,13 +67,13 @@ export default async function InstructorsPage() {
                         )}
 
                         <div className="container grid grid-cols-1 gap-8 sm:grid-cols-2 lg:gap-y-12 lg:grid-cols-3">
-                            {instructorProps.map((instructor) => (
+                            {instructorProps.map((instructor, idx) => (
                                 <Link
                                     key={instructor.name}
                                     href={`/instructors/${instructor.slug}`}
                                     className="block cursor-pointer"
                                 >
-                                    <VocalInstructor instructor={instructor} />
+                                    <VocalInstructor instructor={instructor} showTip={idx === 0} />
                                 </Link>
                             ))}
                         </div>

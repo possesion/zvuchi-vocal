@@ -6,11 +6,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
-
-const STUDIO_PHOTOS = Array.from({ length: 12 }, (_, i) => ({
-    src: `/interior/${i}.jpg`,
-    alt: `Студия фото ${i + 1}`,
-}));
+import { STUDIO_PHOTOS } from './constants';
 
 function Lightbox({
     photos,

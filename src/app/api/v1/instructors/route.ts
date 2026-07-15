@@ -10,28 +10,34 @@ export async function GET(): Promise<NextResponse<ApiResponse<{ instructors: Ins
 
 export async function POST(req: NextRequest): Promise<NextResponse<ApiResponse<Instructor>>> {
     const { 
-        name,
-        specialty,
-        feature,
-        experience,
         bio,
+        experience,
+        feature,
         image,
-        video,
-        sort_order,
+        level,
+        name,
         presentation_video,
         performance_videos,
-        techniques
+        sort_order,
+        specialty,
+        techniques,
+        video,
     } = await req.json();
     if (!name) return apiError('name required', 400);
     const instructor = await createInstructor({
-        name, specialty: specialty ?? '', feature: feature ?? '',
-        experience: experience ?? '', bio: bio ?? '',
-        image: image ?? '', video: video ?? '',
-        sortOrder: sort_order ?? 0,
-        slug: '',
+        bio: bio ?? '',
+        experience: experience ?? '',
+        feature: feature ?? '',
+        image: image ?? '', 
+        level: level ?? 'expert',
+        name, 
         presentationVideo: presentation_video ?? '',
         performanceVideos: Array.isArray(performance_videos) ? performance_videos : [],
+        sortOrder: sort_order ?? 0,
+        slug: '',
+        specialty: specialty ?? '',
         techniques: Array.isArray(techniques) ? techniques : [],
+        video: video ?? '',
     });
     return apiOk(instructor);
 }

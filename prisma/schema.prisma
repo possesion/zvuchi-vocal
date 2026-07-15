@@ -11,6 +11,13 @@ datasource db {
   provider = "sqlite"
 }
 
+// ─── Enums ────────────────────────────────────────────────────────────────────
+
+enum MentorLevel {
+  expert
+  master
+}
+
 // ─── Wiki Categories ─────────────────────────────────────────────────────────
 // Represents categories for organizing wiki terms (e.g., Technique, Method, Concept)
 
@@ -78,6 +85,7 @@ model Instructor {
   presentationVideo   String   @default("")
   performanceVideos   String   @default("[]") // JSON array of video URLs
   techniques          String   @default("[]") // JSON array of technique IDs
+  level               MentorLevel
   sortOrder           Int      @default(0)
 
   @@index([slug])

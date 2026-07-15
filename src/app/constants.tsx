@@ -181,7 +181,6 @@ export const instructors = [
         bio: (
             <div className='font-semibold'>
                 <li><span className='mr-2'>🎓</span>Образование МПГУ эстрадно-джазовый вокал и фортепиано</li>
-                {/* <li><span className='mr-2'>🎤</span>Мастер-классы джазовых музыкантов Алины Енгибарян, Маринэ Григорян, Евгения Лебедева, Антона Чекурова</li> */}
                 <li><span className='mr-2'>📚</span>Опыт преподавания: 5 лет</li>
             </div>
         ),

@@ -16,6 +16,10 @@ const galleryStrategy: ImageUploadStrategy = {
         const res = await fetch('/api/v1/concert-photos', { method: 'POST', body: formData });
         const data = await res.json();
         if (!res.ok) throw new Error(data.error);
+
+        if (data?.data) {
+            return data.data.url;
+        }
         return data.url;
     },
 };

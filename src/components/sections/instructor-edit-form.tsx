@@ -37,6 +37,7 @@ export function InstructorEditForm({ instructor, onSaved }: InstructorEditFormPr
             presentationVideo: instructor.presentationVideo,
             performanceVideos: instructor.performanceVideos.join('\n'),
             techniques: instructor.techniques,
+            level: instructor.level,
         },
     });
 
@@ -88,6 +89,7 @@ export function InstructorEditForm({ instructor, onSaved }: InstructorEditFormPr
                 .map((href) => href.trim())
                 .filter(Boolean),
             techniques: formTechniques,
+            level: data.level ?? 'expert'
         });
 
         if (result.success) {
@@ -133,6 +135,19 @@ export function InstructorEditForm({ instructor, onSaved }: InstructorEditFormPr
                     />
                     {errors.specialty && (
                         <p className="text-xs text-red-400 mt-1">{errors.specialty.message}</p>
+                    )}
+                </div>
+                <div>
+                    <label className="mb-1 block text-xs text-white/60">Уровень *</label>
+                    <select
+                        {...register('level')}
+                        className={`${formInputCls} ${errors.level ? 'ring-red-500' : 'ring-white/10'}`}
+                    >
+                        <option value="expert">Эксперт</option>
+                        <option value="master">Мастер</option>
+                    </select>
+                    {errors.level && (
+                        <p className="text-xs text-red-400 mt-1">{errors.level.message}</p>
                     )}
                 </div>
                 <div>

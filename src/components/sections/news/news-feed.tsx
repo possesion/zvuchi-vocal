@@ -16,7 +16,6 @@ interface NewsFeedProps {
 
 export function NewsFeed({ posts, isAuthorized = false }: NewsFeedProps) {
     const router = useRouter();
-    // const [activePost, setActivePost] = useState<NewsRow | null>(null);
     const [deleteTarget, setDeleteTarget] = useState<number | null>(null);
     const [deleting, setDeleting] = useState(false);
 

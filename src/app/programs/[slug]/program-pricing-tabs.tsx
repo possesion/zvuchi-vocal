@@ -1,17 +1,15 @@
 'use client';
 
 import { Tabs } from '@radix-ui/themes';
-import { ProgramPricingTabsProps, Package } from '../types';
+import { Package, MentorLevelValue } from '../types';
+import { formatPrice, getAdjustedPrice, pricePerLesson } from '../utils';
 
-export function ProgramPricingTabs({ packages }: ProgramPricingTabsProps) {
+interface ProgramPricingTabsWithLevelProps {
+    packages: Package[]
+    selectedLevel: MentorLevelValue;
+}
 
-    const formatPrice = (price: number) => {
-        return new Intl.NumberFormat('ru-RU').format(price) + '₽';
-    };
-
-    const pricePerLesson = (pkg: Package) => {
-        return Math.round(pkg.price / pkg.lessons_count);
-    };
+export function ProgramPricingTabs({ packages, selectedLevel }: ProgramPricingTabsWithLevelProps) {
 
     if (!packages || packages.length === 0) {
         return null;
@@ -32,15 +30,19 @@ export function ProgramPricingTabs({ packages }: ProgramPricingTabsProps) {
             </Tabs.List>
 
             {packages.map((pkg) => (
-                <Tabs.Content key={pkg.price} value={String(pkg.lessons_count)} className="space-y-4">
+                <Tabs.Content 
+                    key={pkg.price} 
+                    value={String(pkg.lessons_count)} 
+                    className="space-y-4"
+                >
                     <div className="space-y-2">
                         <div className="flex items-baseline gap-3">
                             <span className="animate-[fade-in_1s_ease-in] text-4xl font-bold text-white">
-                                {formatPrice(pkg.price)}
+                                {formatPrice(getAdjustedPrice(pkg, selectedLevel))}
                             </span>
                         </div>
                         <p className="text-sm text-white/60">
-                            ({formatPrice(pricePerLesson(pkg))} за урок)
+                            ({formatPrice(pricePerLesson(pkg, selectedLevel))} за урок)
                         </p>
                     </div>
                 </Tabs.Content>

@@ -5,13 +5,12 @@ import { useRouter } from 'next/navigation'
 import { Trash2 } from 'lucide-react'
 import { ROLE_LABELS, ROLE_COLORS } from '@/lib/roles'
 import { UserRole, AppUser } from '@/lib/types'
+import { USER_FIELDS } from './constants'
 
 interface UsersTableProps {
     users: AppUser[]
     currentUserId: string
 }
-
-const USER_FIELDS = ['Email', 'Роль', 'Статус', 'Дата регистрации', ''];
 
 export function UsersTable({ users, currentUserId }: UsersTableProps) {
     const router = useRouter()

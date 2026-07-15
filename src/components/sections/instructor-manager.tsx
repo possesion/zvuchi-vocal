@@ -91,6 +91,7 @@ function InstructorFormComponent({ initial, onSave, onCancel, title }: Instructo
                 .map((s) => s.trim())
                 .filter(Boolean),
             techniques: values.techniques ?? [],
+            level: values.level ?? 'expert',
         };
         await onSave(data);
     };
@@ -107,12 +108,9 @@ function InstructorFormComponent({ initial, onSave, onCancel, title }: Instructo
                         {errors.name && <p className="text-xs text-red-400 mt-1">{errors.name.message}</p>}
                     </div>
                     <div><label className="mb-1 block text-xs text-white/60">Предмет (через запятую)</label><input {...register('specialty')} className={formInputCls} /></div>
-                    <div><label className="mb-1 block text-xs text-white/60">Опыт</label><input {...register('experience')} className={formInputCls} /></div>
                 </div>
             </div>
             <div><label className="mb-1 block text-xs text-white/60">Сверхсила</label><input {...register('feature')} className={formInputCls} /></div>
-            <div><label className="mb-1 block text-xs text-white/60">Биография</label><textarea {...register('bio')} rows={4} className={`${formInputCls} resize-y`} /></div>
-            <div><label className="mb-1 block text-xs text-white/60">Ссылка на видео</label><input {...register('video')} className={formInputCls} /></div>
             <div><label className="mb-1 block text-xs text-white/60">Порядок отображения</label><input type="number" {...register('sortOrder')} className={formInputCls} /></div>
             <div className="flex justify-end gap-2 pt-1">
                 <button type="button" onClick={onCancel} className="rounded-sm px-3 py-1.5 text-sm text-white/60 hover:text-white">Отмена</button>
@@ -226,7 +224,8 @@ export function InstructorManager({ instructors }: InstructorManagerProps) {
                                 slug: inst.slug,
                                 presentationVideo: inst.presentationVideo,
                                 performanceVideos: inst.performanceVideos,
-                                techniques: inst.techniques
+                                techniques: inst.techniques,
+                                level: inst.level
                             }}
                             onSave={(data) => handleEdit(inst.id, data)}
                             onCancel={() => setEditingId(null)}

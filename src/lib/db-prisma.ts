@@ -1,5 +1,6 @@
 import { PrismaClient } from '../../prisma/generated/client';
 import { PrismaBetterSqlite3 } from '@prisma/adapter-better-sqlite3';
+import { MentorLevel } from '../../prisma/generated/enums';
 import { createSlug } from '@/app/api/v1/utils';
 import path from 'path';
 
@@ -308,6 +309,7 @@ export async function getAllInstructors(): Promise<Instructor[]> {
       presentationVideo: inst.presentationVideo,
       performanceVideos,
       techniques,
+      level: inst.level as MentorLevel,
     };
   });
 }
@@ -349,6 +351,7 @@ export async function getInstructorById(id: number): Promise<Instructor | undefi
     presentationVideo: inst.presentationVideo,
     performanceVideos,
     techniques,
+    level: inst.level as MentorLevel,
   };
 }
 
@@ -389,6 +392,7 @@ export async function getInstructorBySlug(slug: string): Promise<Instructor | un
     presentationVideo: inst.presentationVideo,
     performanceVideos,
     techniques,
+    level: inst.level as MentorLevel,
   };
 }
 
@@ -429,6 +433,7 @@ export async function getInstructorByName(name: string): Promise<Instructor | un
     presentationVideo: inst.presentationVideo,
     performanceVideos,
     techniques,
+    level: inst.level as MentorLevel,
   };
 }
 
@@ -452,6 +457,7 @@ export async function createInstructor(
       presentationVideo: data.presentationVideo ?? '',
       performanceVideos: JSON.stringify(data.performanceVideos ?? []),
       techniques: JSON.stringify(data.techniques ?? []),
+      level: data.level,
     },
   });
 
@@ -484,6 +490,7 @@ export async function createInstructor(
     presentationVideo: created.presentationVideo,
     performanceVideos,
     techniques,
+    level: created.level as MentorLevel,
   };
 }
 
@@ -504,6 +511,7 @@ export async function updateInstructor(data: Instructor): Promise<Instructor> {
       presentationVideo: data.presentationVideo,
       performanceVideos: JSON.stringify(data.performanceVideos ?? []),
       techniques: JSON.stringify(data.techniques ?? []),
+      level: data.level,
     },
   });
 
@@ -536,6 +544,7 @@ export async function updateInstructor(data: Instructor): Promise<Instructor> {
     presentationVideo: updated.presentationVideo,
     performanceVideos,
     techniques,
+    level: updated.level as MentorLevel,
   };
 }
 
@@ -955,7 +964,7 @@ export async function createProgram(
     lessonDuration: created.lessonDuration,
     programDuration: created.programDuration,
     features,
-    isPopular: created.isPopular,
+        isPopular: created.isPopular,
     sortOrder: created.sortOrder,
     createdAt: created.createdAt.toISOString(),
     updatedAt: created.updatedAt.toISOString(),
