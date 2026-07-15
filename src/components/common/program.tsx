@@ -36,7 +36,7 @@ export const Program: FC<ProgramProps> = ({ description, title, price, originalP
             </div>
             <div className="">
                 <h3 className="mb-4 block text-2xl font-bold xl:text-4xl">{title}</h3>
-                <p className="mb-2 whitespace-pre font-bold">{description}</p>
+                <p className="mb-2 whitespace-pre-line font-bold">{description}</p>
             </div>
             <div className="flex justify-between pr-4 text-xl font-bold md:ml-auto md:flex-col lg:text-4xl">
                 <div className="flex items-center gap-3">

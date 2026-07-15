@@ -66,7 +66,7 @@ export default async function ProgramDetailPage({ params }: ProgramPageProps) {
                                 <h1 className="mb-4 text-4xl font-bold tracking-tight text-shadow-lg md:text-5xl">
                                     {program.title}
                                 </h1>
-                                <p className="text-xl text-white/80">
+                                <p className="text-xl text-white/80 whitespace-pre-line">
                                     {program.shortDescription}
                                 </p>
                             </header>
