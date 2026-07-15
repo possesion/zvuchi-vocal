@@ -24,18 +24,18 @@ export function InstructorProfile({ instructor, techniqueTerms, isAuthorized }: 
 
     return (
         <div className="relative">
-            <div className='flex justify-between'>
-                <p className='text-3xl'>{MentorLevel[instructor.level].title}–педагог</p>
+            <div className='flex justify-between mb-4 text-3xl'>
+                <p><span className='font-semibold'>{MentorLevel[instructor.level].title}</span> наставник</p>
             {/* Edit button */}
             {isAuthorized && !isEditing && (
-                <div className="flex justify-end mb-4">
+                <div className="flex justify-end">
                     <button
                         onClick={() => setIsEditing(true)}
                         className="inline-flex items-center gap-2 rounded-sm bg-white/10 px-4 py-2 text-sm text-white hover:bg-[var(--color-brand)]/30 transition-colors"
                         aria-label="Редактировать профиль"
                     >
                         <Pencil className="h-4 w-4" />
-                        Редактировать
+                        <span className="hidden lg:block">Редактировать</span>
                     </button>
                 </div>
             )}
