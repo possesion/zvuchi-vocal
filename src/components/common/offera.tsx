@@ -72,6 +72,7 @@ export const Offera: FC<OfferaProps> = ({ children, document }) => {
     // Загружаем документ только при открытии модалки
     useEffect(() => {
         if (isModalOpen && !docIsLoaded) {
+            {/* eslint-disable-next-line react-hooks/set-state-in-effect */}
             loadDocument();
         }
     }, [isModalOpen, docIsLoaded, loadDocument]);
@@ -165,28 +166,6 @@ export const Offera: FC<OfferaProps> = ({ children, document }) => {
                     )}
                 </div>
             </div>
-
-            {/* <Dialog.Close asChild>
-                            <button
-                                className="absolute right-4 top-4 rounded-full bg-gray-100 p-2 text-gray-600 transition-colors hover:bg-gray-200"
-                                aria-label="Закрыть диалог"
-                            >
-                                <svg
-                                    className="h-6 w-6"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                    aria-hidden="true"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M6 18L18 6M6 6l12 12"
-                                    />
-                                </svg>
-                            </button>
-                        </Dialog.Close>      */}
         </PlatformDialog>
     );
 };

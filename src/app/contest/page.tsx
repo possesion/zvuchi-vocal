@@ -20,11 +20,6 @@ export default function ContestPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [votingFor, setVotingFor] = useState<number | null>(null);
 
-  useEffect(() => {
-    checkVotingStatus();
-    fetchResults();
-  }, []);
-
   const checkVotingStatus = async () => {
     try {
       const response = await fetch('/api/contest/check-vote');
@@ -46,6 +41,15 @@ export default function ContestPage() {
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    const initializeData = async () => {
+    await checkVotingStatus();
+    await fetchResults();
+  };
+
+    initializeData();
+  }, []);
 
   const handleVote = async (id: number) => {
     if (hasVoted) return;

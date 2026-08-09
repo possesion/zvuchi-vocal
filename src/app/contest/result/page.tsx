@@ -1,11 +1,12 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useLayoutEffect } from 'react';
 import Image from 'next/image';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 import { Trophy } from 'lucide-react';
 import { ContestPieChart } from '@/components/contest/contest-pie-chart';
+import { useEffectOnce } from 'react-use';
 
 interface Contestant {
     id: number;
@@ -19,10 +20,6 @@ export default function ContestResultPage() {
     const [contestants, setContestants] = useState<Contestant[]>([]);
     const [isLoading, setIsLoading] = useState(true);
 
-    useEffect(() => {
-        fetchResults();
-    }, []);
-
     const fetchResults = async () => {
         try {
             const response = await fetch('/api/contest');
@@ -34,6 +31,10 @@ export default function ContestResultPage() {
             setIsLoading(false);
         }
     };
+
+    useEffectOnce(() => {
+        fetchResults();
+    });
 
     const totalVotes = contestants.reduce((sum, c) => sum + c.votes, 0);
 

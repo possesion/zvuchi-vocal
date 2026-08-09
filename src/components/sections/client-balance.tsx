@@ -19,13 +19,12 @@ interface BalanceField {
 
 
 export function ClientBalance({ phoneVerified }: ClientBalanceProps) {
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(() => phoneVerified);
     const [error, setError] = useState<string | null>(null);
     const [data, setData] = useState<ClientBalanceData | null>(null);
 
     useEffect(() => {
         if (!phoneVerified) {
-            setLoading(false);
             return;
         }
 

@@ -17,14 +17,12 @@ function setCookie(name: string, value: string, days: number): void {
 }
 
 export function CookieConsent() {
-    const [visible, setVisible] = useState(false);
-
-    useEffect(() => {
+    const [visible, setVisible] = useState(() => {
+        // Проверяем наличие cookie только на клиенте
+        if (typeof window === 'undefined') return false;
         const consent = getCookie(CONSENT_COOKIE_NAME);
-        if (!consent) {
-            setVisible(true);
-        }
-    }, []);
+        return !consent;
+    });
 
     const handleAgree = () => {
         setCookie(CONSENT_COOKIE_NAME, 'true', CONSENT_COOKIE_DAYS);
