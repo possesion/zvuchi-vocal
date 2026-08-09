@@ -138,8 +138,19 @@ const nextConfig: NextConfig = {
     optimizePackageImports: ['lucide-react', '@radix-ui/react-dialog'],
   },
 
-  // Turbopack configuration (required in Next.js 16 to avoid webpack conflict)
-  turbopack: {},
+  webpack: (config, { dev, isServer }) => {
+    if (!dev && !isServer) {
+      config.optimization.splitChunks.cacheGroups = {
+        ...config.optimization.splitChunks.cacheGroups,
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
+          chunks: 'all',
+        },
+      };
+    }
+    return config;
+  },
 };
 
 export default nextConfig;
