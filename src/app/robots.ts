@@ -5,19 +5,11 @@ export default function sitemap(): MetadataRoute.Robots {
 
   return {
     rules: [
-      {
-        userAgent: 'Yandex',
-        allow: '/',
-        other: {
-          'Clean-param': 'yabizcmpgn&ybaip&etext /',
-        },
-      },
-      {
-        userAgent: '*',
-        allow: '/',
-        disallow: ['/contest/', '/api/', '/_next/']
-      },
-
+        {
+            userAgent: '*',
+            allow: '/',
+            disallow: ['/contest/', '/api/', '/_next/']
+        }
     ],
     sitemap: `${baseUrl}/sitemap.xml`
   }

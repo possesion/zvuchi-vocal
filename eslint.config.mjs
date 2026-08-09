@@ -1,21 +1,16 @@
-import { defineConfig, globalIgnores } from 'eslint/config'
-import nextVitals from 'eslint-config-next/core-web-vitals'
+import { dirname } from "path";
+import { fileURLToPath } from "url";
+import { FlatCompat } from "@eslint/eslintrc";
 
-const eslintConfig = defineConfig([
-  ...nextVitals,
-  // Override default ignores of eslint-config-next.
-  globalIgnores([
-    // Default ignores of eslint-config-next:
-    '.next/**',
-    '.husky/**',
-    '.kiro/**',
-    'out/**',
-    'node_modules/**',
-    'build/**',
-    'prisma/generated/**',
-    'data/**',
-    'next-env.d.ts',
-  ]),
-])
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
-export default eslintConfig
+const compat = new FlatCompat({
+  baseDirectory: __dirname,
+});
+
+const eslintConfig = [
+  ...compat.extends("next/core-web-vitals", "next/typescript"),
+];
+
+export default eslintConfig;

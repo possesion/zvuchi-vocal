@@ -11,11 +11,12 @@
     "strict": true,
     "noEmit": true,
     "esModuleInterop": true,
+    // "ignoreDeprecations": "6.0",
     "module": "ESNext",
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "react-jsx",
+    "jsx": "preserve",
     "incremental": true,
     "plugins": [
       {
@@ -35,10 +36,7 @@
     ".next/types/**/*.ts",
     "tailwind.config.js",
     "src/lib/metrika.js",
-    "src/types/**/*.d.ts",
-    "vitest.config.mts",
-    "vitest.config.mts",
-    ".next/dev/types/**/*.ts"
+    "src/types/**/*.d.ts"
   ],
   "exclude": [
     "node_modules"

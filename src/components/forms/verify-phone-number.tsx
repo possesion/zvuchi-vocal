@@ -44,13 +44,6 @@ export const VerifyPhoneNumber = ({ verificationDisabled, phone }: VerifyPhoneNu
         setOtpCode('');
     }, []);
 
-    if (mobileIdError) {
-        setMessage(mobileIdError.message);
-    }
-    if (mobileIdState === 'otp') {
-        setStatus('entering_otp');
-    }
-
     // Регистрация обработчиков событий
     useEffect(() => {
         onVerified(async (verifyToken) => {
@@ -142,11 +135,25 @@ export const VerifyPhoneNumber = ({ verificationDisabled, phone }: VerifyPhoneNu
         await init();
     };
 
+    // Автоматический переход к вводу OTP при готовности
+    useEffect(() => {
+        if (mobileIdState === 'otp') {
+            setStatus('entering_otp');
+        }
+    }, [mobileIdState]);
+
     useEffect(() => {
         if (status === 'success') {
             router.refresh();
         }
     }, [router, status]);
+
+    // Отображение ошибок SDK
+    useEffect(() => {
+        if (mobileIdError) {
+            setMessage(mobileIdError.message);
+        }
+    }, [mobileIdError]);
 
     return (
         <Dialog.Root>

@@ -140,10 +140,21 @@ const nextConfig: NextConfig = {
     },
     optimizePackageImports: ['lucide-react', '@radix-ui/react-dialog'],
   },
-  // turbopack: {
-  //     rules: {
-  //     },
-  //   },
+
+  // Webpack optimizations
+  webpack: (config, { dev, isServer }) => {
+    if (!dev && !isServer) {
+      config.optimization.splitChunks.cacheGroups = {
+        ...config.optimization.splitChunks.cacheGroups,
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
+          chunks: 'all',
+        },
+      };
+    }
+    return config;
+  },
 };
 
 export default nextConfig;

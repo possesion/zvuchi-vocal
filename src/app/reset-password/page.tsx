@@ -12,11 +12,15 @@ export default function ResetPasswordPage() {
     const router = useRouter()
     const searchParams = useSearchParams()
     const [success, setSuccess] = useState(false)
-    const [invalidToken, setInvalidToken] = useState(() => !token)
+    const [invalidToken, setInvalidToken] = useState(false)
 
     const token = searchParams.get('token')
 
-
+    useEffect(() => {
+        if (!token) {
+            setInvalidToken(true)
+        }
+    }, [token])
 
     const {
         register,
