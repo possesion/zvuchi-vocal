@@ -20,11 +20,6 @@ export default function ContestPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [votingFor, setVotingFor] = useState<number | null>(null);
 
-  useEffect(() => {
-    checkVotingStatus();
-    fetchResults();
-  }, []);
-
   const checkVotingStatus = async () => {
     try {
       const response = await fetch('/api/contest/check-vote');
@@ -69,6 +64,11 @@ export default function ContestPage() {
       setVotingFor(null);
     }
   };
+
+    useEffect(() => {
+    checkVotingStatus();
+    fetchResults();
+  }, []);
 
   const totalVotes = contestants.reduce((sum, c) => sum + c.votes, 0);
 

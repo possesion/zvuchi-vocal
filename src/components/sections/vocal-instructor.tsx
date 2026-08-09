@@ -66,7 +66,7 @@ const VocalInstructor = ({ instructor, showTip }: VocalInstructor) => {
                     </div>
                     : null}
                 <div
-                    className="relative h-90 w-80 rounded-sm inset-ring-4 inset-ring-violet-900"
+                    className="relative h-90 w-86 rounded-sm inset-ring-4 inset-ring-violet-900"
                     key={instructor.image}
                 >
                     <Image

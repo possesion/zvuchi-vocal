@@ -19,10 +19,6 @@ export default function ContestResultPage() {
     const [contestants, setContestants] = useState<Contestant[]>([]);
     const [isLoading, setIsLoading] = useState(true);
 
-    useEffect(() => {
-        fetchResults();
-    }, []);
-
     const fetchResults = async () => {
         try {
             const response = await fetch('/api/contest');
@@ -34,6 +30,10 @@ export default function ContestResultPage() {
             setIsLoading(false);
         }
     };
+
+    useEffect(() => {
+        fetchResults();
+    }, []);
 
     const totalVotes = contestants.reduce((sum, c) => sum + c.votes, 0);
 

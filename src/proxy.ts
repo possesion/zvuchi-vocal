@@ -17,7 +17,7 @@ function isAdminOnlyPath(pathname: string): boolean {
     return ADMIN_ONLY_PATHS.some((p) => pathname.startsWith(p))
 }
 
-export default auth((req) => {
+const proxyHandler = auth((req) => {
     const { pathname } = req.nextUrl
     const session = req.auth
     const role = session?.user?.role as UserRole | undefined
@@ -39,6 +39,12 @@ export default auth((req) => {
 
     return NextResponse.next()
 })
+
+// Named export as 'proxy' (Next.js 16 requirement)
+export const proxy = proxyHandler
+
+// Default export for backwards compatibility
+export default proxyHandler
 
 export const config = {
     matcher: [
