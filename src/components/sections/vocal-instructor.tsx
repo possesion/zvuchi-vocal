@@ -66,7 +66,7 @@ const VocalInstructor = ({ instructor, showTip }: VocalInstructor) => {
                     </div>
                     : null}
                 <div
-                    className="relative h-90 w-86 rounded-sm inset-ring-4 inset-ring-violet-900"
+                    className="relative h-94 w-86 rounded-sm inset-ring-4 inset-ring-violet-900"
                     key={instructor.image}
                 >
                     <Image
@@ -74,6 +74,7 @@ const VocalInstructor = ({ instructor, showTip }: VocalInstructor) => {
                         sizes="300px"
                         alt={`Фото преподавателя ${instructor.name}`}
                         fill
+                        loading='eager'
                         className="group overflow-hidden rounded-sm object-cover transition-transform group-hover:scale-105"
                     />
                     <div className={`absolute bottom-1 right-1 px-3 py-1 rounded-sm ${levelStyle.bg} ${levelStyle.text} shadow-lg`}>

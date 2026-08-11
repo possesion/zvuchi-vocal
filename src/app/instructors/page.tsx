@@ -66,7 +66,7 @@ export default async function InstructorsPage() {
                             </div>
                         )}
 
-                        <div className="container grid grid-cols-1 gap-8 sm:grid-cols-2 lg:gap-y-12 lg:grid-cols-3">
+                        <div className="container grid grid-cols-1 gap-8 sm:grid-cols-2 lg:gap-y-12 xl:grid-cols-3">
                             {instructorProps.map((instructor, idx) => (
                                 <Link
                                     key={instructor.name}
