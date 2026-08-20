@@ -24,7 +24,6 @@
 # misc
 .DS_Store
 *.pem
-wiki.db
 
 # debug
 npm-debug.log*
@@ -44,7 +43,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 data/
-wiki.db*
 
 # ORM generated code
 prisma/generated/

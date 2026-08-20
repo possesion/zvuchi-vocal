@@ -24,7 +24,7 @@ This is a vocal school website built with:
 - Next.js 16 (App Router)
 - TypeScript
 - Tailwind CSS v4
-- Prisma ORM with SQLite
+- Prisma ORM with PostgreSQL
 - NextAuth v5 for authentication
 
 See `.kiro/steering/` for detailed coding conventions and project guidelines.

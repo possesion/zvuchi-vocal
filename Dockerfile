@@ -40,7 +40,7 @@ WORKDIR /app
 
 # Runtime dependencies only:
 # - canvas/image processing (cairo, jpeg, pango, giflib)
-# - pg driver is pure JS — sqlite-libs больше не нужен
+# - pg driver is pure JS — no native deps needed
 RUN apk add --no-cache cairo jpeg pango giflib
 
 # Copy standalone server from builder
@@ -50,7 +50,7 @@ COPY --from=builder /app/.next/standalone ./standalone
 COPY --from=builder /app/.next/static ./standalone/.next/static
 COPY --from=builder /app/public ./standalone/public
 
-# Copy compiled node_modules from builder (includes Prisma Client and better-sqlite3)
+# Copy compiled node_modules from builder (includes Prisma Client and pg adapter)
 COPY --from=builder /app/node_modules ./standalone/node_modules
 
 # Copy Prisma schema and migrations for runtime
@@ -63,7 +63,7 @@ COPY --from=builder /app/prisma.config.ts ./standalone/prisma.config.ts
 COPY docker-entrypoint.sh ./standalone/docker-entrypoint.sh
 RUN chmod +x ./standalone/docker-entrypoint.sh
 
-# Create data directory inside standalone for SQLite database
+# Create data directory inside standalone
 RUN chown -R node:node /app/standalone
 
 # Run as non-root user
