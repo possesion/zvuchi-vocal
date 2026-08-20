@@ -88,7 +88,7 @@ export function StudioGallery() {
                     navigation
                     spaceBetween={12}
                 >
-                    {STUDIO_PHOTOS.map((photo) => (
+                    {STUDIO_PHOTOS.map((photo, index) => (
                         <SwiperSlide key={photo.src}>
                             <div className="relative w-full aspect-[4/3] overflow-hidden rounded-sm">
                                 <Image
@@ -97,6 +97,8 @@ export function StudioGallery() {
                                     fill
                                     className="object-scale-down object-top"
                                     sizes="100vw"
+                                    // First slide is the LCP element on mobile — disable lazy loading
+                                    priority={index === 0}
                                 />
                             </div>
                         </SwiperSlide>
