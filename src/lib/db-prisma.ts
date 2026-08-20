@@ -1,8 +1,7 @@
 import { PrismaClient } from '../../prisma/generated/client';
-import { PrismaBetterSqlite3 } from '@prisma/adapter-better-sqlite3';
+import { PrismaPg } from '@prisma/adapter-pg';
 import { MentorLevel } from '../../prisma/generated/enums';
 import { createSlug } from '@/app/api/v1/utils';
-import path from 'path';
 
 import {
   WikiCategoryRow,
@@ -21,19 +20,9 @@ let prismaInstance: PrismaClient | null = null;
 
 function getPrisma(): PrismaClient {
   if (!prismaInstance) {
-    let dbUrl = process.env.DATABASE_URL || 'file:./data/wiki.db';
-
-    // Convert relative paths to absolute paths for SQLite
-    // This ensures the database works in all environments (local, Docker, production)
-    if (dbUrl.startsWith('file:./')) {
-      const relativePath = dbUrl.replace('file:', '');
-      const absolutePath = path.resolve(process.cwd(), relativePath);
-      dbUrl = `file:${absolutePath}`;
-    }    
-    const adapter = new PrismaBetterSqlite3({
-      url: dbUrl,
-    });
-    
+    const connectionString = process.env.DATABASE_URL;
+    if (!connectionString) throw new Error('DATABASE_URL is not set');
+    const adapter = new PrismaPg({ connectionString });
     prismaInstance = new PrismaClient({ adapter });
   }
   return prismaInstance;

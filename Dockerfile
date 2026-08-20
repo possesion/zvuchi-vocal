@@ -5,8 +5,8 @@ WORKDIR /app
 
 # Build dependencies for:
 # - canvas/image processing (cairo, jpeg, pango, giflib)
-# - better-sqlite3 native module (python3, make, g++, sqlite-dev)
-RUN apk add --no-cache python3 make g++ cairo-dev jpeg-dev pango-dev giflib-dev sqlite-dev
+# - @prisma/adapter-pg uses pg which is pure JS — no native deps needed
+RUN apk add --no-cache python3 make g++ cairo-dev jpeg-dev pango-dev giflib-dev
 
 # Copy package files first for layer caching
 COPY package*.json ./
@@ -20,8 +20,9 @@ COPY . .
 # Copy Prisma schema and migrations
 COPY prisma ./prisma
 
-# Set DATABASE_URL for Prisma Client generation
-ENV DATABASE_URL="file:./data/wiki.db"
+# Placeholder DATABASE_URL for Prisma Client generation at build time
+# Real value is injected at runtime via env_file in docker-compose
+ENV DATABASE_URL="postgresql://placeholder:placeholder@localhost:5432/placeholder"
 
 # Generate Prisma Client
 RUN npx prisma generate
@@ -39,8 +40,8 @@ WORKDIR /app
 
 # Runtime dependencies only:
 # - canvas/image processing (cairo, jpeg, pango, giflib)
-# - better-sqlite3 (sqlite-libs)
-RUN apk add --no-cache cairo jpeg pango giflib sqlite-libs
+# - pg driver is pure JS — sqlite-libs больше не нужен
+RUN apk add --no-cache cairo jpeg pango giflib
 
 # Copy standalone server from builder
 COPY --from=builder /app/.next/standalone ./standalone
@@ -71,7 +72,7 @@ USER node
 # Port configuration
 ENV PORT=3000
 ENV NODE_ENV=production
-ENV DATABASE_URL="file:./data/wiki.db"
+# DATABASE_URL задаётся через env_file в docker-compose, не хардкодим здесь
 
 WORKDIR /app/standalone
 

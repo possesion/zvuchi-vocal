@@ -1,5 +1,5 @@
 // Prisma schema for vocal-school application
-// Database: SQLite (data/wiki.db)
+// Database: PostgreSQL
 // This schema defines all models for the vocal school platform
 
 generator client {
@@ -8,7 +8,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
 }
 
 // ─── Enums ────────────────────────────────────────────────────────────────────
