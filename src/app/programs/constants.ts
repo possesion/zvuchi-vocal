@@ -1,6 +1,6 @@
 export const LevelMultipliers = {
   expert: 1.0,
-  master: 1.4
+  master: 1.3
 } as const;
 
 export const MentorLevel = {
