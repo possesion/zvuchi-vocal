@@ -7,9 +7,10 @@ import { formatPrice, getAdjustedPrice, pricePerLesson } from '../utils';
 interface ProgramPricingTabsWithLevelProps {
     packages: Package[]
     selectedLevel: MentorLevelValue;
+    masterMultiplier: number;
 }
 
-export function ProgramPricingTabs({ packages, selectedLevel }: ProgramPricingTabsWithLevelProps) {
+export function ProgramPricingTabs({ packages, selectedLevel, masterMultiplier }: ProgramPricingTabsWithLevelProps) {
 
     if (!packages || packages.length === 0) {
         return null;
@@ -38,11 +39,11 @@ export function ProgramPricingTabs({ packages, selectedLevel }: ProgramPricingTa
                     <div className="space-y-2">
                         <div className="flex items-baseline gap-3">
                             <span className="animate-[fade-in_1s_ease-in] text-4xl font-bold text-white">
-                                {formatPrice(getAdjustedPrice(pkg, selectedLevel))}
+                                {formatPrice(getAdjustedPrice(pkg, selectedLevel, masterMultiplier))}
                             </span>
                         </div>
                         <p className="text-sm text-white/60">
-                            ({formatPrice(pricePerLesson(pkg, selectedLevel))} за урок)
+                            ({formatPrice(pricePerLesson(pkg, selectedLevel, masterMultiplier))} за урок)
                         </p>
                     </div>
                 </Tabs.Content>

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { submitMailForm } from '@/lib/submit-mail-form';
 import { trackEvent } from '@/hooks/use-yandex-metrica';
@@ -16,6 +16,7 @@ export default function EnrollmentForm() {
 
     const {
         register,
+        control,
         handleSubmit,
         setValue,
         watch,
@@ -25,6 +26,7 @@ export default function EnrollmentForm() {
         resolver: yupResolver(ContactSchema),
         defaultValues: { name: '', phone: '', isAgreed: false },
     });
+    const isAgreed = useWatch({ control, name: 'isAgreed' });
 
     const onSubmit = async (data: ContactForm) => {
         try {
@@ -118,7 +120,7 @@ export default function EnrollmentForm() {
                     <div className="md:col-span-3">
                         <button
                             type="submit"
-                            disabled={isSubmitting}
+                            disabled={isSubmitting || !isAgreed}
                             className="cursor-pointer bg-radial-[at_40%] from-violet-800 to-violet-950 to-80% group relative mx-auto block overflow-hidden rounded-sm w-full px-8 py-4 font-bold text-white shadow-lg transition-all duration-300 hover:shadow-xl hover:-translate-y-0.5 hover:shadow-[rgb(88,22,66)]/40 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:translate-y-0 md:w-70"
                         >
                             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full transition-transform duration-700 group-hover:translate-x-full" />

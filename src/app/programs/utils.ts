@@ -5,12 +5,18 @@ export const formatPrice = (price: number) => {
         return new Intl.NumberFormat('ru-RU').format(price) + '₽';
     };
 
-    export const pricePerLesson = (pkg: Package, selectedLevel: MentorLevelValue) => {
-        const adjustedPrice = Math.round(pkg.price * LevelMultipliers[selectedLevel]);
+    export const pricePerLesson = (pkg: Package, selectedLevel: MentorLevelValue, masterMultiplier?: number) => {
+        const multiplier = selectedLevel === 'master'
+            ? (masterMultiplier ?? LevelMultipliers.master)
+            : LevelMultipliers[selectedLevel];
+        const adjustedPrice = Math.round(pkg.price * multiplier);
         return Math.round(adjustedPrice / pkg.lessons_count);
     };
 
-    export const getAdjustedPrice = (pkg: Package, selectedLevel: MentorLevelValue) => {
-        const finalPrice = pkg.price * LevelMultipliers[selectedLevel];
+    export const getAdjustedPrice = (pkg: Package, selectedLevel: MentorLevelValue, masterMultiplier?: number) => {
+        const multiplier = selectedLevel === 'master'
+            ? (masterMultiplier ?? LevelMultipliers.master)
+            : LevelMultipliers[selectedLevel];
+        const finalPrice = pkg.price * multiplier;
         return Math.round(finalPrice / 100) * 100;
     };

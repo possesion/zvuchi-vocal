@@ -823,6 +823,7 @@ export async function getAllPrograms(): Promise<Program[]> {
       features,
       isPopular: p.isPopular,
       sortOrder: p.sortOrder,
+      masterMultiplier: p.masterMultiplier,
       createdAt: p.createdAt.toISOString(),
       updatedAt: p.updatedAt.toISOString(),
     };
@@ -864,6 +865,7 @@ export async function getProgramBySlug(slug: string): Promise<Program | undefine
     features,
     isPopular: p.isPopular,
     sortOrder: p.sortOrder,
+    masterMultiplier: p.masterMultiplier,
     createdAt: p.createdAt.toISOString(),
     updatedAt: p.updatedAt.toISOString(),
   };
@@ -904,6 +906,7 @@ export async function getProgramById(id: number): Promise<Program | undefined> {
     features,
     isPopular: p.isPopular,
     sortOrder: p.sortOrder,
+    masterMultiplier: p.masterMultiplier,
     createdAt: p.createdAt.toISOString(),
     updatedAt: p.updatedAt.toISOString(),
   };
@@ -925,6 +928,7 @@ export async function createProgram(
       features: JSON.stringify(data.features ?? []),
       isPopular: data.isPopular,
       sortOrder: data.sortOrder,
+      masterMultiplier: data.masterMultiplier,
     },
   });
 
@@ -955,6 +959,7 @@ export async function createProgram(
     features,
         isPopular: created.isPopular,
     sortOrder: created.sortOrder,
+    masterMultiplier: created.masterMultiplier,
     createdAt: created.createdAt.toISOString(),
     updatedAt: created.updatedAt.toISOString(),
   };
@@ -975,6 +980,7 @@ export async function updateProgram(data: Program): Promise<Program> {
       features: JSON.stringify(data.features ?? []),
       isPopular: data.isPopular,
       sortOrder: data.sortOrder,
+      masterMultiplier: data.masterMultiplier,
     },
   });
 
@@ -1005,6 +1011,7 @@ export async function updateProgram(data: Program): Promise<Program> {
     features,
     isPopular: updated.isPopular,
     sortOrder: updated.sortOrder,
+    masterMultiplier: updated.masterMultiplier,
     createdAt: updated.createdAt.toISOString(),
     updatedAt: updated.updatedAt.toISOString(),
   };

@@ -75,6 +75,7 @@ export interface Program {
   id: number
   isPopular: boolean
   lessonDuration: number
+  masterMultiplier: number
   packages: Package[]
   programDuration: number
   shortDescription: string

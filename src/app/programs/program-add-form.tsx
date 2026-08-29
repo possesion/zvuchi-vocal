@@ -35,6 +35,7 @@ export function ProgramAddForm() {
             features: '',
             is_popular: false,
             sort_order: 0,
+            master_multiplier: 1.3,
         },
     });
 
@@ -212,6 +213,19 @@ export function ProgramAddForm() {
                         className={inputCls}
                     />
                 </div>
+            </div>
+
+            <div className="space-y-1">
+                <label className="text-sm text-gray-300">Множитель мастера</label>
+                <input
+                    type="number"
+                    step="0.01"
+                    min="1.0"
+                    max="2.0"
+                    {...register('master_multiplier')}
+                    className={errors.master_multiplier ? inputErrorCls : inputCls}
+                />
+                {errors.master_multiplier && <p className="text-sm text-red-400">{errors.master_multiplier.message}</p>}
             </div>
 
             {errors.root && <p className="text-sm text-red-400">{errors.root.message}</p>}

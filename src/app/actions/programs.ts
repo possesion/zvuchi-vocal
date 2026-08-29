@@ -21,6 +21,7 @@ interface ProgramFormData {
     features: string
     is_popular: boolean
     sort_order: number
+    master_multiplier?: number
 }
 
 export async function createProgramAction(
@@ -47,6 +48,7 @@ export async function createProgramAction(
             features,
             isPopular: data.is_popular,
             sortOrder: data.sort_order,
+            masterMultiplier: data.master_multiplier ?? 1.3,
         })
 
         return { success: true, data: { id: created.id } }
@@ -85,6 +87,7 @@ export async function updateProgramAction(
             features,
             isPopular: data.is_popular,
             sortOrder: data.sort_order,
+            masterMultiplier: data.master_multiplier ?? existingProgram.masterMultiplier,
             createdAt: existingProgram.createdAt,
             updatedAt: new Date().toISOString(),
         })

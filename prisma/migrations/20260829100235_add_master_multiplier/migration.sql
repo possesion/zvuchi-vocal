@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Program" ADD COLUMN "masterMultiplier" DOUBLE PRECISION NOT NULL DEFAULT 1.3;

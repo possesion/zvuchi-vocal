@@ -65,6 +65,10 @@ export const ProgramSchema = yup.object({
     features: yup.string().default(''),
     is_popular: yup.boolean().default(false),
     sort_order: yup.number().default(0),
+    master_multiplier: yup.number()
+        .min(1.0, 'Множитель должен быть от 1.0 до 2.0')
+        .max(2.0, 'Множитель должен быть от 1.0 до 2.0')
+        .default(1.3),
 });
 
 export type ProgramForm = {
@@ -80,6 +84,7 @@ export type ProgramForm = {
     features: string
     is_popular: boolean
     sort_order: number
+    master_multiplier: number
 }
 
 // ─── Profile ──────────────────────────────────────────────────────────────────

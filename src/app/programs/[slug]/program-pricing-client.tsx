@@ -9,9 +9,10 @@ import { MentorLevel } from '../constants';
 
 interface ProgramPricingClientProps {
     packages: Package[];
+    masterMultiplier: number;
 }
 
-export function ProgramPricingClient({ packages }: ProgramPricingClientProps) {
+export function ProgramPricingClient({ packages, masterMultiplier }: ProgramPricingClientProps) {
     const [selectedLevel, setSelectedLevel] = useState<MentorLevelValue>(MentorLevel.expert.value);
     const levels = useMemo(() => Object.values(MentorLevel), []);
 
@@ -27,6 +28,7 @@ export function ProgramPricingClient({ packages }: ProgramPricingClientProps) {
             <ProgramPricingTabs
                 packages={packages}
                 selectedLevel={selectedLevel}
+                masterMultiplier={masterMultiplier}
             />
         </>
     );
