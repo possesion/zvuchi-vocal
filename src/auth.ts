@@ -6,6 +6,7 @@
 import NextAuth from 'next-auth'
 import Credentials from 'next-auth/providers/credentials'
 import Google from 'next-auth/providers/google'
+import YandexProvider from 'next-auth/providers/yandex'
 import bcrypt from 'bcryptjs'
 import { getUserByEmail, createUser, updateUser } from '@/lib/db-prisma'
 import { authConfig } from '@/auth.config'
@@ -70,6 +71,10 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         Google({
             clientId: process.env.GOOGLE_CLIENT_ID!,
             clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+        }),
+        YandexProvider({
+            clientId: process.env.YANDEX_CLIENT_ID,
+            clientSecret: process.env.YANDEX_CLIENT_SECRET
         }),
         Credentials({
             name: 'credentials',

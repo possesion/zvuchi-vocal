@@ -61,6 +61,10 @@ export default function LoginPage() {
         signIn('google', { callbackUrl: '/profile' })
     }
 
+    const handleYandexSignIn = () => {
+        signIn('yandex', { callbackUrl: '/profile' })
+    }
+
     return (
         <div className="flex min-h-screen items-center justify-center bg-zinc-950 px-4">
             <form
@@ -173,12 +177,27 @@ export default function LoginPage() {
                 >
                     <Image
                         src="/socials/google.svg"
-                        alt=""
+                        alt="google-icon"
                         aria-hidden="true"
                         width={18}
                         height={18}
                     />
                     Войти через Google
+                </button>
+
+                <button
+                    type="button"
+                    onClick={handleYandexSignIn}
+                    className="mt-3 cursor-pointer flex w-full items-center justify-center gap-3 rounded-md bg-white px-4 py-2 font-medium text-zinc-900 transition-colors hover:bg-zinc-300"
+                >
+                    <Image
+                        src="/socials/yandex.svg"
+                        alt="yandex-icon"
+                        aria-hidden="true"
+                        width={18}
+                        height={18}
+                    />
+                    Войти через Yandex
                 </button>
 
                 <p className="mt-4 text-center text-sm text-white/50">
