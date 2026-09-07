@@ -62,7 +62,7 @@ export default function LoginPage() {
     }
 
     const handleYandexSignIn = () => {
-        signIn('yandex', { callbackUrl: '/profile' })
+        signIn('yandex', { callbackUrl: '/' })
     }
 
     return (
