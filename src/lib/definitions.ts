@@ -140,6 +140,16 @@ export const InstructorSchema = yup.object({
 
 export type InstructorForm = yup.InferType<typeof InstructorSchema>;
 
+// ─── Contest ──────────────────────────────────────────────────────────────────
+
+export const ContestantSchema = yup.object({
+    name: yup.string().required('Введите имя участника').max(200, 'Имя не должно превышать 200 символов').trim(),
+    song: yup.string().required('Введите название песни').max(300, 'Название песни не должно превышать 300 символов').trim(),
+    originalArtist: yup.string().required('Введите оригинального исполнителя').max(200, 'Исполнитель не должен превышать 200 символов').trim(),
+});
+
+export type ContestantForm = yup.InferType<typeof ContestantSchema>;
+
 // ─── Payment ──────────────────────────────────────────────────────────────────
 
 export const PaymentSchema = yup.object({

@@ -12,6 +12,9 @@ import {
   UserUpdateData,
   UserRole,
   Program,
+  Contestant,
+  ContestResult,
+  ContestVoteStatus,
 } from './types';
 
 // ─── Singleton Prisma Client ──────────────────────────────────────────────────
@@ -957,7 +960,7 @@ export async function createProgram(
     lessonDuration: created.lessonDuration,
     programDuration: created.programDuration,
     features,
-        isPopular: created.isPopular,
+    isPopular: created.isPopular,
     sortOrder: created.sortOrder,
     masterMultiplier: created.masterMultiplier,
     createdAt: created.createdAt.toISOString(),
@@ -1089,6 +1092,139 @@ export async function canSendSms(phone: string, ip: string | null): Promise<{ al
   }
 
   return { allowed: true };
+}
+
+// ─── Contest: Contestants ──────────────────────────────────────────────────────
+
+export async function getAllContestants(): Promise<Contestant[]> {
+  const prisma = getPrisma();
+  const rows = await prisma.contestant.findMany({
+    orderBy: { id: 'asc' },
+  });
+
+  return rows.map(({
+    id,
+    name,
+    song,
+    originalArtist,
+    photoUrl
+  }) => ({
+    id,
+    name,
+    song,
+    originalArtist,
+    photoUrl,
+  }));
+}
+
+export async function getContestantById(id: number): Promise<Contestant | undefined> {
+  const prisma = getPrisma();
+  const contestant = await prisma.contestant.findUnique({
+    where: { id },
+  });
+
+  if (!contestant) return undefined;
+  return {
+    id: contestant.id,
+    name: contestant.name,
+    song: contestant.song,
+    originalArtist: contestant.originalArtist,
+    photoUrl: contestant.photoUrl,
+  };
+}
+
+export async function createContestant(data: Omit<Contestant, 'id'>): Promise<Contestant> {
+  const prisma = getPrisma();
+  const created = await prisma.contestant.create({
+    data: {
+      name: data.name,
+      song: data.song,
+      originalArtist: data.originalArtist,
+      photoUrl: data.photoUrl,
+    },
+  });
+
+  return {
+    id: created.id,
+    name: created.name,
+    song: created.song,
+    originalArtist: created.originalArtist,
+    photoUrl: created.photoUrl,
+  };
+}
+
+export async function updateContestant(data: Contestant): Promise<Contestant> {
+  const prisma = getPrisma();
+  const updated = await prisma.contestant.update({
+    where: { id: data.id },
+    data: {
+      name: data.name,
+      song: data.song,
+      originalArtist: data.originalArtist,
+      photoUrl: data.photoUrl,
+    },
+  });
+
+  return {
+    id: updated.id,
+    name: updated.name,
+    song: updated.song,
+    originalArtist: updated.originalArtist,
+    photoUrl: updated.photoUrl,
+  };
+}
+
+export async function deleteContestant(id: number): Promise<void> {
+  const prisma = getPrisma();
+  await prisma.contestant.delete({
+    where: { id },
+  });
+}
+
+// ─── Contest: Results ───────────────────────────────────────────────────────────
+
+export async function getContestResults(): Promise<ContestResult[]> {
+  const prisma = getPrisma();
+  const rows = await prisma.contestant.findMany({
+    orderBy: { id: 'asc' },
+    include: { _count: { select: { votes: true } } },
+  });
+
+  return rows.map((c) => ({
+    id: c.id,
+    name: c.name,
+    song: c.song,
+    originalArtist: c.originalArtist,
+    photoUrl: c.photoUrl,
+    votes: c._count.votes,
+  }));
+}
+
+// ─── Contest: Votes ─────────────────────────────────────────────────────────────
+
+export async function getVoteStatusByUserId(userId: number): Promise<ContestVoteStatus> {
+  const prisma = getPrisma();
+  const vote = await prisma.contestVote.findUnique({
+    where: { userId },
+  });
+
+  return { hasVoted: !!vote, contestantId: vote?.contestantId ?? null };
+}
+
+/** Создаёт голос пользователя или обновляет ссылку на Contestant, если голос уже существует. */
+export async function upsertContestVote(userId: number, contestantId: number): Promise<{ created: boolean }> {
+  const prisma = getPrisma();
+  const existing = await prisma.contestVote.findUnique({
+    where: { userId },
+  });
+
+  await prisma.contestVote.upsert({
+    where: { userId },
+    update: { contestantId },
+    create: { userId, contestantId },
+  });
+
+  return { created: !existing };
 }
 
 // ─── Cleanup ───────────────────────────────────────────────────────────────────

@@ -18,6 +18,7 @@ export const S3Prefix = {
     wikiCovers: 'wiki-covers/',
     instructorPhotos: 'instructor-photos/',
     newsCovers: 'news-covers/',
+    contestant: 'contestant/',
 } as const;
 
 export type S3PrefixKey = keyof typeof S3Prefix;

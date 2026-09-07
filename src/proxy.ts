@@ -8,6 +8,9 @@ const { auth } = NextAuth(authConfig)
 
 const ADMIN_ONLY_PATHS = ['/users']
 const PROTECTED_PATHS = ['/users', '/profile']
+// Мутации, доступные любому авторизованному пользователю (не только canEdit),
+// авторизация и валидация выполняются внутри самого роута
+const AUTH_ONLY_API_PATHS = ['/api/v1/contest/vote']
 
 function isProtectedPath(pathname: string): boolean {
     return PROTECTED_PATHS.some((p) => pathname.startsWith(p))
@@ -15,6 +18,10 @@ function isProtectedPath(pathname: string): boolean {
 
 function isAdminOnlyPath(pathname: string): boolean {
     return ADMIN_ONLY_PATHS.some((p) => pathname.startsWith(p))
+}
+
+function isContestApi(pathname: string): boolean {
+    return AUTH_ONLY_API_PATHS.some((p) => pathname.startsWith(p))
 }
 
 const proxyHandler = auth((req) => {
@@ -28,7 +35,13 @@ const proxyHandler = auth((req) => {
     }
 
     // Блокируем API мутации для пользователей без прав редактора
-    if (pathname.startsWith('/api/v1') && req.method !== 'GET' && !canEdit(role)) {
+    // (кроме путей, где авторизация выполняется внутри роута — например, голосование)
+    if (
+        pathname.startsWith('/api/v1') &&
+        req.method !== 'GET' &&
+        !isContestApi(pathname) &&
+        !canEdit(role)
+    ) {
         return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
     }
 

@@ -112,6 +112,8 @@ model User {
   resetTokenExpires DateTime?
   createdAt         DateTime  @default(now())
 
+  contestVotes ContestVote[]
+
   @@index([verificationToken])
   @@index([resetToken])
 }
@@ -151,4 +153,33 @@ model Program {
 
   @@index([slug])
   @@index([sortOrder])
+}
+
+// ─── Contest ──────────────────────────────────────────────────────────────────
+// Участники и голоса конкурса вокальной школы
+
+model Contestant {
+  id             Int    @id @default(autoincrement())
+  name           String
+  song           String
+  originalArtist String
+  photoUrl       String @default("")
+
+  votes ContestVote[]
+
+  @@index([id])
+}
+
+model ContestVote {
+  id           Int      @id @default(autoincrement())
+  userId       Int
+  contestantId Int
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @default(now()) @updatedAt
+
+  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  contestant Contestant @relation(fields: [contestantId], references: [id], onDelete: Cascade)
+
+  @@unique([userId])
+  @@index([contestantId])
 }

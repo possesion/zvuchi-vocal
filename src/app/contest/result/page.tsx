@@ -6,26 +6,24 @@ import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 import { Trophy } from 'lucide-react';
 import { ContestPieChart } from '@/components/contest/contest-pie-chart';
-
-interface Contestant {
-    id: number;
-    name: string;
-    song: string;
-    votes: number;
-    photo?: string;
-}
+import { getWinners } from './utils';
+import type { ContestResult } from '@/lib/types';
 
 export default function ContestResultPage() {
-    const [contestants, setContestants] = useState<Contestant[]>([]);
+    const [contestants, setContestants] = useState<ContestResult[]>([]);
     const [isLoading, setIsLoading] = useState(true);
 
     const fetchResults = async () => {
         try {
-            const response = await fetch('/api/contest');
+            const response = await fetch('/api/v1/contest');
             const data = await response.json();
-            setContestants(data.contestants);
+            if (data.success) {
+                setContestants(data.data);
+            } else {
+                console.error('[Contest] Ошибка загрузки результатов:', data.error);
+            }
         } catch (error) {
-            console.error('Ошибка загрузки результатов:', error);
+            console.error('[Contest] Ошибка загрузки результатов:', error);
         } finally {
             setIsLoading(false);
         }
@@ -37,10 +35,8 @@ export default function ContestResultPage() {
 
     const totalVotes = contestants.reduce((sum, c) => sum + c.votes, 0);
 
-    // Находим победителя
-    const winner = contestants.reduce((prev, current) =>
-        (current.votes > prev.votes) ? current : prev
-        , contestants[0] || { id: 0, name: '', song: '', votes: 0 });
+    // Все участники с максимальным количеством голосов (может быть несколько)
+    const winners = getWinners(contestants);
 
     // Данные для pie chart (только участники с голосами)
     const chartData = contestants
@@ -75,45 +71,53 @@ export default function ContestResultPage() {
                         )}
                     </header>
 
-                    {/* Победитель */}
-                    {winner && winner.votes > 0 && (
-                        <div className="mb-12 rounded-2xl border-2 border-yellow-400 bg-gradient-to-br from-yellow-500/20 to-orange-500/20 p-2 backdrop-blur-md">
-                            <div className="mb-6 flex items-center justify-center gap-3">
-                                <Trophy className="h-10 w-10 text-yellow-400" />
-                                <h2 className="text-3xl font-bold text-white">Победитель</h2>
-                                <Trophy className="h-10 w-10 text-yellow-400" />
-                            </div>
-
-                            <div className="flex flex-col items-center gap-6 md:flex-row md:items-start md:gap-8">
-                                {winner.photo && (
-                                    <div className="relative h-[200px] w-[200px] flex-shrink-0">
-                                        <Image
-                                            src={winner.photo}
-                                            alt={winner.name}
-                                            fill
-                                            className="rounded-full object-cover ring-4 ring-yellow-400"
-                                        />
+                    {/* Победитель(и) */}
+                    {winners.length > 0 && (
+                        <div className={`mb-12 grid gap-6 ${winners.length > 1 ? 'md:grid-cols-2' : ''}`}>
+                            {winners.map((winner) => (
+                                <div
+                                    key={winner.id}
+                                    className="rounded-2xl border-2 border-yellow-400 bg-gradient-to-br from-yellow-500/20 to-orange-500/20 p-2 backdrop-blur-md"
+                                >
+                                    <div className="mb-6 flex items-center justify-center gap-3">
+                                        <Trophy className="h-10 w-10 text-yellow-400" />
+                                        <h2 className="text-3xl font-bold text-white">Победитель</h2>
+                                        <Trophy className="h-10 w-10 text-yellow-400" />
                                     </div>
-                                )}
 
-                                <div className="flex-1 text-center md:text-left">
-                                    <h3 className="mb-3 text-3xl font-bold text-white">
-                                        {winner.name}
-                                    </h3>
-                                    <p className="mb-4 text-xl text-white/90">{winner.song}</p>
-                                    <div className="inline-flex items-center gap-2 rounded-full bg-white/20 px-6 py-3 backdrop-blur-sm">
-                                        <span className="text-2xl font-bold text-yellow-400">
-                                            {winner.votes}
-                                        </span>
-                                        <span className="text-lg text-white">
-                                            {winner.votes === 1 ? 'голос' : 'голосов'}
-                                        </span>
+                                    <div className="flex flex-col items-center gap-6 md:flex-row md:items-start md:gap-8">
+                                        {winner.photoUrl && (
+                                            <div className="relative h-[200px] w-[200px] flex-shrink-0">
+                                                <Image
+                                                    src={winner.photoUrl}
+                                                    alt={winner.name}
+                                                    fill
+                                                    sizes="200px"
+                                                    className="rounded-full object-cover ring-4 ring-yellow-400"
+                                                />
+                                            </div>
+                                        )}
+
+                                        <div className="flex-1 text-center md:text-left">
+                                            <h3 className="mb-3 text-3xl font-bold text-white">
+                                                {winner.name}
+                                            </h3>
+                                            <p className="mb-4 text-xl text-white/90">{winner.song}</p>
+                                            <div className="inline-flex items-center gap-2 rounded-full bg-white/20 px-6 py-3 backdrop-blur-sm">
+                                                <span className="text-2xl font-bold text-yellow-400">
+                                                    {winner.votes}
+                                                </span>
+                                                <span className="text-lg text-white">
+                                                    {winner.votes === 1 ? 'голос' : 'голосов'}
+                                                </span>
+                                            </div>
+                                            <p className="mt-4 text-lg text-white/80">
+                                                {((winner.votes / totalVotes) * 100).toFixed(1)}% от всех голосов
+                                            </p>
+                                        </div>
                                     </div>
-                                    <p className="mt-4 text-lg text-white/80">
-                                        {((winner.votes / totalVotes) * 100).toFixed(1)}% от всех голосов
-                                    </p>
                                 </div>
-                            </div>
+                            ))}
                         </div>
                     )}
 
@@ -147,12 +151,13 @@ export default function ContestResultPage() {
                                                 {contestant.votes}
                                             </span>
                                         </div>
-                                        {contestant.photo && (
+                                        {contestant.photoUrl && (
                                             <div className="relative mx-auto mb-4 h-[120px] w-[120px]">
                                                 <Image
-                                                    src={contestant.photo}
+                                                    src={contestant.photoUrl}
                                                     alt={contestant.name}
                                                     fill
+                                                    sizes="120px"
                                                     className="rounded-full object-cover ring-2 ring-white/20"
                                                 />
                                             </div>

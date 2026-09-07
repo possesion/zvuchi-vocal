@@ -68,6 +68,25 @@ export type UserUpdateData = Partial<Pick<
     'emailVerified' | 'verificationToken' | 'tokenExpiresAt' | 'role' | 'passwordHash' | 'name' | 'phone' | 'phoneVerified' | 'phoneVerifyCode' | 'phoneCodeExpires'
 >>
 
+export interface Contestant {
+  id: number
+  name: string
+  song: string
+  originalArtist: string
+  photoUrl: string
+}
+
+// Contestant с агрегированным количеством голосов — для результатов
+export interface ContestResult extends Contestant {
+  votes: number
+}
+
+// Статус голосования текущего пользователя
+export interface ContestVoteStatus {
+  hasVoted: boolean
+  contestantId: number | null
+}
+
 export interface Program {
   createdAt: string
   features: string[]

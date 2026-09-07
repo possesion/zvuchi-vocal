@@ -1,5 +1,6 @@
 'use client';
 
+import { usePathname } from 'next/navigation';
 import { useMedia } from 'react-use';
 import { Phone as PhoneIcon } from 'lucide-react';
 import { Drawer } from 'vaul';
@@ -117,8 +118,10 @@ function MobileDrawer() {
 export function CallButton() {
     const isMobile = !useMedia('(min-width: 768px)', true);
     const { quizOpen } = useUI();
+    const pathname = usePathname();
 
     if (quizOpen) return null;
+    if (pathname?.startsWith('/contest')) return null;
 
     return isMobile ? <MobileDrawer /> : <DesktopPopup />;
 }
