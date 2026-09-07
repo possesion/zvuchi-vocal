@@ -62,7 +62,7 @@ export default function LoginPage() {
     }
 
     const handleYandexSignIn = () => {
-        signIn('yandex', { callbackUrl: '/' })
+        signIn('yandex', { callbackUrl: 'https://zvuchi-vocal.ru' })
     }
 
     return (
