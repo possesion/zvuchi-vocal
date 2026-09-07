@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useLayoutEffect } from 'react';
 import Image from 'next/image';
 import { useSession } from 'next-auth/react';
 import { Pencil, Trash2 } from 'lucide-react';
@@ -100,7 +100,7 @@ export default function ContestPage() {
     }
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     checkVotingStatus();
     fetchResults();
   }, []);
@@ -144,6 +144,11 @@ export default function ContestPage() {
               </p>
             )}
           </header>
+
+          {!session && (<div className="rounded-sm bg-yellow-400/10 border border-yellow-400/30 px-4 py-3 mb-2 text-sm text-yellow-400">
+                        ⚠️ Авторизуйтесь на сайте для голосования
+                    </div>)
+                    }
 
           {/* Pie Chart */}
           {hasVoted && chartData.length > 0 && (
@@ -247,7 +252,7 @@ export default function ContestPage() {
                     <div className="flex flex-col items-center gap-2 md:items-end">
                       <button
                         onClick={() => handleVote(contestant.id)}
-                        disabled={votedForId === contestant.id || votingFor !== null}
+                        disabled={!session || votedForId === contestant.id || votingFor !== null}
                         className="rounded-lg bg-gradient-to-r from-violet-600 to-purple-600 px-6 py-3 font-semibold text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:scale-100"
                       >
                         {votingFor === contestant.id

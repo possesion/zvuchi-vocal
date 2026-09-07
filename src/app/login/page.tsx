@@ -4,12 +4,14 @@ import { useRouter } from 'next/navigation'
 import { signIn } from 'next-auth/react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { LoginSchema, REMEMBER_ME_MAX_AGE, LoginForm } from '@/lib/definitions'
 
 export default function LoginPage() {
     const router = useRouter()
+    const [showPassword, setShowPassword] = useState(false)
 
     const {
         register,
@@ -95,8 +97,9 @@ export default function LoginPage() {
                         Пароль
                     </label>
                     <input
+                        key={showPassword ? 'text' : 'password'}
                         id="password"
-                        type="password"
+                        type={showPassword ? 'text' : 'password'}
                         autoComplete="current-password"
                         aria-invalid={!!errors.password}
                         aria-describedby={errors.password ? 'password-error' : undefined}
@@ -112,17 +115,32 @@ export default function LoginPage() {
                     )}
                 </div>
 
-                <div className="mb-6 flex items-center gap-2">
-                    <input
-                        id="rememberMe"
-                        type="checkbox"
-                        checked={rememberMe}
-                        onChange={(e) => setValue('rememberMe', e.target.checked)}
-                        className="h-4 w-4 rounded border-white/20 bg-zinc-800 accent-purple-500"
-                    />
-                    <label htmlFor="rememberMe" className="cursor-pointer select-none text-sm text-white/70">
-                        Запомнить меня
-                    </label>
+                <div className="mb-6 flex items-center gap-4">
+                    <div className="flex items-center gap-2">
+                        <input
+                            id="rememberMe"
+                            type="checkbox"
+                            checked={rememberMe}
+                            onChange={(e) => setValue('rememberMe', e.target.checked)}
+                            className="h-4 w-4 rounded border-white/20 bg-zinc-800 accent-purple-500"
+                        />
+                        <label htmlFor="rememberMe" className="cursor-pointer select-none text-sm text-white/70">
+                            Запомнить меня
+                        </label>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                        <input
+                            id="showPassword"
+                            type="checkbox"
+                            checked={showPassword}
+                            onChange={(e) => setShowPassword(e.target.checked)}
+                            className="h-4 w-4 rounded border-white/20 bg-zinc-800 accent-purple-500"
+                        />
+                        <label htmlFor="showPassword" className="cursor-pointer select-none text-sm text-white/70">
+                            Показать пароль
+                        </label>
+                    </div>
                 </div>
 
                 {errors.root && (

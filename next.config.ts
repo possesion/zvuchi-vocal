@@ -1,5 +1,7 @@
 import type { NextConfig } from "next";
 
+const origins = process.env.NODE_ENV === 'development' ? "192.168.1.*" : '';
+
 const nextConfig: NextConfig = {
   // Enable standalone output for Docker
   output: 'standalone',
@@ -21,7 +23,9 @@ const nextConfig: NextConfig = {
     },
   }),
 
-  allowedDevOrigins: ["*"],
+  // "*" одним сегментом не работает — Next.js явно запрещает wildcard на весь домен.
+  // Указываем локальную подсеть, чтобы можно было открывать dev-сервер с телефона в той же Wi-Fi сети.
+  allowedDevOrigins: [origins],
   htmlLimitedBots: /.*/,
   // Image optimization
   images: {
