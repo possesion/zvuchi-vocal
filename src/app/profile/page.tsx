@@ -50,19 +50,18 @@ export default async function ProfilePage() {
 
                             <div className="space-y-6">
                                 <div className="rounded-sm bg-white/10 p-6 backdrop-blur-md">
-                                    <h2 className="mb-4 flex items-center gap-2 text-2xl font-bold">
+                                    <div className='flex justify-between'>
+                                        <h2 className="mb-4 flex items-center gap-2 text-2xl font-bold">
                                         <User className="h-6 w-6 text-white" />
                                         Основная информация
                                     </h2>
-                                    <div className="mb-4 flex items-center gap-3">
+                                    <div className="mb-4 flex items-center">
                                         <UserAvatarPicture
                                             avatarUrl={dbUser?.avatarUrl ?? null}
                                             alt={`Аватар пользователя ${dbUser?.name ?? ''}`}
-                                            size={40}
+                                            size={60}
                                         />
-                                        {dbUser?.name && (
-                                            <span className="text-lg font-medium">{dbUser.name}</span>
-                                        )}
+                                    </div>
                                     </div>
                                     <div className="space-y-4">
                                         {user.role && user.role !== 'client' && (
