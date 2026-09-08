@@ -114,26 +114,10 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         Google({
             clientId: process.env.GOOGLE_CLIENT_ID!,
             clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-            authorization: {
-                params: {
-                    // Запрашиваем People API scope, чтобы access_token мог прочитать
-                    // номер телефона. Без него fetchGooglePhoneNumbers всегда вернёт null.
-                    scope: 'openid email profile https://www.googleapis.com/auth/user.phonenumbers.read',
-                    access_type: 'offline',
-                    prompt: 'consent',
-                },
-            },
         }),
         YandexProvider({
             clientId: process.env.YANDEX_CLIENT_ID,
             clientSecret: process.env.YANDEX_CLIENT_SECRET,
-            authorization: {
-                params: {
-                    // login:phone обязателен, иначе профиль не содержит default_phone
-                    // и телефон (а значит и phoneVerified) не проставляется.
-                    scope: 'login:info login:email login:avatar login:phone',
-                },
-            },
             profile(profile) {
                 const { phone, avatarUrl } = extractYandexProviderData(profile)
                 return {
