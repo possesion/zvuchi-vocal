@@ -194,8 +194,8 @@ export default function LoginPage() {
                         src="/socials/yandex.svg"
                         alt="yandex-icon"
                         aria-hidden="true"
-                        width={18}
-                        height={18}
+                        width={20}
+                        height={20}
                     />
                     Войти через Yandex
                 </button>

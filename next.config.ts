@@ -54,6 +54,16 @@ const nextConfig: NextConfig = {
         hostname: "mc.yandex.ru",
         pathname: "/watch/105392489",
       },
+      {
+        protocol: "https",
+        hostname: "avatars.yandex.net",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "lh3.googleusercontent.com",
+        pathname: "/**",
+      },
     ],
     minimumCacheTTL: 14400, // Changed from 2678400 to 4 hours (v16 default)
     dangerouslyAllowSVG: true,

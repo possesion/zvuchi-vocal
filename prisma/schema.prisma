@@ -104,6 +104,7 @@ model User {
   phoneVerified     Boolean   @default(false)
   phoneVerifyCode   String?
   phoneCodeExpires  DateTime?
+  avatarUrl         String?   @db.VarChar(2048)
   role              String    @default("client") // "admin" or "client"
   emailVerified     Boolean   @default(false)
   verificationToken String?   @unique

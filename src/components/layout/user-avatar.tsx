@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { useSession } from 'next-auth/react'
 import { LogOut } from 'lucide-react'
+import { UserAvatarPicture } from '../sections/profile/user-avatar-picture'
 
 interface UserAvatarProps {
     className?: string;
@@ -28,6 +29,7 @@ export function UserAvatar({ className }: UserAvatarProps) {
     if (!session?.user) return null
 
     const initials = session.user.email?.[0]?.toUpperCase() ?? '?'
+    const avatarUrl = session.user.image ?? null
 
     return (
         <div ref={ref} className={className}>
@@ -35,9 +37,15 @@ export function UserAvatar({ className }: UserAvatarProps) {
                 onClick={() => setOpen((value) => !value)}
                 aria-label="Меню пользователя"
                 aria-expanded={open}
-                className="flex h-10 w-10 outline-none items-center justify-center rounded-full bg-brand text-sm font-bold text-white transition-opacity hover:opacity-80"
+                className="relative flex h-10 w-10 outline-none items-center justify-center overflow-hidden rounded-full bg-brand text-sm font-bold text-white transition-opacity hover:opacity-80"
             >
-                {initials}
+                {/* initials остаются как fallback, если аватарка не загрузится */}
+                <span>{initials}</span>
+                {avatarUrl && (
+                    <span className="absolute inset-0">
+                        <UserAvatarPicture avatarUrl={avatarUrl} alt="Аватар пользователя" size={40} />
+                    </span>
+                )}
             </button>
 
             {open && (

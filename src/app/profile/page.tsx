@@ -10,6 +10,7 @@ import { getUserById } from '@/lib/db-prisma';
 import { ROLE_LABELS } from '@/lib/roles';
 import { ClientBalance } from '@/components/sections/client-balance';
 import { PhoneVerification } from '@/components/sections/profile/phone-verification';
+import { UserAvatarPicture } from '@/components/sections/profile/user-avatar-picture';
 
 export const metadata: Metadata = generatePageMetadata({
     title: 'Профиль',
@@ -53,6 +54,16 @@ export default async function ProfilePage() {
                                         <User className="h-6 w-6 text-white" />
                                         Основная информация
                                     </h2>
+                                    <div className="mb-4 flex items-center gap-3">
+                                        <UserAvatarPicture
+                                            avatarUrl={dbUser?.avatarUrl ?? null}
+                                            alt={`Аватар пользователя ${dbUser?.name ?? ''}`}
+                                            size={40}
+                                        />
+                                        {dbUser?.name && (
+                                            <span className="text-lg font-medium">{dbUser.name}</span>
+                                        )}
+                                    </div>
                                     <div className="space-y-4">
                                         {user.role && user.role !== 'client' && (
                                             <div className="flex items-start justify-between border-b border-white/10 pb-7 mb-4">

@@ -565,6 +565,7 @@ export async function getUserByEmail(email: string): Promise<AppUser | undefined
     phoneVerified: user.phoneVerified,
     phoneVerifyCode: user.phoneVerifyCode,
     phoneCodeExpires: user.phoneCodeExpires ? user.phoneCodeExpires.toISOString() : null,
+    avatarUrl: user.avatarUrl,
     role: user.role as UserRole,
     emailVerified: user.emailVerified,
     verificationToken: user.verificationToken,
@@ -591,6 +592,7 @@ export async function getUserById(id: number): Promise<AppUser | undefined> {
     phoneVerified: user.phoneVerified,
     phoneVerifyCode: user.phoneVerifyCode,
     phoneCodeExpires: user.phoneCodeExpires ? user.phoneCodeExpires.toISOString() : null,
+    avatarUrl: user.avatarUrl,
     role: user.role as UserRole,
     emailVerified: user.emailVerified,
     verificationToken: user.verificationToken,
@@ -604,6 +606,8 @@ export async function getUserById(id: number): Promise<AppUser | undefined> {
 export async function createUser(data: {
   email: string;
   passwordHash: string;
+  phone?: string | null;
+  avatarUrl?: string | null;
   role?: UserRole;
   verificationToken?: string;
   tokenExpiresAt?: string;
@@ -612,9 +616,12 @@ export async function createUser(data: {
   const created = await prisma.user.create({
     data: {
       email: data.email,
+      phone: data.phone ?? null,
+      avatarUrl: data.avatarUrl ?? null,
       passwordHash: data.passwordHash,
       role: data.role ?? 'client',
       emailVerified: false,
+      phoneVerified: data.phone ? true : false,
       verificationToken: data.verificationToken ?? null,
       tokenExpiresAt: data.tokenExpiresAt ? new Date(data.tokenExpiresAt) : null,
     },
@@ -629,6 +636,7 @@ export async function createUser(data: {
     phoneVerified: created.phoneVerified,
     phoneVerifyCode: created.phoneVerifyCode,
     phoneCodeExpires: created.phoneCodeExpires ? created.phoneCodeExpires.toISOString() : null,
+    avatarUrl: created.avatarUrl,
     role: created.role as UserRole,
     emailVerified: created.emailVerified,
     verificationToken: created.verificationToken,
@@ -664,6 +672,7 @@ export async function updateUser(
       ...(data.phoneCodeExpires !== undefined && {
         phoneCodeExpires: data.phoneCodeExpires ? new Date(data.phoneCodeExpires) : null,
       }),
+      ...(data.avatarUrl !== undefined && { avatarUrl: data.avatarUrl }),
     },
   });
 }
@@ -690,6 +699,7 @@ export async function getAllUsers(): Promise<AppUser[]> {
     phoneVerified: user.phoneVerified,
     phoneVerifyCode: user.phoneVerifyCode,
     phoneCodeExpires: user.phoneCodeExpires ? user.phoneCodeExpires.toISOString() : null,
+    avatarUrl: user.avatarUrl,
     role: user.role as UserRole,
     emailVerified: user.emailVerified,
     verificationToken: user.verificationToken,
@@ -716,6 +726,7 @@ export async function getUserByVerificationToken(token: string): Promise<AppUser
     phoneVerified: user.phoneVerified,
     phoneVerifyCode: user.phoneVerifyCode,
     phoneCodeExpires: user.phoneCodeExpires ? user.phoneCodeExpires.toISOString() : null,
+    avatarUrl: user.avatarUrl,
     role: user.role as UserRole,
     emailVerified: user.emailVerified,
     verificationToken: user.verificationToken,
@@ -742,6 +753,7 @@ export async function getUserByResetToken(token: string): Promise<AppUser | unde
     phoneVerified: user.phoneVerified,
     phoneVerifyCode: user.phoneVerifyCode,
     phoneCodeExpires: user.phoneCodeExpires ? user.phoneCodeExpires.toISOString() : null,
+    avatarUrl: user.avatarUrl,
     role: user.role as UserRole,
     emailVerified: user.emailVerified,
     verificationToken: user.verificationToken,

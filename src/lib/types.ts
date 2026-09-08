@@ -54,6 +54,7 @@ export interface AppUser {
   phoneVerified: boolean
   phoneVerifyCode: string | null
   phoneCodeExpires: string | null
+  avatarUrl: string | null
   role: UserRole
   emailVerified: boolean
   verificationToken: string | null
@@ -65,7 +66,7 @@ export interface AppUser {
 
 export type UserUpdateData = Partial<Pick<
     AppUser,
-    'emailVerified' | 'verificationToken' | 'tokenExpiresAt' | 'role' | 'passwordHash' | 'name' | 'phone' | 'phoneVerified' | 'phoneVerifyCode' | 'phoneCodeExpires'
+    'emailVerified' | 'verificationToken' | 'tokenExpiresAt' | 'role' | 'passwordHash' | 'name' | 'phone' | 'phoneVerified' | 'phoneVerifyCode' | 'phoneCodeExpires' | 'avatarUrl'
 >>
 
 export interface Contestant {

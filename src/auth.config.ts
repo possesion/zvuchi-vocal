@@ -5,6 +5,7 @@
  */
 import type { NextAuthConfig } from 'next-auth'
 import { UserRole } from './lib/types'
+import { resolveSessionImage } from './lib/oauth-sync'
 
 declare module 'next-auth' {
     interface Session {
@@ -13,6 +14,7 @@ declare module 'next-auth' {
             email: string
             name?: string | null
             phone?: string | null
+            image?: string | null
             role: UserRole
         }
     }
@@ -21,6 +23,7 @@ declare module 'next-auth' {
         email?: string | null
         name?: string | null
         phone?: string | null
+        image?: string | null
         emailVerified?: boolean
         role: UserRole
     }
@@ -44,6 +47,7 @@ export const authConfig: NextAuthConfig = {
                 session.user.id = token.id as string
                 session.user.name = token.name as string | null
                 session.user.phone = token.phone as string | null
+                session.user.image = resolveSessionImage(token.image as string | null | undefined)
                 session.user.role = token.role as UserRole
             }
             return session
