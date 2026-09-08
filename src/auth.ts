@@ -118,6 +118,11 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         YandexProvider({
             clientId: process.env.YANDEX_CLIENT_ID,
             clientSecret: process.env.YANDEX_CLIENT_SECRET,
+            authorization: {
+                params: {
+                    scope: 'login:info login:email login:avatar login:default_phone',
+                },
+            },
             profile(profile) {
                 const { phone, avatarUrl } = extractYandexProviderData(profile)
                 return {
