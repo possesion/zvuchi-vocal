@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image'
+import Link from 'next/link'
 import { Offera } from '../common/offera';
 import { OGRNIP, INN } from '../constants';
 
@@ -31,11 +32,12 @@ export const Footer = () => {
                 </div>
 
                 <div className="flex flex-col items-start gap-2 py-2">
-                    <Offera document="/documents/privacy.txt">
-                        <button className="group relative cursor-pointer text-white transition-colors duration-200 hover:text-brand dark:hover:text-red-400">
-                            Политика конфиденциальности
-                        </button>
-                    </Offera>
+                    <Link
+                        href="/privacy"
+                        className="group relative cursor-pointer text-white transition-colors duration-200 hover:text-brand dark:hover:text-red-400"
+                    >
+                        Политика конфиденциальности
+                    </Link>
                     <Offera document="/documents/oferta_zvuchi.docx">
                         <button className="pl-2 pb-2 group relative cursor-pointer text-white transition-colors duration-200 hover:text-brand dark:hover:text-red-400 sm:pl-0 sm:pb-0">
                             Публичная оферта
