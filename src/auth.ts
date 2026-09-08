@@ -28,7 +28,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         // Единственное место для jwt — не дублируем в authConfig
         async jwt({ token, user, account }) {
             // Вход через Google: создаём пользователя в БД если его нет
-            if (account?.provider === 'google' && user?.email) {
+            if ((account?.provider === 'google' || account?.provider === 'yandex') && user?.email) {
                 let dbUser = await getUserByEmail(user.email)
                 if (!dbUser) {
                     // Генерируем невалидный хеш — bcrypt никогда не подберёт к нему пароль.
