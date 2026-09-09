@@ -9,6 +9,7 @@ import { Trash2 } from 'lucide-react';
 import { FirstLessonCard } from "@/components/sections/first-lesson-card";
 import { AlertDialog } from "@/components/common/alert-dialog/alert-dialog";
 import { formatPrice } from "@/lib/format";
+import { EnrollmentModal } from "../modals/enrollment-modal";
 
 interface ProgramsProps {
   programs?: ProgramType[];
@@ -39,11 +40,16 @@ export const Programs = ({ programs = [], isAuthorized = false }: ProgramsProps)
 
   return (
     <div className={cn("container mx-auto cursor-grab pb-4 no-scrollbar lg:px-2 xl:justify-center")}>
-      <QuizModal
+      {/* <QuizModal
         className="fixed inset-0 z-51 flex items-center justify-center text-black shadow-md rounded-sm w-full"
         isOpen={open}
         onClose={() => setOpen(false)}
-      />
+      /> */}
+      <EnrollmentModal isOpen={open} onClose={() => setOpen(false)} trackEventLabel='subscription_click'>
+        <h2 id="modal-title" className="text-xl font-bold text-gray-900">
+          Запишись на первое занятие
+        </h2>
+      </EnrollmentModal>
       <div className="flex flex-col flex-nowrap space-y-4 pt-1">
         <FirstLessonCard onEnroll={() => setOpen(true)} />
         {programs.map(({ id, shortDescription, packages, title, slug }) => (
@@ -57,10 +63,10 @@ export const Programs = ({ programs = [], isAuthorized = false }: ProgramsProps)
                 <Trash2 className="h-3.5 w-3.5" />
               </button>
             )}
-            <Program 
+            <Program
               description={shortDescription}
               features={packages.length > 0 ? [`От ${packages[0].lessons_count} занятий`] : []}
-              title={title} 
+              title={title}
               price={packages.length > 0 ? formatPrice(packages[0].price) : 'Цена не указана'}
               slug={slug}
             />

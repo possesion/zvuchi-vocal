@@ -19,6 +19,7 @@ import { Phone } from '../common/phone'
 import { contacts, navigationList } from '@/app/constants'
 import { useSession } from 'next-auth/react'
 import { UserAvatar } from './user-avatar'
+import { trackEvent } from '@/hooks/use-yandex-metrica'
 // import { SubscriptionsPaymentWidget } from './common/subscription-payment-widget'
 
 export default function MobileMenu() {
@@ -26,8 +27,9 @@ export default function MobileMenu() {
     const { status } = useSession();
     const isAuthorized = status === 'authenticated';
 
-    const handleLinkClick = () => {
-        setOpen(false)
+    const handleLinkClick = (menu: string) => () => {
+        trackEvent('click-mobile-menu', { menu });
+        setOpen(false);
     }
 
     return (
@@ -58,7 +60,7 @@ export default function MobileMenu() {
                                     <Link
                                         href="/profile"
                                         className="flex items-center hover:text-red-400"
-                                        onClick={handleLinkClick}
+                                        onClick={handleLinkClick('profile')}
                                     >
                                         Профиль
                                     </Link>
@@ -75,7 +77,7 @@ export default function MobileMenu() {
                                     key={id}
                                     href={sectionId}
                                     className="flex items-center hover:text-red-400"
-                                    onClick={handleLinkClick}
+                                    onClick={handleLinkClick(text)}
                                 >
                                     {text}
                                 </Link>

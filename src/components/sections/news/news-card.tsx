@@ -6,6 +6,7 @@ import { formatNewsDate } from './utils';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { NewsArticle } from '@/lib/types';
+import { trackEvent } from '@/hooks/use-yandex-metrica';
 
 interface NewsCardProps {
     post: NewsArticle;
@@ -15,6 +16,12 @@ interface NewsCardProps {
 }
 
 export function NewsCard({ post, onOpen, isAuthorized, onDelete }: NewsCardProps) {
+
+    const handleOpenNews = () => {
+        trackEvent('watch-news');
+        onOpen(post.id)
+    }
+
     return (
         <article className="relative w-full h-full flex flex-col rounded-sm bg-white/10 backdrop-blur-sm overflow-hidden transition-all hover:bg-white/15 hover:shadow-lg">
             {isAuthorized && (
@@ -51,7 +58,7 @@ export function NewsCard({ post, onOpen, isAuthorized, onDelete }: NewsCardProps
                 </div>
                 <section className='flex items-center justify-between'>
                     <button
-                        onClick={() => onOpen(post.id)}
+                        onClick={handleOpenNews}
                         className="inline-flex items-center gap-1.5 cursor-pointer text-sm font-medium text-white transition-colors hover:text-white/80"
                     >
                         Читать дальше <ArrowRight className="h-4 w-4" />

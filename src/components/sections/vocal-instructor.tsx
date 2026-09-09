@@ -10,21 +10,24 @@ import { MentorLevelValue } from '@/app/programs/types'
 import { MentorLevel } from '@/app/programs/constants'
 import { levelStyles } from './constants'
 
-interface VocalInstructor {
-    instructor: {
-        bio: React.JSX.Element | string
-        experience: string
-        image: string
-        level: MentorLevelValue
-        name: string
-        specialty: string[]
-        feature: string
-        video: string
-    },
+export interface VocalInstructorData {
+    bio: React.JSX.Element | string
+    experience: string
+    image: string
+    level: MentorLevelValue
+    name: string
+    specialty: string[]
+    feature: string
+    video: string
+    slug: string
+}
+
+interface VocalInstructorProps {
+    instructor: VocalInstructorData
     showTip: boolean
 }
 
-const VocalInstructor = ({ instructor, showTip }: VocalInstructor) => {
+const VocalInstructor = ({ instructor, showTip }: VocalInstructorProps) => {
     const ref = useRef<HTMLDivElement>(null);
     const [intersection, setIntersection] = useState(false);
 

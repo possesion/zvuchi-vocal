@@ -1,11 +1,12 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { Text } from '@radix-ui/themes';
 import { ProgramPricingTabs } from './program-pricing-tabs';
 import { ProgramLevelRadioButtons } from '@/components/tabs/program-level-radio-buttons';
 import { Package, MentorLevelValue, } from '../types';
 import { MentorLevel } from '../constants';
+import { trackEvent } from '@/hooks/use-yandex-metrica';
 
 interface ProgramPricingClientProps {
     packages: Package[];
@@ -16,6 +17,11 @@ export function ProgramPricingClient({ packages, masterMultiplier }: ProgramPric
     const [selectedLevel, setSelectedLevel] = useState<MentorLevelValue>(MentorLevel.expert.value);
     const levels = useMemo(() => Object.values(MentorLevel), []);
 
+    const handleLevelChange = useCallback((level: "expert" | "master") => {
+        setSelectedLevel(level);
+        trackEvent('select-mentor', { level });
+    }, []);
+
     return (
         <>
             <section className='flex justify-between items-start'>
@@ -23,7 +29,7 @@ export function ProgramPricingClient({ packages, masterMultiplier }: ProgramPric
                     <h2 className="text-2xl font-bold mb-2">Стоимость</h2>
                     <Text className='text-nowrap' weight='bold' size='1'>*Выбери уровень педагога</Text>
                 </div>
-                <ProgramLevelRadioButtons levels={levels} onLevelChange={setSelectedLevel} />
+                <ProgramLevelRadioButtons levels={levels} onLevelChange={handleLevelChange} />
             </section>
             <ProgramPricingTabs
                 packages={packages}

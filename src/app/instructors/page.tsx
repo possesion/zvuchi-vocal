@@ -9,6 +9,7 @@ import { generatePageMetadata } from '@/lib/metadata';
 import { InstructorManager } from '@/components/sections/instructor-manager';
 import Link from 'next/link';
 import { Instructor } from '@/lib/types';
+import { VocalInstructorLink } from '@/components/common/vocal-instructor-link';
 
 const VocalInstructor = dynamic(() => import('@/components/sections/vocal-instructor'), {
     loading: () => <div className="animate-pulse bg-white/10 rounded-2xl h-64 w-full" />,
@@ -38,7 +39,7 @@ export default async function InstructorsPage() {
             specialty: (specialty ?? '').split(',').map((s: string) => s.trim()).filter(Boolean),
             image: image || '/placeholder.png',
         })
-    })
+    });
 
     return (
         <div className="relative min-h-screen font-exo2">
@@ -68,13 +69,7 @@ export default async function InstructorsPage() {
 
                         <div className="container grid grid-cols-1 gap-8 sm:grid-cols-2 lg:gap-y-12 xl:grid-cols-3">
                             {instructorProps.map((instructor, idx) => (
-                                <Link
-                                    key={instructor.name}
-                                    href={`/instructors/${instructor.slug}`}
-                                    className="block cursor-pointer"
-                                >
-                                    <VocalInstructor instructor={instructor} showTip={idx === 0} />
-                                </Link>
+                                <VocalInstructorLink key={instructor.slug} instructor={instructor} idx={idx} />
                             ))}
                         </div>
 

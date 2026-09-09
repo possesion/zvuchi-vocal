@@ -70,10 +70,6 @@ export const trackPageView = (url: string, options?: { title?: string; referer?:
   }
 }
 
-export const trackFormSubmit = (formName: string) => {
-  trackEvent('form_submit', { form_name: formName })
-}
-
 export const trackPhoneClick = () => {
   trackEvent('phone_click')
 }
