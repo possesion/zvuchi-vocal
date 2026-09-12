@@ -11,8 +11,8 @@ import { useSession } from 'next-auth/react';
 // import { SubscriptionsPaymentWidget } from '../common/subscription-payment-widget';
 
 export const NavMenu = () => {
-    const { status } = useSession();
-    const isAuthorized = status === 'authenticated';
+    const session = useSession();
+    const isAuthorized = session?.status === 'authenticated';
     const pathname = usePathname();
 
     return (

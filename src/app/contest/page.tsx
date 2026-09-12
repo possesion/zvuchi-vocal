@@ -21,7 +21,7 @@ import {
 import type { ContestResult } from '@/lib/types';
 
 export default function ContestPage() {
-  const { data: session } = useSession();
+  const session = useSession()?.data ?? null;
   const userIsAdmin = isAdmin(session?.user?.role);
   const pathname = usePathname();
 

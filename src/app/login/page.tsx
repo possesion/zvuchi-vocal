@@ -5,7 +5,7 @@ import { signIn } from 'next-auth/react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Suspense, useState } from 'react'
-import { useForm } from 'react-hook-form'
+import { useForm, useWatch } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { LoginSchema, REMEMBER_ME_MAX_AGE, LoginForm } from '@/lib/definitions'
 
@@ -28,7 +28,7 @@ function LoginContent() {
         register,
         handleSubmit,
         setValue,
-        watch,
+        control,
         formState: { errors, isSubmitting },
         setError: setFormError,
     } = useForm<LoginForm>({
@@ -40,7 +40,7 @@ function LoginContent() {
         },
     })
 
-    const rememberMe = watch('rememberMe')
+    const rememberMe = useWatch({ control, name: 'rememberMe' })
 
     const onSubmit = async (data: LoginForm) => {
         try {

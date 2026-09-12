@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useForm, useFieldArray } from 'react-hook-form';
+import { useForm, useFieldArray, useWatch } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { ProgramSchema, ProgramForm } from '@/lib/definitions';
 import { createProgramAction } from '@/app/actions/programs';
@@ -20,7 +20,6 @@ export function ProgramAddForm() {
         handleSubmit,
         reset,
         setValue,
-        watch,
         control,
         formState: { errors, isSubmitting },
     } = useForm<ProgramForm>({
@@ -44,7 +43,7 @@ export function ProgramAddForm() {
         name: 'packages',
     });
 
-    const isPopular = watch('is_popular');
+    const isPopular = useWatch({ control, name: 'is_popular' });
 
     const onSubmit = async (data: ProgramForm) => {
         const result = await createProgramAction(data);

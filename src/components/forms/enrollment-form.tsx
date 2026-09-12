@@ -19,7 +19,6 @@ export default function EnrollmentForm() {
         control,
         handleSubmit,
         setValue,
-        watch,
         reset,
         formState: { errors, isSubmitting },
     } = useForm<ContactForm>({
@@ -27,6 +26,7 @@ export default function EnrollmentForm() {
         defaultValues: { name: '', phone: '', isAgreed: false },
     });
     const isAgreed = useWatch({ control, name: 'isAgreed' });
+    const phone = useWatch({ control, name: 'phone' });
 
     const onSubmit = async (data: ContactForm) => {
         try {
@@ -82,7 +82,7 @@ export default function EnrollmentForm() {
                                 const formatted = formatPhoneNumber(e.target.value);
                                 setValue('phone', formatted, { shouldValidate: true });
                             }}
-                            value={watch('phone')}
+                            value={phone}
                             id="form-phone"
                             className="w-full rounded-sm border border-white/20 bg-white/10 px-4 py-3 text-white placeholder-white/60 transition-all duration-300 focus:border-brand focus:bg-white/15 focus:ring-2 focus:ring-brand/30 group-hover:border-white/40"
                             placeholder="+7 (999) 000-00-00"

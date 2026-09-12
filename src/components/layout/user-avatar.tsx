@@ -11,7 +11,7 @@ interface UserAvatarProps {
 }
 
 export function UserAvatar({ className }: UserAvatarProps) {
-    const { data: session } = useSession()
+    const session = useSession()?.data ?? null
     const [open, setOpen] = useState(false)
     const ref = useRef<HTMLDivElement>(null)
 

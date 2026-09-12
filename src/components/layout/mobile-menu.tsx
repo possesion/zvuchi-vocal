@@ -25,8 +25,8 @@ import { trackEvent } from '@/hooks/use-yandex-metrica'
 
 export default function MobileMenu() {
     const [open, setOpen] = useState(false);
-    const { status } = useSession();
-    const isAuthorized = status === 'authenticated';
+    const session = useSession();
+    const isAuthorized = session?.status === 'authenticated';
     const pathname = usePathname();
 
     const handleLinkClick = (menu: string) => () => {

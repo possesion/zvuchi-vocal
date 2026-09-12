@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import * as Sentry from '@sentry/nextjs';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import { Button, Card } from '@radix-ui/themes';
 import { Copy, Check, Calculator } from 'lucide-react';
 
@@ -89,12 +89,12 @@ export function SalaryCalculatorForm({ instructors }: SalaryCalculatorFormProps)
     const [result, setResult] = useState<string>('');
     const [copied, setCopied] = useState(false);
 
-    const { register, handleSubmit, watch } = useForm<FormData>({
+    const { register, handleSubmit, control } = useForm<FormData>({
         defaultValues,
         shouldUnregister: false,
     });
 
-    const instructorId = watch('instructorId');
+    const instructorId = useWatch({ control, name: 'instructorId' });
     const selectedInstructor = instructors.find(i => i.id === parseInt(instructorId));
 
     const formatNumber = (num: number): string => {
