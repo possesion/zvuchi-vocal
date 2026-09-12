@@ -12,6 +12,12 @@ import { Footer } from '@/components/layout/footer';
 import { ContestPieChart } from '@/components/contest/contest-pie-chart';
 import { ContestantAdminForm } from '@/components/contest/contestant-admin-form';
 import { isAdmin } from '@/lib/roles';
+import {
+  logRequestStart,
+  logRequestSuccess,
+  logRequestFailure,
+  logRequestError,
+} from '@/lib/client-logger';
 import type { ContestResult } from '@/lib/types';
 
 export default function ContestPage() {
@@ -32,36 +38,46 @@ export default function ContestPage() {
   const [resetting, setResetting] = useState(false);
 
   const checkVotingStatus = async () => {
+    const endpoint = '/api/v1/contest/vote';
+    logRequestStart(endpoint, { method: 'GET', module: 'contest' });
     try {
-      const response = await fetch('/api/v1/contest/vote');
+      const response = await fetch(endpoint);
       const result = await response.json();
       if (result.success) {
         setHasVoted(result.data.hasVoted);
         setVotedForId(result.data.contestantId);
+        logRequestSuccess(endpoint, { method: 'GET', module: 'contest', status: response.status });
       } else {
+        logRequestFailure(endpoint, { method: 'GET', module: 'contest', status: response.status, error: result.error });
         Sentry.captureMessage('Ошибка проверки статуса голосования', {
           level: 'error',
           extra: { module: 'contest', error: result.error },
         });
       }
     } catch (error) {
+      logRequestError(endpoint, error, { method: 'GET', module: 'contest' });
       Sentry.captureException(error, { extra: { module: 'contest', context: 'contest-vote-status' } });
     }
   };
 
   const fetchResults = async () => {
+    const endpoint = '/api/v1/contest';
+    logRequestStart(endpoint, { method: 'GET', module: 'contest' });
     try {
-      const response = await fetch('/api/v1/contest');
+      const response = await fetch(endpoint);
       const data = await response.json();
       if (data.success) {
         setContestants(data.data);
+        logRequestSuccess(endpoint, { method: 'GET', module: 'contest', status: response.status });
       } else {
+        logRequestFailure(endpoint, { method: 'GET', module: 'contest', status: response.status, error: data.error });
         Sentry.captureMessage('Ошибка загрузки результатов', {
           level: 'error',
           extra: { module: 'contest', error: data.error },
         });
       }
     } catch (error) {
+      logRequestError(endpoint, error, { method: 'GET', module: 'contest' });
       Sentry.captureException(error, { extra: { module: 'contest', context: 'contest-results-load' } });
     } finally {
       setIsLoading(false);
@@ -71,9 +87,11 @@ export default function ContestPage() {
   const handleVote = async (id: number) => {
     if (votedForId === id) return;
 
+    const endpoint = '/api/v1/contest/vote';
     setVotingFor(id);
+    logRequestStart(endpoint, { method: 'POST', module: 'contest', contestantId: id });
     try {
-      const response = await fetch('/api/v1/contest/vote', {
+      const response = await fetch(endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ contestantId: id }),
@@ -82,15 +100,18 @@ export default function ContestPage() {
       if (response.ok) {
         setHasVoted(true);
         setVotedForId(id);
+        logRequestSuccess(endpoint, { method: 'POST', module: 'contest', status: response.status, contestantId: id });
         await fetchResults();
         window.scrollTo(0, 0);
       } else {
+        logRequestFailure(endpoint, { method: 'POST', module: 'contest', status: response.status, contestantId: id });
         Sentry.captureMessage('Ошибка голосования', {
           level: 'error',
           extra: { module: 'contest', status: response.status },
         });
       }
     } catch (error) {
+      logRequestError(endpoint, error, { method: 'POST', module: 'contest', contestantId: id });
       Sentry.captureException(error, { extra: { module: 'contest', context: 'contest-vote' } });
     } finally {
       setVotingFor(null);

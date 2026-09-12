@@ -5,13 +5,23 @@ import { getUserById, updateUser } from '@/lib/db-prisma'
 import { revalidatePath } from 'next/cache'
 import { ActionResult } from '@/app/actions/types'
 import { createModuleLogger } from '@/lib/logger'
+import {
+    logActionStart,
+    logActionSuccess,
+    logActionFailure,
+    logActionError,
+} from '@/lib/action-logger'
 
 const log = createModuleLogger('profile')
 
 export async function updateUserName(name: string): Promise<ActionResult<void>> {
+    const action = 'updateUserName'
+    const startedAt = performance.now()
+    logActionStart(action, { module: 'profile' })
     try {
         const session = await auth()
         if (!session?.user?.id) {
+            logActionFailure(action, 'unauthorized', { module: 'profile' })
             return { success: false, error: 'Не авторизован' }
         }
 
@@ -19,6 +29,7 @@ export async function updateUserName(name: string): Promise<ActionResult<void>> 
         const user = await getUserById(userId)
         
         if (!user) {
+            logActionFailure(action, 'user-not-found', { module: 'profile', userId })
             return { success: false, error: 'Пользователь не найден' }
         }
 
@@ -27,10 +38,16 @@ export async function updateUserName(name: string): Promise<ActionResult<void>> 
         })
 
         revalidatePath('/profile')
-        
+
+        logActionSuccess(action, {
+            module: 'profile',
+            userId,
+            durationMs: Math.round(performance.now() - startedAt),
+        })
         return { success: true, data: undefined }
     } catch (error) {
         log.error('Failed to update user name', { err: error })
+        logActionError(action, error, { module: 'profile' })
         return { success: false, error: 'Ошибка при обновлении имени' }
     }
 }
@@ -39,9 +56,13 @@ export async function updateUserProfile(data: {
     name: string | null;
     phone: string | null;
 }): Promise<ActionResult<void>> {
+    const action = 'updateUserProfile'
+    const startedAt = performance.now()
+    logActionStart(action, { module: 'profile' })
     try {
         const session = await auth()
         if (!session?.user?.id) {
+            logActionFailure(action, 'unauthorized', { module: 'profile' })
             return { success: false, error: 'Не авторизован' }
         }
 
@@ -49,11 +70,13 @@ export async function updateUserProfile(data: {
         const user = await getUserById(userId)
         
         if (!user) {
+            logActionFailure(action, 'user-not-found', { module: 'profile', userId })
             return { success: false, error: 'Пользователь не найден' }
         }
 
         // Валидация телефона
         if (!data.phone) {
+            logActionFailure(action, 'phone-missing', { module: 'profile', userId })
             return { success: false, error: 'Номер телефона отсутствует' }
         }
 
@@ -78,10 +101,17 @@ export async function updateUserProfile(data: {
         await updateUser(userId, updateData)
 
         revalidatePath('/profile')
-        
+
+        logActionSuccess(action, {
+            module: 'profile',
+            userId,
+            phoneChanged: data.phone !== user.phone,
+            durationMs: Math.round(performance.now() - startedAt),
+        })
         return { success: true, data: undefined }
     } catch (error) {
         log.error('Failed to update user profile', { err: error })
+        logActionError(action, error, { module: 'profile' })
         return { success: false, error: 'Ошибка при обновлении профиля' }
     }
 }
