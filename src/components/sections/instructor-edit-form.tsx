@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import * as Sentry from '@sentry/nextjs';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Check, X } from 'lucide-react';
@@ -55,8 +56,8 @@ export function InstructorEditForm({ instructor, onSaved }: InstructorEditFormPr
                 .then((data) => {
                     if (data) setAllWikiTerms(data.terms ?? []);
                 })
-                .catch(() => {
-                    console.error('ошибка получения wiki статей');
+                .catch((error) => {
+                    Sentry.captureException(error, { extra: { context: 'instructor-edit-wiki-fetch' } });
                 })
                 .finally(() => {
                     setWikiLoaded(true);

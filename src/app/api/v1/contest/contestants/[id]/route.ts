@@ -7,6 +7,9 @@ import { validateContestantFields } from '@/lib/contest-validation';
 import { deleteImage, S3Prefix } from '@/lib/s3';
 import type { ApiResponse } from '@/types/api';
 import type { Contestant } from '@/lib/types';
+import { createModuleLogger } from '@/lib/logger';
+
+const log = createModuleLogger('contest');
 
 export async function PUT(
     req: NextRequest,
@@ -39,7 +42,7 @@ export async function PUT(
     }
 
     const updated = await updateContestant({ ...existing, ...validation.data });
-    console.log('[Contest] Участник обновлён:', updated.id);
+    log.info('Участник обновлён', { id: updated.id });
     revalidatePath('/contest');
     revalidatePath('/contest/result');
 
@@ -74,7 +77,7 @@ export async function DELETE(
                 await deleteImage(fileName, S3Prefix.contestant);
             } catch (error) {
                 // Ошибка, отличная от "файл не найден" — не удаляем запись (Requirement 7.6)
-                console.error('[Contest] Не удалось удалить фото участника, запись не удалена:', existing.id, error);
+                log.error('Не удалось удалить фото участника, запись не удалена', { id: existing.id, err: error });
                 return NextResponse.json(
                     { success: false, error: 'Failed to delete photo, contestant not deleted', timestamp: new Date() },
                     { status: 502 }
@@ -84,7 +87,7 @@ export async function DELETE(
     }
 
     await deleteContestant(Number(id)); // каскадно удаляет связанные ContestVote
-    console.log('[Contest] Участник удалён:', id);
+    log.info('Участник удалён', { id });
     revalidatePath('/contest');
     revalidatePath('/contest/result');
 

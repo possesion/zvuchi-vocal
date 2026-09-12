@@ -1,8 +1,11 @@
 import { NextResponse } from 'next/server'
 import type { ApiResponse } from '@/types/api'
+import { createModuleLogger } from '@/lib/logger'
+
+const log = createModuleLogger('api-response')
 
 export function apiError(message: string, status = 500): NextResponse<ApiResponse<never>> {
-    console.error(message)
+    log.error(message, { status })
     return NextResponse.json({ success: false, error: message, timestamp: new Date() }, { status })
 }
 

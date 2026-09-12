@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import * as Sentry from '@sentry/nextjs';
 import { useForm } from 'react-hook-form';
 import { Button, Card } from '@radix-ui/themes';
 import { Copy, Check, Calculator } from 'lucide-react';
@@ -315,7 +316,7 @@ export function SalaryCalculatorForm({ instructors }: SalaryCalculatorFormProps)
             setCopied(true);
             setTimeout(() => setCopied(false), 2000);
         } catch (err) {
-            console.error('Failed to copy:', err);
+            Sentry.captureException(err, { extra: { context: 'salary-calculator-copy' } });
         }
     };
 

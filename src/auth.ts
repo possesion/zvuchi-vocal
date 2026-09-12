@@ -20,19 +20,13 @@ import {
     type OAuthProfileData,
 } from './lib/oauth-sync'
 import { fetchGooglePhoneNumbers } from './lib/google-people'
+import { createAuthLogger } from './lib/auth-logger'
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
     ...authConfig,
-    logger: {
-        error(code, ...args) {
-            // Подавляем ожидаемую ошибку при неверном пароле/логине
-            if (String(code) === 'CredentialsSignin') return
-            console.error('[auth][error]', code, ...args)
-        },
-        warn(code, ...args) {
-            console.warn('[auth][warn]', code, ...args)
-        },
-    },
+    // События next-auth (error/warn) направляются в Winston (module: 'auth').
+    // CredentialsSignin подавляется внутри createAuthLogger (Req 6.1–6.3).
+    logger: createAuthLogger(),
     callbacks: {
         // Единственное место для jwt — не дублируем в authConfig
         async jwt({ token, user, account }) {

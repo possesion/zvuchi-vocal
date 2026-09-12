@@ -12,6 +12,9 @@ import {
 } from '@/lib/db-prisma'
 import { generateVerificationToken } from './utils'
 import { sendPasswordResetEmail } from './sendEmail'
+import { createModuleLogger } from '@/lib/logger'
+
+const log = createModuleLogger('auth')
 
 
 function getTokenExpiresAt(): string {
@@ -72,7 +75,7 @@ export async function registerUser(data: {
     try {
         await dispatchVerificationEmail(email, verificationToken)
     } catch (err) {
-        console.error('Failed to send verification email:', err)
+        log.error('Failed to send verification email', { err })
         // Пользователь создан, может запросить повторную отправку через /resend-verification
     }
 
@@ -136,7 +139,7 @@ export async function resendVerification(
     try {
         await dispatchVerificationEmail(email, verificationToken)
     } catch (err) {
-        console.error('Failed to send verification email:', err)
+        log.error('Failed to send verification email', { err })
         return { success: false, error: 'Ошибка при отправке письма. Попробуйте позже.' }
     }
 
@@ -164,7 +167,7 @@ export async function requestPasswordReset(
 
     const result = await sendPasswordResetEmail(email, resetToken);
     if (!result.success) {
-        console.error('Failed to send password reset email:', result.error);
+        log.error('Failed to send password reset email', { err: result.error });
         return { success: false, error: 'Ошибка при отправке письма. Попробуйте позже.' };
     }
 

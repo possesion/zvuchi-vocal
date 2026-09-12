@@ -27,6 +27,12 @@ ENV DATABASE_URL="postgresql://placeholder:placeholder@localhost:5432/placeholde
 # Generate Prisma Client
 RUN npx prisma generate
 
+# Sentry source maps upload during `next build`.
+# The token is passed as a build arg from CI (never baked into the final image,
+# since the build stage is discarded). Empty in local builds → upload skipped.
+ARG SENTRY_AUTH_TOKEN
+ENV SENTRY_AUTH_TOKEN=$SENTRY_AUTH_TOKEN
+
 # Build the application
 RUN npm run build
 

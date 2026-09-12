@@ -1,4 +1,7 @@
 import { NextResponse } from 'next/server'
+import { createModuleLogger } from '@/lib/logger'
+
+const log = createModuleLogger('health')
 
 export async function GET() {
     try {
@@ -17,7 +20,7 @@ export async function GET() {
 
         return NextResponse.json(health)
     } catch (error) {
-        console.error('Health check error:', error)
+        log.error('Health check error', { err: error })
         return NextResponse.json(
             {
                 status: 'unhealthy',

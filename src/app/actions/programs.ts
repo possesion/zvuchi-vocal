@@ -4,6 +4,9 @@ import { revalidatePath } from 'next/cache'
 import { createProgram, deleteProgram, updateProgram, getProgramById } from '@/lib/db-prisma'
 import { createSlug } from '@/app/api/v1/utils'
 import { ActionResult } from '@/app/actions/types'
+import { createModuleLogger } from '@/lib/logger'
+
+const log = createModuleLogger('programs')
 
 interface Package {
     lessons_count: number
@@ -53,7 +56,7 @@ export async function createProgramAction(
 
         return { success: true, data: { id: created.id } }
     } catch (error) {
-        console.error('Failed to create program:', error)
+        log.error('Failed to create program', { err: error })
         return { success: false, error: 'Ошибка при создании абонемента' }
     }
 }
@@ -94,7 +97,7 @@ export async function updateProgramAction(
 
         return { success: true, data: undefined }
     } catch (error) {
-        console.error('Failed to update program:', error)
+        log.error('Failed to update program', { err: error })
         return { success: false, error: 'Ошибка при обновлении абонемента' }
     }
 }
@@ -107,7 +110,7 @@ export async function deleteProgramAction(
         revalidatePath('/programs')
         return { success: true, data: undefined }
     } catch (error) {
-        console.error('Failed to delete program:', error)
+        log.error('Failed to delete program', { err: error })
         return { success: false, error: 'Ошибка при удалении абонемента' }
     }
 }

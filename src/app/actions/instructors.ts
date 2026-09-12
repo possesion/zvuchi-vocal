@@ -3,6 +3,9 @@ import { revalidatePath } from 'next/cache'
 import { createInstructor, updateInstructor, deleteInstructor } from '@/lib/db-prisma'
 import type { Instructor } from '@/lib/types'
 import type { ActionResult } from '@/app/actions/types'
+import { createModuleLogger } from '@/lib/logger'
+
+const log = createModuleLogger('instructors')
 
 export async function createInstructorAction(
   data: Omit<Instructor, 'id'>
@@ -12,7 +15,7 @@ export async function createInstructorAction(
     revalidatePath('/instructors')
     return { success: true, data: { id: created.id } }
   } catch (error) {
-    console.error('createInstructorAction failed:', error)
+    log.error('createInstructorAction failed', { err: error })
     return { success: false, error: 'Ошибка при создании педагога' }
   }
 }
@@ -26,7 +29,7 @@ export async function updateInstructorAction(
     revalidatePath(`/instructors/${data.slug}`)
     return { success: true, data: undefined }
   } catch (error) {
-    console.error('updateInstructorAction failed:', error)
+    log.error('updateInstructorAction failed', { err: error })
     return { success: false, error: 'Ошибка при обновлении педагога' }
   }
 }
@@ -39,7 +42,7 @@ export async function deleteInstructorAction(
     revalidatePath('/instructors')
     return { success: true, data: undefined }
   } catch (error) {
-    console.error('deleteInstructorAction failed:', error)
+    log.error('deleteInstructorAction failed', { err: error })
     return { success: false, error: 'Ошибка при удалении педагога' }
   }
 }

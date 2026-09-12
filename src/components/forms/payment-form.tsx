@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import * as Sentry from '@sentry/nextjs'
 import { Form } from 'radix-ui'
 import { Button } from '@radix-ui/themes'
 import { useForm } from 'react-hook-form'
@@ -65,12 +66,13 @@ export default function PaymentForm() {
                 // Перенаправление на страницу подтверждения или обработка дальнейших действий
                 window?.open(result.Data.paymentLink, '_blank')
             } else {
-                console.error(`Ошибка: ${result.error || 'Неизвестная ошибка'}`)
+                Sentry.captureMessage('Ошибка создания платежа', {
+                    level: 'error',
+                    extra: { context: 'payment-form-submit', error: result.error ?? 'Неизвестная ошибка' },
+                })
             }
         } catch (e) {
-            if (e instanceof Error) {
-                console.error('Ошибка сети или сервера' + e.message)
-            }
+            Sentry.captureException(e, { extra: { context: 'payment-form-submit' } })
         } finally {
             setIsProcessing(false)
         }
@@ -90,7 +92,12 @@ export default function PaymentForm() {
                     },
                 }
             )
-            console.log('RESP ', await accessStatusResponse.json())
+            Sentry.addBreadcrumb({
+                category: 'payment',
+                message: 'access-token-status response received',
+                level: 'info',
+                data: await accessStatusResponse.json(),
+            })
         })()
     }, [])
 

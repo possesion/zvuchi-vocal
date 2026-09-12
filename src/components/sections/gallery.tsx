@@ -1,6 +1,7 @@
 'use client'
 
 import { TouchEvent, useEffect, useState } from 'react'
+import * as Sentry from '@sentry/nextjs'
 import Image from 'next/image'
 import { Dialog } from 'radix-ui'
 import { ChevronLeft, ChevronRight, ChevronsRight, Trash2 } from 'lucide-react'
@@ -71,7 +72,7 @@ export const Gallery = ({ isAuthorized = false }: { isAuthorized?: boolean }) =>
                 }))
                 setImages(newPhotos)
             })
-            .catch((error) => console.error('Ошибка загрузки фотографий', error.message))
+            .catch((error) => Sentry.captureException(error, { extra: { context: 'gallery-photos-load' } }))
     }, [])
 
     const handleUploaded = (url: string) => {

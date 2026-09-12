@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useLayoutEffect } from 'react';
+import * as Sentry from '@sentry/nextjs';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
@@ -38,10 +39,13 @@ export default function ContestPage() {
         setHasVoted(result.data.hasVoted);
         setVotedForId(result.data.contestantId);
       } else {
-        console.error('[Contest] Ошибка проверки статуса голосования:', result.error);
+        Sentry.captureMessage('Ошибка проверки статуса голосования', {
+          level: 'error',
+          extra: { module: 'contest', error: result.error },
+        });
       }
     } catch (error) {
-      console.error('[Contest] Ошибка проверки статуса голосования:', error);
+      Sentry.captureException(error, { extra: { module: 'contest', context: 'contest-vote-status' } });
     }
   };
 
@@ -52,10 +56,13 @@ export default function ContestPage() {
       if (data.success) {
         setContestants(data.data);
       } else {
-        console.error('[Contest] Ошибка загрузки результатов:', data.error);
+        Sentry.captureMessage('Ошибка загрузки результатов', {
+          level: 'error',
+          extra: { module: 'contest', error: data.error },
+        });
       }
     } catch (error) {
-      console.error('[Contest] Ошибка загрузки результатов:', error);
+      Sentry.captureException(error, { extra: { module: 'contest', context: 'contest-results-load' } });
     } finally {
       setIsLoading(false);
     }
@@ -78,10 +85,13 @@ export default function ContestPage() {
         await fetchResults();
         window.scrollTo(0, 0);
       } else {
-        console.error('[Contest] Ошибка голосования, статус:', response.status);
+        Sentry.captureMessage('Ошибка голосования', {
+          level: 'error',
+          extra: { module: 'contest', status: response.status },
+        });
       }
     } catch (error) {
-      console.error('[Contest] Ошибка голосования:', error);
+      Sentry.captureException(error, { extra: { module: 'contest', context: 'contest-vote' } });
     } finally {
       setVotingFor(null);
     }
@@ -93,13 +103,16 @@ export default function ContestPage() {
     try {
       const res = await fetch(`/api/v1/contest/contestants/${deleteTarget.id}`, { method: 'DELETE' });
       if (!res.ok) {
-        console.error('[Contest] Ошибка удаления участника, статус:', res.status);
+        Sentry.captureMessage('Ошибка удаления участника', {
+          level: 'error',
+          extra: { module: 'contest', status: res.status },
+        });
         return;
       }
       setDeleteTarget(null);
       await fetchResults();
     } catch (error) {
-      console.error('[Contest] Ошибка удаления участника:', error);
+      Sentry.captureException(error, { extra: { module: 'contest', context: 'contest-delete' } });
     } finally {
       setDeleting(false);
     }
@@ -110,7 +123,10 @@ export default function ContestPage() {
     try {
       const res = await fetch('/api/v1/contest/reset', { method: 'POST' });
       if (!res.ok) {
-        console.error('[Contest] Ошибка обнуления результатов, статус:', res.status);
+        Sentry.captureMessage('Ошибка обнуления результатов', {
+          level: 'error',
+          extra: { module: 'contest', status: res.status },
+        });
         return;
       }
       setShowResetConfirm(false);
@@ -118,7 +134,7 @@ export default function ContestPage() {
       setVotedForId(null);
       await fetchResults();
     } catch (error) {
-      console.error('[Contest] Ошибка обнуления результатов:', error);
+      Sentry.captureException(error, { extra: { module: 'contest', context: 'contest-reset' } });
     } finally {
       setResetting(false);
     }

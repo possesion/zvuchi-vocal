@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import * as Sentry from '@sentry/nextjs';
 import Image from 'next/image';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
@@ -20,10 +21,13 @@ export default function ContestResultPage() {
             if (data.success) {
                 setContestants(data.data);
             } else {
-                console.error('[Contest] Ошибка загрузки результатов:', data.error);
+                Sentry.captureMessage('Ошибка загрузки результатов', {
+                    level: 'error',
+                    extra: { module: 'contest', error: data.error },
+                });
             }
         } catch (error) {
-            console.error('[Contest] Ошибка загрузки результатов:', error);
+            Sentry.captureException(error, { extra: { module: 'contest', context: 'contest-results-load' } });
         } finally {
             setIsLoading(false);
         }

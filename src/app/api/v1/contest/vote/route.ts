@@ -4,6 +4,9 @@ import { auth } from '@/auth';
 import { getContestantById, getVoteStatusByUserId, upsertContestVote } from '@/lib/db-prisma';
 import type { ApiResponse } from '@/types/api';
 import type { ContestVoteStatus } from '@/lib/types';
+import { createModuleLogger } from '@/lib/logger';
+
+const log = createModuleLogger('contest');
 
 export async function GET(): Promise<NextResponse<ApiResponse<ContestVoteStatus>>> {
     const session = await auth();
@@ -46,7 +49,7 @@ export async function POST(req: NextRequest): Promise<NextResponse<ApiResponse<C
     }
 
     const { created } = await upsertContestVote(Number(session.user.id), contestantId);
-    console.log(`[Contest] Голос сохранён: userId=${session.user.id}, contestantId=${contestantId}, created=${created}`);
+    log.info('Голос сохранён', { userId: session.user.id, contestantId, created });
     revalidatePath('/contest');
     revalidatePath('/contest/result');
 

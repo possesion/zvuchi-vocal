@@ -8,6 +8,9 @@
  */
 
 import { createHmac } from 'crypto';
+import { createModuleLogger } from '@/lib/logger';
+
+const log = createModuleLogger('mobileid');
 
 const CLIENT_ID = process.env.CLIENT_ID;
 const API_SECRET = process.env.API_SECRET;
@@ -49,7 +52,7 @@ function generateSignature(clientId: string, data: string, timestamp: string): s
  */
 export async function getMobileIDToken(fingerprintHash: string): Promise<TokenResponse> {
     if (!CLIENT_ID || !API_SECRET) {
-        console.error('CLIENT_ID or API_SECRET not configured');
+        log.error('CLIENT_ID or API_SECRET not configured');
         return { success: false, error: 'MobileID service not configured' };
     }
 
@@ -77,7 +80,7 @@ export async function getMobileIDToken(fingerprintHash: string): Promise<TokenRe
         const data = await response.json();
 
         if (!response.ok) {
-            console.error('MobileID API error:', data);
+            log.error('MobileID API error', { data });
             return {
                 success: false,
                 error: data.error || 'Failed to get MobileID token',
@@ -89,7 +92,7 @@ export async function getMobileIDToken(fingerprintHash: string): Promise<TokenRe
             token: data.token,
         };
     } catch (error) {
-        console.error('MobileID token error:', error);
+        log.error('MobileID token error', { err: error });
         return {
             success: false,
             error: 'Network error while getting MobileID token',
@@ -113,7 +116,7 @@ export async function verifyMobileIDToken(
     verifyToken: string | null
 ): Promise<SiteVerifyResponse> {
     if (!CLIENT_ID || !API_SECRET) {
-        console.error('CLIENT_ID or API_SECRET not configured');
+        log.error('CLIENT_ID or API_SECRET not configured');
         return { success: false, error: 'MobileID service not configured' };
     }
 
@@ -142,7 +145,7 @@ export async function verifyMobileIDToken(
         const data = await response.json();
 
         if (!response.ok) {
-            console.error('MobileID siteverify error:', data);
+            log.error('MobileID siteverify error', { data });
             return {
                 success: false,
                 error: data.error || 'Verification failed',
@@ -163,7 +166,7 @@ export async function verifyMobileIDToken(
             status: data.status,
         };
     } catch (error) {
-        console.error('MobileID siteverify error:', error);
+        log.error('MobileID siteverify error', { err: error });
         return {
             success: false,
             error: 'Network error during verification',

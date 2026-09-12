@@ -1,0 +1,291 @@
+{
+  "pbtResults": {},
+  "executionHistory": {
+    "1.1 Add `masterMultiplier` column to Prisma schema and create migration": [
+      {
+        "executionId": "d79c84bf-a08d-4ca5-b2de-e3a107c669bb",
+        "chatSessionId": "sess_4e421511-d6ac-4eca-ae13-0854e677907b",
+        "timestamp": 1787986552387
+      },
+      {
+        "executionId": "d79c84bf-a08d-4ca5-b2de-e3a107c669bb",
+        "chatSessionId": "sess_4e421511-d6ac-4eca-ae13-0854e677907b",
+        "timestamp": 1787986562625
+      },
+      {
+        "executionId": "d79c84bf-a08d-4ca5-b2de-e3a107c669bb",
+        "chatSessionId": "sess_4e421511-d6ac-4eca-ae13-0854e677907b",
+        "timestamp": 1787987264575
+      }
+    ],
+    "1.2 Update `Program` interface in `src/lib/types.ts`": [
+      {
+        "executionId": "d79c84bf-a08d-4ca5-b2de-e3a107c669bb",
+        "chatSessionId": "sess_4e421511-d6ac-4eca-ae13-0854e677907b",
+        "timestamp": 1787986552412
+      },
+      {
+        "executionId": "d79c84bf-a08d-4ca5-b2de-e3a107c669bb",
+        "chatSessionId": "sess_4e421511-d6ac-4eca-ae13-0854e677907b",
+        "timestamp": 1787987269602
+      },
+      {
+        "executionId": "d79c84bf-a08d-4ca5-b2de-e3a107c669bb",
+        "chatSessionId": "sess_4e421511-d6ac-4eca-ae13-0854e677907b",
+        "timestamp": 1787987487402
+      }
+    ],
+    "1.3 Update `ProgramSchema` and `ProgramForm` type in `src/lib/definitions.ts`": [
+      {
+        "executionId": "d79c84bf-a08d-4ca5-b2de-e3a107c669bb",
+        "chatSessionId": "sess_4e421511-d6ac-4eca-ae13-0854e677907b",
+        "timestamp": 1787986552436
+      },
+      {
+        "executionId": "d79c84bf-a08d-4ca5-b2de-e3a107c669bb",
+        "chatSessionId": "sess_4e421511-d6ac-4eca-ae13-0854e677907b",
+        "timestamp": 1787987270519
+      },
+      {
+        "executionId": "d79c84bf-a08d-4ca5-b2de-e3a107c669bb",
+        "chatSessionId": "sess_4e421511-d6ac-4eca-ae13-0854e677907b",
+        "timestamp": 1787987488400
+      }
+    ],
+    "2.1 Update db-prisma.ts program functions to include `masterMultiplier`": [
+      {
+        "executionId": "d79c84bf-a08d-4ca5-b2de-e3a107c669bb",
+        "chatSessionId": "sess_4e421511-d6ac-4eca-ae13-0854e677907b",
+        "timestamp": 1787986552468
+      },
+      {
+        "executionId": "d79c84bf-a08d-4ca5-b2de-e3a107c669bb",
+        "chatSessionId": "sess_4e421511-d6ac-4eca-ae13-0854e677907b",
+        "timestamp": 1787987493190
+      },
+      {
+        "executionId": "d79c84bf-a08d-4ca5-b2de-e3a107c669bb",
+        "chatSessionId": "sess_4e421511-d6ac-4eca-ae13-0854e677907b",
+        "timestamp": 1787988044013
+      }
+    ],
+    "2.2 Update server actions in `src/app/actions/programs.ts`": [
+      {
+        "executionId": "d79c84bf-a08d-4ca5-b2de-e3a107c669bb",
+        "chatSessionId": "sess_4e421511-d6ac-4eca-ae13-0854e677907b",
+        "timestamp": 1787986552496
+      },
+      {
+        "executionId": "d79c84bf-a08d-4ca5-b2de-e3a107c669bb",
+        "chatSessionId": "sess_4e421511-d6ac-4eca-ae13-0854e677907b",
+        "timestamp": 1787987493985
+      },
+      {
+        "executionId": "d79c84bf-a08d-4ca5-b2de-e3a107c669bb",
+        "chatSessionId": "sess_4e421511-d6ac-4eca-ae13-0854e677907b",
+        "timestamp": 1787988045135
+      }
+    ],
+    "3. Checkpoint — Ensure schema, types, and data layer compile": [
+      {
+        "executionId": "d79c84bf-a08d-4ca5-b2de-e3a107c669bb",
+        "chatSessionId": "sess_4e421511-d6ac-4eca-ae13-0854e677907b",
+        "timestamp": 1787986552513
+      },
+      {
+        "executionId": "d79c84bf-a08d-4ca5-b2de-e3a107c669bb",
+        "chatSessionId": "sess_4e421511-d6ac-4eca-ae13-0854e677907b",
+        "timestamp": 1787988051464
+      },
+      {
+        "executionId": "d79c84bf-a08d-4ca5-b2de-e3a107c669bb",
+        "chatSessionId": "sess_4e421511-d6ac-4eca-ae13-0854e677907b",
+        "timestamp": 1787988892425
+      }
+    ],
+    "4.1 Update `src/app/programs/[slug]/program-edit-form.tsx`": [
+      {
+        "executionId": "d79c84bf-a08d-4ca5-b2de-e3a107c669bb",
+        "chatSessionId": "sess_4e421511-d6ac-4eca-ae13-0854e677907b",
+        "timestamp": 1787986552539
+      },
+      {
+        "executionId": "d79c84bf-a08d-4ca5-b2de-e3a107c669bb",
+        "chatSessionId": "sess_4e421511-d6ac-4eca-ae13-0854e677907b",
+        "timestamp": 1787988898260
+      },
+      {
+        "executionId": "30cb70ee-33ff-4845-84fe-32d3976dcf78",
+        "chatSessionId": "sess_4e421511-d6ac-4eca-ae13-0854e677907b",
+        "timestamp": 1788014031585
+      }
+    ],
+    "4.2 Update `src/app/programs/program-add-form.tsx`": [
+      {
+        "executionId": "d79c84bf-a08d-4ca5-b2de-e3a107c669bb",
+        "chatSessionId": "sess_4e421511-d6ac-4eca-ae13-0854e677907b",
+        "timestamp": 1787986552562
+      },
+      {
+        "executionId": "d79c84bf-a08d-4ca5-b2de-e3a107c669bb",
+        "chatSessionId": "sess_4e421511-d6ac-4eca-ae13-0854e677907b",
+        "timestamp": 1787988899982
+      },
+      {
+        "executionId": "30cb70ee-33ff-4845-84fe-32d3976dcf78",
+        "chatSessionId": "sess_4e421511-d6ac-4eca-ae13-0854e677907b",
+        "timestamp": 1788014033236
+      }
+    ],
+    "5.1 Update pricing utility functions in `src/app/programs/utils.ts`": [
+      {
+        "executionId": "d79c84bf-a08d-4ca5-b2de-e3a107c669bb",
+        "chatSessionId": "sess_4e421511-d6ac-4eca-ae13-0854e677907b",
+        "timestamp": 1787986552579
+      },
+      {
+        "executionId": "d79c84bf-a08d-4ca5-b2de-e3a107c669bb",
+        "chatSessionId": "sess_4e421511-d6ac-4eca-ae13-0854e677907b",
+        "timestamp": 1787988899079
+      },
+      {
+        "executionId": "30cb70ee-33ff-4845-84fe-32d3976dcf78",
+        "chatSessionId": "sess_4e421511-d6ac-4eca-ae13-0854e677907b",
+        "timestamp": 1788014032401
+      }
+    ],
+    "5.2 Update `src/app/programs/[slug]/program-pricing-client.tsx`": [
+      {
+        "executionId": "d79c84bf-a08d-4ca5-b2de-e3a107c669bb",
+        "chatSessionId": "sess_4e421511-d6ac-4eca-ae13-0854e677907b",
+        "timestamp": 1787986552598
+      },
+      {
+        "executionId": "30cb70ee-33ff-4845-84fe-32d3976dcf78",
+        "chatSessionId": "sess_4e421511-d6ac-4eca-ae13-0854e677907b",
+        "timestamp": 1788014344597
+      },
+      {
+        "executionId": "30cb70ee-33ff-4845-84fe-32d3976dcf78",
+        "chatSessionId": "sess_4e421511-d6ac-4eca-ae13-0854e677907b",
+        "timestamp": 1788015104937
+      }
+    ],
+    "5.3 Update `src/app/programs/[slug]/program-pricing-tabs.tsx`": [
+      {
+        "executionId": "d79c84bf-a08d-4ca5-b2de-e3a107c669bb",
+        "chatSessionId": "sess_4e421511-d6ac-4eca-ae13-0854e677907b",
+        "timestamp": 1787986552633
+      },
+      {
+        "executionId": "30cb70ee-33ff-4845-84fe-32d3976dcf78",
+        "chatSessionId": "sess_4e421511-d6ac-4eca-ae13-0854e677907b",
+        "timestamp": 1788014345405
+      },
+      {
+        "executionId": "30cb70ee-33ff-4845-84fe-32d3976dcf78",
+        "chatSessionId": "sess_4e421511-d6ac-4eca-ae13-0854e677907b",
+        "timestamp": 1788015105843
+      }
+    ],
+    "5.4 Update `src/app/programs/[slug]/page.tsx`": [
+      {
+        "executionId": "d79c84bf-a08d-4ca5-b2de-e3a107c669bb",
+        "chatSessionId": "sess_4e421511-d6ac-4eca-ae13-0854e677907b",
+        "timestamp": 1787986552666
+      },
+      {
+        "executionId": "30cb70ee-33ff-4845-84fe-32d3976dcf78",
+        "chatSessionId": "sess_4e421511-d6ac-4eca-ae13-0854e677907b",
+        "timestamp": 1788014346049
+      },
+      {
+        "executionId": "30cb70ee-33ff-4845-84fe-32d3976dcf78",
+        "chatSessionId": "sess_4e421511-d6ac-4eca-ae13-0854e677907b",
+        "timestamp": 1788015106654
+      }
+    ],
+    "6. Checkpoint — Ensure full build succeeds and pricing renders correctly": [
+      {
+        "executionId": "d79c84bf-a08d-4ca5-b2de-e3a107c669bb",
+        "chatSessionId": "sess_4e421511-d6ac-4eca-ae13-0854e677907b",
+        "timestamp": 1787986552698
+      },
+      {
+        "executionId": "30cb70ee-33ff-4845-84fe-32d3976dcf78",
+        "chatSessionId": "sess_4e421511-d6ac-4eca-ae13-0854e677907b",
+        "timestamp": 1788015115574
+      }
+    ],
+    "7.1 Write property test: adjusted price calculation with per-program multiplier": [
+      {
+        "executionId": "d79c84bf-a08d-4ca5-b2de-e3a107c669bb",
+        "chatSessionId": "sess_4e421511-d6ac-4eca-ae13-0854e677907b",
+        "timestamp": 1787986552720
+      }
+    ],
+    "7.2 Write property test: per-lesson price calculation": [
+      {
+        "executionId": "d79c84bf-a08d-4ca5-b2de-e3a107c669bb",
+        "chatSessionId": "sess_4e421511-d6ac-4eca-ae13-0854e677907b",
+        "timestamp": 1787986552737
+      }
+    ],
+    "7.3 Write property test: expert level ignores master multiplier": [
+      {
+        "executionId": "d79c84bf-a08d-4ca5-b2de-e3a107c669bb",
+        "chatSessionId": "sess_4e421511-d6ac-4eca-ae13-0854e677907b",
+        "timestamp": 1787986552753
+      }
+    ],
+    "7.4 Write property test: fallback to global constant when multiplier omitted": [
+      {
+        "executionId": "d79c84bf-a08d-4ca5-b2de-e3a107c669bb",
+        "chatSessionId": "sess_4e421511-d6ac-4eca-ae13-0854e677907b",
+        "timestamp": 1787986552769
+      }
+    ],
+    "7.5 Write property test: invalid multiplier rejection by schema": [
+      {
+        "executionId": "d79c84bf-a08d-4ca5-b2de-e3a107c669bb",
+        "chatSessionId": "sess_4e421511-d6ac-4eca-ae13-0854e677907b",
+        "timestamp": 1787986552786
+      }
+    ],
+    "8. Final checkpoint — Ensure all tests pass": [
+      {
+        "executionId": "d79c84bf-a08d-4ca5-b2de-e3a107c669bb",
+        "chatSessionId": "sess_4e421511-d6ac-4eca-ae13-0854e677907b",
+        "timestamp": 1787986552802
+      }
+    ],
+    "1. Database schema and type definitions": [
+      {
+        "executionId": "d79c84bf-a08d-4ca5-b2de-e3a107c669bb",
+        "chatSessionId": "sess_4e421511-d6ac-4eca-ae13-0854e677907b",
+        "timestamp": 1787987488423
+      }
+    ],
+    "2. Database layer and server actions": [
+      {
+        "executionId": "d79c84bf-a08d-4ca5-b2de-e3a107c669bb",
+        "chatSessionId": "sess_4e421511-d6ac-4eca-ae13-0854e677907b",
+        "timestamp": 1787988045156
+      }
+    ],
+    "4. Form updates": [
+      {
+        "executionId": "30cb70ee-33ff-4845-84fe-32d3976dcf78",
+        "chatSessionId": "sess_4e421511-d6ac-4eca-ae13-0854e677907b",
+        "timestamp": 1788014033262
+      }
+    ],
+    "5. Pricing flow updates": [
+      {
+        "executionId": "30cb70ee-33ff-4845-84fe-32d3976dcf78",
+        "chatSessionId": "sess_4e421511-d6ac-4eca-ae13-0854e677907b",
+        "timestamp": 1788015106674
+      }
+    ]
+  }
+}

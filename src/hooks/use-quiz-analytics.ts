@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
+import * as Sentry from '@sentry/nextjs';
 import { trackEvent } from '@/hooks/use-yandex-metrica';
 import type { QuizAnswers } from '@/app/actions/types';
 
@@ -20,8 +21,10 @@ const addTrackedStep = (step: number) => {
         const steps = getTrackedSteps();
         steps.add(step);
         sessionStorage.setItem(trackedStepsKey, JSON.stringify([...steps]));
-    } catch {
-        console.error('Ошибка при получении данных о прохождении опроса');
+    } catch (error) {
+        Sentry.captureException(error, {
+            extra: { context: 'quiz-analytics-tracked-steps' },
+        });
     }
 };
 

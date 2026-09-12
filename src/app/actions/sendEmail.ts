@@ -2,6 +2,9 @@
 
 import nodemailer from 'nodemailer';
 import { ActionResult, SendEmailProps } from './types';
+import { createModuleLogger } from '@/lib/logger';
+
+const log = createModuleLogger('email');
 
 const formTypeText = {
     'enrollment-form': 'форма записи',
@@ -26,7 +29,7 @@ function createTransporter() {
 
 export async function sendEmail({ name, phone, formType, quizAnswers }: SendEmailProps): Promise<ActionResult<void>> {
     if (!process.env.EMAIL_HOST || !process.env.EMAIL_USER || !process.env.EMAIL_PASSWORD) {
-        console.error('SMTP настройки не настроены. Проверьте переменные окружения.');
+        log.error('SMTP настройки не настроены. Проверьте переменные окружения.');
         return { success: false, error: 'Ошибка при отправке email. Попробуйте позже.' };
     }
 
@@ -34,12 +37,12 @@ export async function sendEmail({ name, phone, formType, quizAnswers }: SendEmai
         const transporter = createTransporter();
         transporter.verify((error) => {
             if (error) {
-                console.error(error);
+                log.error('SMTP verify failed', { err: error });
             } else {
-                console.log('Server is ready to take our messages');
+                log.debug('Server is ready to take our messages');
             }
         });
-        console.log('SMTP подключение успешно', { name, phone });
+        log.debug('SMTP подключение успешно', { name, phone });
 
         let quizSection = '';
         if (formType === 'quiz' && quizAnswers) {
@@ -107,17 +110,17 @@ export async function sendEmail({ name, phone, formType, quizAnswers }: SendEmai
             priority: 'high',
         });
 
-        console.log('Письмо отправлено успешно');
+        log.info('Письмо отправлено успешно', { formType });
         return { success: true, data: undefined };
     } catch (error) {
-        console.error('Ошибка при отправке email:', error);
+        log.error('Ошибка при отправке email', { err: error });
         return { success: false, error: 'Ошибка при отправке email. Попробуйте позже.' };
     }
 }
 
 export async function sendVerificationEmail(email: string, token: string): Promise<ActionResult<void>> {
     if (!process.env.EMAIL_HOST || !process.env.EMAIL_USER || !process.env.EMAIL_PASSWORD) {
-        console.error('SMTP настройки не настроены. Проверьте переменные окружения.');
+        log.error('SMTP настройки не настроены. Проверьте переменные окружения.');
         return { success: false, error: 'Ошибка при отправке email. Попробуйте позже.' };
     }
 
@@ -158,14 +161,14 @@ export async function sendVerificationEmail(email: string, token: string): Promi
         });
         return { success: true, data: undefined };
     } catch (error) {
-        console.error('Ошибка при отправке письма с подтверждением email:', error);
+        log.error('Ошибка при отправке письма с подтверждением email', { err: error });
         return { success: false, error: 'Ошибка при отправке email. Попробуйте позже.' };
     }
 }
 
 export async function sendPasswordResetEmail(email: string, token: string): Promise<ActionResult<void>> {
     if (!process.env.EMAIL_HOST || !process.env.EMAIL_USER || !process.env.EMAIL_PASSWORD) {
-        console.error('SMTP настройки не настроены. Проверьте переменные окружения.');
+        log.error('SMTP настройки не настроены. Проверьте переменные окружения.');
         return { success: false, error: 'Ошибка при отправке email. Попробуйте позже.' };
     }
 
@@ -206,7 +209,7 @@ export async function sendPasswordResetEmail(email: string, token: string): Prom
         });
         return { success: true, data: undefined };
     } catch (error) {
-        console.error('Ошибка при отправке письма для сброса пароля:', error);
+        log.error('Ошибка при отправке письма для сброса пароля', { err: error });
         return { success: false, error: 'Ошибка при отправке email. Попробуйте позже.' };
     }
 }

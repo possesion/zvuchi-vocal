@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { apiOk, apiError } from '@/lib/api-response'
 import type { ApiResponse } from '@/types/api'
+import { createModuleLogger } from '@/lib/logger'
+
+const log = createModuleLogger('contact')
 
 export async function POST(request: NextRequest): Promise<NextResponse<ApiResponse<{ message: string }>>> {
     try {
@@ -9,13 +12,13 @@ export async function POST(request: NextRequest): Promise<NextResponse<ApiRespon
 
         if (type === 'contact') {
             if (!name || !email || !message) return apiError('Missing required fields', 400)
-            console.log('Contact form submission:', { name, email, message })
+            log.info('Contact form submission', { name, email })
             return apiOk({ message: 'Contact form submitted successfully' })
         }
 
         if (type === 'enrollment') {
             if (!name || !email || !phone || !program) return apiError('Missing required fields', 400)
-            console.log('Enrollment form submission:', { name, email, phone, program })
+            log.info('Enrollment form submission', { name, email, phone, program })
             return apiOk({ message: 'Enrollment request submitted successfully' })
         }
 

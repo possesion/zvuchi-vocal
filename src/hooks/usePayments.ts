@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import * as Sentry from '@sentry/nextjs'
 import { PaymentData, PaymentResponse, PaymentStatus } from '@/types/payment'
 
 export const usePayments = () => {
@@ -27,7 +28,7 @@ export const usePayments = () => {
         } catch (err) {
             const errorMessage = err instanceof Error ? err.message : 'Unknown error'
             setError(errorMessage)
-            console.error('Payment creation error:', err)
+            Sentry.captureException(err, { extra: { context: 'payment-create' } })
             return null
         } finally {
             setLoading(false)
@@ -49,7 +50,7 @@ export const usePayments = () => {
         } catch (err) {
             const errorMessage = err instanceof Error ? err.message : 'Unknown error'
             setError(errorMessage)
-            console.error('Payment status check error:', err)
+            Sentry.captureException(err, { extra: { context: 'payment-status-check' } })
             return null
         } finally {
             setLoading(false)

@@ -6,6 +6,9 @@ import { canEdit } from '@/lib/roles';
 import { getContestantById, updateContestant } from '@/lib/db-prisma';
 import { uploadImage, deleteImage, S3Prefix } from '@/lib/s3';
 import type { ApiResponse } from '@/types/api';
+import { createModuleLogger } from '@/lib/logger';
+
+const log = createModuleLogger('contest');
 
 const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/heic', 'image/heif'];
 const ALLOWED_EXTENSIONS = ['jpg', 'jpeg', 'png', 'webp', 'gif', 'heic', 'heif'];
@@ -75,7 +78,7 @@ export async function POST(
         const oldFileName = contestant.photoUrl.split('/').pop();
         if (oldFileName) {
             await deleteImage(oldFileName, S3Prefix.contestant).catch((error) =>
-                console.error('[Contest] Не удалось удалить старое фото участника:', id, error)
+                log.error('Не удалось удалить старое фото участника', { id, err: error })
             );
         }
     }
@@ -93,7 +96,7 @@ export async function POST(
             ext = 'jpg';
             contentType = 'image/jpeg';
         } catch (error) {
-            console.error('[Contest] Не удалось сконвертировать HEIC-фото участника:', id, error);
+            log.error('Не удалось сконвертировать HEIC-фото участника', { id, err: error });
             return NextResponse.json(
                 { success: false, error: 'Failed to convert HEIC image', timestamp: new Date() },
                 { status: 400 }
@@ -105,7 +108,7 @@ export async function POST(
     const url = await uploadImage(buffer, fileName, contentType, S3Prefix.contestant);
 
     await updateContestant({ ...contestant, photoUrl: url });
-    console.log('[Contest] Фото участника обновлено:', id);
+    log.info('Фото участника обновлено', { id });
     revalidatePath('/contest');
     revalidatePath('/contest/result');
 

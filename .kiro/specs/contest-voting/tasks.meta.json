@@ -1,0 +1,195 @@
+{
+  "pbtResults": {},
+  "executionHistory": {
+    "1. Расширить Prisma-схему моделями Contestant и ContestVote": [
+      {
+        "executionId": "d3e0ef60-7c51-4877-8f09-d1828f5fcc43",
+        "chatSessionId": "sess_49312796-2711-4c28-97bc-6f1ca6b14df4",
+        "timestamp": 1788798681248
+      },
+      {
+        "executionId": "d3e0ef60-7c51-4877-8f09-d1828f5fcc43",
+        "chatSessionId": "sess_49312796-2711-4c28-97bc-6f1ca6b14df4",
+        "timestamp": 1788798692232
+      }
+    ],
+    "2. Добавить доменные типы контеста": [
+      {
+        "executionId": "d3e0ef60-7c51-4877-8f09-d1828f5fcc43",
+        "chatSessionId": "sess_49312796-2711-4c28-97bc-6f1ca6b14df4",
+        "timestamp": 1788798681283
+      },
+      {
+        "executionId": "d3e0ef60-7c51-4877-8f09-d1828f5fcc43",
+        "chatSessionId": "sess_49312796-2711-4c28-97bc-6f1ca6b14df4",
+        "timestamp": 1788798692853
+      }
+    ],
+    "3. Добавить префикс S3 для фото участников": [
+      {
+        "executionId": "d3e0ef60-7c51-4877-8f09-d1828f5fcc43",
+        "chatSessionId": "sess_49312796-2711-4c28-97bc-6f1ca6b14df4",
+        "timestamp": 1788798681307
+      },
+      {
+        "executionId": "d3e0ef60-7c51-4877-8f09-d1828f5fcc43",
+        "chatSessionId": "sess_49312796-2711-4c28-97bc-6f1ca6b14df4",
+        "timestamp": 1788798693496
+      }
+    ],
+    "4.1 Реализовать CRUD-функции для Contestant в `src/lib/db-prisma.ts`": [
+      {
+        "executionId": "d3e0ef60-7c51-4877-8f09-d1828f5fcc43",
+        "chatSessionId": "sess_49312796-2711-4c28-97bc-6f1ca6b14df4",
+        "timestamp": 1788798681331
+      }
+    ],
+    "4.3 Реализовать функции результатов и голосов в `src/lib/db-prisma.ts`": [
+      {
+        "executionId": "d3e0ef60-7c51-4877-8f09-d1828f5fcc43",
+        "chatSessionId": "sess_49312796-2711-4c28-97bc-6f1ca6b14df4",
+        "timestamp": 1788798681359
+      }
+    ],
+    "5. Checkpoint — Ensure all tests pass": [
+      {
+        "executionId": "d3e0ef60-7c51-4877-8f09-d1828f5fcc43",
+        "chatSessionId": "sess_49312796-2711-4c28-97bc-6f1ca6b14df4",
+        "timestamp": 1788798681383
+      }
+    ],
+    "6.1 Создать `src/lib/contest-validation.ts`": [
+      {
+        "executionId": "d3e0ef60-7c51-4877-8f09-d1828f5fcc43",
+        "chatSessionId": "sess_49312796-2711-4c28-97bc-6f1ca6b14df4",
+        "timestamp": 1788798681407
+      }
+    ],
+    "7.1 Создать `src/app/api/v1/contest/route.ts`": [
+      {
+        "executionId": "d3e0ef60-7c51-4877-8f09-d1828f5fcc43",
+        "chatSessionId": "sess_49312796-2711-4c28-97bc-6f1ca6b14df4",
+        "timestamp": 1788798681430
+      }
+    ],
+    "8.1 Создать `src/app/api/v1/contest/vote/route.ts`": [
+      {
+        "executionId": "d3e0ef60-7c51-4877-8f09-d1828f5fcc43",
+        "chatSessionId": "sess_49312796-2711-4c28-97bc-6f1ca6b14df4",
+        "timestamp": 1788798681451
+      }
+    ],
+    "9. Checkpoint — Ensure all tests pass": [
+      {
+        "executionId": "d3e0ef60-7c51-4877-8f09-d1828f5fcc43",
+        "chatSessionId": "sess_49312796-2711-4c28-97bc-6f1ca6b14df4",
+        "timestamp": 1788798681474
+      }
+    ],
+    "10.1 Создать `src/app/api/v1/contest/contestants/route.ts`": [
+      {
+        "executionId": "d3e0ef60-7c51-4877-8f09-d1828f5fcc43",
+        "chatSessionId": "sess_49312796-2711-4c28-97bc-6f1ca6b14df4",
+        "timestamp": 1788798681492
+      }
+    ],
+    "11.1 Создать `src/app/api/v1/contest/contestants/[id]/route.ts` — метод PUT": [
+      {
+        "executionId": "d3e0ef60-7c51-4877-8f09-d1828f5fcc43",
+        "chatSessionId": "sess_49312796-2711-4c28-97bc-6f1ca6b14df4",
+        "timestamp": 1788798681515
+      }
+    ],
+    "11.2 Реализовать метод DELETE в том же файле": [
+      {
+        "executionId": "d3e0ef60-7c51-4877-8f09-d1828f5fcc43",
+        "chatSessionId": "sess_49312796-2711-4c28-97bc-6f1ca6b14df4",
+        "timestamp": 1788798681535
+      }
+    ],
+    "12.1 Создать `src/app/api/v1/contest/contestants/[id]/photo/route.ts`": [
+      {
+        "executionId": "d3e0ef60-7c51-4877-8f09-d1828f5fcc43",
+        "chatSessionId": "sess_49312796-2711-4c28-97bc-6f1ca6b14df4",
+        "timestamp": 1788798681559
+      }
+    ],
+    "13. Checkpoint — Ensure all tests pass": [
+      {
+        "executionId": "d3e0ef60-7c51-4877-8f09-d1828f5fcc43",
+        "chatSessionId": "sess_49312796-2711-4c28-97bc-6f1ca6b14df4",
+        "timestamp": 1788798681586
+      }
+    ],
+    "14.1 Добавить `ContestantSchema` в `src/lib/definitions.ts`": [
+      {
+        "executionId": "d3e0ef60-7c51-4877-8f09-d1828f5fcc43",
+        "chatSessionId": "sess_49312796-2711-4c28-97bc-6f1ca6b14df4",
+        "timestamp": 1788798681607
+      }
+    ],
+    "15.1 Создать `src/components/contest/contestant-admin-form.tsx`": [
+      {
+        "executionId": "d3e0ef60-7c51-4877-8f09-d1828f5fcc43",
+        "chatSessionId": "sess_49312796-2711-4c28-97bc-6f1ca6b14df4",
+        "timestamp": 1788798681630
+      }
+    ],
+    "16.1 Обновить `src/app/contest/page.tsx` — источник данных и определение роли": [
+      {
+        "executionId": "d3e0ef60-7c51-4877-8f09-d1828f5fcc43",
+        "chatSessionId": "sess_49312796-2711-4c28-97bc-6f1ca6b14df4",
+        "timestamp": 1788798681652
+      }
+    ],
+    "16.2 Добавить admin-элементы управления и форму в ContestPage": [
+      {
+        "executionId": "d3e0ef60-7c51-4877-8f09-d1828f5fcc43",
+        "chatSessionId": "sess_49312796-2711-4c28-97bc-6f1ca6b14df4",
+        "timestamp": 1788798681674
+      }
+    ],
+    "17. Checkpoint — Ensure all tests pass": [
+      {
+        "executionId": "d3e0ef60-7c51-4877-8f09-d1828f5fcc43",
+        "chatSessionId": "sess_49312796-2711-4c28-97bc-6f1ca6b14df4",
+        "timestamp": 1788798681695
+      }
+    ],
+    "18.1 Вынести определение победителей в `src/app/contest/result/utils.ts`": [
+      {
+        "executionId": "d3e0ef60-7c51-4877-8f09-d1828f5fcc43",
+        "chatSessionId": "sess_49312796-2711-4c28-97bc-6f1ca6b14df4",
+        "timestamp": 1788798681716
+      }
+    ],
+    "18.3 Обновить `src/app/contest/result/page.tsx`": [
+      {
+        "executionId": "d3e0ef60-7c51-4877-8f09-d1828f5fcc43",
+        "chatSessionId": "sess_49312796-2711-4c28-97bc-6f1ca6b14df4",
+        "timestamp": 1788798681738
+      }
+    ],
+    "19.1 Удалить legacy API-роуты и файлы данных": [
+      {
+        "executionId": "d3e0ef60-7c51-4877-8f09-d1828f5fcc43",
+        "chatSessionId": "sess_49312796-2711-4c28-97bc-6f1ca6b14df4",
+        "timestamp": 1788798681758
+      }
+    ],
+    "19.2 Удалить страницу сброса конкурса": [
+      {
+        "executionId": "d3e0ef60-7c51-4877-8f09-d1828f5fcc43",
+        "chatSessionId": "sess_49312796-2711-4c28-97bc-6f1ca6b14df4",
+        "timestamp": 1788798681780
+      }
+    ],
+    "20. Финальный checkpoint — Ensure all tests pass": [
+      {
+        "executionId": "d3e0ef60-7c51-4877-8f09-d1828f5fcc43",
+        "chatSessionId": "sess_49312796-2711-4c28-97bc-6f1ca6b14df4",
+        "timestamp": 1788798681801
+      }
+    ]
+  }
+}

@@ -1,6 +1,7 @@
 'use client';
 
 import { createContext, useContext, useState, ReactNode } from 'react';
+import * as Sentry from '@sentry/nextjs';
 import { trackEvent } from '@/hooks/use-yandex-metrica';
 import { EXPERIENCE_OPTIONS, GENRE_OPTIONS, MOTIVATION_OPTIONS } from './constants';
 import { useUI } from '@/components/providers/ui-context';
@@ -105,7 +106,7 @@ export function QuizProvider({ children, onClose }: { children: ReactNode; onClo
                 notify(result.error, 'error');
             }
         } catch (error) {
-            console.error('Ошибка при отправке:', error);
+            Sentry.captureException(error, { extra: { context: 'quiz-submit' } });
             notify('Произошла ошибка при отправке заявки. Попробуйте позже.', 'error');
         }
     };

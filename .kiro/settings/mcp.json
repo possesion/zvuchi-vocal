@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "sentry": {
+      "url": "https://mcp.sentry.dev/mcp/zvuchi/javascript-nextjs",
+      "disabled": false,
+      "autoApprove": []
+    }
+  }
+}

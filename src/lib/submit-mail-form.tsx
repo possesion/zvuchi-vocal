@@ -1,3 +1,5 @@
+import * as Sentry from '@sentry/nextjs';
+
 export const submitMailForm = async (data: unknown) => {
         try {
             const response = await fetch('/api/send-mail', {
@@ -16,7 +18,7 @@ export const submitMailForm = async (data: unknown) => {
                 return { ok: false, error: result.error || 'Произошла ошибка' };
             }
         } catch (error) {
-            console.error('Ошибка при отправке:', error);
+            Sentry.captureException(error, { extra: { context: 'submit-mail-form' } });
             return { ok: false, error: 'Произошла ошибка при отправке' };
         }
     };

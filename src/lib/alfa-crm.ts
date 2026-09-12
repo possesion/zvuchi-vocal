@@ -3,6 +3,10 @@
  * Документация: https://alfacrm.pro/api
  */
 
+import { createModuleLogger } from '@/lib/logger';
+
+const log = createModuleLogger('alfa-crm');
+
 // ─── Типы ─────────────────────────────────────────────────────────────────────
 
 interface AuthResponse {
@@ -95,7 +99,7 @@ async function getAuthToken(): Promise<string> {
     }
 
     try {
-        console.log('[Alfa CRM] Запрос токена авторизации...');
+        log.debug('Запрос токена авторизации');
         
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
@@ -124,10 +128,10 @@ async function getAuthToken(): Promise<string> {
         authToken = data.token;
         tokenExpiry = Date.now() + TOKEN_EXPIRY_MS;
         
-        console.log('[Alfa CRM] Токен успешно получен');
+        log.debug('Токен успешно получен');
         return authToken;
     } catch (error) {
-        console.error('[Alfa CRM] Ошибка получения токена:', error);
+        log.error('Ошибка получения токена', { err: error });
         throw new Error('Не удалось авторизоваться в CRM');
     }
 }
@@ -163,7 +167,7 @@ async function apiRequest<T>(url: string, payload: unknown): Promise<T> {
 
         // Если токен устарел, обновляем и повторяем запрос
         if (response.status === 401) {
-            console.log('[Alfa CRM] Токен устарел, обновляем...');
+            log.debug('Токен устарел, обновляем');
             authToken = null;
             tokenExpiry = null;
             token = await getAuthToken();
@@ -176,7 +180,7 @@ async function apiRequest<T>(url: string, payload: unknown): Promise<T> {
 
         return await response.json();
     } catch (error) {
-        console.error('[Alfa CRM] Ошибка API запроса:', error);
+        log.error('Ошибка API запроса', { err: error });
         throw new Error('Ошибка при обращении к CRM');
     }
 }
@@ -197,7 +201,7 @@ export async function getClientData(
 
     // Проверяем кэш
     if (!forceRefresh && cached && Date.now() - cached.timestamp < CACHE_TTL_MS) {
-        console.log('[Alfa CRM] Данные клиента из кэша');
+        log.debug('Данные клиента из кэша');
         return cached.data;
     }
 
@@ -212,7 +216,7 @@ export async function getClientData(
             removed: 0, // Только активные
         };
 
-        console.log('[Alfa CRM] Запрос данных клиента:', phoneVariants);
+        log.debug('Запрос данных клиента', { phoneVariants });
 
         const result = await apiRequest<CustomerIndexResponse>(
             `${HOSTNAME}/v2api/1/customer/index`,
@@ -228,14 +232,14 @@ export async function getClientData(
         });
 
         if (clientData) {
-            console.log('[Alfa CRM] Данные клиента получены:', clientData.name);
+            log.info('Данные клиента получены', { name: clientData.name });
         } else {
-            console.log('[Alfa CRM] Клиент не найден');
+            log.info('Клиент не найден');
         }
 
         return clientData;
     } catch (error) {
-        console.error('[Alfa CRM] Ошибка получения данных клиента:', error);
+        log.error('Ошибка получения данных клиента', { err: error });
         
         // Сохраняем ошибку в кэш, чтобы не спамить CRM
         clientCache.set(cacheKey, {
@@ -253,9 +257,9 @@ export async function getClientData(
 export function clearClientCache(phone?: string): void {
     if (phone) {
         clientCache.delete(phone);
-        console.log('[Alfa CRM] Кэш очищен для:', phone);
+        log.debug('Кэш очищен', { phone });
     } else {
         clientCache.clear();
-        console.log('[Alfa CRM] Весь кэш очищен');
+        log.debug('Весь кэш очищен');
     }
 }

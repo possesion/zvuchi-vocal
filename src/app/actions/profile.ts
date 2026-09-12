@@ -4,6 +4,9 @@ import { auth } from '@/auth'
 import { getUserById, updateUser } from '@/lib/db-prisma'
 import { revalidatePath } from 'next/cache'
 import { ActionResult } from '@/app/actions/types'
+import { createModuleLogger } from '@/lib/logger'
+
+const log = createModuleLogger('profile')
 
 export async function updateUserName(name: string): Promise<ActionResult<void>> {
     try {
@@ -27,7 +30,7 @@ export async function updateUserName(name: string): Promise<ActionResult<void>> 
         
         return { success: true, data: undefined }
     } catch (error) {
-        console.error('Failed to update user name:', error)
+        log.error('Failed to update user name', { err: error })
         return { success: false, error: 'Ошибка при обновлении имени' }
     }
 }
@@ -78,7 +81,7 @@ export async function updateUserProfile(data: {
         
         return { success: true, data: undefined }
     } catch (error) {
-        console.error('Failed to update user profile:', error)
+        log.error('Failed to update user profile', { err: error })
         return { success: false, error: 'Ошибка при обновлении профиля' }
     }
 }

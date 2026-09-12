@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import * as Sentry from '@sentry/nextjs'
 import { useRouter } from 'next/navigation'
 import { Trash2 } from 'lucide-react'
 import { ROLE_LABELS, ROLE_COLORS } from '@/lib/roles'
@@ -29,7 +30,7 @@ export function UsersTable({ users, currentUserId }: UsersTableProps) {
             if (!res.ok) throw new Error('Ошибка при смене роли')
             router.refresh()
         } catch (err) {
-            console.error(err)
+            Sentry.captureException(err, { extra: { context: 'users-table-role-change' } })
         } finally {
             setLoadingId(null)
         }
@@ -44,7 +45,7 @@ export function UsersTable({ users, currentUserId }: UsersTableProps) {
             setDeleteTarget(null)
             router.refresh()
         } catch (err) {
-            console.error(err)
+            Sentry.captureException(err, { extra: { context: 'users-table-delete' } })
         } finally {
             setDeleting(false)
         }

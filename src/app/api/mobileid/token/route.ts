@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getMobileIDToken } from '@/lib/mobileid';
 import { auth } from '@/auth';
+import { createModuleLogger } from '@/lib/logger';
+
+const log = createModuleLogger('mobileid');
 
 /**
  * POST /api/mobileid/token
@@ -42,7 +45,7 @@ export async function POST(request: NextRequest) {
 
         return NextResponse.json({ token: result.token });
     } catch (error) {
-        console.error('MobileID token endpoint error:', error);
+        log.error('MobileID token endpoint error', { err: error });
         return NextResponse.json(
             { error: 'Internal server error' },
             { status: 500 }

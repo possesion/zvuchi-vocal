@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import * as Sentry from '@sentry/nextjs';
 import { Calendar, Eye, Pencil } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import type { NewsArticle } from '@/lib/types';
@@ -20,7 +21,7 @@ export function NewsArticle({ post, isAuthorized = false }: NewsModalProps) {
     useEffect(() => {
         fetch(`/api/v1/news/${post.id}/view`, { method: 'POST' })
             .catch((error) => {
-                console.error('Ошибка при увеличении счетчика просмотров: ', error?.message)
+                Sentry.captureException(error, { extra: { context: 'news-view-increment', postId: post.id } })
             });
     }, [post.id]);
 

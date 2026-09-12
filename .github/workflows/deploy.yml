@@ -11,8 +11,36 @@ env:
   IMAGE_NAME: ghcr.io/possesion/zvuchi-vocal
 
 jobs:
+  verify:
+    name: Verify (lint, type-check, test)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Type check
+        run: npm run type-check
+
+      # ВНИМАНИЕ: включить после устранения 2 предсуществующих падающих тестов
+      # в src/auth.test.ts (проверка OAuth-скоупов провайдеров, не связаны с
+      # логированием). Пока не гейтим деплой на этих падениях.
+      # - name: Test
+      #   run: npm test
+
   build-and-push:
     name: Build & Push Docker Image
+    needs: verify
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -35,6 +63,10 @@ jobs:
           context: .
           push: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
           tags: ${{ env.IMAGE_NAME }}:latest
+          # Sentry source maps upload. Configure SENTRY_AUTH_TOKEN in
+          # repository Settings → Secrets and variables → Actions.
+          build-args: |
+            SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }}
 
   deploy:
     name: Deploy to VPS

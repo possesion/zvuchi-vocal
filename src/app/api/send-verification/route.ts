@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { sendVerificationEmail } from '@/app/actions/sendEmail';
+import { createModuleLogger } from '@/lib/logger';
+
+const log = createModuleLogger('send-verification');
 
 export async function POST(request: NextRequest) {
     const { email, token } = await request.json();
@@ -10,7 +13,7 @@ export async function POST(request: NextRequest) {
 
     const result = await sendVerificationEmail(email, token);
     if (!result.success) {
-        console.error('Failed to send verification email:', result.error);
+        log.error('Failed to send verification email', { err: result.error });
         return NextResponse.json({ error: result.error }, { status: 500 });
     }
     return NextResponse.json({ success: true });

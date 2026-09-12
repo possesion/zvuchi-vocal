@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { verifyMobileIDToken } from '@/lib/mobileid';
 import { auth } from '@/auth';
 import { getUserById, updateUser } from '@/lib/db-prisma';
+import { createModuleLogger } from '@/lib/logger';
+
+const log = createModuleLogger('mobileid');
 
 /**
  * POST /api/mobileid/siteverify
@@ -65,7 +68,7 @@ export async function POST(request: NextRequest) {
             phone: result.phone 
         });
     } catch (error) {
-        console.error('MobileID siteverify endpoint error:', error);
+        log.error('MobileID siteverify endpoint error', { err: error });
         return NextResponse.json(
             { success: false, error: 'Internal server error' },
             { status: 500 }

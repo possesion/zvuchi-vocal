@@ -2,6 +2,7 @@
 
 import { useRef, useState, type FC } from 'react';
 import Image from 'next/image';
+import * as Sentry from '@sentry/nextjs';
 import { ImagePlus } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -64,7 +65,10 @@ export const ContestantAdminForm: FC<ContestantAdminFormProps> = ({ contestant, 
             });
 
             if (!res.ok) {
-                console.error('[Contest] Ошибка сохранения участника:', res.status);
+                Sentry.captureMessage('Ошибка сохранения участника', {
+                    level: 'error',
+                    extra: { module: 'contest', status: res.status },
+                });
                 setError('Ошибка при сохранении участника');
                 return;
             }
@@ -80,7 +84,10 @@ export const ContestantAdminForm: FC<ContestantAdminFormProps> = ({ contestant, 
                     body: fd,
                 });
                 if (!photoRes.ok) {
-                    console.error('[Contest] Ошибка загрузки фото участника:', photoRes.status);
+                    Sentry.captureMessage('Ошибка загрузки фото участника', {
+                        level: 'error',
+                        extra: { module: 'contest', status: photoRes.status },
+                    });
                     setError('Участник сохранён, но фото загрузить не удалось');
                 }
             }
@@ -88,7 +95,7 @@ export const ContestantAdminForm: FC<ContestantAdminFormProps> = ({ contestant, 
             if (photoPreview) URL.revokeObjectURL(photoPreview);
             onSaved();
         } catch (error) {
-            console.error('[Contest] Сетевая ошибка при сохранении участника:', error);
+            Sentry.captureException(error, { extra: { module: 'contest', context: 'contestant-save' } });
             setError('Произошла ошибка. Попробуйте ещё раз.');
         }
     };

@@ -4,6 +4,9 @@ import { auth } from '@/auth'
 import { getUserById } from '@/lib/db-prisma'
 import { getClientData } from '@/lib/alfa-crm'
 import { ActionResult } from '@/app/actions/types'
+import { createModuleLogger } from '@/lib/logger'
+
+const log = createModuleLogger('crm')
 
 export interface ClientBalanceData {
     balance: number | null; // Баланс счёта
@@ -56,7 +59,7 @@ export async function getClientBalance(): Promise<ActionResult<ClientBalanceData
 
         return { success: true, data: balanceData }
     } catch (error) {
-        console.error('Failed to get client balance:', error)
+        log.error('Failed to get client balance', { err: error })
         return {
             success: false,
             error: 'Ошибка при получении данных из CRM. Попробуйте позже.',

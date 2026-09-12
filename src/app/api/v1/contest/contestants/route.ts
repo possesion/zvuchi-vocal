@@ -6,6 +6,9 @@ import { createContestant } from '@/lib/db-prisma';
 import { validateContestantFields } from '@/lib/contest-validation';
 import type { ApiResponse } from '@/types/api';
 import type { Contestant } from '@/lib/types';
+import { createModuleLogger } from '@/lib/logger';
+
+const log = createModuleLogger('contest');
 
 export async function POST(req: NextRequest): Promise<NextResponse<ApiResponse<Contestant>>> {
     const session = await auth();
@@ -31,7 +34,7 @@ export async function POST(req: NextRequest): Promise<NextResponse<ApiResponse<C
         originalArtist: validation.data.originalArtist,
         photoUrl: '',
     });
-    console.log('[Contest] Участник создан:', created.id);
+    log.info('Участник создан', { id: created.id });
     revalidatePath('/contest');
 
     return NextResponse.json({ success: true, data: created, timestamp: new Date() }, { status: 201 });

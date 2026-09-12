@@ -4,6 +4,9 @@ import { auth } from '@/auth';
 import { isAdmin } from '@/lib/roles';
 import { resetContestVotes } from '@/lib/db-prisma';
 import type { ApiResponse } from '@/types/api';
+import { createModuleLogger } from '@/lib/logger';
+
+const log = createModuleLogger('contest');
 
 /**
  * POST /api/v1/contest/reset
@@ -21,13 +24,13 @@ export async function POST(): Promise<NextResponse<ApiResponse<{ deleted: number
 
     try {
         const deleted = await resetContestVotes();
-        console.log('[Contest] Результаты голосования обнулены, удалено голосов:', deleted);
+        log.info('Результаты голосования обнулены', { deleted });
         revalidatePath('/contest');
         revalidatePath('/contest/result');
 
         return NextResponse.json({ success: true, data: { deleted }, timestamp: new Date() });
     } catch (error) {
-        console.error('[Contest] Ошибка обнуления результатов голосования:', error);
+        log.error('Ошибка обнуления результатов голосования', { err: error });
         return NextResponse.json(
             { success: false, error: 'Internal server error', timestamp: new Date() },
             { status: 500 }

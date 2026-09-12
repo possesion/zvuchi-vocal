@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import * as Sentry from '@sentry/nextjs';
 
 interface TextFilePreviewProps {
     fileUrl: string;
@@ -31,7 +32,7 @@ export default function TextPreview({
                 setContent(text);
             } catch (err) {
                 setError('Ошибка загрузки файла');
-                console.error('Error loading file:', err);
+                Sentry.captureException(err, { extra: { context: 'text-preview-load' } });
             } finally {
                 setLoading(false);
             }

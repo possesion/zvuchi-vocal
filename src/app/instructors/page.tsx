@@ -10,6 +10,9 @@ import { InstructorManager } from '@/components/sections/instructor-manager';
 import Link from 'next/link';
 import { Instructor } from '@/lib/types';
 import { VocalInstructorLink } from '@/components/common/vocal-instructor-link';
+import { createModuleLogger } from '@/lib/logger';
+
+const log = createModuleLogger('instructors-page');
 
 const VocalInstructor = dynamic(() => import('@/components/sections/vocal-instructor'), {
     loading: () => <div className="animate-pulse bg-white/10 rounded-2xl h-64 w-full" />,
@@ -29,7 +32,7 @@ export default async function InstructorsPage() {
     try {
         instructors = await getAllInstructors();
     } catch (error) {
-        console.error('Failed to fetch instructors:', error);
+        log.error('Failed to fetch instructors', { err: error });
     }
     // Адаптируем InstructorRow к формату VocalInstructor
     const instructorProps = instructors.map((instructor) => {

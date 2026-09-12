@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import * as Sentry from '@sentry/nextjs'
 
 export const useLocalStorage = <T>(key: string, initialValue: T) => {
     const [storedValue, setStoredValue] = useState<T>(() => {
@@ -10,7 +11,7 @@ export const useLocalStorage = <T>(key: string, initialValue: T) => {
             const item = window.localStorage.getItem(key)
             return item ? JSON.parse(item) : initialValue
         } catch (error) {
-            console.error(`Error reading localStorage key "${key}":`, error)
+            Sentry.captureException(error, { extra: { context: 'localStorage-read', key } })
             return initialValue
         }
     })
@@ -24,7 +25,7 @@ export const useLocalStorage = <T>(key: string, initialValue: T) => {
                 window.localStorage.setItem(key, JSON.stringify(valueToStore))
             }
         } catch (error) {
-            console.error(`Error setting localStorage key "${key}":`, error)
+            Sentry.captureException(error, { extra: { context: 'localStorage-set', key } })
         }
     }
 
@@ -35,7 +36,7 @@ export const useLocalStorage = <T>(key: string, initialValue: T) => {
                 window.localStorage.removeItem(key)
             }
         } catch (error) {
-            console.error(`Error removing localStorage key "${key}":`, error)
+            Sentry.captureException(error, { extra: { context: 'localStorage-remove', key } })
         }
     }
 

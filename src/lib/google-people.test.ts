@@ -1,5 +1,12 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { fetchGooglePhoneNumbers } from './google-people';
+import { createModuleLogger } from './logger';
+
+// Логгер вынесен в Winston (server-only); мокаем модуль, чтобы проверять вызовы.
+vi.mock('./logger', () => {
+    const log = { info: vi.fn(), warn: vi.fn(), error: vi.fn(), debug: vi.fn() };
+    return { createModuleLogger: () => log };
+});
 
 describe('fetchGooglePhoneNumbers', () => {
     beforeEach(() => {
@@ -53,11 +60,11 @@ describe('fetchGooglePhoneNumbers', () => {
 
     it('returns null and does not throw when fetch rejects (network error)', async () => {
         vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('network down')));
-        const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+        const log = createModuleLogger('oauth-sync');
 
         const result = await fetchGooglePhoneNumbers('token-abc');
         expect(result).toBeNull();
-        expect(warnSpy).toHaveBeenCalled();
+        expect(log.warn).toHaveBeenCalled();
     });
 
     it('sends the access token as a Bearer Authorization header', async () => {

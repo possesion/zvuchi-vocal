@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
+import * as Sentry from '@sentry/nextjs';
 import type {
     MobileIDState,
     ErrorEvent,
@@ -91,7 +92,7 @@ export function useMobileID() {
             // Инициализируем сессию
             await mid.init();
         } catch (err) {
-            console.error('MobileID init error:', err);
+            Sentry.captureException(err, { extra: { context: 'mobileid-init' } });
             setError({
                 code: 'init_error',
                 message: err instanceof Error ? err.message : 'Ошибка инициализации',
@@ -102,7 +103,7 @@ export function useMobileID() {
     // Запуск верификации
     const start = useCallback(async (phoneNumber: string) => {
         if (!mobileIdRef.current) {
-            console.error('MobileID not initialized');
+            Sentry.captureMessage('MobileID not initialized (start)', 'warning');
             return;
         }
 
@@ -113,7 +114,7 @@ export function useMobileID() {
     // Отправка OTP кода
     const submitOTP = useCallback(async (code: string) => {
         if (!mobileIdRef.current) {
-            console.error('MobileID not initialized');
+            Sentry.captureMessage('MobileID not initialized (submitOTP)', 'warning');
             return;
         }
 

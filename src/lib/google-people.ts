@@ -4,6 +4,10 @@
  * mocked `fetch` rather than property tests.
  */
 
+import { createModuleLogger } from '@/lib/logger';
+
+const log = createModuleLogger('oauth-sync');
+
 interface GooglePeoplePhoneNumber {
     value?: string;
 }
@@ -29,7 +33,7 @@ export async function fetchGooglePhoneNumbers(
         const data = (await res.json()) as GooglePeopleResponse;
         return data.phoneNumbers ?? null;
     } catch (error) {
-        console.warn('[oauth-sync] Google People API lookup failed:', error);
+        log.warn('Google People API lookup failed', { err: error });
         return null;
     }
 }

@@ -14,6 +14,9 @@ import { NewsAddForm } from '../components/forms/news-add-form';
 import { auth } from '@/auth';
 import { canEdit } from '@/lib/roles';
 import { Faq } from '@/components/sections/faq';
+import { createModuleLogger } from '@/lib/logger';
+
+const log = createModuleLogger('home-page');
 import EnrollmentForm from '@/components/forms/enrollment-form';
 import { NewsArticle } from '@/lib/types';
 
@@ -50,7 +53,7 @@ export default async function Home() {
     try {
         news = await getLatestNews(5);
     } catch (error) {
-        console.error('Failed to fetch news:', error);
+        log.error('Failed to fetch news', { err: error });
     }
     const session = await auth();
     const isAuthorized = canEdit(session?.user?.role);
