@@ -1,5 +1,3 @@
-import { StarIcon } from 'lucide-react'
-
 export const actionButtonStyle = 'bg-radial-[at_40%] from-violet-800 to-violet-950 to-80% shadow-[0_0_45px_5px] shadow-purple-900';
 
 export const STUDIO_MOBILE_PHONE = '+7 (996) 647-60-35';
