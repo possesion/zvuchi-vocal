@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { usePathname } from 'next/navigation'
 import { Button } from '@radix-ui/themes'
 
 import {
@@ -26,6 +27,7 @@ export default function MobileMenu() {
     const [open, setOpen] = useState(false);
     const { status } = useSession();
     const isAuthorized = status === 'authenticated';
+    const pathname = usePathname();
 
     const handleLinkClick = (menu: string) => () => {
         trackEvent('click-mobile-menu', { menu });
@@ -66,8 +68,9 @@ export default function MobileMenu() {
                                     </Link>
                                     <UserAvatar className='flex items-center md:hidden' />
                                 </>) : <Link
-                                    href="/login"
+                                    href={`/login?callbackUrl=${encodeURIComponent(pathname)}`}
                                     className="flex items-center hover:text-red-400"
+                                    onClick={handleLinkClick('login')}
                                 >
                                     Войти
                                 </Link>}

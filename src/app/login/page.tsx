@@ -1,16 +1,27 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { signIn } from 'next-auth/react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { useState } from 'react'
+import { Suspense, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { LoginSchema, REMEMBER_ME_MAX_AGE, LoginForm } from '@/lib/definitions'
 
-export default function LoginPage() {
+/**
+ * Возвращает безопасный внутренний путь для редиректа после логина.
+ * Отклоняет внешние и protocol-relative URL, чтобы исключить open-redirect.
+ */
+function getSafeCallbackUrl(raw: string | null): string {
+    if (!raw || !raw.startsWith('/') || raw.startsWith('//')) return '/profile'
+    return raw
+}
+
+function LoginContent() {
     const router = useRouter()
+    const searchParams = useSearchParams()
+    const callbackUrl = getSafeCallbackUrl(searchParams.get('callbackUrl'))
     const [showPassword, setShowPassword] = useState(false)
 
     const {
@@ -50,7 +61,7 @@ export default function LoginPage() {
                             : 'Неверный email или пароль',
                 })
             } else if (authResult?.ok) {
-                router.push('/profile')
+                router.push(callbackUrl)
             }
         } catch {
             setFormError('root', { message: 'Произошла ошибка. Попробуйте позже.' })
@@ -58,11 +69,11 @@ export default function LoginPage() {
     }
 
     const handleGoogleSignIn = () => {
-        signIn('google', { callbackUrl: '/profile' })
+        signIn('google', { callbackUrl })
     }
 
     const handleYandexSignIn = () => {
-        signIn('yandex', { redirectTo: 'https://zvuchi-vocal.ru/profile' })
+        signIn('yandex', { redirectTo: `https://zvuchi-vocal.ru${callbackUrl}` })
     }
 
     return (
@@ -214,5 +225,19 @@ export default function LoginPage() {
                 </p>
             </form>
         </div>
+    )
+}
+
+export default function LoginPage() {
+    return (
+        <Suspense
+            fallback={
+                <div className="flex min-h-screen items-center justify-center bg-zinc-950 px-4">
+                    <div className="text-white/60">Загрузка...</div>
+                </div>
+            }
+        >
+            <LoginContent />
+        </Suspense>
     )
 }

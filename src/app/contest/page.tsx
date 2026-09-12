@@ -2,7 +2,9 @@
 
 import { useState, useLayoutEffect } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useSession } from 'next-auth/react';
+import { usePathname } from 'next/navigation';
 import { Pencil, Trash2 } from 'lucide-react';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
@@ -14,6 +16,7 @@ import type { ContestResult } from '@/lib/types';
 export default function ContestPage() {
   const { data: session } = useSession();
   const userIsAdmin = isAdmin(session?.user?.role);
+  const pathname = usePathname();
 
   const [contestants, setContestants] = useState<ContestResult[]>([]);
   const [hasVoted, setHasVoted] = useState(false);
@@ -24,6 +27,8 @@ export default function ContestPage() {
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [deleteTarget, setDeleteTarget] = useState<{ id: number; name: string } | null>(null);
   const [deleting, setDeleting] = useState(false);
+  const [showResetConfirm, setShowResetConfirm] = useState(false);
+  const [resetting, setResetting] = useState(false);
 
   const checkVotingStatus = async () => {
     try {
@@ -100,6 +105,25 @@ export default function ContestPage() {
     }
   };
 
+  const handleReset = async () => {
+    setResetting(true);
+    try {
+      const res = await fetch('/api/v1/contest/reset', { method: 'POST' });
+      if (!res.ok) {
+        console.error('[Contest] Ошибка обнуления результатов, статус:', res.status);
+        return;
+      }
+      setShowResetConfirm(false);
+      setHasVoted(false);
+      setVotedForId(null);
+      await fetchResults();
+    } catch (error) {
+      console.error('[Contest] Ошибка обнуления результатов:', error);
+    } finally {
+      setResetting(false);
+    }
+  };
+
   useLayoutEffect(() => {
     checkVotingStatus();
     fetchResults();
@@ -145,10 +169,13 @@ export default function ContestPage() {
             )}
           </header>
 
-          {!session && (<div className="rounded-sm bg-yellow-400/10 border border-yellow-400/30 px-4 py-3 mb-2 text-sm text-yellow-400">
-                        ⚠️ Авторизуйтесь на сайте для голосования
-                    </div>)
-                    }
+          {!session && (<div className="flex justify-center rounded-sm bg-yellow-400/10 border border-yellow-400/30 px-4 py-3 mb-2 text-md font-medium text-yellow-400">
+            <Link href={`/login?callbackUrl=${encodeURIComponent(pathname)}`} className="underline px-1 hover:text-yellow-300">
+              Авторизуйтесь
+            </Link>
+            на сайте для голосования
+          </div>)
+          }
 
           {/* Pie Chart */}
           {hasVoted && chartData.length > 0 && (
@@ -159,6 +186,12 @@ export default function ContestPage() {
 
           {userIsAdmin && (
             <div className="mb-8">
+              <button
+                onClick={() => setShowResetConfirm(true)}
+                className="rounded-sm bg-red-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-red-700"
+              >
+                Обнулить результаты
+              </button>
               {showCreateForm ? (
                 <ContestantAdminForm
                   onSaved={() => {
@@ -168,7 +201,7 @@ export default function ContestPage() {
                   onCancel={() => setShowCreateForm(false)}
                 />
               ) : (
-                <div className="flex justify-end">
+                <div className="flex justify-end gap-3">
                   <button
                     onClick={() => setShowCreateForm(true)}
                     className="rounded-sm bg-purple-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-purple-700"
@@ -203,11 +236,10 @@ export default function ContestPage() {
               return (
                 <div
                   key={contestant.id}
-                  className={`group relative overflow-hidden rounded-xl border p-6 backdrop-blur-sm transition-all duration-300 hover:border-white/40 hover:bg-white/15 ${
-                    votedForId === contestant.id
+                  className={`group relative overflow-hidden rounded-xl border p-6 backdrop-blur-sm transition-all duration-300 hover:border-white/40 hover:bg-white/15 ${votedForId === contestant.id
                       ? 'border-violet-400/60 bg-white/15'
                       : 'border-white/20 bg-white/10'
-                  }`}
+                    }`}
                 >
                   <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                     <div className="flex flex-1 flex-col items-center gap-4 md:flex-row md:items-center">
@@ -315,6 +347,34 @@ export default function ContestPage() {
                 className="rounded-sm bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700 disabled:opacity-50 transition-colors"
               >
                 {deleting ? 'Удаление...' : 'Удалить'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Диалог подтверждения обнуления результатов */}
+      {showResetConfirm && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70">
+          <div className="mx-4 w-full max-w-sm rounded-lg bg-zinc-900 p-6 text-white shadow-xl">
+            <p className="mb-2 text-lg font-semibold">Обнулить результаты?</p>
+            <p className="mb-6 text-sm text-white/60">
+              Все голоса будут удалены. Участники останутся. Это действие нельзя отменить.
+            </p>
+            <div className="flex justify-end gap-3">
+              <button
+                onClick={() => setShowResetConfirm(false)}
+                disabled={resetting}
+                className="rounded-sm px-4 py-2 text-sm text-white/70 hover:text-white transition-colors"
+              >
+                Отмена
+              </button>
+              <button
+                onClick={handleReset}
+                disabled={resetting}
+                className="rounded-sm bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700 disabled:opacity-50 transition-colors"
+              >
+                {resetting ? 'Обнуление...' : 'Обнулить'}
               </button>
             </div>
           </div>

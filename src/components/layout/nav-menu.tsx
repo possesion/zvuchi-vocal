@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { navigationList } from '@/app/constants';
 import cn from 'classnames'
 import { UserAvatar } from './user-avatar';
@@ -12,6 +13,7 @@ import { useSession } from 'next-auth/react';
 export const NavMenu = () => {
     const { status } = useSession();
     const isAuthorized = status === 'authenticated';
+    const pathname = usePathname();
 
     return (
         <nav className="hidden gap-4 lg:flex lg:gap-8">
@@ -42,7 +44,7 @@ export const NavMenu = () => {
             {isAuthorized ?
                 <UserAvatar className='-translate-y-[3px] relative hidden lg:flex items-center' />
                 : <Link
-                    href="/login"
+                    href={`/login?callbackUrl=${encodeURIComponent(pathname)}`}
                     className="flex text-lg font-bold items-center hover:text-red-400"
                 >
                     Войти

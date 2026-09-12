@@ -1239,6 +1239,17 @@ export async function upsertContestVote(userId: number, contestantId: number): P
   return { created: !existing };
 }
 
+/**
+ * Удаляет все голоса конкурса, обнуляя результаты для всех участников.
+ * Записи Contestant не затрагиваются.
+ * @returns количество удалённых записей ContestVote
+ */
+export async function resetContestVotes(): Promise<number> {
+  const prisma = getPrisma();
+  const { count } = await prisma.contestVote.deleteMany({});
+  return count;
+}
+
 // ─── Cleanup ───────────────────────────────────────────────────────────────────
 
 export async function closePrisma(): Promise<void> {
