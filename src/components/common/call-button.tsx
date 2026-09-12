@@ -27,19 +27,19 @@ export const CircleButton = ({ onClick }: { onClick: () => void }) => (
     <button
         onClick={onClick}
         aria-label="Связаться с нами"
-        className={`shadow-xl flex h-20 w-20 shrink-0 items-center justify-center rounded-full bg-radial-[at_40%] from-red-900 to-red-950 to-80% transition-transform hover:scale-110 active:scale-95`}
+        className={`flex h-20 w-20 bg-white shrink-0 items-center justify-center rounded-full shadow-[0_0_25px_8px_rgba(127,29,29,0.5)] transition-transform hover:scale-110 active:scale-95`}
     >
         <svg className="absolute inset-0 w-20 h-20" viewBox="0 0 80 80">
             <defs>
                 <path id="circle-path" d="M 40,40 m -30,0 a 30,30 0 1,1 60,0 a 30,30 0 1,1 -60,0" />
             </defs>
-            <text className="fill-white/70 text-[8px] font-bold tracking-[0.15em] uppercase">
+            <text className="fill-red/70 text-[8px] font-bold tracking-[0.15em] uppercase">
                 <textPath href="#circle-path" startOffset="30%" textAnchor="middle">
                     Записаться
                 </textPath>
             </text>
         </svg>
-        <Mail className="relative z-10 h-6 w-6 text-white" />
+        <Mail color='#560707' className="relative z-10 h-7 w-7" />
     </button>
 );
 
@@ -53,7 +53,7 @@ export const ContactItems = ({ onClose }: { onClose?: () => void }) => {
                 className="flex items-center gap-4 px-6 py-4 text-gray-900 transition-colors hover:bg-gray-50 active:bg-gray-50"
             >
                 <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-green-500">
-                    <Mail className="h-4 w-4 text-white" />
+                    <Mail color='#290808' className="h-5 w-5" />
                 </span>
                 <span className="text-base font-medium whitespace-nowrap">Позвонить {STUDIO_MOBILE_PHONE}</span>
             </a>
